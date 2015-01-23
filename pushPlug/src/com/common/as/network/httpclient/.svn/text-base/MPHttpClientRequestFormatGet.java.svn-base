@@ -1,0 +1,17 @@
+package com.taiku.network.httpclient;
+
+
+import com.taiku.network.utils.ApplicationNetworkUtils;
+
+public class MPHttpClientRequestFormatGet extends MPHttpClientRequestGet{
+
+	protected String getFormatUrl(){
+		String str = String.format("appid=%s&appVer=%d&channel=%s&manu=%s&type=%s",
+				ApplicationNetworkUtils.mClientInfo.appId,
+				ApplicationNetworkUtils.mClientInfo.appVer,
+				ApplicationNetworkUtils.mClientInfo.channelId,
+				ApplicationNetworkUtils.mClientInfo.Factory,
+				ApplicationNetworkUtils.mClientInfo.Type);
+		return str.replaceAll(" ", "_");
+	}
+}

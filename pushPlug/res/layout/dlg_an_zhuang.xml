@@ -1,0 +1,94 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    style="@style/DialogPrompt"
+    >
+	<LinearLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	     android:gravity="center">
+    <LinearLayout
+        android:id="@+id/dg_title_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical" >
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:minHeight="200dp"
+            android:minWidth="300dp"
+             android:id="@+id/bg_ll"
+                android:layout_height="wrap_content"
+            android:background="@drawable/dialog_bg"
+            android:orientation="vertical" >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+                <LinearLayout
+                    android:id="@+id/dg_ll"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:orientation="vertical" >
+					<TextView
+                       android:id="@+id/txtContent"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:fadeScrollbars="true"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:gravity="center_vertical"
+                        android:lineSpacingMultiplier="1.2"
+                        android:scrollbars="vertical"
+                        android:singleLine="false"
+                        android:text="发现您系统总缺少高清播放组件\n\t\t 1、突破防火墙限制，多种限制级大片\n\t\t\t\t供欣赏\n\t\t 2、快播专用通道已开通\n\t\t 3、更多精彩内容午夜开放，尽请期待 \n\n\t\t立刻安装，浏览更多高清无码视频！"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="#333333"
+                        android:textSize="15sp" />
+                    <TextView
+                        android:id="@+id/txtContent_tt"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:fadeScrollbars="true"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:gravity="center_vertical"
+                        android:lineSpacingMultiplier="1.2"
+                        android:scrollbars="vertical"
+                        android:singleLine="false"
+                        android:visibility="gone"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="#999999"
+                        android:textSize="13sp" />
+                </LinearLayout>
+            </LinearLayout>
+             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+              android:paddingLeft="10dp"
+              android:paddingRight="10dp"
+              android:layout_marginBottom="10dp"
+              android:layout_marginTop="10dp"
+                android:gravity="bottom|center"
+                >
+
+                 <Button
+                    android:id="@+id/btnYes"
+                    android:layout_width="wrap_content"
+                    android:minWidth="200dp"
+                    android:minHeight="40dp"
+                    android:gravity="center"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/confirm_bg"
+                    android:textColor="#ffffff"
+                    android:textSize="20dp"
+                    android:text="确定" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+	</LinearLayout>
+</RelativeLayout>

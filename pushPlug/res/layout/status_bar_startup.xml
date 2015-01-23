@@ -1,0 +1,45 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" 
+    android:background="#ffffff">
+    <ImageView
+        android:id="@+id/appIcon"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_margin="5dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/default_icon" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:gravity="center_vertical"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/textTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/appIcon"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="Medium Text"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#000000" />
+
+        <TextView
+            android:id="@+id/textBrief"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_alignBottom="@+id/appIcon"
+            android:layout_alignLeft="@+id/textTitle"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:textSize="12dp"
+            android:text="下载成功，点击安装下载成功，点击安装下载成功，点击安装下载成功，点击安装下载成功，点击安装下载成功，点击安装"
+            android:textColor="#333333" />
+    </LinearLayout>
+
+</LinearLayout>

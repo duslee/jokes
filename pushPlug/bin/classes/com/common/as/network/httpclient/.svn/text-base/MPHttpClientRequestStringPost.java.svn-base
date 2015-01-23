@@ -1,0 +1,73 @@
+package com.taiku.network.httpclient;
+
+
+import org.apache.http.HttpEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.entity.ByteArrayEntity;
+import com.sky.mpchat.base.log.BaseLog;
+import com.sky.mpchat.utils.Utils;
+import com.taiku.network.utils.ApplicationNetworkUtils;
+
+public class MPHttpClientRequestStringPost extends MPHttpClientInterface.MPHttpClientRequest {
+	//加密
+	private StringBuilder mParams = new StringBuilder();
+	com.taiku.ndk.Utils mUtils = new com.taiku.ndk.Utils();
+	
+		
+		public void resetPostParams(){
+			mParams.delete(0, mParams.length());
+			mParams.append("et="+MPHttpClientInterface.getEt());
+			mParams.append("&smsc="+Utils.getSms(ApplicationNetworkUtils.getAppCtx()));
+			mParams.append("&imsi="+Utils.getImsi(ApplicationNetworkUtils.getAppCtx()));
+			mParams.append("&v="+ApplicationNetworkUtils.mClientInfo.appVer);
+			mParams.append("&xv="+getRadomString());
+		}
+		
+		private String getRadomString(){
+			int x = (int)(16 * Math.random());
+			return "ddssww11xcwssaawxz".substring(x);
+			
+		}
+		
+		public void addPostParams(String key, String value){
+			mParams.append("&"+key+"="+value);
+		}
+		
+		
+	@Override
+	public HttpUriRequest getHttpRequest() {
+		// TODO Auto-generated method stub
+		    HttpPost httpRequest = new HttpPost(mUrl); 
+			HttpEntity httpentity;
+				byte[] data = getKeyString(mParams.substring(0));
+				
+				httpentity = new ByteArrayEntity(data);
+				httpRequest.setEntity(httpentity); 
+				return httpRequest;
+	}
+	
+	
+	
+	private byte[] getKeyString( String data){
+		mUtils.fun1(data.length());
+		//BaseLog.d("getKeyString", "length="+data.length());
+		byte[]  bytes = data.getBytes();
+		//BaseLog.d("getKeyString", "byte length="+bytes.length);
+		return mUtils.fun4(bytes, bytes.length);
+	}
+	
+	private String realeaseKeyString( String data){
+	//	mUtils.fun1(data.length());
+	//	BaseLog.d("getKeyString", " re length="+data.length());
+		return mUtils.fun3(data, data.length());
+	}
+	
+	@Override
+	public void setUrl(String url) {
+		// TODO Auto-generated method stub
+		mUrl = url;
+	}
+	
+
+}

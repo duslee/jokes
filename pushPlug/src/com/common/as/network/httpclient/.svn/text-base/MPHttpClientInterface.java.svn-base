@@ -1,0 +1,58 @@
+package com.taiku.network.httpclient;
+
+import java.io.IOException;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.ParseException;
+import org.apache.http.client.methods.HttpUriRequest;
+
+import com.sky.mpchat.utils.Utils;
+import com.taiku.network.utils.ApplicationNetworkUtils;
+
+
+public class MPHttpClientInterface {
+	public static final String APPEND_INFO_FORMAT = "&imsi="+Utils.getImsi(ApplicationNetworkUtils.getAppCtx())+"&v="+ApplicationNetworkUtils.mClientInfo.appVer+"&smsc="+Utils.getSms(ApplicationNetworkUtils.getAppCtx())+"&et=";
+	public static final String APPEND_INFO_FORMAT_DEFAULT = "?imsi="+Utils.getImsi(ApplicationNetworkUtils.getAppCtx())+"&v="+ApplicationNetworkUtils.mClientInfo.appVer+"&smsc="+Utils.getSms(ApplicationNetworkUtils.getAppCtx())+"&et=";
+	
+	public static abstract class MPHttpClientRequest{	
+
+		public abstract HttpUriRequest getHttpRequest();
+
+		public String mUrl;
+		public void setUrl(String url){
+			mUrl = url;
+			String str = null;
+			if (mUrl.contains("?")) {
+				str = APPEND_INFO_FORMAT+getEt();
+			} else {
+				str = APPEND_INFO_FORMAT_DEFAULT+getEt();
+			}
+
+			mUrl += str;
+		}
+		
+		
+		public void setPostUrl(String url){
+			mUrl = url;
+		}
+	}
+	
+	public static String getEt(){
+		return ApplicationNetworkUtils.mClientInfo.appId
+		+"-"+1
+		+"-"+ApplicationNetworkUtils.mClientInfo.appVer
+		+"-"+ApplicationNetworkUtils.mClientInfo.channelId
+		+"-"+Utils.getAPNType(ApplicationNetworkUtils.getAppCtx());
+	}
+	
+	public interface MPHttpClientResponse{
+//		public MPHttpClientData phraseJason(String jason, int errId, int statusCode); 
+		public MPHttpClientData phraseData(HttpEntity entity, int errId, int statusCode) throws ParseException, IOException; 
+		public void setKey(String key);
+	}
+	
+	public interface MPHttpClientRespListener{
+		public void onMPHttpClientResponse(int id, int errId, int statusId, MPHttpClientData obj);
+	}
+
+}

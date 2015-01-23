@@ -1,0 +1,64 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#323B45"
+    android:gravity="center" >
+
+    <com.common.as.view.AsyncImageView
+        android:id="@+id/icon"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_margin="5dp" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_toRightOf="@+id/icon"
+            android:gravity="center"
+            android:text="微秀"
+            android:textColor="#ffffff"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/brief"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fadeScrollbars="true"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:lines="3"
+            android:maxEms="30"
+            android:scrollbars="vertical"
+            android:singleLine="false"
+            android:text="跟美女聊天，想让她干什么酒干什么跟美女聊天，想让她干什么酒干什么跟美女聊天，想让她干什么酒干什么想让她干什么酒干什么想让"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#cccccc"
+            android:textSize="15dp" />
+    </LinearLayout>
+    <!-- #57a3de -->
+
+    <Button
+        android:id="@+id/btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerVertical="true"
+        android:layout_margin="10dp"
+        android:background="@drawable/push_list_down_btn_selector"
+        android:padding="10dp"
+        android:text="下载"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#fdfdfd" />
+
+</LinearLayout>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+    
+    <!-- drop down list header font color -->
+    <color name="drop_down_list_header_font_color">#000000</color>
+    <!-- drop down list header second font color -->
+    <color name="drop_down_list_header_second_font_color">#000000</color>
+    <!-- drop down list footer font color -->
+    <color name="drop_down_list_footer_font_color">#000000</color>
+    
+    <!-- drop down item -->
+    <color name="drop_item_nick_color">#999999</color>
+    <color name="drop_item_content_color">#000000</color>
+    
+    <color name="frag_bg_color">#eeeeee</color>
+    
+    <color name="nav_center_color">#f8f8f8</color>
+    <color name="nav_bg_color">#fc236f</color>
+    
+    <color name="up_down_focus_color">#ffffff</color>
+    <color name="up_down_unfocus_color">#919191</color>
+    
+</resources>

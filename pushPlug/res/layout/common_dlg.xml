@@ -1,0 +1,136 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/girldlg"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    style="@android:style/Theme.Dialog"
+    android:gravity="center" >
+	<LinearLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:background="#bb000000"
+	     android:gravity="center">
+    <LinearLayout
+        android:id="@+id/dg_title_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+			<FrameLayout 
+			    android:layout_width="fill_parent"
+			    android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/dg_title_iv"
+                android:layout_width="fill_parent"
+                android:layout_height="45dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/pay_bg_1_1" />
+            <RelativeLayout 
+			    android:layout_width="fill_parent"
+			    android:layout_height="45dp">
+			   
+            <TextView 
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="激情推荐"
+                android:textSize="20dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@android:color/black"
+                android:gravity="center"
+                />
+            </RelativeLayout>
+			</FrameLayout>
+
+             <ImageView
+                android:id="@+id/btnNo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="10dp"
+                android:paddingRight="30dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/quit" /> 
+             
+           
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/pay_bg_022"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <ImageView
+                    android:id="@+id/icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp"
+                    android:paddingLeft="10dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/default_icon" />
+
+                <LinearLayout
+                    android:id="@+id/dg_ll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/icon"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="20dp"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/txtTitle"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="10dp"
+                        android:text="微秀"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@android:color/black"
+                        android:textSize="20dp" />
+
+                    <TextView
+                        android:id="@+id/txtBrief"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="5dp"
+                        android:fadeScrollbars="true"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:gravity="center_vertical"
+                        android:lineSpacingMultiplier="1.2"
+                        android:scrollbars="vertical"
+                        android:singleLine="false"
+                        android:text="跟美女聊天，想让她干什么酒干什么跟美女聊天，想让她干"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="#333333"
+                        android:textSize="15dp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="15dp"
+                android:gravity="center" >
+
+                <ImageView
+                    android:id="@+id/btnYes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/confirm" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+	</LinearLayout>
+</RelativeLayout>

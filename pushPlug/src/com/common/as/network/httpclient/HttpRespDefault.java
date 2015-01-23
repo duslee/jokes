@@ -1,0 +1,59 @@
+package com.common.as.network.httpclient;
+
+import java.io.IOException;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.ParseException;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+
+import com.common.as.base.log.BaseLog;
+import com.common.as.network.httpclient.MPHttpClientInterface.MPHttpClientResponse;
+
+public class HttpRespDefault extends MPHttpClientData implements MPHttpClientResponse {
+
+
+	public MPHttpClientData phraseJason(String jason, int errId, int statusCode) {
+		BaseLog.d("http","jason:"+jason);
+		setErrId(errId);
+		setStatusCode(statusCode);		
+		if (getErrId() == MPHttpClient.MPHTTP_RESULT_SUCCESS)
+		{
+			try {
+				JSONObject jsonObject = new JSONObject(jason);
+				phraseJason(jsonObject);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}  
+		}
+
+		return this;
+	}
+	
+	public boolean isSuccess(){
+		if (getErrId() != MPHttpClient.MPHTTP_RESULT_SUCCESS){
+			return false;
+		}
+		return true;
+	}
+	
+	public void phraseJason(JSONObject jsonObj){	
+ 
+	}
+
+	@Override
+	public void setKey(String key) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public MPHttpClientData phraseData(HttpEntity entity, int errId,
+			int statusCode) throws ParseException, IOException  {
+		// TODO Auto-generated method stub
+		return phraseJason(EntityUtils.toString(entity), errId, statusCode);
+	}
+
+}

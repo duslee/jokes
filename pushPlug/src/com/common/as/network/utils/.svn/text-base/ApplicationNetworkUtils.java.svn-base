@@ -1,0 +1,161 @@
+package com.taiku.network.utils;
+
+
+import com.sky.mpchat.base.utils.ThreadPoolsInterface;
+import com.sky.mpchat.utils.AppData;
+import com.sky.mpchat.utils.Utils;
+
+import android.content.Context;
+
+
+public class ApplicationNetworkUtils 
+{
+	private static Context appCtx;
+	//private static AppData mAppData;
+	private static String mSubChannelId = "10000000";
+	private static ThreadPoolsInterface mThreadManager = null;
+	public static ClientInfo mClientInfo;
+	
+	public static class ClientInfo{
+		public String channelId;
+		public String appId;
+		public String Factory;
+		public String Type;
+		public int appVer;
+		public int apnType = -1; //����״̬  -1��û������  1��WIFI���� 2��wap���� 3��net����
+	}
+	
+	public static void init(Context context)
+	{//init
+		if(mClientInfo == null)
+		{
+			mClientInfo = new ClientInfo();
+			mClientInfo.appId = "";
+			mClientInfo.channelId = "default";
+			mClientInfo.Factory = getFactory();
+			mClientInfo.Type = getType();
+			mClientInfo.appVer = 0;
+			appCtx = context;
+		}
+	}
+	
+	
+	
+	public static ThreadPoolsInterface getmThreadManager() {
+		return mThreadManager;
+	}
+
+
+
+	public static void init(Context context,AppData mAppData, ThreadPoolsInterface threadManager)
+	{
+		init(context);
+		mThreadManager = threadManager;
+		setmAppData(mAppData);
+	}
+	
+	public static void init(Context context,AppData mAppData)
+	{
+		init(context);
+		setmAppData(mAppData);
+	}
+	
+	public static Context getAppCtx()
+	{
+		return appCtx;
+	}
+	
+//	public static AppData getmAppData()
+//	{
+//		return mAppData;
+//	}
+	
+	
+
+	public static void setAppCtx(Context appCtx) 
+	{
+		ApplicationNetworkUtils.appCtx = appCtx;
+	}
+
+	public static void setmAppData(AppData mAppData) 
+	{
+	//	if(ApplicationNetworkUtils.mAppData == null)
+		{
+		//	ApplicationNetworkUtils.mAppData = mAppData;
+			if(mAppData != null)
+			{
+				ApplicationNetworkUtils.setAppId(mAppData.appid);
+				ApplicationNetworkUtils.setVersionCode(mAppData.appVersionCode);
+				ApplicationNetworkUtils.setChannelId(mAppData.channel);
+
+			}
+		}
+	}
+	
+	public static String getmAppId(){
+		if(mClientInfo != null)
+		{
+			return mClientInfo.appId;
+		}
+		return null;
+	}
+
+	public static String getmSubChannelId() 
+	{
+		return mSubChannelId;
+	}
+	
+	public static void setVersionCode(int versionCode)
+	{
+		if (null != mClientInfo)
+		{
+			mClientInfo.appVer = versionCode;
+		}
+	}
+	
+	public static void setmSubChannelId(String mSubChannelId) {
+		ApplicationNetworkUtils.mSubChannelId = mSubChannelId;
+	}
+
+	public static void setChannelId(int channnelid)
+	{
+		if (null != mClientInfo)
+		{
+			mClientInfo.channelId = String.valueOf(channnelid);
+		}
+	}
+	
+	public static void setChannelId(String channnelid)
+	{
+		if (null != mClientInfo)
+		{
+			mClientInfo.channelId = channnelid;
+		}
+	}
+	
+	public static void setAppId(String appid)
+	{
+		if (null != mClientInfo)
+		{
+			mClientInfo.appId = appid;
+		}
+	}
+	
+	private static String getFactory()
+	{
+		return android.os.Build.MANUFACTURER;
+	}
+	
+	private static String getType()
+	{
+		return android.os.Build.MODEL;
+	}
+	
+	public static void setAPNType(int type)
+	{
+		if(mClientInfo != null)
+		{
+			mClientInfo.apnType = type;
+		}
+	}
+}

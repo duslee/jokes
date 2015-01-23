@@ -1,0 +1,76 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/girldlg"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    style="@android:style/Theme.Dialog"
+    android:gravity="center" >
+	<LinearLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:background="#bb000000"
+	     android:gravity="center">
+    <LinearLayout
+        android:id="@+id/dg_title_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+			<FrameLayout 
+			    android:layout_width="fill_parent"
+			    android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/dg_title_iv"
+                android:layout_width="fill_parent"
+                android:layout_height="45dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/pay_bg_1_1" />
+            <RelativeLayout 
+			    android:layout_width="fill_parent"
+			    android:layout_height="45dp">
+			   
+            <TextView 
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="联网操作中，请稍候..."
+                android:textSize="20dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@android:color/black"
+                android:gravity="center"
+                />
+            </RelativeLayout>
+			</FrameLayout>
+           
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/pay_bg_022"
+            android:orientation="vertical" >
+			
+			<TextView
+                        android:id="@+id/txt_content"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="5dp"
+                        android:fadeScrollbars="true"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:gravity="center_vertical"
+                        android:lineSpacingMultiplier="1.2"
+                        android:scrollbars="vertical"
+                        android:singleLine="false"
+                        android:text="在公交车上，我们都盯着一个穿短裙的美女，突然美女回过头给了我一巴掌并叫我滚！我靠，又不是只有我一个人在偷看她的大腿，全车那么多人谁不打就打我？然后我心情十分不爽，穿上裤子就下车了！"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="#333333"
+                        android:textSize="15dp" />
+
+        </LinearLayout>
+    </LinearLayout>
+	</LinearLayout>
+</RelativeLayout>

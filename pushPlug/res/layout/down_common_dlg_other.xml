@@ -1,0 +1,121 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/girldlg"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    style="@android:style/Theme.Dialog"
+    android:gravity="center" >
+	<RelativeLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:background="#bb000000"
+	    android:orientation="vertical"
+	    >
+	      <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:scaleType="fitXY"
+                android:id="@+id/down_dialog_girl"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:paddingBottom="260dp"
+                 /> 
+    <RelativeLayout
+        android:id="@+id/dg_title_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+         android:gravity="center"
+          android:layout_centerInParent="true"
+        android:orientation="vertical" >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/down_dialog_bg_ll"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <ImageView
+                    android:id="@+id/icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp"
+                    android:paddingLeft="10dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/default_icon" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/icon"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="20dp"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/txtTitle"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="10dp"
+                        android:text="微秀"
+                         android:textColor="#ffffff"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/txtBrief"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="5dp"
+                        android:fadeScrollbars="true"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:gravity="center_vertical"
+                        android:lineSpacingMultiplier="1.2"
+                        android:scrollbars="vertical"
+                        android:singleLine="false"
+                        android:text="跟美女聊天，想让她干什么酒干什么跟美女聊天，想让她干"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="#ffffff"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="15dp"
+                android:gravity="center" >
+
+                <ImageView
+                    android:id="@+id/btnYes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#ffffff"
+                    android:textSize="18sp"
+                    
+                    android:layout_marginRight="8dp"
+                     />
+            </LinearLayout>
+        </LinearLayout>
+         <ImageView
+                android:id="@+id/btnNo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="5dp"
+                android:paddingRight="20dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/down_dialog_x" /> 
+    </RelativeLayout>
+   
+	</RelativeLayout>
+	
+</RelativeLayout>

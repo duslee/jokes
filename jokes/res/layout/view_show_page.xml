@@ -1,0 +1,34 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/video_ll"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <!-- 导航栏 -->
+
+    <RelativeLayout
+        android:id="@+id/title_rl"
+        style="@style/NavStyle" >
+
+        <TextView
+            android:id="@+id/title"
+            style="@style/NavCenterTVStyle"
+            android:layout_centerInParent="true"
+            android:text="@string/app_name" />
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/translate_bg_selector"
+            android:contentDescription="@null"
+            android:scaleType="fitXY"
+            android:src="@drawable/back" />
+    </RelativeLayout>
+
+    <WebView
+        android:id="@+id/webView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

@@ -1,0 +1,154 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="AppTheme" parent="@android:style/Theme.Light.NoTitleBar"></style>
+
+    <style name="WelcomeTheme" parent="@android:style/Theme.Light.NoTitleBar">
+        <item name="android:windowBackground">@drawable/welcome</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <!-- Custom Dialog theme. -->
+    <style name="Dialog" parent="@android:style/Theme.Dialog">
+
+        <!-- 设置未浮动窗口 -->
+        <item name="android:windowIsFloating">true</item>
+        <!-- 设置无边框 -->
+        <item name="android:windowFrame">@null</item>
+        <!-- 设置无标题 -->
+        <item name="android:windowNoTitle">true</item>
+        <!-- 设置完全透明 -->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <!-- 设置屏幕变暗 -->
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+
+    <style name="drop_down_list_header_progress_bar_style">
+        <item name="android:minHeight">@dimen/drop_down_list_header_progress_bar_height</item>
+        <item name="android:maxHeight">@dimen/drop_down_list_header_progress_bar_height</item>
+    </style>
+
+    <style name="drop_down_list_footer_progress_bar_style">
+        <item name="android:minHeight">@dimen/drop_down_list_footer_progress_bar_height</item>
+        <item name="android:maxHeight">@dimen/drop_down_list_footer_progress_bar_height</item>
+    </style>
+
+    <style name="drop_down_list_header_font_style">
+        <item name="android:textColor">@color/drop_down_list_header_font_color</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+    </style>
+
+    <style name="drop_down_list_header_second_font_style">
+        <item name="android:textColor">@color/drop_down_list_header_second_font_color</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
+    </style>
+
+    <style name="drop_down_list_footer_font_style">
+        <item name="android:textColor">@color/drop_down_list_footer_font_color</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+    </style>
+
+    <!-- 通用文本样式 -->
+    <style name="CommonTextStyle" parent="@android:style/TextAppearance">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="DropItemNickStyle" parent="@style/CommonTextStyle">
+        <item name="android:textColor">@color/drop_item_nick_color</item>
+        <item name="android:textSize">@dimen/drop_item_nick_size</item>
+    </style>
+
+    <style name="DropItemContentStyle" parent="@style/CommonTextStyle">
+        <item name="android:textColor">@color/drop_item_content_color</item>
+        <item name="android:textSize">@dimen/drop_item_content_size</item>
+        <item name="android:singleLine">false</item>
+        <item name="android:lineSpacingExtra">5dip</item>
+    </style>
+
+    <!-- 导航栏样式 -->
+    <style name="NavStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/nav_height</item>
+        <item name="android:background">@drawable/nav_bg</item>
+    </style>
+
+    <!-- 导航栏中间文本样式 -->
+    <style name="NavCenterTVStyle" parent="@style/CommonTextStyle">
+        <item name="android:textColor">@color/nav_center_color</item>
+        <item name="android:textSize">@dimen/nav_center_size</item>
+    </style>
+
+    <style name="SettingCacheTVStyle" parent="@style/CommonTextStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="BannerTVStyle" parent="@style/CommonTextStyle">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">19sp</item>
+        <item name="android:singleLine">false</item>
+        <item name="android:lineSpacingExtra">5dip</item>
+    </style>
+
+    <style name="BannerTV2Style" parent="@style/CommonTextStyle">
+        <item name="android:textColor">#e5e2ee</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <!-- 通用Button样式 -->
+    <style name="CommonBtnStyle" parent="@android:style/TextAppearance.Widget.Button">
+        <item name="android:layout_width">200dip</item>
+        <item name="android:layout_height">46dip</item>
+    </style>
+
+    <style name="BannerBtnStyle" parent="@style/CommonBtnStyle">
+        <item name="android:background">@drawable/btn_bg_selector</item>
+        <item name="android:contentDescription">@null</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="NotiTitleStyle" parent="@style/CommonTextStyle">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="NotiTimeStyle" parent="@style/CommonTextStyle">
+        <item name="android:textColor">#eeeeee</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="NotiSubTitleStyle" parent="@style/CommonTextStyle">
+        <item name="android:textColor">#eeeeee</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="NotiTitleStyle2" parent="@style/CommonTextStyle">
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="NotiTimeStyle2" parent="@style/CommonTextStyle">
+        <item name="android:textColor">#888888</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="NotiSubTitleStyle2" parent="@style/CommonTextStyle">
+        <item name="android:textColor">#888888</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+    
+    <style name="NumStyle" parent="@style/CommonTextStyle">
+        <item name="android:textColor">@color/num_tv_selector</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    
+    <style name="AddNumStyle" parent="@style/CommonTextStyle">
+        <item name="android:textColor">#dd0404</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+</resources>

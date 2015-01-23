@@ -1,0 +1,1663 @@
+package com.taiku.network.httpclient;
+
+import java.io.File;
+
+import org.apache.http.client.methods.HttpUriRequest;
+
+
+import com.sky.mpchat.base.log.BaseLog;
+import com.sky.mpchat.base.log.Config;
+import com.sky.mpchat.base.pay.OrderItem;
+import com.taiku.network.DataPoint.DataPointHttpReq;
+import com.taiku.network.DataPoint.DataPointHttpResp;
+import com.taiku.network.DataPoint.DataPointInfo;
+import com.taiku.network.DataPoint.DataPointKeyHttpReq;
+import com.taiku.network.DataPoint.DataPointKeyHttpResp;
+import com.taiku.network.httpclient.MPHttpClientInterface.MPHttpClientRespListener;
+import com.taiku.network.httpclient.login.ActiveLogReq;
+import com.taiku.network.httpclient.login.ActiveLogReq.ActiveItem;
+import com.taiku.network.httpclient.login.ActiveLogResp;
+import com.taiku.network.httpclient.login.BindPwdReq;
+import com.taiku.network.httpclient.login.BindPwdResp;
+import com.taiku.network.httpclient.login.CarGetUserCarReq;
+import com.taiku.network.httpclient.login.CarGetUserCarResp;
+import com.taiku.network.httpclient.login.CheckNicknameHttpReq;
+import com.taiku.network.httpclient.login.CheckNicknameHttpResp;
+import com.taiku.network.httpclient.login.FindPwdReq;
+import com.taiku.network.httpclient.login.FindPwdResp;
+import com.taiku.network.httpclient.login.GetAppSetReq;
+import com.taiku.network.httpclient.login.GetAppSetResq;
+import com.taiku.network.httpclient.login.GetBindEmailReq;
+import com.taiku.network.httpclient.login.GetBindEmailResp;
+import com.taiku.network.httpclient.login.GetPushSwitchInfoReq;
+import com.taiku.network.httpclient.login.GetPushSwitchInfoResp;
+import com.taiku.network.httpclient.login.GetRandomNickNameReq;
+import com.taiku.network.httpclient.login.GetRandomNickNameResp;
+import com.taiku.network.httpclient.login.GetUserLevelExpInfoReq;
+import com.taiku.network.httpclient.login.GetUserLevelExpInfoResp;
+import com.taiku.network.httpclient.login.HeaderPicListHttpReq;
+import com.taiku.network.httpclient.login.HeaderPicListHttpResp;
+import com.taiku.network.httpclient.login.ImsiLoginHttpReq;
+import com.taiku.network.httpclient.login.ImsiLoginHttpReqGet;
+import com.taiku.network.httpclient.login.LoginHttpReq;
+import com.taiku.network.httpclient.login.LoginHttpResp;
+import com.taiku.network.httpclient.login.LogoutHttpReq;
+import com.taiku.network.httpclient.login.LogoutHttpResp;
+import com.taiku.network.httpclient.login.ModifyHeaderPicDefaultHttpReq;
+import com.taiku.network.httpclient.login.ModifyHeaderPicHttpResp;
+import com.taiku.network.httpclient.login.ModifyNickNameReq;
+import com.taiku.network.httpclient.login.ModifyNickNameResp;
+import com.taiku.network.httpclient.login.ModifyPasswordHttpReq;
+import com.taiku.network.httpclient.login.ModifyPasswordHttpResp;
+import com.taiku.network.httpclient.login.ModifyUserInfo;
+import com.taiku.network.httpclient.login.ModifyUserInfoHttpReq;
+import com.taiku.network.httpclient.login.ModifyUserInfoHttpResp;
+import com.taiku.network.httpclient.login.QQLandHttpReq;
+import com.taiku.network.httpclient.login.QQLandHttpResp;
+import com.taiku.network.httpclient.login.RegisterHttpReq;
+import com.taiku.network.httpclient.login.RegisterHttpResp;
+import com.taiku.network.httpclient.login.RegisterQuickReq;
+import com.taiku.network.httpclient.login.RegisterQuickResp;
+import com.taiku.network.httpclient.login.UploadHeaderPicHttpReq;
+import com.taiku.network.httpclient.login.UploadHeaderPicHttpResp;
+import com.taiku.network.httpclient.login.UploadHeaderPicResizerReq;
+import com.taiku.network.httpclient.login.UploadHeaderPicResizerResp;
+import com.taiku.network.httpclient.login.UserInfoRequest;
+import com.taiku.network.httpclient.login.UserInfoResponse;
+import com.taiku.network.httpclient.login.UserPermissionReq;
+import com.taiku.network.httpclient.login.UserPermissionResp;
+import com.taiku.network.httpclient.login.UserRankInfoReq;
+import com.taiku.network.httpclient.login.UserRankInfoResp;
+import com.taiku.network.httpclient.room.CenterUploadRoomSquarePicHttpReq;
+import com.taiku.network.httpclient.room.CenterUploadRoomSquarePicHttpResp;
+import com.taiku.network.httpclient.room.FavRoomAddHttpReq;
+import com.taiku.network.httpclient.room.FavRoomAddHttpResp;
+import com.taiku.network.httpclient.room.FavRoomDelHttpReq;
+import com.taiku.network.httpclient.room.FavRoomDelHttpResp;
+import com.taiku.network.httpclient.room.FavRoomListHttpReq;
+import com.taiku.network.httpclient.room.FavRoomListHttpResp;
+import com.taiku.network.httpclient.room.GiftRankCurTopHttpReq;
+import com.taiku.network.httpclient.room.GiftRankCurTopHttpResp;
+import com.taiku.network.httpclient.room.GiftRankPreShowerTopHttpReq;
+import com.taiku.network.httpclient.room.GiftRankPreShowerTopHttpResp;
+import com.taiku.network.httpclient.room.GiftRankPreTopHttpReq;
+import com.taiku.network.httpclient.room.GiftRankPreTopHttpResp;
+import com.taiku.network.httpclient.room.GiftRankShowerTopHttpReq;
+import com.taiku.network.httpclient.room.GiftRankShowerTopHttpResp;
+import com.taiku.network.httpclient.room.GiftRankShowerWeekTopHttpReq;
+import com.taiku.network.httpclient.room.GiftRankShowerWeekTopHttpResp;
+import com.taiku.network.httpclient.room.MarketRecordUserPhoneNumberHttpReq;
+import com.taiku.network.httpclient.room.MarketRecordUserPhoneNumberHttpResp;
+import com.taiku.network.httpclient.room.OrderSongGetSongListHttpReq;
+import com.taiku.network.httpclient.room.OrderSongGetSongListHttpResp;
+import com.taiku.network.httpclient.room.OrderSongGetSongPriceHttpReq;
+import com.taiku.network.httpclient.room.OrderSongGetSongPriceHttpResp;
+import com.taiku.network.httpclient.room.PointApplausePointHttpReq;
+import com.taiku.network.httpclient.room.PointApplausePointHttpResp;
+import com.taiku.network.httpclient.room.PointGetUserPointHttpReq;
+import com.taiku.network.httpclient.room.PointGetUserPointHttpResp;
+import com.taiku.network.httpclient.room.PointPointInfoHttpReq;
+import com.taiku.network.httpclient.room.PointPointInfoHttpResp;
+import com.taiku.network.httpclient.room.PointRuleConfigHttpReq;
+import com.taiku.network.httpclient.room.PointRuleConfigHttpResp;
+import com.taiku.network.httpclient.room.PointSpeechPointHttpReq;
+import com.taiku.network.httpclient.room.PointSpeechPointHttpResp;
+import com.taiku.network.httpclient.room.PointTimePointHttpReq;
+import com.taiku.network.httpclient.room.PointTimePointHttpResp;
+import com.taiku.network.httpclient.room.RankFansRankListHttpReq;
+import com.taiku.network.httpclient.room.RankFansRankListHttpResp;
+import com.taiku.network.httpclient.room.RankPacketsRankListHttpReq;
+import com.taiku.network.httpclient.room.RankPacketsRankListHttpResp;
+import com.taiku.network.httpclient.room.RankShowerRankListHttpReq;
+import com.taiku.network.httpclient.room.RankShowerRankListHttpResp;
+import com.taiku.network.httpclient.room.RankUserRankListHttpReq;
+import com.taiku.network.httpclient.room.RankUserRankListHttpResp;
+import com.taiku.network.httpclient.room.ResSetReq;
+import com.taiku.network.httpclient.room.ResSetResp;
+import com.taiku.network.httpclient.room.ResourceGetPhoneBannerHttpReq;
+import com.taiku.network.httpclient.room.ResourceGetPhoneBannerHttpResp;
+import com.taiku.network.httpclient.room.ResourceGetPushMsgHttpReq;
+import com.taiku.network.httpclient.room.ResourceGetPushMsgHttpResp;
+import com.taiku.network.httpclient.room.ResourceRoomHttpReq;
+import com.taiku.network.httpclient.room.ResourceRoomVipHttpReq;
+import com.taiku.network.httpclient.room.RewardBehaviourRewardHttpReq;
+import com.taiku.network.httpclient.room.RewardBehaviourRewardHttpResp;
+import com.taiku.network.httpclient.room.RewardListRewardConfigHttpResp;
+import com.taiku.network.httpclient.room.RewardlistRewardConfigHttpReq;
+import com.taiku.network.httpclient.room.RoomAddressReq;
+import com.taiku.network.httpclient.room.RoomAddressResp;
+import com.taiku.network.httpclient.room.RoomDetailReq;
+import com.taiku.network.httpclient.room.RoomDetailResp;
+import com.taiku.network.httpclient.room.RoomListHttpResp;
+import com.taiku.network.httpclient.room.RoomListRecommendHttpReq;
+import com.taiku.network.httpclient.room.RoomListRecommendHttpResp;
+import com.taiku.network.httpclient.room.RoomMediaAddressReq;
+import com.taiku.network.httpclient.room.RoomMediaAddressResp;
+import com.taiku.network.httpclient.room.RoomUnlockConfigReq;
+import com.taiku.network.httpclient.room.RoomUnlockConfigResp;
+import com.taiku.network.httpclient.room.RoomVipListReq;
+import com.taiku.network.httpclient.room.RoomVipListResp;
+import com.taiku.network.httpclient.room.RoomYishiListReq;
+import com.taiku.network.httpclient.room.RoomYishiListResp;
+import com.taiku.network.httpclient.shop.AppDownFinishHttpReq;
+import com.taiku.network.httpclient.shop.AppDownFinishHttpReq.DownFinishItem;
+import com.taiku.network.httpclient.shop.AppDownFinishHttpResp;
+import com.taiku.network.httpclient.shop.QueryGiftPropUsingLogHttpReq;
+import com.taiku.network.httpclient.shop.QueryGiftPropUsingLogHttpResp;
+import com.taiku.network.httpclient.shop.ShopBuyPropReq;
+import com.taiku.network.httpclient.shop.ShopBuyPropReq.BuyPropInfo;
+import com.taiku.network.httpclient.shop.ShopBuyPropResp;
+import com.taiku.network.httpclient.shop.ShopExchangeHttpReq;
+import com.taiku.network.httpclient.shop.ShopExchangeHttpResp;
+import com.taiku.network.httpclient.shop.ShopFreezeHttpReq;
+import com.taiku.network.httpclient.shop.ShopFreezeHttpResp;
+import com.taiku.network.httpclient.shop.ShopQueryExchangeLogHttpReq;
+import com.taiku.network.httpclient.shop.ShopQueryExchangeLogHttpResp;
+import com.taiku.network.httpclient.shop.ShopQueryRechargeLogHttpReq;
+import com.taiku.network.httpclient.shop.ShopQueryRechargeLogHttpResp;
+import com.taiku.network.httpclient.shop.ShopQueryRoomVoteHttpReq;
+import com.taiku.network.httpclient.shop.ShopQueryRoomVoteHttpResp;
+import com.taiku.network.httpclient.shop.ShopSendGiftFreeHttpReq;
+import com.taiku.network.httpclient.shop.ShopSendGiftFreeHttpReq.SendGiftFreeItem;
+import com.taiku.network.httpclient.shop.ShopSendGiftFreeHttpResp;
+import com.taiku.network.httpclient.shop.ShopUnfreezeHttpReq;
+import com.taiku.network.httpclient.shop.ShopUnfreezeHttpResp;
+import com.taiku.network.httpclient.shop.ShopVoteHttpReq;
+import com.taiku.network.httpclient.shop.ShopVoteHttpReq.VoteItem;
+import com.taiku.network.httpclient.shop.ShopVoteHttpResp;
+import com.taiku.network.httpclient.shop.charge.AddKeyIntegralHttpReq;
+import com.taiku.network.httpclient.shop.charge.AddKeyIntegralHttpResp;
+import com.taiku.network.httpclient.shop.charge.ChargeOrderHttpReq;
+import com.taiku.network.httpclient.shop.charge.ChargeOrderHttpResp;
+import com.taiku.network.httpclient.shop.charge.ChargeOrderPassHttpReq;
+import com.taiku.network.httpclient.shop.charge.ChargeOrderPassHttpResp;
+import com.taiku.network.httpclient.shop.charge.ChargeQueryReq;
+import com.taiku.network.httpclient.shop.charge.ChargeQueryResp;
+import com.taiku.network.httpclient.shop.charge.DeductKeyIntegralHttpReq;
+import com.taiku.network.httpclient.shop.charge.DeductKeyIntegralHttpResp;
+import com.taiku.network.httpclient.shop.charge.PayChannelHttpReq;
+import com.taiku.network.httpclient.shop.charge.PayChannelHttpResp;
+import com.taiku.network.httpclient.shop.charge.PayChannelHttpReq.PayConfigReq;
+import com.taiku.network.httpclient.shop.charge.QueryKeyIntegralHttpReq;
+import com.taiku.network.httpclient.shop.charge.QueryKeyIntegralHttpResp;
+import com.taiku.network.httpclient.shop.gift.GiftBagDecReq;
+import com.taiku.network.httpclient.shop.gift.GiftBagDecResp;
+import com.taiku.network.httpclient.shop.gift.GiftListHttpReq;
+import com.taiku.network.httpclient.shop.gift.GiftListHttpResp;
+import com.taiku.network.httpclient.shop.gift.GiftQueryGiftMenuHttpReq;
+import com.taiku.network.httpclient.shop.gift.GiftQueryGiftMenuHttpResp;
+import com.taiku.network.httpclient.shop.gift.GiftSendHttpReq;
+import com.taiku.network.httpclient.shop.gift.GiftSendHttpReq.GiftSendItem;
+import com.taiku.network.httpclient.shop.gift.GiftSendHttpResp;
+import com.taiku.network.httpclient.shop.gift.InventoryGiftSendReq;
+import com.taiku.network.httpclient.shop.gift.InventoryGiftSendReq.InventoryGiftSendItem;
+import com.taiku.network.httpclient.shop.gift.InventoryGiftSendResp;
+import com.taiku.network.httpclient.shop.gift.QueryInventoryReq;
+import com.taiku.network.httpclient.shop.gift.QueryInventoryResp;
+import com.taiku.network.httpclient.shop.gift.UnzipPackageReq;
+import com.taiku.network.httpclient.shop.gift.UnzipPackageReq.UnzipPackageInfo;
+import com.taiku.network.httpclient.shop.gift.UnzipPackageResp;
+import com.taiku.network.httpclient.shop.hands.HandsNumHttpReq;
+import com.taiku.network.httpclient.shop.hands.HandsNumHttpResp;
+import com.taiku.network.httpclient.shop.hands.HandsSendHttpReq;
+import com.taiku.network.httpclient.shop.hands.HandsSendHttpReq.HandsSendItem;
+import com.taiku.network.httpclient.shop.hands.HandsSendHttpResp;
+import com.taiku.network.httpclient.shop.market.GetUserPropsGroupHttpReq;
+import com.taiku.network.httpclient.shop.market.GetUserPropsGroupHttpResp;
+import com.taiku.network.httpclient.shop.market.ModifyUserPropManualSwitchHttpReq;
+import com.taiku.network.httpclient.shop.market.ModifyUserPropManualSwitchHttpReq.UserPropManualSwitchInfo;
+import com.taiku.network.httpclient.shop.market.ModifyUserPropManualSwitchHttpResp;
+import com.taiku.network.httpclient.shop.market.PropsGroupShopHttpReq;
+import com.taiku.network.httpclient.shop.market.PropsGroupShopHttpResp;
+import com.taiku.network.httpclient.shop.money.UserBalanceInfoReq;
+import com.taiku.network.httpclient.shop.money.UserBalanceInfoResq;
+import com.taiku.network.struct.IntegralInfo;
+import com.taiku.network.struct.RegInfo;
+import com.taiku.network.utils.ApplicationNetworkUtils;
+
+
+public class MPHttpClientUtils {	
+
+	
+	public static final String ROOM_SERVER_URL_RELEASE = "http://www.52le.com/";
+	public static final String ROOM_SERVER_URL_TEST1 = "http://172.16.4.20:4301/";//"http://test52le.com:4301/";//测试;
+	public static final String ROOM_SERVER_URL_TEST2 = "http://t238.sky-mobi.com/";//开发;
+							   //"http://sss.test.com/";
+	public static final String ROOM_SERVER_URL_TEST3 = "http://172.21.1.69:8700/";//陈刚;
+
+	public static final String DEBUG_SERVER_URL = "http://10.0.2.2:60000/";
+	
+	public static final String ROOM_SERVER_URL = 
+		Config.Debug ? ROOM_SERVER_URL_TEST2 : ROOM_SERVER_URL_RELEASE;
+		
+	public static final String PHONE_BANNER_URL = 
+		Config.Debug?"http://pic.test.com:4300/image/":"http://pic.52le.com:18081/image/";
+	
+	//LOKITEST20130706 FOR ORDERSONG
+	public static final String ROOM_ORDERSONG_URL = Config.Debug?ROOM_SERVER_URL_TEST2:ROOM_SERVER_URL_RELEASE;
+		
+	public static void addDefaultCookie(HttpUriRequest request){
+		// Nothing.
+	}
+	
+	public static boolean isSuccResponseCode(String errCode){
+		return errCode.equals("200");
+	}
+	
+	public static void cancel(int id,MPHttpClientRespListener listener){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		hM.removeListener(listener, id);
+	}
+	
+	public static void cancel(MPHttpClientRespListener listener){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		hM.removeListener(listener);
+	}
+	
+	/**
+	 * 用户登录
+	 * @param usrName eg: winger.zhou@hotmail.com
+	 * @param pwd eg: 123456
+	 * @param id eg: 0
+	 * @param listener 返回值监听接口
+	 * @return 事件回调obj = LoginHttpResp
+	 * Note: 如果用户名为空时表示以游客身份登录
+	 */
+	public static void login(int id, MPHttpClientRespListener listener, String usrName, String pwd){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		LoginHttpReq request = new LoginHttpReq(usrName, pwd);
+		LoginHttpResp response = new LoginHttpResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}
+	
+	/**
+	 * 用户注销
+	 * @param usrName eg: winger.zhou@hotmail.com
+	 * @param usrName
+	 * @param token
+	 * @param listener 返回值监听接口
+	 * @return 事件回调obj = LoginHttpResp
+	 */
+	public static void logout(int id, 
+			MPHttpClientRespListener listener, 
+			int skyId,
+			String token){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		LogoutHttpReq request = new LogoutHttpReq(skyId, token);
+		LogoutHttpResp response = new LogoutHttpResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}	
+	
+	/**
+	 * 用户注册
+	 * @param usrName eg: winger.zhou@hotmail.com
+	 * @param pwd eg: 123456
+	 * @param nickName eg: NC-小明
+	 * @return obj = RegisterHttpResp
+	 * Note: 参数不可以为空
+	 */
+	public static void register(int id, MPHttpClientRespListener listener, 
+			String usrName, String pwd, String nickName){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		RegInfo regInfo = new RegInfo(usrName, pwd, nickName, 0);
+		RegisterHttpReq request = new RegisterHttpReq(regInfo);
+		RegisterHttpResp response = new RegisterHttpResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}
+	
+	/**
+	 * 获取用户详细信息
+	 * @param id 
+	 * @param listener
+	 * @return 事件回调obj = UserInfoResponse
+	 * Note: 用户登录后调用此接口有效，登录成功后也会返回用户信息.
+	 */
+	public static void getUserInfo(int id, MPHttpClientRespListener listener){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		UserInfoRequest request = new UserInfoRequest();
+		UserInfoResponse response = new UserInfoResponse();
+		
+		hM.doRequest(listener, id, request, response);
+	}
+	
+	/**
+	 * 获取用户详细信息
+	 * @param id 
+	 * @param listener
+	 * @return 事件回调obj = UserInfoResponse
+	 * Note: 用户登录后调用此接口有效，登录成功后也会返回用户信息.
+	 */
+	public static void getUserInfo(int id, MPHttpClientRespListener listener, int skyId){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		UserInfoRequest request = new UserInfoRequest();
+		UserInfoResponse response = new UserInfoResponse();
+		
+		hM.doRequest(listener, id, request, response);
+	}
+	
+	
+	/**
+	 * 获取用户财富信息
+	 * @param id 
+	 * @param listener
+	 * @return 事件回调obj = UserRankInfoResp
+	 * Note: 
+	 */
+	public static void getUserRankInfo(int id, MPHttpClientRespListener listener, 
+			int skyId){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		UserRankInfoReq request = new UserRankInfoReq(skyId);
+		UserRankInfoResp response = new UserRankInfoResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}
+	
+	/**
+	 * 获取主播级别信息
+	 * @param id 
+	 * @param listener
+	 * @return 事件回调obj = GetUserLevelExpInfoReq
+	 * Note: 
+	 */
+	public static void getShowerRankInfo(int id, MPHttpClientRespListener listener, 
+			int skyId){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		GetUserLevelExpInfoReq request = new GetUserLevelExpInfoReq(skyId);
+		GetUserLevelExpInfoResp response = new GetUserLevelExpInfoResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}
+	
+	/**
+	 * 获取用户座驾信息
+	 * @param id 
+	 * @param listener
+	 * @return 事件回调obj = GetUserLevelExpInfoReq
+	 * Note: 
+	 */
+	public static void getCarGetUserCar(int id, MPHttpClientRespListener listener, 
+			int skyId){
+		
+		if(skyId <= 0){
+			return;
+		}
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		CarGetUserCarReq request = new CarGetUserCarReq(skyId);
+		CarGetUserCarResp response = new CarGetUserCarResp();
+		
+		response.setRequestSkyId(skyId);
+		hM.doRequest(listener, id, request, response);
+	}
+	
+	
+	/**
+	 * 获取热辣推荐的聊天室列表
+	 * @param id
+	 * @param listener
+	 * @return obj = RoomListHttpResp
+	 */
+	public static void getRecommendRoomList(int id, MPHttpClientRespListener listener){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		RoomListRecommendHttpReq request = new RoomListRecommendHttpReq();
+		RoomListRecommendHttpResp response = new RoomListRecommendHttpResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}
+	
+//	/**
+//	 * 获取人气排行的聊天室列表
+//	 * @param id
+//	 * @param listener
+//	 * @return obj = RoomListHttpResp
+//	 */
+//	public static void getHotRoomList(int id, MPHttpClientRespListener listener){
+//		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+//		RoomListHotHttpReq request = new RoomListHotHttpReq();
+//		RoomListHotHttpResp response = new RoomListHotHttpResp();
+//		
+//		hM.doRequest(listener, id, request, response);
+//	}
+//	
+//	/**
+//	 * 获取级别排行的聊天室列表
+//	 * @param id
+//	 * @param listener
+//	 * @return obj = RoomListHttpResp
+//	 */
+//	public static void getLevelRoomList(int id, MPHttpClientRespListener listener){
+//		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+//		RoomListLevelHttpReq request = new RoomListLevelHttpReq();
+//		RoomListLevelHttpResp response = new RoomListLevelHttpResp();
+//		
+//		hM.doRequest(listener, id, request, response);
+//	}
+//	
+//	/**
+//	 * 获取随便看看的聊天室列表
+//	 * @param id
+//	 * @param listener
+//	 * @return obj = RoomListHttpResp
+//	 */
+//	public static void getRandomRoomList(int id, MPHttpClientRespListener listener){
+//		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+//		RoomListLevelHttpReq request = new RoomListLevelHttpReq();
+//		RoomListRandomHttpResp response = new RoomListRandomHttpResp();
+//		
+//		hM.doRequest(listener, id, request, response);
+//	}
+	
+	/**
+	 * 获取我关注的（我的收藏）的聊天室列表
+	 * @param id
+	 * @param listener
+	 * @param skyId 当前登录的SKYID
+	 * @return obj = RoomListFavHttpResp
+	 */
+	public static void getFavoriteRoomList(int id, MPHttpClientRespListener listener, int skyId){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		FavRoomListHttpReq request = new FavRoomListHttpReq(skyId);
+		FavRoomListHttpResp response = new FavRoomListHttpResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}
+	
+	/**
+	 * 添加我关注的（我的收藏）房间
+	 * @param id
+	 * @param listener
+	 * @param skyId 当前登录的SKYID
+	 * @return obj = FavRoomAddHttpResp
+	 */
+	public static void addFavoriteRoomList(int id, MPHttpClientRespListener listener, int skyId, int roomId){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		FavRoomAddHttpReq request = new FavRoomAddHttpReq(skyId, roomId);
+		FavRoomAddHttpResp response = new FavRoomAddHttpResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}
+	
+	/**
+	 * 获取积分规则
+	 * @param id
+	 * @param listener
+	 * @param skyId 当前登录的SKYID
+	 * @return obj = PointRuleConfigHttpResp
+	 */
+	public static void pointGetRuleConfig(int id, MPHttpClientRespListener listener, int skyId){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		PointRuleConfigHttpReq request = new PointRuleConfigHttpReq(skyId);
+		PointRuleConfigHttpResp response = new PointRuleConfigHttpResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}	
+	
+	/**
+	 * 获取任务完成情况
+	 * @param id
+	 * @param listener
+	 * @param skyId 当前登录的SKYID
+	 * @return obj = PointPointInfoHttpResp
+	 */
+	public static void pointGetPointInfo(int id, MPHttpClientRespListener listener, int skyId){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		PointPointInfoHttpReq request = new PointPointInfoHttpReq(skyId);
+		PointPointInfoHttpResp response = new PointPointInfoHttpResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}	
+
+	/**
+	 * 获取时间积分
+	 * @param id
+	 * @param listener
+	 * @param skyId 当前登录的SKYID
+	 * @param  minutes 时长
+	 * @return obj = PointTimePointHttpResp
+	 */
+	public static void pointGetTimePoint(int id, MPHttpClientRespListener listener, int skyId, int minutes){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		PointTimePointHttpReq request = new PointTimePointHttpReq(skyId, minutes);
+		PointTimePointHttpResp response = new PointTimePointHttpResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}	
+	
+	/**
+	 * 获取发言积分
+	 * @param id
+	 * @param listener
+	 * @param skyId 当前登录的SKYID
+	 * @param speechNum 发言的个数
+	 * @return obj = PointSpeechPointHttpResp
+	 */
+	public static void pointGetSpeechPoint(int id, MPHttpClientRespListener listener, int skyId,int roomNum, int speechNum){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		PointSpeechPointHttpReq request = new PointSpeechPointHttpReq(skyId, roomNum, speechNum);
+		PointSpeechPointHttpResp response = new PointSpeechPointHttpResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}	
+	
+	/**
+	 * 获取掌声
+	 * @param id
+	 * @param listener
+	 * @param skyId 当前登录的SKYID
+	 * @param applauseNum 掌声的个数
+	 * @return obj = PointApplausePointHttpResp
+	 */
+	public static void pointGetApplausePoint(int id, MPHttpClientRespListener listener, int skyId, int applauseNum){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		PointApplausePointHttpReq request = new PointApplausePointHttpReq(skyId, applauseNum);
+		PointApplausePointHttpResp response = new PointApplausePointHttpResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}	
+
+	/**
+	 * 用户积分获取
+	 * @param id
+	 * @param listener
+	 * @param skyId 当前登录的SKYID
+	 * @return obj = PointGetUserPointHttpResp
+	 */
+	public static void pointGetUserPoint(int id, MPHttpClientRespListener listener, int skyId){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		PointGetUserPointHttpReq request = new PointGetUserPointHttpReq(skyId);
+		PointGetUserPointHttpResp response = new PointGetUserPointHttpResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}		
+	
+	/**
+	 * 获取明星排行请求
+	 * @param id
+	 * @param listener
+	 * @param num 获取列表中的个数
+	 * @return obj = RankShowerRankListHttpResp
+	 */
+	public static void rankShowerRankList(int id, MPHttpClientRespListener listener, int num){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		RankShowerRankListHttpReq request = new RankShowerRankListHttpReq(num);
+		RankShowerRankListHttpResp response = new RankShowerRankListHttpResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}	
+	/**
+	 * 获取富豪排行请求
+	 * @param id
+	 * @param listener
+	 * @param num 获取列表中的个数
+	 * @return obj = RankUserRankListHttpResp
+	 */
+	public static void rankUserRankList(int id, MPHttpClientRespListener listener, int num){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		RankUserRankListHttpReq request = new RankUserRankListHttpReq(num);
+		RankUserRankListHttpResp response = new RankUserRankListHttpResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}	
+
+	/**
+	 * 获取粉丝排行请求
+	 * @param id
+	 * @param listener
+	 * @param skyId 当前主播的SKYID
+	 * @param roomId 当前主播的roomid
+	 * @return obj = RankFansRankListHttpResp
+	 */
+	public static void rankFansRankList(int id, MPHttpClientRespListener listener, int skyId, int roomId){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		RankFansRankListHttpReq request = new RankFansRankListHttpReq(skyId,roomId);
+		RankFansRankListHttpResp response = new RankFansRankListHttpResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}	
+	
+	/**
+	 * 获取人气排行请求
+	 * @param id
+	 * @param listener
+	 * @param num 获取列表中的个数
+	 * @return obj = RankPacketsRankListHttpResp
+	 */
+	public static void rankPacketsRankList (int id, MPHttpClientRespListener listener, int num){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		RankPacketsRankListHttpReq request = new RankPacketsRankListHttpReq(num);
+		RankPacketsRankListHttpResp response = new RankPacketsRankListHttpResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}
+
+	/**
+	 * 本周礼物周星榜请求
+	 * @param id
+	 * @param listener
+	 * @return obj = GiftRankCurTopHttpResp
+	 */
+	public static void giftRankCurTop(int id, MPHttpClientRespListener listener){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		GiftRankCurTopHttpReq request = new GiftRankCurTopHttpReq();
+		GiftRankCurTopHttpResp response = new GiftRankCurTopHttpResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}
+
+	/**
+	 * 上周礼物周星榜请求
+	 * @param id
+	 * @param listener
+	 * @return obj = GiftRankPreTopHttpResp
+	 */
+	public static void giftRankPreTop(int id, MPHttpClientRespListener listener){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		GiftRankPreTopHttpReq request = new GiftRankPreTopHttpReq();
+		GiftRankPreTopHttpResp response = new GiftRankPreTopHttpResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}		
+
+
+	/**
+	 * 上周礼物周星请求（视频框上展示）
+	 * @param id
+	 * @param listener
+	 * @param skyId 当前主播的SKYID
+	 * @return obj = GiftRankPreShowerTopHttpResp
+	 */
+	public static void giftRankPreShowerTop(int id, MPHttpClientRespListener listener, int skyId){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		GiftRankPreShowerTopHttpReq request = new GiftRankPreShowerTopHttpReq(skyId);
+		GiftRankPreShowerTopHttpResp response = new GiftRankPreShowerTopHttpResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}	
+
+	/**
+	 * 本周活动礼物排行请求
+	 * @param id
+	 * @param listener
+	 * @param num 获取列表中的个数
+	 * @param skyId 当前主播的SKYID
+	 * @return obj = GiftRankShowerWeekTopHttpResp
+	 */
+	public static void giftRankShowerWeekTop(int id, MPHttpClientRespListener listener, int num, int showerSkyId){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		GiftRankShowerWeekTopHttpReq request = new GiftRankShowerWeekTopHttpReq(num, showerSkyId);
+		GiftRankShowerWeekTopHttpResp response = new GiftRankShowerWeekTopHttpResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}	
+
+	/**
+	 * 本周礼物排行请求
+	 * @param id
+	 * @param listener
+	 * @param num 获取列表中的个数
+	 * @param skyId 主播的SKYID
+	 * @return obj = GiftRankShowerTopHttpResp
+	 */
+	public static void giftRankShowerTop(int id, MPHttpClientRespListener listener, int num, int showerSkyId){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		GiftRankShowerTopHttpReq request = new GiftRankShowerTopHttpReq(num,showerSkyId);
+		GiftRankShowerTopHttpResp response = new GiftRankShowerTopHttpResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}
+
+	/**
+	 * 获取活动广告     
+	 * @param id
+	 * @param listener
+	 * @return obj = ResourceGetPhoneBannerHttpResp
+	 */
+	public static void resourceGetPhoneBanner(int id,MPHttpClientRespListener listener){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		ResourceGetPhoneBannerHttpReq request = new ResourceGetPhoneBannerHttpReq();
+		ResourceGetPhoneBannerHttpResp response = new ResourceGetPhoneBannerHttpResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}
+	
+	/**
+	 * 获取推送消息 
+	 * @param id
+	 * @param listener
+	 * @return obj = ResourceGetPhoneBannerHttpResp
+	 */
+	public static void resourceGetPushMsg(int id,MPHttpClientRespListener listener,int oldMsgId){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		ResourceGetPushMsgHttpReq request = new ResourceGetPushMsgHttpReq(oldMsgId);
+		ResourceGetPushMsgHttpResp response = new ResourceGetPushMsgHttpResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}
+
+	/**
+	 * 获取主播默认歌单     
+	 * @param id
+	 * @param listener
+	 * @param skyId 当前主播的SKYID
+	 * @return obj = OrderSongGetSongListHttpResp
+	 */
+	public static void OrderSongGetSongList(int id, 
+			MPHttpClientRespListener listener, 
+			int showerSkyId){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		OrderSongGetSongListHttpReq request = new OrderSongGetSongListHttpReq(showerSkyId);
+		OrderSongGetSongListHttpResp response = new OrderSongGetSongListHttpResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}
+	
+	/**
+	 * 获取点歌价格
+	 * @param id
+	 * @param listener
+	 * @param skyId 当前主播的skyId
+	 * @param roomId 当前主播的roomId
+	 * @return obj = OrderSongGetSongPriceHttpResp
+	 */
+	public static void OerderSongGetSongPrice(int id, 
+			MPHttpClientRespListener listener, 
+			int skyId,
+			int roomId){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		OrderSongGetSongPriceHttpReq request = new OrderSongGetSongPriceHttpReq(
+				skyId,roomId);
+		OrderSongGetSongPriceHttpResp response = new OrderSongGetSongPriceHttpResp();
+		OrderSongGetSongPriceHttpResp.setRoomId(roomId);
+		hM.doRequest(listener, id, request, response);
+	}
+	
+	/**
+	 * 乐币冻结
+	 * @param id
+	 * @param listener
+	 * @param skyId 当前登录的SKYID
+	 * @param session_id 会话ID
+	 * @param game_id 游戏ID:0保留，1点歌，2连麦
+	 * @param gold 金币个数
+	 * @param room_id 房间ID
+	 * @return obj = ShopFreezeHttpResp
+	 */
+
+
+	public static void ShopFreezen(int id, 
+			MPHttpClientRespListener listener, 
+			int skyid,
+			String session_id,
+			int game_id,
+			int gold,
+			int room_id){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		ShopFreezeHttpReq request = new ShopFreezeHttpReq(
+				skyid,session_id,game_id,gold,room_id);
+		ShopFreezeHttpResp response = new ShopFreezeHttpResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}
+	
+	/**
+	 * 乐币解冻 
+	 * @param id
+	 * @param listener
+	 * @param skyId 当前登录的SKYID
+	 * @param session_id 会话ID
+	 * @param game_id 游戏ID:0保留，1点歌，2连麦
+	 * @param gold 金币个数
+	 * @param room_id 房间ID
+	 * @return obj = ShopUnfreezeHttpResp
+	 */
+	public static void ShopUnfreezen(int id, 
+			MPHttpClientRespListener listener, 
+			int skyid,
+			String session_id,
+			int game_id,
+			int gold,
+			int room_id){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		ShopUnfreezeHttpReq request = new ShopUnfreezeHttpReq(
+				skyid,session_id,game_id,gold,room_id);
+		ShopUnfreezeHttpResp response = new ShopUnfreezeHttpResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}
+
+	/**
+	 * 乐豆换乐币
+	 * @param id
+	 * @param listener
+	 * @param skyId 当前登录的SKYID
+	 * @param bean_count 乐豆数量
+	 * @return obj = ShopExchangeHttpResp
+	 */
+	public static void ShopExchange(int id, 
+			MPHttpClientRespListener listener, 
+			int skyid,
+			int bean_count){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		ShopExchangeHttpReq request = new ShopExchangeHttpReq(
+				skyid, bean_count);
+		ShopExchangeHttpResp response = new ShopExchangeHttpResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}
+	
+	/**
+	 * 查询充值历史
+	 * @param id
+	 * @param listener
+	 * @param skyId 当前登录的SKYID
+	 * @return obj = ShopQueryRechargeLogHttpResp
+	 */
+	public static void ShopQueryRechargeLog(int id, 
+			MPHttpClientRespListener listener, 
+			int skyId, 
+			String start_time,
+			String end_time,
+			String user_point){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		ShopQueryRechargeLogHttpReq request = new ShopQueryRechargeLogHttpReq(
+				skyId, start_time, end_time, user_point);
+		ShopQueryRechargeLogHttpResp response = new ShopQueryRechargeLogHttpResp();
+		ShopQueryRechargeLogHttpResp.putRequestSkyId(skyId);
+		hM.doRequest(listener, id, request, response);
+	}
+	
+	/**
+	 * 查询投票记录
+	 * @param id
+	 * @param listener
+	 * @param roomId 
+	 */
+	public static void ShopQueryRoomVote(int id, 
+			MPHttpClientRespListener listener, 
+			int roomid){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		ShopQueryRoomVoteHttpReq request = new ShopQueryRoomVoteHttpReq(roomid);
+		ShopQueryRoomVoteHttpResp response = new ShopQueryRoomVoteHttpResp();
+		response.setRoomId(roomid);
+		
+		hM.doRequest(listener, id, request, response);
+	}
+	/**
+	 * 查询兑换历史
+	 * @param id
+	 * @param listener
+	 * @param skyId 当前登录的SKYID
+	 * @return obj = ShopQueryRechargeLogHttpResp
+	 */
+	public static void ShopQueryExchangeLog(int id, 
+			MPHttpClientRespListener listener, 
+			int skyId, 
+			String start_time,
+			String end_time){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		ShopQueryExchangeLogHttpReq request = new ShopQueryExchangeLogHttpReq(
+				skyId, start_time, end_time);
+		ShopQueryExchangeLogHttpResp response = new ShopQueryExchangeLogHttpResp();
+		ShopQueryExchangeLogHttpResp.putRequestSkyId(skyId);
+		hM.doRequest(listener, id, request, response);
+	}	
+	
+
+	/**
+	 * 试图获取奖励
+	 * @param id
+	 * @param listener
+	 * @param skyId 当前登录的SKYID
+	 * @param bean_count 乐豆数量
+	 * @return obj = RewardBehaviourRewardHttpResp
+	 */
+	public static void RewardBehaviourReward(int id, 
+			MPHttpClientRespListener listener, 
+			String receiveId,
+			String behaviour){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		RewardBehaviourRewardHttpReq request = new RewardBehaviourRewardHttpReq(
+				receiveId, behaviour);
+		RewardBehaviourRewardHttpResp response = new RewardBehaviourRewardHttpResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}
+	
+	/**
+	 * 获取所有奖励配置
+	 * @param id
+	 * @param listener
+	 * @param skyId 当前登录的SKYID
+	 * @return obj = RewardlistRewardConfigHttpResp
+	 */
+	public static void RewardlistRewardConfig(int id, 
+			MPHttpClientRespListener listener, 
+			int skyId, 
+			String imei){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		RewardlistRewardConfigHttpReq request = new RewardlistRewardConfigHttpReq(
+				skyId, imei);
+		RewardListRewardConfigHttpResp response = new RewardListRewardConfigHttpResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}
+	
+	/**
+	 * 用户上传手机号码
+	 * @param id
+	 * @param listener
+	 * @param phoneNumber
+	 * @return obj = MarketRecordUserPhoneNumberHttpResp
+	 */
+	public static void MarketRecordUserPhoneNumber(int id, 
+			MPHttpClientRespListener listener,
+			int usage,
+			String phoneNumber){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		MarketRecordUserPhoneNumberHttpReq request = new MarketRecordUserPhoneNumberHttpReq(
+			usage,phoneNumber);
+		MarketRecordUserPhoneNumberHttpResp response = new MarketRecordUserPhoneNumberHttpResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}
+	
+	/**
+	 * 修改房间正方形封面
+	 * @param id
+	 * @param listener
+	 * @param roomId
+	 * @param picSrcFile
+	 * @return obj = CenterUploadRoomSquarePicHttpResp
+	 */
+	public static void CenterUploadRoomSquarePic(int id, 
+			MPHttpClientRespListener listener, 
+			int roomId, 
+			String picSrcFile){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		CenterUploadRoomSquarePicHttpReq request = new CenterUploadRoomSquarePicHttpReq(
+				roomId, picSrcFile);
+		CenterUploadRoomSquarePicHttpResp response = new CenterUploadRoomSquarePicHttpResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}	
+	/**
+	 * 消费记录
+	 * @param id
+	 * @param listener
+	 * @param skyId 当前登录的SKYID
+	 * @param bean_count 乐豆数量
+	 * @return obj = QueryGiftPropUsingLogHttpResp
+	 */
+	public static void QueryGiftPropUsingLog(int id, 
+			MPHttpClientRespListener listener, 
+			int skyId, 
+			String start_time,
+			String end_time){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		QueryGiftPropUsingLogHttpReq request = new QueryGiftPropUsingLogHttpReq(
+				skyId, start_time, end_time);
+		QueryGiftPropUsingLogHttpResp response = new QueryGiftPropUsingLogHttpResp();
+		QueryGiftPropUsingLogHttpResp.putRequestSkyId(skyId);
+		
+		hM.doRequest(listener, id, request, response);
+	}	
+	
+	/**
+	 * 删除我关注的（我的收藏）房间
+	 * @param id
+	 * @param listener
+	 * @param skyId 当前登录的SKYID
+	 * @return obj = FavRoomDelHttpResp
+	 */
+	public static void delFavoriteRoomList(int id, MPHttpClientRespListener listener, int skyId, int roomId){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		FavRoomDelHttpReq request = new FavRoomDelHttpReq(skyId, roomId);
+		FavRoomDelHttpResp response = new FavRoomDelHttpResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}
+	
+	/**
+	 * 获取聊天室房间的地址信息
+	 * @param id
+	 * @param listener
+	 * @param skyId 当前登录的SKYID
+	 * @return obj = RoomAddressResp
+	 */
+	public static void getRoomAddressInfo(int id, MPHttpClientRespListener listener, int skyId, int roomId){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		RoomAddressReq request = new RoomAddressReq(roomId, skyId);
+		RoomAddressResp response = new RoomAddressResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}
+	
+	/**
+	 * 获取聊天室房间的详细信息
+	 * @param id
+	 * @param listener
+	 * @param roomId 查询的房间ID
+	 * @return obj = RoomDetailResp
+	 */
+	public static void getRoomDetail(int id, MPHttpClientRespListener listener, int roomId){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		RoomDetailReq request = new RoomDetailReq(roomId);
+		RoomDetailResp response = new RoomDetailResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}
+	
+	/**
+	 * 修改用户密码
+	 * @param id
+	 * @param listener
+	 * @param skyId 当前登录的SKYID
+	 * @return obj = ModifyPasswordHttpResp
+	 */
+	public static void modifyPassword(int id, MPHttpClientRespListener listener, 
+			int skyId, String oldPwd, String newPwd){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		ModifyPasswordHttpReq request = new ModifyPasswordHttpReq(skyId);
+		ModifyPasswordHttpResp response = new ModifyPasswordHttpResp();
+		
+		request.setNewPassword(newPwd);
+		request.setOldPwd(oldPwd);
+		
+		hM.doRequest(listener, id, request, response);
+	}
+	
+	/**
+	 * 检测用户昵称是否有效
+	 * @param id
+	 * @param listener
+	 * @param skyId 当前登录的SKYID
+	 * @return obj = CheckNicknameHttpResp
+	 */
+	public static void checkNickNameValid(int id, MPHttpClientRespListener listener, 
+			int skyId, String nickName){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		CheckNicknameHttpReq request = new CheckNicknameHttpReq(skyId, nickName);
+		CheckNicknameHttpResp response = new CheckNicknameHttpResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}
+	
+	public static void modifyNickName(int id, MPHttpClientRespListener listener, 
+			int skyId, String nickName){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		ModifyNickNameReq request = new ModifyNickNameReq(skyId, nickName);
+		ModifyNickNameResp response = new ModifyNickNameResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}
+	
+	/**
+	 * 服务器生成随机的用户昵称
+	 * @param id
+	 * @param listener
+	 * @return obj = CheckNicknameHttpResp
+	 */
+	public static void getRandomNickName(int id, MPHttpClientRespListener listener){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());	
+		GetRandomNickNameReq request = new GetRandomNickNameReq();
+		GetRandomNickNameResp response = new GetRandomNickNameResp();
+		
+		hM.doRequest(listener, id, request, response); 
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 * @param listener
+	 * @return obj = GetRegFeeReq
+	 */
+	public static void getAppSet(int id, MPHttpClientRespListener listener){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());	
+		GetAppSetReq request = new GetAppSetReq();
+		GetAppSetResq response = new GetAppSetResq();
+		
+		hM.doRequest(listener, id, request, response); 
+	}
+	
+	/**
+	 * 修改用户资料
+	 * @param id
+	 * @param listener
+	 * @param skyId 当前登录的SKYID
+	 * @return obj = ModifyUserInfoHttpResp
+	 */
+	public static void modifyUserInfo(int id, MPHttpClientRespListener listener, 
+			ModifyUserInfo userInfo){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		ModifyUserInfoHttpReq request = new ModifyUserInfoHttpReq(userInfo);
+		ModifyUserInfoHttpResp response = new ModifyUserInfoHttpResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}
+	
+	/**
+	 * 修改用户头像--默认的头像
+	 * @param id
+	 * @param listener
+	 * @param skyId 当前登录的SKYID
+	 * @return obj = ModifyHeaderPicHttpResp
+	 */
+	public static void modifyHeaderPicForDefault(int id, MPHttpClientRespListener listener, 
+			int skyId, String defaultHeaderName){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		ModifyHeaderPicDefaultHttpReq request = new ModifyHeaderPicDefaultHttpReq(skyId);
+		ModifyHeaderPicHttpResp response = new ModifyHeaderPicHttpResp();
+		
+		request.setNickName(defaultHeaderName);
+		hM.doRequest(listener, id, request, response);
+	}
+	
+	/**
+	 * 得到用户默认头像列表
+	 * @param id
+	 * @param listener
+	 * @return obj = HeaderPicListHttpResp
+	 */
+	public static void getHeaderPictureList(int id, MPHttpClientRespListener listener){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		HeaderPicListHttpReq request = new HeaderPicListHttpReq();
+		HeaderPicListHttpResp response = new HeaderPicListHttpResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}
+	
+	/**
+	 * 上传用户自定义头像
+	 * @param id
+	 * @param listener
+	 * @return obj = UploadHeaderPicHttpResp
+	 */
+	public static void uploadHeaderPicture(int id, MPHttpClientRespListener listener,
+			int skyId, String imgType, File mImgFile){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		UploadHeaderPicHttpReq request = new UploadHeaderPicHttpReq(skyId, imgType, mImgFile);
+		UploadHeaderPicHttpResp response = new UploadHeaderPicHttpResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}
+	
+	/**
+	 * 用户自定义头像后设置图片的裁剪区域设置
+	 * @param id
+	 * @param listener
+	 * @return obj = UploadHeaderPicResizerResp
+	 */
+	public static void resizeUploadHeaderPicture(int id, MPHttpClientRespListener listener,
+			int skyId, int x1, int y1, int x2, int y2, int width, int Height){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		UploadHeaderPicResizerReq request = new UploadHeaderPicResizerReq(skyId);
+		UploadHeaderPicResizerResp response = new UploadHeaderPicResizerResp();
+		
+		request.setImageSize(width, Height);
+		request.setImageClip(x1, y1, x2, y2);
+		
+		hM.doRequest(listener, id, request, response); 
+	}
+	
+	/**
+	 * 获取用户对房间的权限
+	 * @param id
+	 * @param listener
+	 * @return obj = UserPermissionResp
+	 */
+	public static void getRoomPermissions(int id, MPHttpClientRespListener listener, int skyId){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		UserPermissionReq request = new UserPermissionReq(skyId);
+		UserPermissionResp response = new UserPermissionResp();
+		
+		hM.doRequest(listener, id, request, response); 
+	}
+	
+	/**
+	 * 获取账户余额
+	 * @param id
+	 * @param listener
+	 * @return obj = GiftistHttpResp
+	 */
+	public static void getBalance(int id, MPHttpClientRespListener listener, int skyId){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		UserBalanceInfoReq request = new UserBalanceInfoReq(skyId);
+		UserBalanceInfoResq response = new UserBalanceInfoResq();
+		
+		hM.doRequest(listener, id, request, response);
+	}
+	
+	/**
+	 * 获取礼物列表
+	 * @param id
+	 * @param listener
+	 * @return obj = GiftistHttpResp
+	 */
+	public static void getGiftList(int id, MPHttpClientRespListener listener){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		GiftListHttpReq request = new GiftListHttpReq();
+		GiftListHttpResp response = new GiftListHttpResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}
+
+	/**
+	 * 礼物查询栏目
+	 * @param id
+	 * @param listener
+	 * @return obj = GiftQueryGiftMenuHttpResp
+	 */
+	public static void queryGiftMenu(int id, MPHttpClientRespListener listener){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		GiftQueryGiftMenuHttpReq request = new GiftQueryGiftMenuHttpReq();
+		GiftQueryGiftMenuHttpResp response = new GiftQueryGiftMenuHttpResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}
+	
+	/**
+	 * 送礼物
+	 * @param id
+	 * @param listener
+	 * @return obj = GiftSendHttpResp
+	 */
+	public static void sendGift(int id, GiftSendItem item, MPHttpClientRespListener listener){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		GiftSendHttpReq request = new GiftSendHttpReq(item);
+		GiftSendHttpResp response = new GiftSendHttpResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}
+	
+	/**
+	 * 获取掌声
+	 * @param id
+	 * @param listener
+	 * @return obj = GiftSendHttpResp
+	 */
+	public static void getHands(int id, int skyid, MPHttpClientRespListener listener){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		HandsNumHttpReq request = new HandsNumHttpReq(skyid);
+		HandsNumHttpResp response = new HandsNumHttpResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}
+	
+	
+	/**
+	 * 送掌声
+	 * @param id
+	 * @param listener
+	 * @return obj = GiftSendHttpResp
+	 */
+	public static void sendHands(int id, HandsSendItem item, MPHttpClientRespListener listener){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		HandsSendHttpReq request = new HandsSendHttpReq(item);
+		HandsSendHttpResp response = new HandsSendHttpResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}
+		
+		
+	/**
+	 * 获取Room的Media服务器信息
+	 * @param id
+	 * @param listener
+	 * @return obj = RoomMediaAddressResp
+	 */
+	public static void getRoomMediaAddress(int id, MPHttpClientRespListener listener,
+			int skyId, int roomId){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		RoomMediaAddressReq request = new RoomMediaAddressReq(skyId, roomId);
+		RoomMediaAddressResp response = new RoomMediaAddressResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}
+	
+	public static void qqLand(int id, MPHttpClientRespListener listener,
+			String openId,String nickName){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		QQLandHttpReq request = new QQLandHttpReq(openId,nickName);
+		QQLandHttpResp response = new QQLandHttpResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}
+	
+	/**
+	 * 获取礼包
+	 * @param id
+	 * @param listener
+	 * @return obj = QueryInventoryResp
+	 */
+	public static void searchGiftBag(int id, MPHttpClientRespListener listener,
+			int skyId, int roomId){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		QueryInventoryReq request = new QueryInventoryReq(skyId, roomId);
+		QueryInventoryResp response = new QueryInventoryResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}
+	
+	/**
+	 * 解礼包
+	 * @param id
+	 * @param listener
+	 * @return obj = QueryInventoryResp
+	 */
+	public static void decGiftBag(int id, MPHttpClientRespListener listener,
+			int skyId, String bagOrder){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		GiftBagDecReq request = new GiftBagDecReq(skyId, bagOrder);
+		GiftBagDecResp response = new GiftBagDecResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}
+	
+	/**
+	 * 使用礼包中的礼物
+	 * @param id
+	 * @param listener
+	 * @return obj = QueryInventoryResp
+	 */
+	public static void sendGiftStore(int id, MPHttpClientRespListener listener,
+			InventoryGiftSendItem item){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		InventoryGiftSendReq request = new InventoryGiftSendReq(item);
+		InventoryGiftSendResp response = new InventoryGiftSendResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}
+	
+	//get order num of pay
+	public static void getOrderInfo(int id, MPHttpClientRespListener listener,
+			OrderItem item){
+		if (Config.isUseKeyWords) {
+			getKeyOrderInfo( id,  listener,
+					 item);
+		}else{
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		ChargeOrderHttpReq request = new ChargeOrderHttpReq(item);
+		ChargeOrderHttpResp response = new ChargeOrderHttpResp();
+		
+
+		hM.doRequest(listener, id, request, response);
+		}
+
+	}
+	
+	public static void quickReg(int id, MPHttpClientRespListener listener,
+			String nickname){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		RegisterQuickReq request = new RegisterQuickReq(nickname);
+		RegisterQuickResp response = new RegisterQuickResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}
+	
+	
+	public static void qureyPay(int id, MPHttpClientRespListener listener,int skyid,
+			String paypoint){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		ChargeQueryReq request = new ChargeQueryReq(skyid, paypoint);
+		ChargeQueryResp response = new ChargeQueryResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}
+	
+	public static void setupFinish(int id, MPHttpClientRespListener listener,DownFinishItem item){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		AppDownFinishHttpReq request = new AppDownFinishHttpReq(item);
+		AppDownFinishHttpResp response = new AppDownFinishHttpResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}
+	
+	public static void shopVote(int id, MPHttpClientRespListener listener,Object item){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		ShopVoteHttpReq request = new ShopVoteHttpReq((VoteItem)item);
+		ShopVoteHttpResp response = new ShopVoteHttpResp();
+		response.setRoomId(((VoteItem)item).room_id);
+		hM.doRequest(listener, id, request, response);
+	}
+	
+	public static void shopSendGiftFree(int id, MPHttpClientRespListener listener,Object item){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		ShopSendGiftFreeHttpReq request = new ShopSendGiftFreeHttpReq((SendGiftFreeItem)item);
+		ShopSendGiftFreeHttpResp response = new ShopSendGiftFreeHttpResp();
+		hM.doRequest(listener, id, request, response);
+	}
+	
+	public static void bindEmail(int id, MPHttpClientRespListener listener,int skyid, String email){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		BindPwdReq request = new BindPwdReq(skyid,email);
+		BindPwdResp response = new BindPwdResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}
+	
+	public static void findPwd(int id, MPHttpClientRespListener listener, String email){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		FindPwdReq request = new FindPwdReq(email);
+		FindPwdResp response = new FindPwdResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}
+	
+	public static void getBindEmail(int id, MPHttpClientRespListener listener, int skyid){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		GetBindEmailReq request = new GetBindEmailReq(skyid);
+		GetBindEmailResp response = new GetBindEmailResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}
+	
+	public static void getVipRoom(int id, MPHttpClientRespListener listener){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		RoomVipListReq request = new RoomVipListReq();
+		RoomVipListResp response = new RoomVipListResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}
+	
+	public static void getPopResRoomList(int id, int num, MPHttpClientRespListener listener){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		ResourceRoomHttpReq request = new ResourceRoomHttpReq(num);
+		RoomListHttpResp response = new RoomListHttpResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}
+	
+	public static void getVipResRoomList(int id, MPHttpClientRespListener listener){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		ResourceRoomVipHttpReq request = new ResourceRoomVipHttpReq();
+		RoomVipListResp response = new RoomVipListResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}
+	
+	public static void getYishiResRoomList(int id, MPHttpClientRespListener listener){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		RoomYishiListReq request = new RoomYishiListReq();
+		RoomYishiListResp response = new RoomYishiListResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}
+
+	public static void getRoomUnlockConfig(int id, MPHttpClientRespListener listener, int roomId){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		RoomUnlockConfigReq request = new RoomUnlockConfigReq(roomId);
+		RoomUnlockConfigResp response = new RoomUnlockConfigResp();
+		response.setRoomId(roomId);
+		
+		hM.doRequest(listener, id, request, response);
+	}
+
+	//Allan add 20130726 send point
+	public static void sendPoint(int id,MPHttpClientRespListener listener,DataPointInfo info)
+	{
+		if (Config.isUseKeyWords) {
+			sendKeyPoint(id, listener, info);
+		} else {
+			MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+			DataPointHttpReq request = new DataPointHttpReq(info);
+			DataPointHttpResp response = new DataPointHttpResp();
+			
+			hM.doRequest(listener, id, request, response);
+		}
+	}	
+
+	public static void getResSet(int id, MPHttpClientRespListener listener){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		ResSetReq request = new ResSetReq();
+		ResSetResp response = new ResSetResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}
+	//Allan 20130805
+	public static void getPushSwitchInfo(int id, MPHttpClientRespListener listener)
+	{
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		GetPushSwitchInfoReq request = new GetPushSwitchInfoReq();
+		GetPushSwitchInfoResp response = new GetPushSwitchInfoResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}
+	
+	public static void sendActivieLog(int id, MPHttpClientRespListener listener, ActiveItem item)
+	{
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		ActiveLogReq request = new ActiveLogReq(item);
+		ActiveLogResp response = new ActiveLogResp();
+		response.setClickId(item.clickId);
+		
+		hM.doRequest(listener, id, request, response);
+	}
+	
+	
+	public static void modifyUserPropManualSwitch(int id, 
+			MPHttpClientRespListener listener, 
+			UserPropManualSwitchInfo info)
+	{
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		ModifyUserPropManualSwitchHttpReq request = new ModifyUserPropManualSwitchHttpReq(info);
+		ModifyUserPropManualSwitchHttpResp response = new ModifyUserPropManualSwitchHttpResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}
+	
+	public static void unzipPackage(int id, MPHttpClientRespListener listener, UnzipPackageInfo info)
+	{
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		UnzipPackageReq request = new UnzipPackageReq(info);
+		UnzipPackageResp response = new UnzipPackageResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}
+	
+	public static void propsGroupShop(int id, MPHttpClientRespListener listener)
+	{
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		PropsGroupShopHttpReq request = new PropsGroupShopHttpReq();
+		PropsGroupShopHttpResp response = new PropsGroupShopHttpResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}
+	
+	public static void getUserPropsGroup(int id, MPHttpClientRespListener listener, int skyId)
+	{
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		GetUserPropsGroupHttpReq request = new GetUserPropsGroupHttpReq(skyId);
+		GetUserPropsGroupHttpResp response = new GetUserPropsGroupHttpResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}
+	
+	public static void bugProp(int id, MPHttpClientRespListener listener, BuyPropInfo info)
+	{
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		ShopBuyPropReq request = new ShopBuyPropReq(info);
+		ShopBuyPropResp response = new ShopBuyPropResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}
+	
+	public static void getPayChannelConfig(int id, MPHttpClientRespListener listener,
+			PayConfigReq item){
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		PayChannelHttpReq request = new PayChannelHttpReq(item);
+		PayChannelHttpResp response = new PayChannelHttpResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}
+	//get order num of pay
+	public static void getKeyOrderInfo(int id, MPHttpClientRespListener listener,
+			OrderItem item){
+		//BaseLog.d("getKeyString", "getKeyOrderInfo");
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		ChargeOrderPassHttpReq request = new ChargeOrderPassHttpReq(item);
+		ChargeOrderPassHttpResp response = new ChargeOrderPassHttpResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}
+	public static void sendKeyPoint(int id,MPHttpClientRespListener listener,DataPointInfo info)
+	{
+		//BaseLog.d("getKeyString", "sendKeyPoint");
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		DataPointKeyHttpReq request = new DataPointKeyHttpReq(info);
+		DataPointKeyHttpResp response = new DataPointKeyHttpResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}
+	
+	//Allan 20131017
+	public static void queryIntegralInfo(int id,MPHttpClientRespListener listener, int skyid)
+	{
+		queryKeyIntegralInfo(id, listener, skyid);
+	}
+	
+	public static void sendAddIntegralInfo(int id,MPHttpClientRespListener listener, IntegralInfo info)
+	{
+		sendKeyAddIntegralInfo(id, listener, info);
+	}
+	
+	public static void sendDeductIntegralInfo(int id,MPHttpClientRespListener listener, IntegralInfo info)
+	{
+		sendKeyDeductIntegralInfo(id, listener, info);
+	}
+	
+	public static void queryKeyIntegralInfo(int id,MPHttpClientRespListener listener, int skyid)
+	{
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		QueryKeyIntegralHttpReq request = new QueryKeyIntegralHttpReq(skyid);
+		QueryKeyIntegralHttpResp response = new QueryKeyIntegralHttpResp();
+		hM.doRequest(listener, id, request, response);
+	}
+	
+	public static void sendKeyAddIntegralInfo(int id,MPHttpClientRespListener listener, IntegralInfo info)
+	{
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		AddKeyIntegralHttpReq request = new AddKeyIntegralHttpReq(info);
+		AddKeyIntegralHttpResp response = new AddKeyIntegralHttpResp();
+		hM.doRequest(listener, id, request, response);
+	}
+	
+	public static void sendKeyDeductIntegralInfo(int id,MPHttpClientRespListener listener, IntegralInfo info)
+	{
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		DeductKeyIntegralHttpReq request = new DeductKeyIntegralHttpReq(info);
+		DeductKeyIntegralHttpResp response = new DeductKeyIntegralHttpResp();
+		hM.doRequest(listener, id, request, response);
+	}
+	
+	public static void loginImsi(int id, MPHttpClientRespListener listener, String imsi)
+	{
+		MPHttpClientManager hM = MPHttpClientManager.getInstance(ApplicationNetworkUtils.getAppCtx());
+		//ImsiLoginHttpReq request = new ImsiLoginHttpReq(imsi);
+		ImsiLoginHttpReqGet  request = new ImsiLoginHttpReqGet(imsi);
+		LoginHttpResp response = new LoginHttpResp();
+		
+		hM.doRequest(listener, id, request, response);
+	}
+}

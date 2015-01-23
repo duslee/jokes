@@ -1,0 +1,56 @@
+package com.taiku.network.httpclient;
+
+import com.taiku.network.httpclient.HttpRespCode;
+import com.taiku.network.httpclient.MPHttpClientData;
+
+import android.content.Context;
+
+public class HttpRespCodePaser extends HttpRespPaser{
+
+	public HttpRespCodePaser(Context context, MPHttpClientData mRespData,
+			int errId, int statusId) {
+		super(context, mRespData, errId, statusId);
+		// TODO Auto-generated constructor stub
+	}
+	
+	@Override
+	public boolean isRespondSuccess() {
+		// TODO Auto-generated method stub
+		boolean isSuccess = super.isRespondSuccess();
+		if (isSuccess) {
+			HttpRespCode lResp = (HttpRespCode)getmRespData();			
+			if (!lResp.isSuccess()){
+				isSuccess = false;
+				setStr(lResp.getErrMessage());
+			}
+		} 
+
+		return isSuccess;
+	}
+
+	@Override
+	public int getErrId() {
+		if (super.isRespondSuccess()) {
+			HttpRespCode lResp = (HttpRespCode)getmRespData();
+			return Integer.valueOf(lResp.getErrCode());
+		} else {
+			return super.getErrId();
+		}
+		
+	}
+	
+	
+	public int getErrCode(){
+		if (super.isRespondSuccess()) {
+			HttpRespCode lResp = (HttpRespCode)getmRespData();
+			String code = lResp.getErrCode();
+			if (null != code) {
+				return Integer.valueOf(code);
+			}	
+		}
+
+		return -1;
+		
+	}
+
+}

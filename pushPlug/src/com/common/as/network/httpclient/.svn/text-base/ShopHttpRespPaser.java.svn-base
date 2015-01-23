@@ -1,0 +1,48 @@
+package com.taiku.network.httpclient;
+
+
+import com.taiku.network.httpclient.MPHttpClientData;
+import com.taiku.network.httpclient.shop.DefaultShopHttpResp;
+
+import android.content.Context;
+
+public class ShopHttpRespPaser extends HttpRespPaser{
+
+	public ShopHttpRespPaser(Context context, MPHttpClientData mRespData,
+			int errId, int statusId) {
+		super(context, mRespData, errId, statusId);
+		// TODO Auto-generated constructor stub
+	}
+	
+
+	@Override
+	public boolean isRespondSuccess() {
+		// TODO Auto-generated method stub
+		boolean isSuccess = super.isRespondSuccess();
+		if (isSuccess) {
+			DefaultShopHttpResp lResp = (DefaultShopHttpResp)getmRespData();			
+			if (!lResp.isSuccess()){
+				isSuccess = false;
+				setStr(lResp.getErrMessage());
+			}
+		} 
+
+		return isSuccess;
+	}
+
+	@Override
+	public int getErrId() {
+		if (super.isRespondSuccess()) {
+			DefaultShopHttpResp lResp = (DefaultShopHttpResp)getmRespData();
+			return Integer.valueOf(lResp.getResult());
+		} else {
+			return super.getErrId();
+		}
+		
+	}
+	
+	
+	
+	
+
+}

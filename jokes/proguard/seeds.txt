@@ -1,0 +1,1189 @@
+android.os.FileUtils
+android.os.FileUtils: boolean getFileStatus(java.lang.String,android.os.FileUtils$FileStatus)
+android.os.FileUtils: int setPermissions(java.lang.String,int,int,int)
+android.os.FileUtils: int getPermissions(java.lang.String,int[])
+android.os.FileUtils: int getFatVolumeId(java.lang.String)
+android.support.annotation.AnimRes
+android.support.annotation.AnimatorRes
+android.support.annotation.AnyRes
+android.support.annotation.ArrayRes
+android.support.annotation.AttrRes
+android.support.annotation.BoolRes
+android.support.annotation.ColorRes
+android.support.annotation.DimenRes
+android.support.annotation.DrawableRes
+android.support.annotation.FractionRes
+android.support.annotation.IdRes
+android.support.annotation.IntDef
+android.support.annotation.IntDef: long[] value()
+android.support.annotation.IntDef: boolean flag()
+android.support.annotation.IntegerRes
+android.support.annotation.InterpolatorRes
+android.support.annotation.LayoutRes
+android.support.annotation.MenuRes
+android.support.annotation.NonNull
+android.support.annotation.Nullable
+android.support.annotation.PluralsRes
+android.support.annotation.RawRes
+android.support.annotation.StringDef
+android.support.annotation.StringDef: java.lang.String[] value()
+android.support.annotation.StringRes
+android.support.annotation.StyleRes
+android.support.annotation.StyleableRes
+android.support.annotation.XmlRes
+android.support.v4.app.BackStackState
+android.support.v4.app.BackStackState: android.os.Parcelable$Creator CREATOR
+android.support.v4.app.DialogFragment$DialogStyle
+android.support.v4.app.Fragment: void registerForContextMenu(android.view.View)
+android.support.v4.app.Fragment: void unregisterForContextMenu(android.view.View)
+android.support.v4.app.Fragment$InstantiationException
+android.support.v4.app.Fragment$SavedState
+android.support.v4.app.Fragment$SavedState: android.os.Parcelable$Creator CREATOR
+android.support.v4.app.FragmentActivity
+android.support.v4.app.FragmentActivity: FragmentActivity()
+android.support.v4.app.FragmentManagerState
+android.support.v4.app.FragmentManagerState: android.os.Parcelable$Creator CREATOR
+android.support.v4.app.FragmentState
+android.support.v4.app.FragmentState: android.os.Parcelable$Creator CREATOR
+android.support.v4.app.FragmentTabHost
+android.support.v4.app.FragmentTabHost: FragmentTabHost(android.content.Context,android.util.AttributeSet)
+android.support.v4.app.FragmentTabHost: void setOnTabChangedListener(android.widget.TabHost$OnTabChangeListener)
+android.support.v4.app.FragmentTabHost$SavedState
+android.support.v4.app.FragmentTabHost$SavedState: android.os.Parcelable$Creator CREATOR
+android.support.v4.app.FragmentTransaction$Transit
+android.support.v4.app.NotificationCompatSideChannelService
+android.support.v4.app.SuperNotCalledException
+android.support.v4.content.FileProvider
+android.support.v4.content.ModernAsyncTask$Status
+android.support.v4.content.ModernAsyncTask$Status: android.support.v4.content.ModernAsyncTask$Status[] values()
+android.support.v4.content.ModernAsyncTask$Status: android.support.v4.content.ModernAsyncTask$Status valueOf(java.lang.String)
+android.support.v4.content.WakefulBroadcastReceiver
+android.support.v4.media.MediaMetadataCompat
+android.support.v4.media.MediaMetadataCompat: android.os.Parcelable$Creator CREATOR
+android.support.v4.media.RatingCompat
+android.support.v4.media.RatingCompat: android.os.Parcelable$Creator CREATOR
+android.support.v4.media.session.MediaSessionCompat$Token
+android.support.v4.media.session.MediaSessionCompat$Token: android.os.Parcelable$Creator CREATOR
+android.support.v4.media.session.PlaybackStateCompat
+android.support.v4.media.session.PlaybackStateCompat: android.os.Parcelable$Creator CREATOR
+android.support.v4.view.PagerTabStrip
+android.support.v4.view.PagerTabStrip: PagerTabStrip(android.content.Context,android.util.AttributeSet)
+android.support.v4.view.PagerTabStrip: void setTabIndicatorColor(int)
+android.support.v4.view.PagerTabStrip: void setTabIndicatorColorResource(int)
+android.support.v4.view.PagerTabStrip: int getTabIndicatorColor()
+android.support.v4.view.PagerTabStrip: void setTextSpacing(int)
+android.support.v4.view.PagerTabStrip: void setBackgroundDrawable(android.graphics.drawable.Drawable)
+android.support.v4.view.PagerTabStrip: void setBackgroundColor(int)
+android.support.v4.view.PagerTabStrip: void setBackgroundResource(int)
+android.support.v4.view.PagerTabStrip: void setDrawFullUnderline(boolean)
+android.support.v4.view.PagerTabStrip: boolean getDrawFullUnderline()
+android.support.v4.view.PagerTabStrip: int getMinHeight()
+android.support.v4.view.PagerTitleStrip
+android.support.v4.view.PagerTitleStrip: void setSingleLineAllCaps(android.widget.TextView)
+android.support.v4.view.PagerTitleStrip: PagerTitleStrip(android.content.Context,android.util.AttributeSet)
+android.support.v4.view.PagerTitleStrip: void setTextSpacing(int)
+android.support.v4.view.PagerTitleStrip: int getTextSpacing()
+android.support.v4.view.PagerTitleStrip: void setNonPrimaryAlpha(float)
+android.support.v4.view.PagerTitleStrip: void setTextColor(int)
+android.support.v4.view.PagerTitleStrip: void setGravity(int)
+android.support.v4.view.PagerTitleStrip: int getMinHeight()
+android.support.v4.view.ViewCompat$AccessibilityLiveRegion
+android.support.v4.view.ViewCompat$ImportantForAccessibility
+android.support.v4.view.ViewCompat$LayerType
+android.support.v4.view.ViewCompat$LayoutDirectionMode
+android.support.v4.view.ViewCompat$OverScroll
+android.support.v4.view.ViewCompat$ResolvedLayoutDirectionMode
+android.support.v4.view.ViewPager
+android.support.v4.view.ViewPager: ViewPager(android.content.Context,android.util.AttributeSet)
+android.support.v4.view.ViewPager: void setScrollState(int)
+android.support.v4.view.ViewPager: void setAdapter(android.support.v4.view.PagerAdapter)
+android.support.v4.view.ViewPager: android.support.v4.view.PagerAdapter getAdapter()
+android.support.v4.view.ViewPager: void setOnAdapterChangeListener(android.support.v4.view.ViewPager$OnAdapterChangeListener)
+android.support.v4.view.ViewPager: int getClientWidth()
+android.support.v4.view.ViewPager: void setCurrentItem(int)
+android.support.v4.view.ViewPager: int getCurrentItem()
+android.support.v4.view.ViewPager: void setOnPageChangeListener(android.support.v4.view.ViewPager$OnPageChangeListener)
+android.support.v4.view.ViewPager: void setChildrenDrawingOrderEnabledCompat(boolean)
+android.support.v4.view.ViewPager: int getOffscreenPageLimit()
+android.support.v4.view.ViewPager: void setOffscreenPageLimit(int)
+android.support.v4.view.ViewPager: void setPageMargin(int)
+android.support.v4.view.ViewPager: int getPageMargin()
+android.support.v4.view.ViewPager: void setPageMarginDrawable(android.graphics.drawable.Drawable)
+android.support.v4.view.ViewPager: void setPageMarginDrawable(int)
+android.support.v4.view.ViewPager: void setScrollingCacheEnabled(boolean)
+android.support.v4.view.ViewPager$LayoutParams
+android.support.v4.view.ViewPager$LayoutParams: ViewPager$LayoutParams(android.content.Context,android.util.AttributeSet)
+android.support.v4.view.ViewPager$SavedState
+android.support.v4.view.ViewPager$SavedState: android.os.Parcelable$Creator CREATOR
+android.support.v4.widget.ContentLoadingProgressBar
+android.support.v4.widget.ContentLoadingProgressBar: ContentLoadingProgressBar(android.content.Context,android.util.AttributeSet)
+android.support.v4.widget.DrawerLayout
+android.support.v4.widget.DrawerLayout: DrawerLayout(android.content.Context,android.util.AttributeSet)
+android.support.v4.widget.DrawerLayout: DrawerLayout(android.content.Context,android.util.AttributeSet,int)
+android.support.v4.widget.DrawerLayout: void setScrimColor(int)
+android.support.v4.widget.DrawerLayout: void setDrawerListener(android.support.v4.widget.DrawerLayout$DrawerListener)
+android.support.v4.widget.DrawerLayout: void setDrawerLockMode(int)
+android.support.v4.widget.DrawerLayout: void setStatusBarBackground(android.graphics.drawable.Drawable)
+android.support.v4.widget.DrawerLayout: void setStatusBarBackground(int)
+android.support.v4.widget.DrawerLayout: void setStatusBarBackgroundColor(int)
+android.support.v4.widget.DrawerLayout$EdgeGravity
+android.support.v4.widget.DrawerLayout$LayoutParams
+android.support.v4.widget.DrawerLayout$LayoutParams: DrawerLayout$LayoutParams(android.content.Context,android.util.AttributeSet)
+android.support.v4.widget.DrawerLayout$LockMode
+android.support.v4.widget.DrawerLayout$SavedState
+android.support.v4.widget.DrawerLayout$SavedState: android.os.Parcelable$Creator CREATOR
+android.support.v4.widget.DrawerLayout$State
+android.support.v4.widget.MaterialProgressDrawable$ProgressDrawableSize
+android.support.v4.widget.SlidingPaneLayout
+android.support.v4.widget.SlidingPaneLayout: SlidingPaneLayout(android.content.Context,android.util.AttributeSet)
+android.support.v4.widget.SlidingPaneLayout: SlidingPaneLayout(android.content.Context,android.util.AttributeSet,int)
+android.support.v4.widget.SlidingPaneLayout: void setParallaxDistance(int)
+android.support.v4.widget.SlidingPaneLayout: int getParallaxDistance()
+android.support.v4.widget.SlidingPaneLayout: void setSliderFadeColor(int)
+android.support.v4.widget.SlidingPaneLayout: int getSliderFadeColor()
+android.support.v4.widget.SlidingPaneLayout: void setCoveredFadeColor(int)
+android.support.v4.widget.SlidingPaneLayout: int getCoveredFadeColor()
+android.support.v4.widget.SlidingPaneLayout: void setPanelSlideListener(android.support.v4.widget.SlidingPaneLayout$PanelSlideListener)
+android.support.v4.widget.SlidingPaneLayout: void setShadowDrawable(android.graphics.drawable.Drawable)
+android.support.v4.widget.SlidingPaneLayout: void setShadowDrawableLeft(android.graphics.drawable.Drawable)
+android.support.v4.widget.SlidingPaneLayout: void setShadowDrawableRight(android.graphics.drawable.Drawable)
+android.support.v4.widget.SlidingPaneLayout: void setShadowResource(int)
+android.support.v4.widget.SlidingPaneLayout: void setShadowResourceLeft(int)
+android.support.v4.widget.SlidingPaneLayout: void setShadowResourceRight(int)
+android.support.v4.widget.SlidingPaneLayout$LayoutParams
+android.support.v4.widget.SlidingPaneLayout$LayoutParams: SlidingPaneLayout$LayoutParams(android.content.Context,android.util.AttributeSet)
+android.support.v4.widget.SlidingPaneLayout$SavedState
+android.support.v4.widget.SlidingPaneLayout$SavedState: android.os.Parcelable$Creator CREATOR
+android.support.v4.widget.SwipeRefreshLayout
+android.support.v4.widget.SwipeRefreshLayout: void setColorViewAlpha(int)
+android.support.v4.widget.SwipeRefreshLayout: void setSize(int)
+android.support.v4.widget.SwipeRefreshLayout: SwipeRefreshLayout(android.content.Context,android.util.AttributeSet)
+android.support.v4.widget.SwipeRefreshLayout: void setOnRefreshListener(android.support.v4.widget.SwipeRefreshLayout$OnRefreshListener)
+android.support.v4.widget.SwipeRefreshLayout: void setRefreshing(boolean)
+android.support.v4.widget.SwipeRefreshLayout: void setAnimationProgress(float)
+android.support.v4.widget.SwipeRefreshLayout: void setProgressBackgroundColor(int)
+android.support.v4.widget.SwipeRefreshLayout: void setColorScheme(int[])
+android.support.v4.widget.SwipeRefreshLayout: void setColorSchemeResources(int[])
+android.support.v4.widget.SwipeRefreshLayout: void setColorSchemeColors(int[])
+android.support.v4.widget.SwipeRefreshLayout: void setDistanceToTriggerSync(int)
+com.alibaba.fastjson.JSONArray
+com.alibaba.fastjson.JSONException
+com.alibaba.fastjson.JSONObject
+com.alibaba.fastjson.JSONWriter$State
+com.alibaba.fastjson.JSONWriter$State: com.alibaba.fastjson.JSONWriter$State[] values()
+com.alibaba.fastjson.JSONWriter$State: com.alibaba.fastjson.JSONWriter$State valueOf(java.lang.String)
+com.alibaba.fastjson.annotation.JSONCreator
+com.alibaba.fastjson.annotation.JSONField
+com.alibaba.fastjson.annotation.JSONField: java.lang.String name()
+com.alibaba.fastjson.annotation.JSONField: java.lang.String format()
+com.alibaba.fastjson.annotation.JSONField: boolean serialize()
+com.alibaba.fastjson.annotation.JSONField: boolean deserialize()
+com.alibaba.fastjson.annotation.JSONField: com.alibaba.fastjson.serializer.SerializerFeature[] serialzeFeatures()
+com.alibaba.fastjson.annotation.JSONField: com.alibaba.fastjson.parser.Feature[] parseFeatures()
+com.alibaba.fastjson.annotation.JSONType
+com.alibaba.fastjson.annotation.JSONType: boolean asm()
+com.alibaba.fastjson.annotation.JSONType: java.lang.String[] orders()
+com.alibaba.fastjson.annotation.JSONType: java.lang.String[] ignores()
+com.alibaba.fastjson.annotation.JSONType: com.alibaba.fastjson.serializer.SerializerFeature[] serialzeFeatures()
+com.alibaba.fastjson.parser.Feature
+com.alibaba.fastjson.parser.Feature: com.alibaba.fastjson.parser.Feature[] values()
+com.alibaba.fastjson.parser.Feature: com.alibaba.fastjson.parser.Feature valueOf(java.lang.String)
+com.alibaba.fastjson.serializer.SerializerFeature
+com.alibaba.fastjson.serializer.SerializerFeature: com.alibaba.fastjson.serializer.SerializerFeature[] values()
+com.alibaba.fastjson.serializer.SerializerFeature: com.alibaba.fastjson.serializer.SerializerFeature valueOf(java.lang.String)
+com.charon.pulltorefreshlistview.LoadMoreGridView
+com.charon.pulltorefreshlistview.LoadMoreGridView: LoadMoreGridView(android.content.Context,android.util.AttributeSet,int)
+com.charon.pulltorefreshlistview.LoadMoreGridView: LoadMoreGridView(android.content.Context,android.util.AttributeSet)
+com.charon.pulltorefreshlistview.LoadMoreGridView: void setOnScrollListener(android.widget.AbsListView$OnScrollListener)
+com.charon.pulltorefreshlistview.LoadMoreGridView: void setOnLoadMoreListener(com.charon.pulltorefreshlistview.LoadMoreGridView$OnLoadMoreListener)
+com.charon.pulltorefreshlistview.LoadMoreListView
+com.charon.pulltorefreshlistview.LoadMoreListView: LoadMoreListView(android.content.Context,android.util.AttributeSet,int)
+com.charon.pulltorefreshlistview.LoadMoreListView: LoadMoreListView(android.content.Context,android.util.AttributeSet)
+com.charon.pulltorefreshlistview.LoadMoreListView: void setOnScrollListener(android.widget.AbsListView$OnScrollListener)
+com.charon.pulltorefreshlistview.LoadMoreListView: void setOnLoadMoreListener(com.charon.pulltorefreshlistview.LoadMoreListView$OnLoadMoreListener)
+com.charon.pulltorefreshlistview.PullRefreshAndLoadMoreListView
+com.charon.pulltorefreshlistview.PullRefreshAndLoadMoreListView: PullRefreshAndLoadMoreListView(android.content.Context,android.util.AttributeSet,int)
+com.charon.pulltorefreshlistview.PullRefreshAndLoadMoreListView: PullRefreshAndLoadMoreListView(android.content.Context,android.util.AttributeSet)
+com.charon.pulltorefreshlistview.PullRefreshAndLoadMoreListView: PullRefreshAndLoadMoreListView(android.content.Context)
+com.charon.pulltorefreshlistview.PullRefreshAndLoadMoreListView: void setOnScrollListener(android.widget.AbsListView$OnScrollListener)
+com.charon.pulltorefreshlistview.PullRefreshAndLoadMoreListView: void setOnLoadMoreListener(com.charon.pulltorefreshlistview.PullRefreshAndLoadMoreListView$OnLoadMoreListener)
+com.charon.pulltorefreshlistview.PullToRefreshListView
+com.charon.pulltorefreshlistview.PullToRefreshListView: PullToRefreshListView(android.content.Context,android.util.AttributeSet,int)
+com.charon.pulltorefreshlistview.PullToRefreshListView: PullToRefreshListView(android.content.Context,android.util.AttributeSet)
+com.charon.pulltorefreshlistview.PullToRefreshListView: PullToRefreshListView(android.content.Context)
+com.charon.pulltorefreshlistview.PullToRefreshListView: void setAdapter(android.widget.ListAdapter)
+com.charon.pulltorefreshlistview.PullToRefreshListView: void setOnScrollListener(android.widget.AbsListView$OnScrollListener)
+com.charon.pulltorefreshlistview.PullToRefreshListView: void setOnRefreshListener(com.charon.pulltorefreshlistview.PullToRefreshListView$OnRefreshListener)
+com.charon.pulltorefreshlistview.PullToRefreshListView$State
+com.charon.pulltorefreshlistview.PullToRefreshListView$State: com.charon.pulltorefreshlistview.PullToRefreshListView$State[] values()
+com.charon.pulltorefreshlistview.PullToRefreshListView$State: com.charon.pulltorefreshlistview.PullToRefreshListView$State valueOf(java.lang.String)
+com.common.activelog.util.StartTimesInfo
+com.common.as.activity.DlgActivity
+com.common.as.activity.DlgActivity: DlgActivity()
+com.common.as.activity.DlgActivity: void onClick(android.view.View)
+com.common.as.activity.ItemListActivity
+com.common.as.activity.ItemListActivity: ItemListActivity()
+com.common.as.activity.TPActivity
+com.common.as.activity.TPActivity: TPActivity()
+com.common.as.base.log.BaseLog
+com.common.as.base.log.BaseLog: int Log()
+com.common.as.network.httpclient.MPHttpClientImage$IMAGETYPE
+com.common.as.network.httpclient.MPHttpClientImage$IMAGETYPE: com.common.as.network.httpclient.MPHttpClientImage$IMAGETYPE[] values()
+com.common.as.network.httpclient.MPHttpClientImage$IMAGETYPE: com.common.as.network.httpclient.MPHttpClientImage$IMAGETYPE valueOf(java.lang.String)
+com.common.as.pushtype.PushInfo
+com.common.as.pushtype.PushUtil$PushType
+com.common.as.pushtype.PushUtil$PushType: com.common.as.pushtype.PushUtil$PushType[] values()
+com.common.as.pushtype.PushUtil$PushType: com.common.as.pushtype.PushUtil$PushType valueOf(java.lang.String)
+com.common.as.service.AppListBackService
+com.common.as.service.AppListBackService: AppListBackService()
+com.common.as.service.BackService
+com.common.as.service.BackService: BackService()
+com.common.as.service.CheckService
+com.common.as.service.CheckService: CheckService()
+com.common.as.service.ControlDialogBackService
+com.common.as.service.ControlDialogBackService: ControlDialogBackService()
+com.common.as.service.DialogBackService
+com.common.as.service.DialogBackService: DialogBackService()
+com.common.as.service.MainRunServer
+com.common.as.service.MainRunServer: MainRunServer()
+com.common.as.service.SystemReceiver
+com.common.as.service.SystemReceiver: SystemReceiver()
+com.common.as.store.MaxDownInfo
+com.common.as.store.PlugDownInfo
+com.common.as.store.StartTimesInfo
+com.common.as.store.YMInfoStore
+com.common.as.utils.Utils$SIM_TYPE
+com.common.as.utils.Utils$SIM_TYPE: com.common.as.utils.Utils$SIM_TYPE[] values()
+com.common.as.utils.Utils$SIM_TYPE: com.common.as.utils.Utils$SIM_TYPE valueOf(java.lang.String)
+com.common.as.view.AsyncImageView
+com.common.as.view.AsyncImageView: AsyncImageView(android.content.Context)
+com.common.as.view.AsyncImageView: AsyncImageView(android.content.Context,android.util.AttributeSet)
+com.common.as.view.AsyncImageView: void setPaused(boolean)
+com.common.as.view.AsyncImageView: void setInDensity(int)
+com.common.as.view.AsyncImageView: void setOptions(android.graphics.BitmapFactory$Options)
+com.common.as.view.AsyncImageView: void setOnImageViewLoadListener(com.common.as.view.AsyncImageView$OnImageViewLoadListener)
+com.common.as.view.AsyncImageView: void setUrl(java.lang.String)
+com.common.as.view.AsyncImageView: void setDefaultImageBitmap(android.graphics.Bitmap)
+com.common.as.view.AsyncImageView: void setDefaultImageDrawable(android.graphics.drawable.Drawable)
+com.common.as.view.AsyncImageView: void setDefaultImageResource(int)
+com.common.as.view.AsyncImageView: void setImageProcessor(com.common.as.image.ImageDecorator)
+com.common.as.view.AsyncImageView$SavedState
+com.common.as.view.AsyncImageView$SavedState: android.os.Parcelable$Creator CREATOR
+com.common.as.view.TableView
+com.common.as.view.TableView: void setIcBmp(android.graphics.Bitmap)
+com.common.as.view.TableView: void setmShowView(android.view.View)
+com.example.pushplug.MainActivity
+com.example.pushplug.MainActivity: void onClick(android.view.View)
+com.example.pushplug.MyApplication
+com.example.pushplug.R$drawable: int back
+com.example.pushplug.R$drawable: int back_p
+com.example.pushplug.R$drawable: int confirm
+com.example.pushplug.R$drawable: int confirm_bg
+com.example.pushplug.R$drawable: int default_icon
+com.example.pushplug.R$drawable: int dialog_bg
+com.example.pushplug.R$drawable: int down_button_short_1
+com.example.pushplug.R$drawable: int down_button_short_2
+com.example.pushplug.R$drawable: int down_dialog_cancel
+com.example.pushplug.R$drawable: int down_dialog_confirm
+com.example.pushplug.R$drawable: int down_dialog_x
+com.example.pushplug.R$drawable: int icon_small
+com.example.pushplug.R$drawable: int pay_bg_022
+com.example.pushplug.R$drawable: int pay_bg_111
+com.example.pushplug.R$drawable: int pay_bg_1_1
+com.example.pushplug.R$drawable: int push_back_btn
+com.example.pushplug.R$drawable: int push_list_down_btn_selector
+com.example.pushplug.R$drawable: int push_list_icon
+com.example.pushplug.R$drawable: int quit
+com.example.pushplug.R$id: int appIcon
+com.example.pushplug.R$id: int banner_iv
+com.example.pushplug.R$id: int bg_ll
+com.example.pushplug.R$id: int brief
+com.example.pushplug.R$id: int btn
+com.example.pushplug.R$id: int btnNo
+com.example.pushplug.R$id: int btnYes
+com.example.pushplug.R$id: int description
+com.example.pushplug.R$id: int dg_ll
+com.example.pushplug.R$id: int dg_title_iv
+com.example.pushplug.R$id: int dg_title_ll
+com.example.pushplug.R$id: int down_dialog_bg_ll
+com.example.pushplug.R$id: int down_dialog_girl
+com.example.pushplug.R$id: int girldlg
+com.example.pushplug.R$id: int icon
+com.example.pushplug.R$id: int leftBtn
+com.example.pushplug.R$id: int listView1
+com.example.pushplug.R$id: int list_top_title
+com.example.pushplug.R$id: int paused_text
+com.example.pushplug.R$id: int progress_text
+com.example.pushplug.R$id: int textBrief
+com.example.pushplug.R$id: int textTitle
+com.example.pushplug.R$id: int title
+com.example.pushplug.R$id: int topIcon
+com.example.pushplug.R$id: int tp_webView
+com.example.pushplug.R$id: int txtBrief
+com.example.pushplug.R$id: int txtContent
+com.example.pushplug.R$id: int txtContent_tt
+com.example.pushplug.R$id: int txtTitle
+com.example.pushplug.R$id: int txt_content
+com.example.pushplug.R$id: int video_ll
+com.example.pushplug.R$layout: int activity_itemlist
+com.example.pushplug.R$layout: int banner_dlg
+com.example.pushplug.R$layout: int common_dlg
+com.example.pushplug.R$layout: int ctrl_window
+com.example.pushplug.R$layout: int dlg_an_zhuang
+com.example.pushplug.R$layout: int down_common_dlg
+com.example.pushplug.R$layout: int down_common_dlg_other
+com.example.pushplug.R$layout: int list_down_item
+com.example.pushplug.R$layout: int progress_dlg
+com.example.pushplug.R$layout: int status_bar_ongoing_event_progress_bar
+com.example.pushplug.R$layout: int status_bar_startup
+com.example.pushplug.R$layout: int top_bar
+com.example.pushplug.R$layout: int tp_view
+com.example.pushplug.R$style: int DialogPrompt
+com.example.pushplug.R$style: int MyDialogStyle
+com.google.common.base.internal.Finalizer$ShutDown
+com.google.common.collect.CustomConcurrentHashMap$ComputingImpl
+com.google.common.collect.CustomConcurrentHashMap$Impl
+com.google.common.collect.CustomConcurrentHashMap$Impl$InternalsImpl
+com.google.common.collect.CustomConcurrentHashMap$Impl$Segment
+com.google.common.collect.MapMaker$StrategyImpl
+com.google.common.collect.MapMaker$Strength
+com.google.common.collect.MapMaker$Strength: com.google.common.collect.MapMaker$Strength[] values()
+com.google.common.collect.MapMaker$Strength: com.google.common.collect.MapMaker$Strength valueOf(java.lang.String)
+com.google.common.collect.MapMaker$Strength$1
+com.google.common.collect.MapMaker$Strength$2
+com.google.common.collect.MapMaker$Strength$3
+com.lidroid.xutils.bitmap.callback.BitmapLoadFrom
+com.lidroid.xutils.bitmap.callback.BitmapLoadFrom: com.lidroid.xutils.bitmap.callback.BitmapLoadFrom[] values()
+com.lidroid.xutils.bitmap.callback.BitmapLoadFrom: com.lidroid.xutils.bitmap.callback.BitmapLoadFrom valueOf(java.lang.String)
+com.lidroid.xutils.cache.KeyExpiryMap
+com.lidroid.xutils.db.annotation.Check
+com.lidroid.xutils.db.annotation.Check: java.lang.String value()
+com.lidroid.xutils.db.annotation.Column
+com.lidroid.xutils.db.annotation.Column: java.lang.String column()
+com.lidroid.xutils.db.annotation.Column: java.lang.String defaultValue()
+com.lidroid.xutils.db.annotation.Finder
+com.lidroid.xutils.db.annotation.Finder: java.lang.String valueColumn()
+com.lidroid.xutils.db.annotation.Finder: java.lang.String targetColumn()
+com.lidroid.xutils.db.annotation.Foreign
+com.lidroid.xutils.db.annotation.Foreign: java.lang.String column()
+com.lidroid.xutils.db.annotation.Foreign: java.lang.String foreign()
+com.lidroid.xutils.db.annotation.Id
+com.lidroid.xutils.db.annotation.Id: java.lang.String column()
+com.lidroid.xutils.db.annotation.NoAutoIncrement
+com.lidroid.xutils.db.annotation.NotNull
+com.lidroid.xutils.db.annotation.Table
+com.lidroid.xutils.db.annotation.Table: java.lang.String name()
+com.lidroid.xutils.db.annotation.Table: java.lang.String execAfterTableCreated()
+com.lidroid.xutils.db.annotation.Transient
+com.lidroid.xutils.db.annotation.Unique
+com.lidroid.xutils.db.sqlite.ColumnDbType
+com.lidroid.xutils.db.sqlite.ColumnDbType: com.lidroid.xutils.db.sqlite.ColumnDbType[] values()
+com.lidroid.xutils.db.sqlite.ColumnDbType: com.lidroid.xutils.db.sqlite.ColumnDbType valueOf(java.lang.String)
+com.lidroid.xutils.exception.BaseException
+com.lidroid.xutils.exception.DbException
+com.lidroid.xutils.exception.HttpException
+com.lidroid.xutils.http.HttpHandler$State
+com.lidroid.xutils.http.HttpHandler$State: com.lidroid.xutils.http.HttpHandler$State[] values()
+com.lidroid.xutils.http.HttpHandler$State: com.lidroid.xutils.http.HttpHandler$State valueOf(java.lang.String)
+com.lidroid.xutils.http.client.HttpRequest$HttpMethod
+com.lidroid.xutils.http.client.HttpRequest$HttpMethod: com.lidroid.xutils.http.client.HttpRequest$HttpMethod[] values()
+com.lidroid.xutils.http.client.HttpRequest$HttpMethod: com.lidroid.xutils.http.client.HttpRequest$HttpMethod valueOf(java.lang.String)
+com.lidroid.xutils.http.client.multipart.HttpMultipartMode
+com.lidroid.xutils.http.client.multipart.HttpMultipartMode: com.lidroid.xutils.http.client.multipart.HttpMultipartMode[] values()
+com.lidroid.xutils.http.client.multipart.HttpMultipartMode: com.lidroid.xutils.http.client.multipart.HttpMultipartMode valueOf(java.lang.String)
+com.lidroid.xutils.task.Priority
+com.lidroid.xutils.task.Priority: com.lidroid.xutils.task.Priority[] values()
+com.lidroid.xutils.task.Priority: com.lidroid.xutils.task.Priority valueOf(java.lang.String)
+com.lidroid.xutils.task.PriorityObjectBlockingQueue
+com.lidroid.xutils.util.PreferencesCookieStore$SerializableCookie
+com.lidroid.xutils.view.ResType
+com.lidroid.xutils.view.ResType: com.lidroid.xutils.view.ResType[] values()
+com.lidroid.xutils.view.ResType: com.lidroid.xutils.view.ResType valueOf(java.lang.String)
+com.lidroid.xutils.view.annotation.ContentView
+com.lidroid.xutils.view.annotation.ContentView: int value()
+com.lidroid.xutils.view.annotation.PreferenceInject
+com.lidroid.xutils.view.annotation.PreferenceInject: java.lang.String value()
+com.lidroid.xutils.view.annotation.ResInject
+com.lidroid.xutils.view.annotation.ResInject: int id()
+com.lidroid.xutils.view.annotation.ResInject: com.lidroid.xutils.view.ResType type()
+com.lidroid.xutils.view.annotation.ViewInject
+com.lidroid.xutils.view.annotation.ViewInject: int value()
+com.lidroid.xutils.view.annotation.ViewInject: int parentId()
+com.lidroid.xutils.view.annotation.event.EventBase
+com.lidroid.xutils.view.annotation.event.EventBase: java.lang.Class listenerType()
+com.lidroid.xutils.view.annotation.event.EventBase: java.lang.String listenerSetter()
+com.lidroid.xutils.view.annotation.event.EventBase: java.lang.String methodName()
+com.lidroid.xutils.view.annotation.event.OnChildClick
+com.lidroid.xutils.view.annotation.event.OnChildClick: int[] value()
+com.lidroid.xutils.view.annotation.event.OnChildClick: int[] parentId()
+com.lidroid.xutils.view.annotation.event.OnClick
+com.lidroid.xutils.view.annotation.event.OnClick: int[] value()
+com.lidroid.xutils.view.annotation.event.OnClick: int[] parentId()
+com.lidroid.xutils.view.annotation.event.OnCompoundButtonCheckedChange
+com.lidroid.xutils.view.annotation.event.OnCompoundButtonCheckedChange: int[] value()
+com.lidroid.xutils.view.annotation.event.OnCompoundButtonCheckedChange: int[] parentId()
+com.lidroid.xutils.view.annotation.event.OnFocusChange
+com.lidroid.xutils.view.annotation.event.OnFocusChange: int[] value()
+com.lidroid.xutils.view.annotation.event.OnFocusChange: int[] parentId()
+com.lidroid.xutils.view.annotation.event.OnGroupClick
+com.lidroid.xutils.view.annotation.event.OnGroupClick: int[] value()
+com.lidroid.xutils.view.annotation.event.OnGroupClick: int[] parentId()
+com.lidroid.xutils.view.annotation.event.OnGroupCollapse
+com.lidroid.xutils.view.annotation.event.OnGroupCollapse: int[] value()
+com.lidroid.xutils.view.annotation.event.OnGroupCollapse: int[] parentId()
+com.lidroid.xutils.view.annotation.event.OnGroupExpand
+com.lidroid.xutils.view.annotation.event.OnGroupExpand: int[] value()
+com.lidroid.xutils.view.annotation.event.OnGroupExpand: int[] parentId()
+com.lidroid.xutils.view.annotation.event.OnItemClick
+com.lidroid.xutils.view.annotation.event.OnItemClick: int[] value()
+com.lidroid.xutils.view.annotation.event.OnItemClick: int[] parentId()
+com.lidroid.xutils.view.annotation.event.OnItemLongClick
+com.lidroid.xutils.view.annotation.event.OnItemLongClick: int[] value()
+com.lidroid.xutils.view.annotation.event.OnItemLongClick: int[] parentId()
+com.lidroid.xutils.view.annotation.event.OnItemSelected
+com.lidroid.xutils.view.annotation.event.OnItemSelected: int[] value()
+com.lidroid.xutils.view.annotation.event.OnItemSelected: int[] parentId()
+com.lidroid.xutils.view.annotation.event.OnKey
+com.lidroid.xutils.view.annotation.event.OnKey: int[] value()
+com.lidroid.xutils.view.annotation.event.OnKey: int[] parentId()
+com.lidroid.xutils.view.annotation.event.OnLongClick
+com.lidroid.xutils.view.annotation.event.OnLongClick: int[] value()
+com.lidroid.xutils.view.annotation.event.OnLongClick: int[] parentId()
+com.lidroid.xutils.view.annotation.event.OnNothingSelected
+com.lidroid.xutils.view.annotation.event.OnNothingSelected: int[] value()
+com.lidroid.xutils.view.annotation.event.OnNothingSelected: int[] parentId()
+com.lidroid.xutils.view.annotation.event.OnPreferenceChange
+com.lidroid.xutils.view.annotation.event.OnPreferenceChange: java.lang.String[] value()
+com.lidroid.xutils.view.annotation.event.OnPreferenceClick
+com.lidroid.xutils.view.annotation.event.OnPreferenceClick: java.lang.String[] value()
+com.lidroid.xutils.view.annotation.event.OnProgressChanged
+com.lidroid.xutils.view.annotation.event.OnProgressChanged: int[] value()
+com.lidroid.xutils.view.annotation.event.OnProgressChanged: int[] parentId()
+com.lidroid.xutils.view.annotation.event.OnRadioGroupCheckedChange
+com.lidroid.xutils.view.annotation.event.OnRadioGroupCheckedChange: int[] value()
+com.lidroid.xutils.view.annotation.event.OnRadioGroupCheckedChange: int[] parentId()
+com.lidroid.xutils.view.annotation.event.OnScroll
+com.lidroid.xutils.view.annotation.event.OnScroll: int[] value()
+com.lidroid.xutils.view.annotation.event.OnScroll: int[] parentId()
+com.lidroid.xutils.view.annotation.event.OnScrollStateChanged
+com.lidroid.xutils.view.annotation.event.OnScrollStateChanged: int[] value()
+com.lidroid.xutils.view.annotation.event.OnScrollStateChanged: int[] parentId()
+com.lidroid.xutils.view.annotation.event.OnStartTrackingTouch
+com.lidroid.xutils.view.annotation.event.OnStartTrackingTouch: int[] value()
+com.lidroid.xutils.view.annotation.event.OnStartTrackingTouch: int[] parentId()
+com.lidroid.xutils.view.annotation.event.OnStopTrackingTouch
+com.lidroid.xutils.view.annotation.event.OnStopTrackingTouch: int[] value()
+com.lidroid.xutils.view.annotation.event.OnStopTrackingTouch: int[] parentId()
+com.lidroid.xutils.view.annotation.event.OnTabChange
+com.lidroid.xutils.view.annotation.event.OnTabChange: int[] value()
+com.lidroid.xutils.view.annotation.event.OnTabChange: int[] parentId()
+com.lidroid.xutils.view.annotation.event.OnTouch
+com.lidroid.xutils.view.annotation.event.OnTouch: int[] value()
+com.lidroid.xutils.view.annotation.event.OnTouch: int[] parentId()
+com.ly.duan.bean.BannerBean
+com.ly.duan.bean.BannerBean: long bannerId
+com.ly.duan.bean.BannerBean: long appid
+com.ly.duan.bean.BannerBean: int ver
+com.ly.duan.bean.BannerBean: java.lang.String bannerTitle
+com.ly.duan.bean.BannerBean: java.lang.String bannerDesc
+com.ly.duan.bean.BannerBean: int contentType
+com.ly.duan.bean.BannerBean: java.lang.String bannerImgUrl
+com.ly.duan.bean.BannerBean: long contentId
+com.ly.duan.bean.BannerBean: java.lang.String contentUrl
+com.ly.duan.bean.BannerBean: java.lang.String contentPackage
+com.ly.duan.bean.BannerBean: BannerBean()
+com.ly.duan.bean.BannerBean: long getBannerId()
+com.ly.duan.bean.BannerBean: void setBannerId(long)
+com.ly.duan.bean.BannerBean: long getAppid()
+com.ly.duan.bean.BannerBean: void setAppid(long)
+com.ly.duan.bean.BannerBean: int getVer()
+com.ly.duan.bean.BannerBean: void setVer(int)
+com.ly.duan.bean.BannerBean: java.lang.String getBannerTitle()
+com.ly.duan.bean.BannerBean: void setBannerTitle(java.lang.String)
+com.ly.duan.bean.BannerBean: java.lang.String getBannerDesc()
+com.ly.duan.bean.BannerBean: void setBannerDesc(java.lang.String)
+com.ly.duan.bean.BannerBean: int getContentType()
+com.ly.duan.bean.BannerBean: void setContentType(int)
+com.ly.duan.bean.BannerBean: java.lang.String getBannerImgUrl()
+com.ly.duan.bean.BannerBean: void setBannerImgUrl(java.lang.String)
+com.ly.duan.bean.BannerBean: long getContentId()
+com.ly.duan.bean.BannerBean: void setContentId(long)
+com.ly.duan.bean.BannerBean: java.lang.String getContentUrl()
+com.ly.duan.bean.BannerBean: void setContentUrl(java.lang.String)
+com.ly.duan.bean.BannerBean: java.lang.String getContentPackage()
+com.ly.duan.bean.BannerBean: void setContentPackage(java.lang.String)
+com.ly.duan.bean.BannerBean: java.lang.String toString()
+com.ly.duan.bean.DuanBean
+com.ly.duan.bean.DuanBean: long appid
+com.ly.duan.bean.DuanBean: long columnId
+com.ly.duan.bean.DuanBean: int ver
+com.ly.duan.bean.DuanBean: int curPage
+com.ly.duan.bean.DuanBean: java.lang.String avatarUrl
+com.ly.duan.bean.DuanBean: java.lang.String nick
+com.ly.duan.bean.DuanBean: java.lang.String content
+com.ly.duan.bean.DuanBean: java.lang.String imgUrl
+com.ly.duan.bean.DuanBean: int imgType
+com.ly.duan.bean.DuanBean: boolean vip
+com.ly.duan.bean.DuanBean: DuanBean()
+com.ly.duan.bean.DuanBean: long getAppid()
+com.ly.duan.bean.DuanBean: void setAppid(long)
+com.ly.duan.bean.DuanBean: long getColumnId()
+com.ly.duan.bean.DuanBean: void setColumnId(long)
+com.ly.duan.bean.DuanBean: int getVer()
+com.ly.duan.bean.DuanBean: void setVer(int)
+com.ly.duan.bean.DuanBean: int getCurPage()
+com.ly.duan.bean.DuanBean: void setCurPage(int)
+com.ly.duan.bean.DuanBean: java.lang.String getAvatarUrl()
+com.ly.duan.bean.DuanBean: void setAvatarUrl(java.lang.String)
+com.ly.duan.bean.DuanBean: java.lang.String getNick()
+com.ly.duan.bean.DuanBean: void setNick(java.lang.String)
+com.ly.duan.bean.DuanBean: java.lang.String getContent()
+com.ly.duan.bean.DuanBean: void setContent(java.lang.String)
+com.ly.duan.bean.DuanBean: java.lang.String getImgUrl()
+com.ly.duan.bean.DuanBean: void setImgUrl(java.lang.String)
+com.ly.duan.bean.DuanBean: int getImgType()
+com.ly.duan.bean.DuanBean: void setImgType(int)
+com.ly.duan.bean.DuanBean: boolean getVip()
+com.ly.duan.bean.DuanBean: void setVip(boolean)
+com.ly.duan.bean.DuanBean: java.lang.String toString()
+com.ly.duan.bean.EntityBase
+com.ly.duan.bean.EntityBase: int id
+com.ly.duan.bean.EntityBase: EntityBase()
+com.ly.duan.bean.EntityBase: int getId()
+com.ly.duan.bean.EntityBase: void setId(int)
+com.ly.duan.bean.MultiReqStatus
+com.ly.duan.bean.MultiReqStatus: int content1Status
+com.ly.duan.bean.MultiReqStatus: int content2Status
+com.ly.duan.bean.MultiReqStatus: int bannerStatus
+com.ly.duan.bean.MultiReqStatus: MultiReqStatus()
+com.ly.duan.bean.MultiReqStatus: MultiReqStatus(int,int,int)
+com.ly.duan.bean.MultiReqStatus: int getContent1Status()
+com.ly.duan.bean.MultiReqStatus: void setContent1Status(int)
+com.ly.duan.bean.MultiReqStatus: int getContent2Status()
+com.ly.duan.bean.MultiReqStatus: void setContent2Status(int)
+com.ly.duan.bean.MultiReqStatus: int getBannerStatus()
+com.ly.duan.bean.MultiReqStatus: void setBannerStatus(int)
+com.ly.duan.bean.MultiReqStatus: java.lang.String toString()
+com.ly.duan.service.InitDataService
+com.ly.duan.service.InitDataService: InitDataService()
+com.ly.duan.service.PkgSetupReceiver
+com.ly.duan.service.PkgSetupReceiver: PkgSetupReceiver()
+com.ly.duan.ui.BaseActivity
+com.ly.duan.ui.BaseActivity: BaseActivity()
+com.ly.duan.ui.MainActivity
+com.ly.duan.ui.MainActivity: MainActivity()
+com.ly.duan.ui.MyApplication
+com.ly.duan.ui.MyApplication: MyApplication()
+com.ly.duan.ui.ShowPageActivity
+com.ly.duan.ui.ShowPageActivity: ShowPageActivity()
+com.ly.duan.ui.ShowPageActivity: void backClicked(android.view.View)
+com.ly.duan.ui.WelcomeActivity
+com.ly.duan.ui.WelcomeActivity: WelcomeActivity()
+com.ly.duan.ui.fragment.Fragment1: void freshClicked(android.view.View)
+com.ly.duan.ui.fragment.Fragment3: void freshClicked(android.view.View)
+com.ly.duan.view.CircleFlowIndicator
+com.ly.duan.view.CircleFlowIndicator: CircleFlowIndicator(android.content.Context)
+com.ly.duan.view.CircleFlowIndicator: CircleFlowIndicator(android.content.Context,android.util.AttributeSet)
+com.ly.duan.view.CircleFlowIndicator: void setViewFlow(com.ly.duan.view.ViewFlow)
+com.ly.duan.view.CircleFlowIndicator: void setFillColor(int)
+com.ly.duan.view.CircleFlowIndicator: void setStrokeColor(int)
+com.ly.duan.view.LayersLayout
+com.ly.duan.view.LayersLayout: LayersLayout(android.content.Context)
+com.ly.duan.view.LayersLayout: LayersLayout(android.content.Context,android.util.AttributeSet)
+com.ly.duan.view.LayersLayout: void setView(com.ly.duan.view.ViewFlow)
+com.ly.duan.view.ProgressWheel
+com.ly.duan.view.ProgressWheel: ProgressWheel(android.content.Context,android.util.AttributeSet)
+com.ly.duan.view.ProgressWheel: void setProgress(int)
+com.ly.duan.view.ProgressWheel: void setText(java.lang.String)
+com.ly.duan.view.ProgressWheel: int getCircleRadius()
+com.ly.duan.view.ProgressWheel: void setCircleRadius(int)
+com.ly.duan.view.ProgressWheel: int getBarLength()
+com.ly.duan.view.ProgressWheel: void setBarLength(int)
+com.ly.duan.view.ProgressWheel: int getBarWidth()
+com.ly.duan.view.ProgressWheel: void setBarWidth(int)
+com.ly.duan.view.ProgressWheel: int getTextSize()
+com.ly.duan.view.ProgressWheel: void setTextSize(int)
+com.ly.duan.view.ProgressWheel: int getPaddingTop()
+com.ly.duan.view.ProgressWheel: void setPaddingTop(int)
+com.ly.duan.view.ProgressWheel: int getPaddingBottom()
+com.ly.duan.view.ProgressWheel: void setPaddingBottom(int)
+com.ly.duan.view.ProgressWheel: int getPaddingLeft()
+com.ly.duan.view.ProgressWheel: void setPaddingLeft(int)
+com.ly.duan.view.ProgressWheel: int getPaddingRight()
+com.ly.duan.view.ProgressWheel: void setPaddingRight(int)
+com.ly.duan.view.ProgressWheel: int getBarColor()
+com.ly.duan.view.ProgressWheel: void setBarColor(int)
+com.ly.duan.view.ProgressWheel: int getCircleColor()
+com.ly.duan.view.ProgressWheel: void setCircleColor(int)
+com.ly.duan.view.ProgressWheel: int getRimColor()
+com.ly.duan.view.ProgressWheel: void setRimColor(int)
+com.ly.duan.view.ProgressWheel: android.graphics.Shader getRimShader()
+com.ly.duan.view.ProgressWheel: void setRimShader(android.graphics.Shader)
+com.ly.duan.view.ProgressWheel: int getTextColor()
+com.ly.duan.view.ProgressWheel: void setTextColor(int)
+com.ly.duan.view.ProgressWheel: int getSpinSpeed()
+com.ly.duan.view.ProgressWheel: void setSpinSpeed(int)
+com.ly.duan.view.ProgressWheel: int getRimWidth()
+com.ly.duan.view.ProgressWheel: void setRimWidth(int)
+com.ly.duan.view.ProgressWheel: int getDelayMillis()
+com.ly.duan.view.ProgressWheel: void setDelayMillis(int)
+com.ly.duan.view.ProgressWheel: int getContourColor()
+com.ly.duan.view.ProgressWheel: void setContourColor(int)
+com.ly.duan.view.ProgressWheel: float getContourSize()
+com.ly.duan.view.ProgressWheel: void setContourSize(float)
+com.ly.duan.view.ViewFlow
+com.ly.duan.view.ViewFlow: ViewFlow(android.content.Context)
+com.ly.duan.view.ViewFlow: ViewFlow(android.content.Context,int)
+com.ly.duan.view.ViewFlow: ViewFlow(android.content.Context,android.util.AttributeSet)
+com.ly.duan.view.ViewFlow: int getViewsCount()
+com.ly.duan.view.ViewFlow: void setOnViewSwitchListener(com.ly.duan.view.ViewFlow$ViewSwitchListener)
+com.ly.duan.view.ViewFlow: android.widget.Adapter getAdapter()
+com.ly.duan.view.ViewFlow: void setAdapter(android.widget.Adapter)
+com.ly.duan.view.ViewFlow: android.view.View getSelectedView()
+com.ly.duan.view.ViewFlow: int getSelectedItemPosition()
+com.ly.duan.view.ViewFlow: void setFlowIndicator(com.ly.duan.view.FlowIndicator)
+com.ly.duan.view.ViewFlow: void setSelection(int)
+com.ly.duan.view.ViewFlow: void setTimeSpan(long)
+com.ly.duan.view.ViewFlow: void setmSideBuffer(int)
+com.mozillaonline.providers.downloads.DownloadProvider
+com.mozillaonline.providers.downloads.DownloadProvider: DownloadProvider()
+com.mozillaonline.providers.downloads.DownloadReceiver
+com.mozillaonline.providers.downloads.DownloadReceiver: DownloadReceiver()
+com.mozillaonline.providers.downloads.DownloadService
+com.mozillaonline.providers.downloads.DownloadService: DownloadService()
+com.mozillaonline.providers.downloads.DownloadThread$RetryDownload
+com.mozillaonline.providers.downloads.DownloadThread$StopRequest
+com.mozillaonline.providers.downloads.Helpers$GenerateSaveFileError
+com.sjm.gxdz.R$anim: int push_left_in
+com.sjm.gxdz.R$anim: int push_left_out
+com.sjm.gxdz.R$anim: int push_right_in
+com.sjm.gxdz.R$anim: int push_right_out
+com.sjm.gxdz.R$anim: int rotate_clockwise
+com.sjm.gxdz.R$attr: int activeColor
+com.sjm.gxdz.R$attr: int activeRadius
+com.sjm.gxdz.R$attr: int activeType
+com.sjm.gxdz.R$attr: int barColor
+com.sjm.gxdz.R$attr: int barLength
+com.sjm.gxdz.R$attr: int barWidth
+com.sjm.gxdz.R$attr: int centered
+com.sjm.gxdz.R$attr: int circleColor
+com.sjm.gxdz.R$attr: int circleSeparation
+com.sjm.gxdz.R$attr: int circle_radius
+com.sjm.gxdz.R$attr: int contourColor
+com.sjm.gxdz.R$attr: int contourSize
+com.sjm.gxdz.R$attr: int delayMillis
+com.sjm.gxdz.R$attr: int fadeOut
+com.sjm.gxdz.R$attr: int inactiveColor
+com.sjm.gxdz.R$attr: int inactiveType
+com.sjm.gxdz.R$attr: int isAutoLoadOnBottom
+com.sjm.gxdz.R$attr: int isDropDownStyle
+com.sjm.gxdz.R$attr: int isOnBottomStyle
+com.sjm.gxdz.R$attr: int radius
+com.sjm.gxdz.R$attr: int rimColor
+com.sjm.gxdz.R$attr: int rimWidth
+com.sjm.gxdz.R$attr: int sidebuffer
+com.sjm.gxdz.R$attr: int spinSpeed
+com.sjm.gxdz.R$attr: int text
+com.sjm.gxdz.R$attr: int textColor
+com.sjm.gxdz.R$attr: int textSize
+com.sjm.gxdz.R$color: int black
+com.sjm.gxdz.R$color: int drop_down_list_footer_font_color
+com.sjm.gxdz.R$color: int drop_down_list_header_font_color
+com.sjm.gxdz.R$color: int drop_down_list_header_second_font_color
+com.sjm.gxdz.R$color: int drop_item_content_color
+com.sjm.gxdz.R$color: int drop_item_nick_color
+com.sjm.gxdz.R$color: int frag_bg_color
+com.sjm.gxdz.R$color: int nav_bg_color
+com.sjm.gxdz.R$color: int nav_center_color
+com.sjm.gxdz.R$color: int white
+com.sjm.gxdz.R$dimen: int drop_down_list_footer_button_height
+com.sjm.gxdz.R$dimen: int drop_down_list_footer_button_margin_left
+com.sjm.gxdz.R$dimen: int drop_down_list_footer_progress_bar_height
+com.sjm.gxdz.R$dimen: int drop_down_list_header_padding_bottom
+com.sjm.gxdz.R$dimen: int drop_down_list_header_padding_top
+com.sjm.gxdz.R$dimen: int drop_down_list_header_progress_bar_height
+com.sjm.gxdz.R$dimen: int drop_down_list_header_release_min_distance
+com.sjm.gxdz.R$dimen: int drop_item_content_size
+com.sjm.gxdz.R$dimen: int drop_item_left_margin
+com.sjm.gxdz.R$dimen: int drop_item_nick_size
+com.sjm.gxdz.R$dimen: int drop_item_right_margin
+com.sjm.gxdz.R$dimen: int nav_center_size
+com.sjm.gxdz.R$dimen: int nav_height
+com.sjm.gxdz.R$drawable: int back
+com.sjm.gxdz.R$drawable: int back_p
+com.sjm.gxdz.R$drawable: int btn_bg
+com.sjm.gxdz.R$drawable: int btn_bg_selector
+com.sjm.gxdz.R$drawable: int btn_press_bg
+com.sjm.gxdz.R$drawable: int confirm
+com.sjm.gxdz.R$drawable: int confirm_bg
+com.sjm.gxdz.R$drawable: int default_icon
+com.sjm.gxdz.R$drawable: int dialog_bg
+com.sjm.gxdz.R$drawable: int divider_bg
+com.sjm.gxdz.R$drawable: int down_button_short_1
+com.sjm.gxdz.R$drawable: int down_button_short_2
+com.sjm.gxdz.R$drawable: int down_dialog_cancel
+com.sjm.gxdz.R$drawable: int down_dialog_confirm
+com.sjm.gxdz.R$drawable: int down_dialog_x
+com.sjm.gxdz.R$drawable: int drop_down_list_arrow
+com.sjm.gxdz.R$drawable: int forward
+com.sjm.gxdz.R$drawable: int fresh
+com.sjm.gxdz.R$drawable: int icon
+com.sjm.gxdz.R$drawable: int icon_small
+com.sjm.gxdz.R$drawable: int indicator_arrow
+com.sjm.gxdz.R$drawable: int loading_logo
+com.sjm.gxdz.R$drawable: int nav_bg
+com.sjm.gxdz.R$drawable: int pay_bg_022
+com.sjm.gxdz.R$drawable: int pay_bg_111
+com.sjm.gxdz.R$drawable: int pay_bg_1_1
+com.sjm.gxdz.R$drawable: int push_back_btn
+com.sjm.gxdz.R$drawable: int push_list_down_btn_selector
+com.sjm.gxdz.R$drawable: int push_list_icon
+com.sjm.gxdz.R$drawable: int quit
+com.sjm.gxdz.R$drawable: int setting
+com.sjm.gxdz.R$drawable: int tab1
+com.sjm.gxdz.R$drawable: int tab1_focus
+com.sjm.gxdz.R$drawable: int tab1_item_selector
+com.sjm.gxdz.R$drawable: int tab2
+com.sjm.gxdz.R$drawable: int tab2_focus
+com.sjm.gxdz.R$drawable: int tab2_item_selector
+com.sjm.gxdz.R$drawable: int tab3
+com.sjm.gxdz.R$drawable: int tab3_focus
+com.sjm.gxdz.R$drawable: int tab3_item_selector
+com.sjm.gxdz.R$drawable: int tab4
+com.sjm.gxdz.R$drawable: int tab4_focus
+com.sjm.gxdz.R$drawable: int tab4_item_selector
+com.sjm.gxdz.R$drawable: int translate_bg
+com.sjm.gxdz.R$drawable: int translate_bg_selector
+com.sjm.gxdz.R$drawable: int welcome
+com.sjm.gxdz.R$id: int appIcon
+com.sjm.gxdz.R$id: int back
+com.sjm.gxdz.R$id: int banner_content_ll
+com.sjm.gxdz.R$id: int banner_item_pw
+com.sjm.gxdz.R$id: int banner_iv
+com.sjm.gxdz.R$id: int banner_ll
+com.sjm.gxdz.R$id: int banner_rl
+com.sjm.gxdz.R$id: int banner_tv
+com.sjm.gxdz.R$id: int bg_ll
+com.sjm.gxdz.R$id: int brief
+com.sjm.gxdz.R$id: int btn
+com.sjm.gxdz.R$id: int btnNo
+com.sjm.gxdz.R$id: int btnYes
+com.sjm.gxdz.R$id: int cache_rl
+com.sjm.gxdz.R$id: int cache_tv
+com.sjm.gxdz.R$id: int content
+com.sjm.gxdz.R$id: int description
+com.sjm.gxdz.R$id: int dg_ll
+com.sjm.gxdz.R$id: int dg_title_iv
+com.sjm.gxdz.R$id: int dg_title_ll
+com.sjm.gxdz.R$id: int down_btn
+com.sjm.gxdz.R$id: int down_dialog_bg_ll
+com.sjm.gxdz.R$id: int down_dialog_girl
+com.sjm.gxdz.R$id: int dropDownListView
+com.sjm.gxdz.R$id: int drop_down_list_footer_button
+com.sjm.gxdz.R$id: int drop_down_list_footer_progress_bar
+com.sjm.gxdz.R$id: int drop_down_list_header_default_text
+com.sjm.gxdz.R$id: int drop_down_list_header_default_text_layout
+com.sjm.gxdz.R$id: int drop_down_list_header_image
+com.sjm.gxdz.R$id: int drop_down_list_header_progress_bar
+com.sjm.gxdz.R$id: int drop_down_list_header_second_text
+com.sjm.gxdz.R$id: int duan_avatar
+com.sjm.gxdz.R$id: int duan_content
+com.sjm.gxdz.R$id: int duan_gif
+com.sjm.gxdz.R$id: int duan_ll
+com.sjm.gxdz.R$id: int duan_nick
+com.sjm.gxdz.R$id: int duan_picture
+com.sjm.gxdz.R$id: int duan_pw
+com.sjm.gxdz.R$id: int duan_rl
+com.sjm.gxdz.R$id: int fill
+com.sjm.gxdz.R$id: int fresh
+com.sjm.gxdz.R$id: int girldlg
+com.sjm.gxdz.R$id: int icon
+com.sjm.gxdz.R$id: int indicator
+com.sjm.gxdz.R$id: int item_iv
+com.sjm.gxdz.R$id: int iv_arrow
+com.sjm.gxdz.R$id: int iv_icon
+com.sjm.gxdz.R$id: int layerslayout
+com.sjm.gxdz.R$id: int leftBtn
+com.sjm.gxdz.R$id: int left_iv
+com.sjm.gxdz.R$id: int listView
+com.sjm.gxdz.R$id: int listView1
+com.sjm.gxdz.R$id: int list_top_title
+com.sjm.gxdz.R$id: int load_more_pb
+com.sjm.gxdz.R$id: int load_more_tv
+com.sjm.gxdz.R$id: int noti_iv
+com.sjm.gxdz.R$id: int noti_pb
+com.sjm.gxdz.R$id: int noti_subTitle
+com.sjm.gxdz.R$id: int noti_title
+com.sjm.gxdz.R$id: int paused_text
+com.sjm.gxdz.R$id: int pb_refresh
+com.sjm.gxdz.R$id: int progress_text
+com.sjm.gxdz.R$id: int right_iv
+com.sjm.gxdz.R$id: int rl_description
+com.sjm.gxdz.R$id: int stroke
+com.sjm.gxdz.R$id: int tab_rl
+com.sjm.gxdz.R$id: int textBrief
+com.sjm.gxdz.R$id: int textTitle
+com.sjm.gxdz.R$id: int title
+com.sjm.gxdz.R$id: int title_rl
+com.sjm.gxdz.R$id: int topIcon
+com.sjm.gxdz.R$id: int tp_webView
+com.sjm.gxdz.R$id: int tv_time
+com.sjm.gxdz.R$id: int tv_title
+com.sjm.gxdz.R$id: int txtBrief
+com.sjm.gxdz.R$id: int txtContent
+com.sjm.gxdz.R$id: int txtContent_tt
+com.sjm.gxdz.R$id: int txtTitle
+com.sjm.gxdz.R$id: int txt_content
+com.sjm.gxdz.R$id: int video_ll
+com.sjm.gxdz.R$id: int viewflow
+com.sjm.gxdz.R$id: int webView
+com.sjm.gxdz.R$id: int xlistview_footer_content
+com.sjm.gxdz.R$id: int xlistview_footer_hint_textview
+com.sjm.gxdz.R$id: int xlistview_footer_progressbar
+com.sjm.gxdz.R$id: int xlistview_header_arrow
+com.sjm.gxdz.R$id: int xlistview_header_content
+com.sjm.gxdz.R$id: int xlistview_header_hint_textview
+com.sjm.gxdz.R$id: int xlistview_header_progressbar
+com.sjm.gxdz.R$id: int xlistview_header_text
+com.sjm.gxdz.R$id: int xlistview_header_time
+com.sjm.gxdz.R$layout: int activity_itemlist
+com.sjm.gxdz.R$layout: int apk_banner_item
+com.sjm.gxdz.R$layout: int banner_dlg
+com.sjm.gxdz.R$layout: int common_dlg
+com.sjm.gxdz.R$layout: int ctrl_window
+com.sjm.gxdz.R$layout: int dlg_an_zhuang
+com.sjm.gxdz.R$layout: int down_common_dlg
+com.sjm.gxdz.R$layout: int down_common_dlg_other
+com.sjm.gxdz.R$layout: int drop_down_list_footer
+com.sjm.gxdz.R$layout: int drop_down_list_header
+com.sjm.gxdz.R$layout: int drop_item
+com.sjm.gxdz.R$layout: int item_vf
+com.sjm.gxdz.R$layout: int item_viewflow
+com.sjm.gxdz.R$layout: int list_down_item
+com.sjm.gxdz.R$layout: int load_more_footer
+com.sjm.gxdz.R$layout: int progress_dlg
+com.sjm.gxdz.R$layout: int pull_to_refresh_header
+com.sjm.gxdz.R$layout: int status_bar_ongoing_event_progress_bar
+com.sjm.gxdz.R$layout: int status_bar_startup
+com.sjm.gxdz.R$layout: int tab_bottom_nav
+com.sjm.gxdz.R$layout: int top_bar
+com.sjm.gxdz.R$layout: int tp_view
+com.sjm.gxdz.R$layout: int view_frag1
+com.sjm.gxdz.R$layout: int view_frag3
+com.sjm.gxdz.R$layout: int view_frag4
+com.sjm.gxdz.R$layout: int view_main
+com.sjm.gxdz.R$layout: int view_noti
+com.sjm.gxdz.R$layout: int view_noti2
+com.sjm.gxdz.R$layout: int view_show_page
+com.sjm.gxdz.R$layout: int view_welcome
+com.sjm.gxdz.R$layout: int xlistview_footer
+com.sjm.gxdz.R$layout: int xlistview_header
+com.sjm.gxdz.R$string: int app_install_end
+com.sjm.gxdz.R$string: int app_name
+com.sjm.gxdz.R$string: int banner_text
+com.sjm.gxdz.R$string: int clean_cache_content
+com.sjm.gxdz.R$string: int clean_cache_text
+com.sjm.gxdz.R$string: int clean_cache_title
+com.sjm.gxdz.R$string: int dl_end
+com.sjm.gxdz.R$string: int dl_error
+com.sjm.gxdz.R$string: int dl_failed
+com.sjm.gxdz.R$string: int download_finished
+com.sjm.gxdz.R$string: int download_now
+com.sjm.gxdz.R$string: int downloading
+com.sjm.gxdz.R$string: int drop_down_list_footer_default_text
+com.sjm.gxdz.R$string: int drop_down_list_footer_loading_text
+com.sjm.gxdz.R$string: int drop_down_list_footer_no_more_text
+com.sjm.gxdz.R$string: int drop_down_list_header_default_text
+com.sjm.gxdz.R$string: int drop_down_list_header_loading_text
+com.sjm.gxdz.R$string: int drop_down_list_header_pull_text
+com.sjm.gxdz.R$string: int drop_down_list_header_release_text
+com.sjm.gxdz.R$string: int error_appid
+com.sjm.gxdz.R$string: int error_columnId
+com.sjm.gxdz.R$string: int exit
+com.sjm.gxdz.R$string: int exit_app
+com.sjm.gxdz.R$string: int fresh
+com.sjm.gxdz.R$string: int fresh2
+com.sjm.gxdz.R$string: int image_content
+com.sjm.gxdz.R$string: int no_btn
+com.sjm.gxdz.R$string: int no_fresh
+com.sjm.gxdz.R$string: int no_more
+com.sjm.gxdz.R$string: int no_service
+com.sjm.gxdz.R$string: int open_now
+com.sjm.gxdz.R$string: int popular
+com.sjm.gxdz.R$string: int pull_refresh
+com.sjm.gxdz.R$string: int refreshing
+com.sjm.gxdz.R$string: int release_to_refresh
+com.sjm.gxdz.R$string: int restart
+com.sjm.gxdz.R$string: int toast_network
+com.sjm.gxdz.R$string: int toast_sdcard_available
+com.sjm.gxdz.R$string: int toast_sdcard_mounted
+com.sjm.gxdz.R$string: int update_at
+com.sjm.gxdz.R$string: int update_time
+com.sjm.gxdz.R$string: int xlistview_footer_hint_normal
+com.sjm.gxdz.R$string: int xlistview_footer_hint_ready
+com.sjm.gxdz.R$string: int xlistview_header_hint_loading
+com.sjm.gxdz.R$string: int xlistview_header_hint_normal
+com.sjm.gxdz.R$string: int xlistview_header_hint_ready
+com.sjm.gxdz.R$string: int xlistview_header_last_time
+com.sjm.gxdz.R$string: int yes_btn
+com.sjm.gxdz.R$style: int AppTheme
+com.sjm.gxdz.R$style: int BannerBtnStyle
+com.sjm.gxdz.R$style: int BannerTV2Style
+com.sjm.gxdz.R$style: int BannerTVStyle
+com.sjm.gxdz.R$style: int CommonBtnStyle
+com.sjm.gxdz.R$style: int CommonTextStyle
+com.sjm.gxdz.R$style: int Dialog
+com.sjm.gxdz.R$style: int DialogPrompt
+com.sjm.gxdz.R$style: int DropItemContentStyle
+com.sjm.gxdz.R$style: int DropItemNickStyle
+com.sjm.gxdz.R$style: int MyDialogStyle
+com.sjm.gxdz.R$style: int NavCenterTVStyle
+com.sjm.gxdz.R$style: int NavStyle
+com.sjm.gxdz.R$style: int NotiSubTitleStyle
+com.sjm.gxdz.R$style: int NotiSubTitleStyle2
+com.sjm.gxdz.R$style: int NotiTimeStyle
+com.sjm.gxdz.R$style: int NotiTimeStyle2
+com.sjm.gxdz.R$style: int NotiTitleStyle
+com.sjm.gxdz.R$style: int NotiTitleStyle2
+com.sjm.gxdz.R$style: int SettingCacheTVStyle
+com.sjm.gxdz.R$style: int WelcomeTheme
+com.sjm.gxdz.R$style: int drop_down_list_footer_font_style
+com.sjm.gxdz.R$style: int drop_down_list_footer_progress_bar_style
+com.sjm.gxdz.R$style: int drop_down_list_header_font_style
+com.sjm.gxdz.R$style: int drop_down_list_header_progress_bar_style
+com.sjm.gxdz.R$style: int drop_down_list_header_second_font_style
+com.sjm.gxdz.R$styleable: int[] CircleFlowIndicator
+com.sjm.gxdz.R$styleable: int CircleFlowIndicator_activeColor
+com.sjm.gxdz.R$styleable: int CircleFlowIndicator_activeRadius
+com.sjm.gxdz.R$styleable: int CircleFlowIndicator_activeType
+com.sjm.gxdz.R$styleable: int CircleFlowIndicator_centered
+com.sjm.gxdz.R$styleable: int CircleFlowIndicator_circleSeparation
+com.sjm.gxdz.R$styleable: int CircleFlowIndicator_circle_radius
+com.sjm.gxdz.R$styleable: int CircleFlowIndicator_fadeOut
+com.sjm.gxdz.R$styleable: int CircleFlowIndicator_inactiveColor
+com.sjm.gxdz.R$styleable: int CircleFlowIndicator_inactiveType
+com.sjm.gxdz.R$styleable: int[] ProgressWheel
+com.sjm.gxdz.R$styleable: int ProgressWheel_barColor
+com.sjm.gxdz.R$styleable: int ProgressWheel_barLength
+com.sjm.gxdz.R$styleable: int ProgressWheel_barWidth
+com.sjm.gxdz.R$styleable: int ProgressWheel_circleColor
+com.sjm.gxdz.R$styleable: int ProgressWheel_contourColor
+com.sjm.gxdz.R$styleable: int ProgressWheel_contourSize
+com.sjm.gxdz.R$styleable: int ProgressWheel_delayMillis
+com.sjm.gxdz.R$styleable: int ProgressWheel_radius
+com.sjm.gxdz.R$styleable: int ProgressWheel_rimColor
+com.sjm.gxdz.R$styleable: int ProgressWheel_rimWidth
+com.sjm.gxdz.R$styleable: int ProgressWheel_spinSpeed
+com.sjm.gxdz.R$styleable: int ProgressWheel_text
+com.sjm.gxdz.R$styleable: int ProgressWheel_textColor
+com.sjm.gxdz.R$styleable: int ProgressWheel_textSize
+com.sjm.gxdz.R$styleable: int[] ViewFlow
+com.sjm.gxdz.R$styleable: int ViewFlow_sidebuffer
+com.sjm.gxdz.R$styleable: int[] drop_down_list_attr
+com.sjm.gxdz.R$styleable: int drop_down_list_attr_isAutoLoadOnBottom
+com.sjm.gxdz.R$styleable: int drop_down_list_attr_isDropDownStyle
+com.sjm.gxdz.R$styleable: int drop_down_list_attr_isOnBottomStyle
+pl.droidsonroids.gif.AnimationListener
+pl.droidsonroids.gif.AnimationListener: void onAnimationCompleted()
+pl.droidsonroids.gif.GifAnimationMetaData
+pl.droidsonroids.gif.GifAnimationMetaData: long serialVersionUID
+pl.droidsonroids.gif.GifAnimationMetaData: int[] mMetaData
+pl.droidsonroids.gif.GifAnimationMetaData: android.os.Parcelable$Creator CREATOR
+pl.droidsonroids.gif.GifAnimationMetaData: void <clinit>()
+pl.droidsonroids.gif.GifAnimationMetaData: GifAnimationMetaData(android.content.res.Resources,int)
+pl.droidsonroids.gif.GifAnimationMetaData: GifAnimationMetaData(android.content.res.AssetManager,java.lang.String)
+pl.droidsonroids.gif.GifAnimationMetaData: GifAnimationMetaData(java.lang.String)
+pl.droidsonroids.gif.GifAnimationMetaData: GifAnimationMetaData(java.io.File)
+pl.droidsonroids.gif.GifAnimationMetaData: GifAnimationMetaData(java.io.InputStream)
+pl.droidsonroids.gif.GifAnimationMetaData: GifAnimationMetaData(android.content.res.AssetFileDescriptor)
+pl.droidsonroids.gif.GifAnimationMetaData: GifAnimationMetaData(java.io.FileDescriptor)
+pl.droidsonroids.gif.GifAnimationMetaData: GifAnimationMetaData(byte[])
+pl.droidsonroids.gif.GifAnimationMetaData: GifAnimationMetaData(java.nio.ByteBuffer)
+pl.droidsonroids.gif.GifAnimationMetaData: GifAnimationMetaData(android.content.ContentResolver,android.net.Uri)
+pl.droidsonroids.gif.GifAnimationMetaData: void init(long)
+pl.droidsonroids.gif.GifAnimationMetaData: int getWidth()
+pl.droidsonroids.gif.GifAnimationMetaData: int getHeight()
+pl.droidsonroids.gif.GifAnimationMetaData: int getNumberOfFrames()
+pl.droidsonroids.gif.GifAnimationMetaData: int getLoopCount()
+pl.droidsonroids.gif.GifAnimationMetaData: int getDuration()
+pl.droidsonroids.gif.GifAnimationMetaData: boolean isAnimated()
+pl.droidsonroids.gif.GifAnimationMetaData: java.lang.String toString()
+pl.droidsonroids.gif.GifAnimationMetaData: int describeContents()
+pl.droidsonroids.gif.GifAnimationMetaData: void writeToParcel(android.os.Parcel,int)
+pl.droidsonroids.gif.GifAnimationMetaData: GifAnimationMetaData(android.os.Parcel)
+pl.droidsonroids.gif.GifAnimationMetaData: GifAnimationMetaData(android.os.Parcel,pl.droidsonroids.gif.GifAnimationMetaData)
+pl.droidsonroids.gif.GifAnimationMetaData$1
+pl.droidsonroids.gif.GifAnimationMetaData$1: GifAnimationMetaData$1()
+pl.droidsonroids.gif.GifAnimationMetaData$1: pl.droidsonroids.gif.GifAnimationMetaData createFromParcel(android.os.Parcel)
+pl.droidsonroids.gif.GifAnimationMetaData$1: pl.droidsonroids.gif.GifAnimationMetaData[] newArray(int)
+pl.droidsonroids.gif.GifAnimationMetaData$1: java.lang.Object createFromParcel(android.os.Parcel)
+pl.droidsonroids.gif.GifAnimationMetaData$1: java.lang.Object[] newArray(int)
+pl.droidsonroids.gif.GifDrawable
+pl.droidsonroids.gif.GifDrawable: long mGifInfoPtr
+pl.droidsonroids.gif.GifDrawable: boolean mIsRunning
+pl.droidsonroids.gif.GifDrawable: int[] mMetaData
+pl.droidsonroids.gif.GifDrawable: long mInputSourceLength
+pl.droidsonroids.gif.GifDrawable: float mSx
+pl.droidsonroids.gif.GifDrawable: float mSy
+pl.droidsonroids.gif.GifDrawable: boolean mApplyTransformation
+pl.droidsonroids.gif.GifDrawable: android.graphics.Rect mDstRect
+pl.droidsonroids.gif.GifDrawable: android.graphics.Paint mPaint
+pl.droidsonroids.gif.GifDrawable: int[] mColors
+pl.droidsonroids.gif.GifDrawable: java.util.concurrent.ConcurrentLinkedQueue mListeners
+pl.droidsonroids.gif.GifDrawable: java.lang.Runnable mResetTask
+pl.droidsonroids.gif.GifDrawable: java.lang.Runnable mStartTask
+pl.droidsonroids.gif.GifDrawable: java.lang.Runnable mSaveRemainderTask
+pl.droidsonroids.gif.GifDrawable: java.lang.Runnable mInvalidateTask
+pl.droidsonroids.gif.GifDrawable: void <clinit>()
+pl.droidsonroids.gif.GifDrawable: boolean renderFrame(int[],long,int[])
+pl.droidsonroids.gif.GifDrawable: long openFd(int[],java.io.FileDescriptor,long,boolean)
+pl.droidsonroids.gif.GifDrawable: long openByteArray(int[],byte[],boolean)
+pl.droidsonroids.gif.GifDrawable: long openDirectByteBuffer(int[],java.nio.ByteBuffer,boolean)
+pl.droidsonroids.gif.GifDrawable: long openStream(int[],java.io.InputStream,boolean)
+pl.droidsonroids.gif.GifDrawable: long openFile(int[],java.lang.String,boolean)
+pl.droidsonroids.gif.GifDrawable: void free(long)
+pl.droidsonroids.gif.GifDrawable: void reset(long)
+pl.droidsonroids.gif.GifDrawable: void setSpeedFactor(long,float)
+pl.droidsonroids.gif.GifDrawable: java.lang.String getComment(long)
+pl.droidsonroids.gif.GifDrawable: int getLoopCount(long)
+pl.droidsonroids.gif.GifDrawable: int getDuration(long)
+pl.droidsonroids.gif.GifDrawable: int getCurrentPosition(long)
+pl.droidsonroids.gif.GifDrawable: void seekToTime(long,int,int[])
+pl.droidsonroids.gif.GifDrawable: void seekToFrame(long,int,int[])
+pl.droidsonroids.gif.GifDrawable: void saveRemainder(long)
+pl.droidsonroids.gif.GifDrawable: void restoreRemainder(long)
+pl.droidsonroids.gif.GifDrawable: long getAllocationByteCount(long)
+pl.droidsonroids.gif.GifDrawable: void runOnUiThread(java.lang.Runnable)
+pl.droidsonroids.gif.GifDrawable: GifDrawable(android.content.res.Resources,int)
+pl.droidsonroids.gif.GifDrawable: GifDrawable(android.content.res.AssetManager,java.lang.String)
+pl.droidsonroids.gif.GifDrawable: GifDrawable(java.lang.String)
+pl.droidsonroids.gif.GifDrawable: GifDrawable(java.io.File)
+pl.droidsonroids.gif.GifDrawable: GifDrawable(java.io.InputStream)
+pl.droidsonroids.gif.GifDrawable: GifDrawable(android.content.res.AssetFileDescriptor)
+pl.droidsonroids.gif.GifDrawable: GifDrawable(java.io.FileDescriptor)
+pl.droidsonroids.gif.GifDrawable: GifDrawable(byte[])
+pl.droidsonroids.gif.GifDrawable: GifDrawable(java.nio.ByteBuffer)
+pl.droidsonroids.gif.GifDrawable: GifDrawable(android.content.ContentResolver,android.net.Uri)
+pl.droidsonroids.gif.GifDrawable: void recycle()
+pl.droidsonroids.gif.GifDrawable: void finalize()
+pl.droidsonroids.gif.GifDrawable: int getIntrinsicHeight()
+pl.droidsonroids.gif.GifDrawable: int getIntrinsicWidth()
+pl.droidsonroids.gif.GifDrawable: void setAlpha(int)
+pl.droidsonroids.gif.GifDrawable: void setColorFilter(android.graphics.ColorFilter)
+pl.droidsonroids.gif.GifDrawable: int getOpacity()
+pl.droidsonroids.gif.GifDrawable: void start()
+pl.droidsonroids.gif.GifDrawable: void reset()
+pl.droidsonroids.gif.GifDrawable: void stop()
+pl.droidsonroids.gif.GifDrawable: boolean isRunning()
+pl.droidsonroids.gif.GifDrawable: java.lang.String getComment()
+pl.droidsonroids.gif.GifDrawable: int getLoopCount()
+pl.droidsonroids.gif.GifDrawable: java.lang.String toString()
+pl.droidsonroids.gif.GifDrawable: int getNumberOfFrames()
+pl.droidsonroids.gif.GifDrawable: pl.droidsonroids.gif.GifError getError()
+pl.droidsonroids.gif.GifDrawable: pl.droidsonroids.gif.GifDrawable createFromResource(android.content.res.Resources,int)
+pl.droidsonroids.gif.GifDrawable: void setSpeed(float)
+pl.droidsonroids.gif.GifDrawable: void pause()
+pl.droidsonroids.gif.GifDrawable: int getDuration()
+pl.droidsonroids.gif.GifDrawable: int getCurrentPosition()
+pl.droidsonroids.gif.GifDrawable: void seekTo(int)
+pl.droidsonroids.gif.GifDrawable: void seekToFrame(int)
+pl.droidsonroids.gif.GifDrawable: boolean isPlaying()
+pl.droidsonroids.gif.GifDrawable: int getBufferPercentage()
+pl.droidsonroids.gif.GifDrawable: boolean canPause()
+pl.droidsonroids.gif.GifDrawable: boolean canSeekBackward()
+pl.droidsonroids.gif.GifDrawable: boolean canSeekForward()
+pl.droidsonroids.gif.GifDrawable: int getAudioSessionId()
+pl.droidsonroids.gif.GifDrawable: int getFrameByteCount()
+pl.droidsonroids.gif.GifDrawable: long getAllocationByteCount()
+pl.droidsonroids.gif.GifDrawable: long getInputSourceByteCount()
+pl.droidsonroids.gif.GifDrawable: void getPixels(int[])
+pl.droidsonroids.gif.GifDrawable: int getPixel(int,int)
+pl.droidsonroids.gif.GifDrawable: void onBoundsChange(android.graphics.Rect)
+pl.droidsonroids.gif.GifDrawable: void draw(android.graphics.Canvas)
+pl.droidsonroids.gif.GifDrawable: android.graphics.Paint getPaint()
+pl.droidsonroids.gif.GifDrawable: int getAlpha()
+pl.droidsonroids.gif.GifDrawable: void setFilterBitmap(boolean)
+pl.droidsonroids.gif.GifDrawable: void setDither(boolean)
+pl.droidsonroids.gif.GifDrawable: int getMinimumHeight()
+pl.droidsonroids.gif.GifDrawable: int getMinimumWidth()
+pl.droidsonroids.gif.GifDrawable: void addAnimationListener(pl.droidsonroids.gif.AnimationListener)
+pl.droidsonroids.gif.GifDrawable: boolean removeAnimationListener(pl.droidsonroids.gif.AnimationListener)
+pl.droidsonroids.gif.GifDrawable: long access$0(pl.droidsonroids.gif.GifDrawable)
+pl.droidsonroids.gif.GifDrawable: void access$1(long)
+pl.droidsonroids.gif.GifDrawable: void access$2(long)
+pl.droidsonroids.gif.GifDrawable: void access$3(long)
+pl.droidsonroids.gif.GifDrawable: int[] access$4(pl.droidsonroids.gif.GifDrawable)
+pl.droidsonroids.gif.GifDrawable: void access$5(long,int,int[])
+pl.droidsonroids.gif.GifDrawable: void access$6(long,int,int[])
+pl.droidsonroids.gif.GifDrawable$1
+pl.droidsonroids.gif.GifDrawable$1: pl.droidsonroids.gif.GifDrawable this$0
+pl.droidsonroids.gif.GifDrawable$1: GifDrawable$1(pl.droidsonroids.gif.GifDrawable)
+pl.droidsonroids.gif.GifDrawable$1: void run()
+pl.droidsonroids.gif.GifDrawable$2
+pl.droidsonroids.gif.GifDrawable$2: pl.droidsonroids.gif.GifDrawable this$0
+pl.droidsonroids.gif.GifDrawable$2: GifDrawable$2(pl.droidsonroids.gif.GifDrawable)
+pl.droidsonroids.gif.GifDrawable$2: void run()
+pl.droidsonroids.gif.GifDrawable$3
+pl.droidsonroids.gif.GifDrawable$3: pl.droidsonroids.gif.GifDrawable this$0
+pl.droidsonroids.gif.GifDrawable$3: GifDrawable$3(pl.droidsonroids.gif.GifDrawable)
+pl.droidsonroids.gif.GifDrawable$3: void run()
+pl.droidsonroids.gif.GifDrawable$4
+pl.droidsonroids.gif.GifDrawable$4: pl.droidsonroids.gif.GifDrawable this$0
+pl.droidsonroids.gif.GifDrawable$4: GifDrawable$4(pl.droidsonroids.gif.GifDrawable)
+pl.droidsonroids.gif.GifDrawable$4: void run()
+pl.droidsonroids.gif.GifDrawable$5
+pl.droidsonroids.gif.GifDrawable$5: pl.droidsonroids.gif.GifDrawable this$0
+pl.droidsonroids.gif.GifDrawable$5: int val$position
+pl.droidsonroids.gif.GifDrawable$5: GifDrawable$5(pl.droidsonroids.gif.GifDrawable,int)
+pl.droidsonroids.gif.GifDrawable$5: void run()
+pl.droidsonroids.gif.GifDrawable$6
+pl.droidsonroids.gif.GifDrawable$6: pl.droidsonroids.gif.GifDrawable this$0
+pl.droidsonroids.gif.GifDrawable$6: int val$frameIndex
+pl.droidsonroids.gif.GifDrawable$6: GifDrawable$6(pl.droidsonroids.gif.GifDrawable,int)
+pl.droidsonroids.gif.GifDrawable$6: void run()
+pl.droidsonroids.gif.GifError
+pl.droidsonroids.gif.GifError: pl.droidsonroids.gif.GifError NO_ERROR
+pl.droidsonroids.gif.GifError: pl.droidsonroids.gif.GifError OPEN_FAILED
+pl.droidsonroids.gif.GifError: pl.droidsonroids.gif.GifError READ_FAILED
+pl.droidsonroids.gif.GifError: pl.droidsonroids.gif.GifError NOT_GIF_FILE
+pl.droidsonroids.gif.GifError: pl.droidsonroids.gif.GifError NO_SCRN_DSCR
+pl.droidsonroids.gif.GifError: pl.droidsonroids.gif.GifError NO_IMAG_DSCR
+pl.droidsonroids.gif.GifError: pl.droidsonroids.gif.GifError NO_COLOR_MAP
+pl.droidsonroids.gif.GifError: pl.droidsonroids.gif.GifError WRONG_RECORD
+pl.droidsonroids.gif.GifError: pl.droidsonroids.gif.GifError DATA_TOO_BIG
+pl.droidsonroids.gif.GifError: pl.droidsonroids.gif.GifError NOT_ENOUGH_MEM
+pl.droidsonroids.gif.GifError: pl.droidsonroids.gif.GifError CLOSE_FAILED
+pl.droidsonroids.gif.GifError: pl.droidsonroids.gif.GifError NOT_READABLE
+pl.droidsonroids.gif.GifError: pl.droidsonroids.gif.GifError IMAGE_DEFECT
+pl.droidsonroids.gif.GifError: pl.droidsonroids.gif.GifError EOF_TOO_SOON
+pl.droidsonroids.gif.GifError: pl.droidsonroids.gif.GifError NO_FRAMES
+pl.droidsonroids.gif.GifError: pl.droidsonroids.gif.GifError INVALID_SCR_DIMS
+pl.droidsonroids.gif.GifError: pl.droidsonroids.gif.GifError INVALID_IMG_DIMS
+pl.droidsonroids.gif.GifError: pl.droidsonroids.gif.GifError IMG_NOT_CONFINED
+pl.droidsonroids.gif.GifError: pl.droidsonroids.gif.GifError REWIND_FAILED
+pl.droidsonroids.gif.GifError: pl.droidsonroids.gif.GifError UNKNOWN
+pl.droidsonroids.gif.GifError: java.lang.String description
+pl.droidsonroids.gif.GifError: int errorCode
+pl.droidsonroids.gif.GifError: pl.droidsonroids.gif.GifError[] ENUM$VALUES
+pl.droidsonroids.gif.GifError: void <clinit>()
+pl.droidsonroids.gif.GifError: GifError(java.lang.String,int,int,java.lang.String)
+pl.droidsonroids.gif.GifError: pl.droidsonroids.gif.GifError fromCode(int)
+pl.droidsonroids.gif.GifError: int getErrorCode()
+pl.droidsonroids.gif.GifError: java.lang.String getFormattedDescription()
+pl.droidsonroids.gif.GifError: pl.droidsonroids.gif.GifError[] values()
+pl.droidsonroids.gif.GifError: pl.droidsonroids.gif.GifError valueOf(java.lang.String)
+pl.droidsonroids.gif.GifIOException
+pl.droidsonroids.gif.GifIOException: long serialVersionUID
+pl.droidsonroids.gif.GifIOException: pl.droidsonroids.gif.GifError reason
+pl.droidsonroids.gif.GifIOException: GifIOException(pl.droidsonroids.gif.GifError)
+pl.droidsonroids.gif.GifIOException: GifIOException(int)
+pl.droidsonroids.gif.GifImageView
+pl.droidsonroids.gif.GifImageView: java.lang.String ANDROID_NS
+pl.droidsonroids.gif.GifImageView: GifImageView(android.content.Context)
+pl.droidsonroids.gif.GifImageView: GifImageView(android.content.Context,android.util.AttributeSet)
+pl.droidsonroids.gif.GifImageView: GifImageView(android.content.Context,android.util.AttributeSet,int)
+pl.droidsonroids.gif.GifImageView: void setImageResource(int)
+pl.droidsonroids.gif.GifImageView: void setBackgroundResource(int)
+pl.droidsonroids.gif.GifImageView: void trySetGifDrawable(android.util.AttributeSet,android.content.res.Resources)
+pl.droidsonroids.gif.GifImageView: void setResource(boolean,int,android.content.res.Resources)
+pl.droidsonroids.gif.GifImageView: void setImageURI(android.net.Uri)

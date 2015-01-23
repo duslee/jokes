@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <dimen name="drop_down_list_header_release_min_distance">20dp</dimen>
+    
+    <dimen name="drop_down_list_header_progress_bar_height">36dp</dimen>
+    <dimen name="drop_down_list_footer_progress_bar_height">36dp</dimen>
+    
+    <dimen name="drop_down_list_footer_button_margin_left">8dp</dimen>
+    <dimen name="drop_down_list_footer_button_height">48dp</dimen>
+    
+    <dimen name="drop_down_list_header_padding_top">12dp</dimen>
+    <dimen name="drop_down_list_header_padding_bottom">15dp</dimen>
+    
+    <!-- drop item size -->
+    <dimen name="drop_item_nick_size">15sp</dimen>
+    <dimen name="drop_item_content_size">19sp</dimen>
+    
+    <!-- drop item padding & margin -->
+    <dimen name="drop_item_left_margin">16dip</dimen>
+    <dimen name="drop_item_right_margin">16dip</dimen>
+    
+    <!-- 导航栏高度（按480*800标准来计算） -->
+    <dimen name="nav_height">46dip</dimen>
+    
+    <dimen name="nav_center_size">20sp</dimen>
+    
+</resources>

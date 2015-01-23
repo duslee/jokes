@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.sjm.gxdz"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/banner_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone" >
+
+        <TextView
+            android:id="@+id/banner_tv"
+            style="@style/BannerTVStyle"
+            android:layout_margin="12dip"
+            android:singleLine="false" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/banner_rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <com.ly.duan.view.ProgressWheel
+            android:id="@+id/banner_item_pw"
+            android:layout_width="50dip"
+            android:layout_height="50dip"
+            android:layout_centerInParent="true"
+            app:barColor="#339BB9"
+            app:barLength="20dp"
+            app:barWidth="4dp"
+            app:rimColor="#44000000"
+            app:rimWidth="4dp"
+            app:spinSpeed="2dip" />
+
+        <ImageView
+            android:id="@+id/banner_iv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:contentDescription="@null"
+            android:scaleType="fitXY"
+            android:visibility="gone" />
+
+        <RelativeLayout
+            android:layout_width="52dip"
+            android:layout_height="34dip"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:background="#8f82bc" >
+
+            <TextView
+                style="@style/BannerTV2Style"
+                android:layout_centerInParent="true"
+                android:text="@string/popular" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/down_btn"
+        style="@style/BannerBtnStyle"
+        android:layout_gravity="center"
+        android:layout_marginBottom="18dip"
+        android:layout_marginTop="15dip"
+        android:text="@string/download_now" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="20dip"
+        android:background="@drawable/divider_bg" />
+
+</LinearLayout>

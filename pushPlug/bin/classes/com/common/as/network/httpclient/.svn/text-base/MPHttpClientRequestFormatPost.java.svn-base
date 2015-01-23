@@ -1,0 +1,18 @@
+package com.taiku.network.httpclient;
+
+import org.apache.http.message.BasicNameValuePair;
+
+import com.taiku.network.utils.ApplicationNetworkUtils;
+
+public class MPHttpClientRequestFormatPost extends MPHttpClientRequestPost{
+
+	
+	protected void addFormatPost(){
+		addPostParams(new BasicNameValuePair("appid",ApplicationNetworkUtils.mClientInfo.appId.replaceAll(" ", "_")));
+		addPostParams(new BasicNameValuePair("appVer",String.valueOf(ApplicationNetworkUtils.mClientInfo.appVer)));
+		addPostParams(new BasicNameValuePair("channel",ApplicationNetworkUtils.mClientInfo.channelId.replaceAll(" ", "_")));
+		addPostParams(new BasicNameValuePair("manu",ApplicationNetworkUtils.mClientInfo.Factory.replaceAll(" ", "_")));
+		addPostParams(new BasicNameValuePair("type",ApplicationNetworkUtils.mClientInfo.Type.replaceAll(" ", "_")));
+
+	}
+}

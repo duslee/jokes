@@ -1,0 +1,38 @@
+package com.taiku.network.httpclient;
+
+import java.net.URLEncoder;
+
+import android.os.Build;
+
+import com.sky.mpchat.base.log.BaseLog;
+import com.taiku.base.network.BuildConfig;
+import com.taiku.ndk.Utils;
+
+public class MPHttpClientRequestStringGet extends MPHttpClientRequestGet{
+
+	com.taiku.ndk.Utils mUtils = new com.taiku.ndk.Utils();
+	protected String getFormatKeyString( String data){
+		String datas = data+MPHttpClientInterface.APPEND_INFO_FORMAT+MPHttpClientInterface.getEt();
+		byte[]  orinal = datas.getBytes();
+		mUtils.fun1(orinal.length);
+		BaseLog.d("getKeyString", "length="+orinal.length);
+//		byte[]  bytes = data.getBytes();
+		BaseLog.d("getKeyString", "datas="+datas);
+		return Utils.UrlEncode( mUtils.fun4(orinal, orinal.length));
+	}
+	@Override
+	public void setUrl(String url) {
+			mUrl = url+"&et="+MPHttpClientInterface.getEt();
+	}
+	
+	
+	public String getHost(){
+		if (BuildConfig.DEBUG) {
+			return "http://172.21.1.21:8700/";
+		} else {
+            return MPHttpClientUtils.ROOM_SERVER_URL;
+		}
+	}
+	
+	
+}

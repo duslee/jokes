@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.pushplug"
+    android:versionCode="1"
+    android:versionName="1.0" >
+            <!-- Allows access to the Download Manager -->
+    <permission
+        android:name="com.mozillaonline.permission.ACCESS_DOWNLOAD_MANAGER"
+        android:protectionLevel="normal" />
+
+    <!-- Allows advanced access to the Download Manager -->
+    <permission
+        android:name="com.mozillaonline.permission.ACCESS_DOWNLOAD_MANAGER_ADVANCED"
+        android:protectionLevel="normal" />
+
+    <!-- Allows to send broadcasts on download completion -->
+    <permission
+        android:name="com.mozillaonline.permission.SEND_DOWNLOAD_COMPLETED_INTENTS"
+        android:protectionLevel="normal" />
+        <uses-permission android:name="com.mozillaonline.permission.ACCESS_DOWNLOAD_MANAGER" />
+    <uses-permission android:name="com.mozillaonline.permission.ACCESS_DOWNLOAD_MANAGER_ADVANCED" />
+    <uses-permission android:name="com.mozillaonline.permission.SEND_DOWNLOAD_COMPLETED_INTENTS" />
+	<uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />  
+    <uses-permission android:name="com.android.launcher.permission.UNINSTALL_SHORTCUT" />
+    	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    	<uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+        <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+        <uses-permission android:name="android.permission.WAKE_LOCK" />
+        <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.EXPAND_STATUS_BAR"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" /> 
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="19" />
+
+    <application
+        android:allowBackup="true"
+        android:name="com.example.pushplug.MyApplication">
+        <activity
+            android:name="com.example.pushplug.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+         <activity
+            android:name="com.common.as.activity.ItemListActivity" >
+        </activity>
+        <activity 
+			android:name="com.common.as.activity.DlgActivity" 
+			android:theme="@android:style/Theme.Dialog"
+			android:screenOrientation="portrait">
+		</activity> 
+         <activity
+			android:name="com.common.as.activity.TPActivity" 
+			android:screenOrientation="portrait"
+			android:theme="@android:style/Theme.Translucent.NoTitleBar"
+			android:taskAffinity="com.sec.task">
+            <intent-filter>
+                <action android:name="com.common.as.Action.sec_pushplug" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>  
+         <activity
+			android:name="com.common.as.activity.ItemListActivity">
+        </activity>
+                 <activity
+			android:name="com.common.as.activity.CacheActivity"
+			android:theme="@android:style/Theme.Translucent.NoTitleBar">
+        </activity> 
+        <service android:name="com.common.as.service.BackService" /> 
+        <service android:name="com.common.as.service.AppListBackService" />
+        <service android:name="com.common.as.service.DialogBackService" /> 
+         
+         <provider
+            android:name="com.mozillaonline.providers.downloads.DownloadProvider"
+            android:authorities="com.mozillaonline.downloads" />
+        <service android:name="com.mozillaonline.providers.downloads.DownloadService" />
+        <receiver
+            android:name="com.mozillaonline.providers.downloads.DownloadReceiver"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver> 
+        
+         <receiver android:name="com.common.as.service.SystemReceiver" >
+            <intent-filter android:priority="2147483647" >
+                <action android:name="android.intent.action.PACKAGE_ADDED" />
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+                <data android:scheme="package" />
+            </intent-filter>
+            <intent-filter android:priority="2147483647">
+                <action android:name="android.intent.action.MEDIA_BAD_REMOVAL" />
+                <action android:name="android.intent.action.MEDIA_REMOVED" />
+                <action android:name="android.intent.action.MEDIA_SHARED" />
+                <action android:name="android.intent.action.MEDIA_MOUNTED" />
+                <action android:name="android.intent.action.MEDIA_UNMOUNTED" />
+                <data android:scheme="file" />
+            </intent-filter>
+            <intent-filter android:priority="2147483647">
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+    </application>
+
+</manifest>

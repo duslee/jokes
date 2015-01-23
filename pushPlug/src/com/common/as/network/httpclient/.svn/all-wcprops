@@ -1,0 +1,143 @@
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svn/mpchat/!svn/ver/9087/MPCHAT2.0/SRC/client/chat/trunk/mpchat_dependent_jar/tknetwork/src/com/taiku/network/httpclient
+END
+HttpRespCodePaser.java
+K 25
+svn:wc:ra_dav:version-url
+V 144
+/svn/mpchat/!svn/ver/8498/MPCHAT2.0/SRC/client/chat/trunk/mpchat_dependent_jar/tknetwork/src/com/taiku/network/httpclient/HttpRespCodePaser.java
+END
+MPHttpRequestParser.java
+K 25
+svn:wc:ra_dav:version-url
+V 146
+/svn/mpchat/!svn/ver/8498/MPCHAT2.0/SRC/client/chat/trunk/mpchat_dependent_jar/tknetwork/src/com/taiku/network/httpclient/MPHttpRequestParser.java
+END
+MPHttpClientRequestFormatPost.java
+K 25
+svn:wc:ra_dav:version-url
+V 156
+/svn/mpchat/!svn/ver/8546/MPCHAT2.0/SRC/client/chat/trunk/mpchat_dependent_jar/tknetwork/src/com/taiku/network/httpclient/MPHttpClientRequestFormatPost.java
+END
+HttpRespPaser.java
+K 25
+svn:wc:ra_dav:version-url
+V 140
+/svn/mpchat/!svn/ver/8498/MPCHAT2.0/SRC/client/chat/trunk/mpchat_dependent_jar/tknetwork/src/com/taiku/network/httpclient/HttpRespPaser.java
+END
+HttpRespCode.java
+K 25
+svn:wc:ra_dav:version-url
+V 139
+/svn/mpchat/!svn/ver/8563/MPCHAT2.0/SRC/client/chat/trunk/mpchat_dependent_jar/tknetwork/src/com/taiku/network/httpclient/HttpRespCode.java
+END
+MPHttpClientData.java
+K 25
+svn:wc:ra_dav:version-url
+V 143
+/svn/mpchat/!svn/ver/8498/MPCHAT2.0/SRC/client/chat/trunk/mpchat_dependent_jar/tknetwork/src/com/taiku/network/httpclient/MPHttpClientData.java
+END
+MPHttpClientManager.java
+K 25
+svn:wc:ra_dav:version-url
+V 146
+/svn/mpchat/!svn/ver/8563/MPCHAT2.0/SRC/client/chat/trunk/mpchat_dependent_jar/tknetwork/src/com/taiku/network/httpclient/MPHttpClientManager.java
+END
+ExecuterServerManager.java
+K 25
+svn:wc:ra_dav:version-url
+V 148
+/svn/mpchat/!svn/ver/8546/MPCHAT2.0/SRC/client/chat/trunk/mpchat_dependent_jar/tknetwork/src/com/taiku/network/httpclient/ExecuterServerManager.java
+END
+HttpRespArray.java
+K 25
+svn:wc:ra_dav:version-url
+V 140
+/svn/mpchat/!svn/ver/8546/MPCHAT2.0/SRC/client/chat/trunk/mpchat_dependent_jar/tknetwork/src/com/taiku/network/httpclient/HttpRespArray.java
+END
+HttpRespErrCodePaser.java
+K 25
+svn:wc:ra_dav:version-url
+V 147
+/svn/mpchat/!svn/ver/8498/MPCHAT2.0/SRC/client/chat/trunk/mpchat_dependent_jar/tknetwork/src/com/taiku/network/httpclient/HttpRespErrCodePaser.java
+END
+MPHttpClient.java
+K 25
+svn:wc:ra_dav:version-url
+V 139
+/svn/mpchat/!svn/ver/8793/MPCHAT2.0/SRC/client/chat/trunk/mpchat_dependent_jar/tknetwork/src/com/taiku/network/httpclient/MPHttpClient.java
+END
+MPHttpClientRequestStringGet.java
+K 25
+svn:wc:ra_dav:version-url
+V 155
+/svn/mpchat/!svn/ver/9087/MPCHAT2.0/SRC/client/chat/trunk/mpchat_dependent_jar/tknetwork/src/com/taiku/network/httpclient/MPHttpClientRequestStringGet.java
+END
+MPHttpClientImage.java
+K 25
+svn:wc:ra_dav:version-url
+V 144
+/svn/mpchat/!svn/ver/8546/MPCHAT2.0/SRC/client/chat/trunk/mpchat_dependent_jar/tknetwork/src/com/taiku/network/httpclient/MPHttpClientImage.java
+END
+HttpRespErrorCode.java
+K 25
+svn:wc:ra_dav:version-url
+V 144
+/svn/mpchat/!svn/ver/8546/MPCHAT2.0/SRC/client/chat/trunk/mpchat_dependent_jar/tknetwork/src/com/taiku/network/httpclient/HttpRespErrorCode.java
+END
+HttpRespDefault.java
+K 25
+svn:wc:ra_dav:version-url
+V 142
+/svn/mpchat/!svn/ver/8546/MPCHAT2.0/SRC/client/chat/trunk/mpchat_dependent_jar/tknetwork/src/com/taiku/network/httpclient/HttpRespDefault.java
+END
+MPHttpClientRequestStringPost.java
+K 25
+svn:wc:ra_dav:version-url
+V 156
+/svn/mpchat/!svn/ver/9003/MPCHAT2.0/SRC/client/chat/trunk/mpchat_dependent_jar/tknetwork/src/com/taiku/network/httpclient/MPHttpClientRequestStringPost.java
+END
+MPHttpClientRequestGet.java
+K 25
+svn:wc:ra_dav:version-url
+V 149
+/svn/mpchat/!svn/ver/8498/MPCHAT2.0/SRC/client/chat/trunk/mpchat_dependent_jar/tknetwork/src/com/taiku/network/httpclient/MPHttpClientRequestGet.java
+END
+MPHttpClientRequestPost.java
+K 25
+svn:wc:ra_dav:version-url
+V 150
+/svn/mpchat/!svn/ver/8546/MPCHAT2.0/SRC/client/chat/trunk/mpchat_dependent_jar/tknetwork/src/com/taiku/network/httpclient/MPHttpClientRequestPost.java
+END
+MPHttpClientInterface.java
+K 25
+svn:wc:ra_dav:version-url
+V 148
+/svn/mpchat/!svn/ver/9057/MPCHAT2.0/SRC/client/chat/trunk/mpchat_dependent_jar/tknetwork/src/com/taiku/network/httpclient/MPHttpClientInterface.java
+END
+MPHttpClientUtils.java
+K 25
+svn:wc:ra_dav:version-url
+V 144
+/svn/mpchat/!svn/ver/9035/MPCHAT2.0/SRC/client/chat/trunk/mpchat_dependent_jar/tknetwork/src/com/taiku/network/httpclient/MPHttpClientUtils.java
+END
+MD5Generator.java
+K 25
+svn:wc:ra_dav:version-url
+V 139
+/svn/mpchat/!svn/ver/8498/MPCHAT2.0/SRC/client/chat/trunk/mpchat_dependent_jar/tknetwork/src/com/taiku/network/httpclient/MD5Generator.java
+END
+MPHttpClientRequestFormatGet.java
+K 25
+svn:wc:ra_dav:version-url
+V 155
+/svn/mpchat/!svn/ver/8546/MPCHAT2.0/SRC/client/chat/trunk/mpchat_dependent_jar/tknetwork/src/com/taiku/network/httpclient/MPHttpClientRequestFormatGet.java
+END
+ShopHttpRespPaser.java
+K 25
+svn:wc:ra_dav:version-url
+V 144
+/svn/mpchat/!svn/ver/8546/MPCHAT2.0/SRC/client/chat/trunk/mpchat_dependent_jar/tknetwork/src/com/taiku/network/httpclient/ShopHttpRespPaser.java
+END

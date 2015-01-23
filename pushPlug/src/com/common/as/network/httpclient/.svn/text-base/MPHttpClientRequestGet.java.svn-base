@@ -1,0 +1,42 @@
+package com.taiku.network.httpclient;
+
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpUriRequest;
+
+
+public class MPHttpClientRequestGet extends MPHttpClientInterface.MPHttpClientRequest{
+	private boolean mUsedCookie = true;
+	
+	private HttpGet mHttpGet;
+	
+
+	
+	public MPHttpClientRequestGet() {
+
+	}
+
+
+	public MPHttpClientRequestGet(String url, boolean usedCookie){
+		setUrl(url);
+		mUsedCookie = usedCookie;
+	}
+	
+	
+	public void setUsedCookie(boolean bCookie){
+		mUsedCookie = bCookie;
+	}
+	
+	@Override
+	public HttpUriRequest getHttpRequest() {
+		// TODO Auto-generated method stub
+		mHttpGet = new HttpGet(mUrl);
+		
+		if (mUsedCookie){
+			MPHttpClientUtils.addDefaultCookie(mHttpGet);
+		}
+		
+		return mHttpGet;
+	}
+	
+
+}

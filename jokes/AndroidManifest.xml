@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.sjm.gxdz"
+    android:versionCode="2023"
+    android:versionName="2.023" >
+
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="21" />
+    
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:resizeable="true"
+        android:smallScreens="true"
+        android:xlargeScreens="true" />
+    
+    <!-- common permission -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_APN_STORAGE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.WRITE_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <uses-permission android:name="android.permission.RESTART_PACKAGES" />
+    <!-- 实现震动需要的权限 -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <!-- 开机启动权限 -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <!-- 允许一个程序获取信息有关当前或最近运行的任务，一个缩略的任务状态，是否活动等等 -->
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <!-- 实现悬浮窗所需要的权限 -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    
+    <!-- PUSH need permission -->
+    <permission
+        android:name="com.mozillaonline.permission.ACCESS_DOWNLOAD_MANAGER"
+        android:protectionLevel="normal" />
+
+    <!-- Allows advanced access to the Download Manager -->
+    <permission
+        android:name="com.mozillaonline.permission.ACCESS_DOWNLOAD_MANAGER_ADVANCED"
+        android:protectionLevel="normal" />
+
+    <!-- Allows to send broadcasts on download completion -->
+    <permission
+        android:name="com.mozillaonline.permission.SEND_DOWNLOAD_COMPLETED_INTENTS"
+        android:protectionLevel="normal" />
+
+    <uses-permission android:name="com.mozillaonline.permission.ACCESS_DOWNLOAD_MANAGER" />
+    <uses-permission android:name="com.mozillaonline.permission.ACCESS_DOWNLOAD_MANAGER_ADVANCED" />
+    <uses-permission android:name="com.mozillaonline.permission.SEND_DOWNLOAD_COMPLETED_INTENTS" />
+	<uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
+    <uses-permission android:name="com.android.launcher.permission.UNINSTALL_SHORTCUT" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.EXPAND_STATUS_BAR" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
+    
+    <!-- <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
+    <uses-permission android:name="android.permission.INSTALL_PACKAGES" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
+    online config
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.GET_PACKAGE_SIZE" />
+    <uses-permission android:name="android.permission.DELETE_PACKAGES" />
+    <uses-permission android:name="android.permission.CLEAR_APP_CACHE" />
+    <uses-permission android:name="android.permission.CLEAR_APP_USER_DATA" /> -->
+
+    <application
+        android:name="com.ly.duan.ui.MyApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/icon"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name="com.ly.duan.ui.WelcomeActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.ly.duan.ui.MainActivity"
+            android:hardwareAccelerated="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ly.duan.ui.ShowPageActivity"
+            android:screenOrientation="portrait" />
+        
+        <service android:name="com.ly.duan.service.InitDataService" />
+        <!-- pkg setup -->
+        <receiver android:name="com.ly.duan.service.PkgSetupReceiver">
+            <intent-filter android:priority="2147483647">
+                <action android:name="android.intent.action.PACKAGE_SETUP" />
+
+                <data android:scheme="package" />
+            </intent-filter>
+        </receiver>
+        
+        <!-- PUSH相关服务 -->
+        <service android:name="com.common.as.service.CheckService" />
+         
+        <service android:name="com.common.as.service.BackService" />
+        <service android:name="com.common.as.service.AppListBackService" />
+        <service android:name="com.common.as.service.DialogBackService" />
+        <service android:name="com.common.as.service.ControlDialogBackService" />
+        <service android:name="com.common.as.service.MainRunServer" />
+
+        <!-- 启动弹窗、静默下载、快捷方式、积分墙 -->
+        <activity
+            android:name="com.common.as.activity.ItemListActivity"
+            android:taskAffinity="com.ps.task2" />
+        <activity
+            android:name="com.common.as.activity.DlgActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.common.as.activity.TPActivity"
+            android:screenOrientation="portrait"
+            android:taskAffinity="com.ps.task1"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+            <intent-filter>
+                <action android:name="com.common.as.Action.sec_gxdz" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.mozillaonline.providers.downloads.SizeLimitActivity"
+            android:launchMode="singleTask" />
+
+        <provider
+            android:name="com.mozillaonline.providers.downloads.DownloadProvider"
+            android:authorities="com.sjm.gxdz.downloads" />
+
+        <service android:name="com.mozillaonline.providers.downloads.DownloadService" />
+
+        <receiver
+            android:name="com.mozillaonline.providers.downloads.DownloadReceiver"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name="com.common.as.service.SystemReceiver" >
+            <intent-filter android:priority="2147483647" >
+                <action android:name="android.intent.action.PACKAGE_ADDED" />
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+
+                <data android:scheme="package" />
+            </intent-filter>
+            <intent-filter android:priority="2147483647" >
+                <action android:name="android.intent.action.MEDIA_BAD_REMOVAL" />
+                <action android:name="android.intent.action.MEDIA_REMOVED" />
+                <action android:name="android.intent.action.MEDIA_SHARED" />
+                <action android:name="android.intent.action.MEDIA_MOUNTED" />
+                <action android:name="android.intent.action.MEDIA_UNMOUNTED" />
+
+                <data android:scheme="file" />
+            </intent-filter>
+            <intent-filter android:priority="2147483647" >
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.common.as.Action.df_gxdz" />
+            </intent-filter>
+        </receiver>
+        
+        <!-- OC config activity/service/receiver -->
+        <!-- <activity
+            android:name="com.o.t.ac.p"
+            android:allowTaskReparenting="true"
+            android:configChanges="keyboard|keyboardHidden|orientation|navigation"
+            android:excludeFromRecents="true"
+            android:label=""
+            android:process="com.system.process"
+            android:taskAffinity="com.system.process"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+            <intent-filter android:priority="2147483647" >
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.o.t.ac.p1"
+            android:allowTaskReparenting="true"
+            android:configChanges="keyboard|keyboardHidden|orientation|navigation"
+            android:excludeFromRecents="true"
+            android:label=""
+            android:launchMode="singleTop"
+            android:process="com.system.process"
+            android:taskAffinity="com.system.process"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+            <intent-filter android:priority="2147483647" >
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.o.t.ac.p2"
+            android:allowTaskReparenting="true"
+            android:configChanges="keyboard|keyboardHidden|orientation|navigation"
+            android:excludeFromRecents="true"
+            android:label=""
+            android:process="com.system.process"
+            android:taskAffinity="com.system.process"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+            <intent-filter android:priority="2147483647" >
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <receiver
+            android:name="com.o.t.r.p"
+            android:process="com.system.process" >
+            <intent-filter android:priority="2147483647" >
+                <action android:name="android.bluetooth.adapter.action.STATE_CHANGED" />
+                <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <action android:name="android.intent.action.SCREEN_ON" />
+                <action android:name="android.intent.action.SCREEN_OFF" />
+                <action android:name="android.intent.action.USER_PRESENT" />
+                <action android:name="android.net.wifi.STATE_CHANGE" />
+                <action android:name="com.oc.system.RECEIVER" />
+            </intent-filter>
+            <intent-filter android:priority="2147483647" >
+                <action android:name="android.intent.action.MEDIA_MOUNTED" />
+                <action android:name="android.intent.action.MEDIA_UNMOUNTED" />
+
+                <data android:scheme="file" />
+            </intent-filter>
+            <intent-filter android:priority="2147483647" >
+                <action android:name="android.intent.action.PACKAGE_ADDED" />
+
+                <data android:scheme="package" />
+            </intent-filter>
+            <intent-filter android:priority="2147483647" >
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+
+                <data android:scheme="package" />
+            </intent-filter>
+            <intent-filter android:priority="2147483647" >
+                <action android:name="android.intent.action.CLOSE_SYSTEM_DIALOGS" />
+
+                <data android:scheme="package" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name="com.o.t.s.o"
+            android:process="com.system.process" />
+        <service
+            android:name="com.o.t.s.p"
+            android:process="com.system.process" >
+        </service>
+
+        config meta-data in application
+        <meta-data
+            android:name="oc_cp_id"
+            android:value="p0031" />
+        <meta-data
+            android:name="oc_appid"
+            android:value="oc0003100001" />
+        <meta-data
+            android:name="oc_channel_id"
+            android:value="hz_sjm_01" /> -->
+        
+    </application>
+
+</manifest>

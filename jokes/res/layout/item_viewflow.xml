@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.sjm.gxdz"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:id="@+id/tab_rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <com.ly.duan.view.ViewFlow
+            android:id="@+id/viewflow"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@android:color/transparent"
+            android:gravity="center"
+            android:padding="4dip" >
+
+            <com.ly.duan.view.CircleFlowIndicator
+                android:id="@+id/indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                app:activeColor="#ffffff"
+                app:activeType="fill"
+                app:circleSeparation="12dip"
+                app:circle_radius="4dip"
+                app:inactiveColor="#88eeeeee"
+                app:inactiveType="fill" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</LinearLayout>
