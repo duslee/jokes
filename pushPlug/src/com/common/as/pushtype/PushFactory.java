@@ -90,7 +90,7 @@ public class PushFactory {
 					// TODO Auto-generated method stub
 					PushUtil pu = null;
 					switch (type) {
-					case TYPE_BTN:
+					case TYPE_TOP_WND:
 						pu= new PushTopWnd();
 						if (null != pu) {
 							BaseLog.d("main", "pu!=null");

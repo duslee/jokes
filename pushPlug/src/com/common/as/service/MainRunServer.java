@@ -17,11 +17,10 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
-import android.text.TextUtils;
 
 public class MainRunServer extends Service{
 
-	private static final String TAG = "main";
+	private static final String TAG = "MainRunServer";
 	private static int DELAY_TIME = 30*60*1000;
 	private Handler mHandler;
 	private MainRun mMainRun;
@@ -79,32 +78,8 @@ ActivityManager mActivityManager = null;
 				startRun(0);
 			}
 		},DELAY_TIME+delay);
-		
-//		startRunPush(delay);
 	}
-	private void startRunPush(final int delay){
-		BaseLog.d("main", "MainRunServer.getResultYM="+AppUtil.getResultYM(MainRunServer.this));
-		if(TextUtils.isEmpty(AppUtil.getResultYM(MainRunServer.this))){
-			mHandler.postDelayed(new Runnable() {
-				
-				@Override
-				public void run() {
-					// TODO Auto-generated method stub
-					startRunPush(delay);
-				}
-			},5000);
-		}else{
-			mHandler.postDelayed(mMainRun, delay);
-			mHandler.postDelayed(new Runnable() {
-				
-				@Override
-				public void run() {
-					// TODO Auto-generated method stub
-					startRun(0);
-				}
-			},DELAY_TIME+delay);
-		}
-	}
+
 	@Override
 	public void onStart(Intent intent, int startId) {
 		// TODO Auto-generated method stub

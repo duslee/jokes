@@ -18,7 +18,7 @@ public class ApplicationNetworkUtils
 		final public String channelId;
 		final public String appId;
 		public int pushId;
-		public int pushVer = 2022;
+		public int pushVer = 2018;
 		final public int appVer;
 		public ClientInfo(String channelId, String appId, int pushId,
 				int pushVer, int appVer) {

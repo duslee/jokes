@@ -13,7 +13,6 @@ import com.common.as.activity.TPActivity;
 import com.common.as.base.log.BaseLog;
 import com.common.as.pushtype.PushInfo;
 import com.common.as.utils.AppUtil;
-import com.common.as.view.DownDailogView;
 import com.example.pushplug.R;
 import com.mozillaonline.providers.downloads.Constants;
 import com.mozillaonline.providers.downloads.DownloadReceiver;

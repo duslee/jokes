@@ -33,21 +33,6 @@ public class PushInfo implements Serializable{
 	String mDownUrl;
 	String mBrief;
 	String pushAppID;
-	String picUrl;
-	
-	public String getPicUrl() {
-		return picUrl;
-	}
-	public void setPicUrl(String picUrl) {
-		this.picUrl = picUrl;
-	}
-	public int getUrlType() {
-		return urlType;
-	}
-	public void setUrlType(int urlType) {
-		this.urlType = urlType;
-	}
-	int urlType;
 	public String getPushAppID() {
 		return pushAppID;
 	}
@@ -183,7 +168,6 @@ public class PushInfo implements Serializable{
 	public static String getMIME_APP2(){
 		return MIME_APP3+MIME_APP4;
 	}
-
 	
 
 }

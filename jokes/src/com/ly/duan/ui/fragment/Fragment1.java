@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,6 +14,7 @@ import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentActivity;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,6 +54,7 @@ import com.ly.duan.adapter.DropListAdapter.DropItemHolder;
 import com.ly.duan.adapter.DropListAdapter.OnDownloadOrOpenListener;
 import com.ly.duan.adapter.DropListAdapter.OnDropItemOperListerner;
 import com.ly.duan.bean.BannerBean;
+import com.ly.duan.bean.ColumnBean;
 import com.ly.duan.bean.DuanBean;
 import com.ly.duan.bean.MultiReqStatus;
 import com.ly.duan.help.GlobalHelp;
@@ -62,7 +65,6 @@ import com.ly.duan.user_inter.IDownload;
 import com.ly.duan.utils.Constants;
 import com.ly.duan.utils.DeviceUtils;
 import com.ly.duan.utils.PackageUtils;
-import com.ly.duan.utils.ResourceUtils;
 import com.ly.duan.utils.ScreenUtils;
 import com.sjm.gxdz.R;
 
@@ -78,6 +80,7 @@ public class Fragment1 extends BaseFragment {
 	private static final int ADD_BANNER_LIST = 31;
 	private static final int MODIFY_DUANS_LIST = 32;
 	private static final int UPDATE_DROP_ITEM = 33;
+	private static final int MOVE_UP = 34;
 
 	@ViewInject(R.id.dropDownListView)
 	private PullRefreshAndLoadMoreListView dropDownListView;
@@ -124,19 +127,25 @@ public class Fragment1 extends BaseFragment {
 		fragment.setArguments(args);
 		return fragment;
 	}
+	
+	public static Fragment1 newInstance(boolean insertAds, boolean first, 
+			ColumnBean bean) {
+		LogUtils.e("11111 newInstance");
+		Fragment1 fragment = new Fragment1();
+		Bundle args = new Bundle();
+		args.putBoolean("insertAds", insertAds);
+		args.putBoolean("first", first);
+		args.putLong("appid", bean.getAppid());
+		args.putLong("columnId", bean.getColumnId());
+		fragment.setArguments(args);
+		return fragment;
+	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		LogUtils.e("22222 onCreate");
 		super.onCreate(savedInstanceState);
 		initData();
-		/* decide if inserting ads according to args(insertAds) */
-		// if (insertAds) {
-		// columnId = 83;
-		// getBannerFromDbOrHttp();
-		// } else {
-		// columnId = 84;
-		// }
 	}
 
 	@Override
@@ -151,19 +160,21 @@ public class Fragment1 extends BaseFragment {
 		/* 1. get data */
 		if (getArguments() != null) {
 			insertAds = getArguments().getBoolean("insertAds");
-			if (insertAds) {
-				// TODO: modify
-//				columnId = 83;
-				columnId = 4;
-			} else {
-				// TODO: modify
-//				columnId = 84;
-				columnId = 4;
-			}
+//			if (insertAds) {
+//				// TODO: modify
+////				columnId = 83;
+//				columnId = 4;
+//			} else {
+//				// TODO: modify
+////				columnId = 84;
+//				columnId = 4;
+//			}
+			appid = getArguments().getLong("appid");
+			columnId = getArguments().getLong("columnId");
 			isFirst = getArguments().getBoolean("first");
 		}
-		appid = Long.parseLong(ResourceUtils.getFileFromAssets(getActivity(),
-				"appid.txt"));
+//		appid = Long.parseLong(ResourceUtils.getFileFromAssets(getActivity(),
+//				"appid.txt"));
 
 		/* 2. start HandlerThread */
 		myThread = new HandlerThread("My Thread " + columnId);
@@ -192,8 +203,10 @@ public class Fragment1 extends BaseFragment {
 		MultiReqStatus reqStatus = GlobalHelp.getInstance().getMultiReqStatus();
 		int content1Status = InitDataService.CONTENT1_REQUESTING;
 		int content2Status = InitDataService.CONTENT2_REQUESTING;
+		int currentStatus = InitDataService.CONTENT_REQUESTING;
 		int bannerStatus = InitDataService.BANNER_REQUESTING;
 		if (null != reqStatus) {
+			currentStatus = reqStatus.getCurrentStatus();
 			content1Status = reqStatus.getContent1Status();
 			content2Status = reqStatus.getContent2Status();
 			bannerStatus = reqStatus.getBannerStatus();
@@ -201,6 +214,13 @@ public class Fragment1 extends BaseFragment {
 
 		/* 2. handle data */
 		if (insertAds) { /* in tab1 */
+			if (currentStatus == InitDataService.CONTENT_REQUEST_FINISH) {
+				LogUtils.e("(null == adapter)=" + (null == adapter));
+				if ((null == adapter) || (adapter.getCount() == 0)) {
+					myHandler.post(contentRunnable);
+				}
+			}
+			
 			if (content1Status == InitDataService.CONTENT1_REQUEST_FINISH) {
 				LogUtils.e("(null == adapter)=" + (null == adapter));
 				if ((null == adapter) || (adapter.getCount() == 0)) {
@@ -215,6 +235,12 @@ public class Fragment1 extends BaseFragment {
 				}
 			}
 		} else { /* in tab2 */
+			if (currentStatus == InitDataService.CONTENT_REQUEST_FINISH) {
+				if ((null == adapter) || (adapter.getCount() == 0)) {
+					myHandler.post(contentRunnable);
+				}
+			}
+			
 			if (content2Status == InitDataService.CONTENT2_REQUEST_FINISH) {
 				if ((null == adapter) || (adapter.getCount() == 0)) {
 					myHandler.post(contentRunnable);
@@ -454,14 +480,7 @@ public class Fragment1 extends BaseFragment {
 	}
 
 	protected void setMoveUp() {
-		new Handler().post(new Runnable() {
-
-			@Override
-			public void run() {
-				dropDownListView.smoothScrollBy(
-						ScreenUtils.dpToPxInt(getActivity(), 30), 400);
-			}
-		});
+		mHandler.sendEmptyMessage(MOVE_UP);
 	}
 
 	private void clearListAndDb() {
@@ -503,6 +522,10 @@ public class Fragment1 extends BaseFragment {
 					adapter.notifyDataSetChanged();
 				}
 				break;
+				
+			case MOVE_UP:
+				dropDownListView.smoothScrollBy(ScreenUtils.dpToPxInt(getActivity(), 30), 400);
+				break;
 
 			case MODIFY_DUANS_LIST:
 				if ((null != adapter) && (adapter.getCount() > 0)) {
@@ -531,7 +554,7 @@ public class Fragment1 extends BaseFragment {
 					holder.add_tv1.clearAnimation();
 					Animation animation = AnimationUtils.
 							loadAnimation(getActivity(), R.anim.fade_in);
-					animation.setAnimationListener(new MyAnimationListener(holder.add_tv1, false));
+					animation.setAnimationListener(new MyAnimationListener(getActivity(), holder.add_tv1, false));
 					holder.add_tv1.startAnimation(animation);
 				} else if (msg.arg1 == Constants.TYPE_STAMP) {
 					/* change status */
@@ -552,7 +575,7 @@ public class Fragment1 extends BaseFragment {
 					holder.add_tv2.clearAnimation();
 					Animation animation = AnimationUtils.
 							loadAnimation(getActivity(), R.anim.fade_in);
-					animation.setAnimationListener(new MyAnimationListener(holder.add_tv2, false));
+					animation.setAnimationListener(new MyAnimationListener(getActivity(), holder.add_tv2, false));
 					holder.add_tv2.startAnimation(animation);
 				}
 				break;
@@ -564,12 +587,14 @@ public class Fragment1 extends BaseFragment {
 
 	};
 	
-	private class MyAnimationListener implements AnimationListener {
+	public static class MyAnimationListener implements AnimationListener {
 		
+		private Context mContext;
 		private TextView tv;
 		private boolean exit;
 
-		public MyAnimationListener(TextView tv, boolean exit) {
+		public MyAnimationListener(Context context, TextView tv, boolean exit) {
+			this.mContext = context;
 			this.tv = tv;
 			this.exit = exit;
 		}
@@ -582,9 +607,8 @@ public class Fragment1 extends BaseFragment {
 		public void onAnimationEnd(Animation animation) {
 			tv.clearAnimation();
 			if (!exit) {
-				Animation animation2 = AnimationUtils.
-						loadAnimation(getActivity(), R.anim.fade_out);
-				animation2.setAnimationListener(new MyAnimationListener(tv, true));
+				Animation animation2 = AnimationUtils.loadAnimation(mContext, R.anim.fade_out);
+				animation2.setAnimationListener(new MyAnimationListener(mContext, tv, true));
 				tv.startAnimation(animation2);
 			} else {
 				tv.setVisibility(View.GONE);
@@ -687,6 +711,11 @@ public class Fragment1 extends BaseFragment {
 
 	public void acceptNotify(int which) {
 		switch (which) {
+		case InitDataService.CONTENT_REQUEST_FINISH:
+			currentStatus = FIRST_IN;
+			myHandler.post(contentRunnable);
+			break;
+		
 		case InitDataService.CONTENT1_REQUEST_FINISH:
 			currentStatus = FIRST_IN;
 			myHandler.post(contentRunnable);
@@ -799,9 +828,11 @@ public class Fragment1 extends BaseFragment {
 
 		try {
 			List<DuanBean> _list = getDb().findAll(
-					Selector.from(DuanBean.class).where("appid", "=", appid)
+					Selector.from(DuanBean.class)
+							.where("appid", "=", appid)
 							.and("columnId", "=", columnId)
-							.and("ver", "=", ver).and("curPage", "=", curPage));
+							.and("ver", "=", ver)
+							.and("curPage", "=", curPage));
 			LogUtils.e("(_list == null)=" + (_list == null) + ", curPage="
 					+ curPage + ", currentStatus=" + currentStatus);
 
@@ -853,8 +884,8 @@ public class Fragment1 extends BaseFragment {
 			} else if (currentStatus == FIRST_IN) {
 				_curPage = 0;
 			}
-			DuanBean bean = getDb().findFirst(
-					Selector.from(DuanBean.class).where("appid", "=", appid)
+			DuanBean bean = getDb().findFirst(Selector.from(DuanBean.class)
+							.where("appid", "=", appid)
 							.and("columnId", "=", columnId)
 							.and("curPage", "=", _curPage));
 			if (bean != null) {

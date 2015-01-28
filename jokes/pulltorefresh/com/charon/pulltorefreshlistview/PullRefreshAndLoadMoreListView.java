@@ -76,7 +76,7 @@ public class PullRefreshAndLoadMoreListView extends PullToRefreshListView {
      * Hide the load more view(footer view)
      */
     private void hideFooterView() {
-    	Log.e("bmp test", "hide Footer View!!!");
+//    	Log.e("bmp test", "hide Footer View!!!");
         mFooterView.setPadding(0, -mFooterView.getHeight(), 0, 0);
     	mFooterView.setVisibility(View.GONE);
 //    	android.widget.AbsListView.LayoutParams lp = (android.widget.AbsListView.LayoutParams) mFooterView.getLayoutParams();
@@ -92,7 +92,7 @@ public class PullRefreshAndLoadMoreListView extends PullToRefreshListView {
      * Show load more view
      */
     private void showFooterView() {
-    	Log.e("bmp test", "show Footer View!!!");
+//    	Log.e("bmp test", "show Footer View!!!");
         mFooterView.setVisibility(View.VISIBLE);
         mFooterView.setPadding(0, 0, 0, 0);
 //    	android.widget.AbsListView.LayoutParams lp = (android.widget.AbsListView.LayoutParams) mFooterView.getLayoutParams();
@@ -121,7 +121,7 @@ public class PullRefreshAndLoadMoreListView extends PullToRefreshListView {
      * shown all the time.
      */
     public void onLoadMoreComplete() {
-    	Log.e("bmp test", "load more complete!!!");
+//    	Log.e("bmp test", "load more complete!!!");
     	touchUp = true;
         mIsLoading = false;
         hideFooterView();
@@ -137,14 +137,14 @@ public class PullRefreshAndLoadMoreListView extends PullToRefreshListView {
                 mOnScrollListener.onScrollStateChanged(view, scrollState);
             }
         	
-        	Log.e("bmp test", "onScrollStateChanged mCurrentScrollState=" + mCurrentScrollState 
-					+ ", scrollState=" + scrollState);
+//        	Log.e("bmp test", "onScrollStateChanged mCurrentScrollState=" + mCurrentScrollState 
+//					+ ", scrollState=" + scrollState);
         }
 
         @Override
         public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-        	Log.e("bmp test", "onScroll push onScroll3 first:"+firstVisibleItem+", visi:"+visibleItemCount+", total:"+totalItemCount);
-        	Log.e("bmp test", "onScroll mIsLoading=" + mIsLoading + ", mCurrentScrollState=" + mCurrentScrollState + ", touchUp=" + touchUp);
+//        	Log.e("bmp test", "onScroll push onScroll3 first:"+firstVisibleItem+", visi:"+visibleItemCount+", total:"+totalItemCount);
+//        	Log.e("bmp test", "onScroll mIsLoading=" + mIsLoading + ", mCurrentScrollState=" + mCurrentScrollState + ", touchUp=" + touchUp);
             if (mOnScrollListener != null) {
                 mOnScrollListener.onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);
             }
@@ -162,7 +162,7 @@ public class PullRefreshAndLoadMoreListView extends PullToRefreshListView {
                 showFooterView();
                 mIsLoading = true;
                 if (mOnLoadMoreListener != null) {
-                	Log.e("bmp test", "onScroll mOnLoadMoreListener=" + mOnLoadMoreListener);
+//                	Log.e("bmp test", "onScroll mOnLoadMoreListener=" + mOnLoadMoreListener);
                     mOnLoadMoreListener.onLoadMore();
                 }
             }

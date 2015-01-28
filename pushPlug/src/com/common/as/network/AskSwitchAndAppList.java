@@ -7,7 +7,6 @@ import com.common.as.base.log.BaseLog;
 import com.common.as.pushtype.PushInfo;
 import com.common.as.pushtype.PushUtil.PushType;
 import com.common.as.store.AppListManager;
-import com.common.as.struct.ScaleSwitchInfo;
 import com.common.as.struct.SwitchInfo;
 
 public class AskSwitchAndAppList {
@@ -26,6 +25,7 @@ public class AskSwitchAndAppList {
 			public void onSuccess(int what, Object obj) {
 				// 开关打开时，去请求列表，然后检查本地是否有已下载成功的应用需要push
 				SwitchInfo switchInfo = (SwitchInfo)obj;
+				PushInfo mPushInfo = AppListManager.findPushInfo(ctx, PushType.TYPE_POP_WND);
 				
 				BaseLog.d("main", "switch="+switchInfo.toString());
 				
@@ -90,36 +90,6 @@ public class AskSwitchAndAppList {
 					listenr.onFinish(0);
 				}
 
-			}
-			
-		};
-		mHttpUtil.startRequest(mRequestData);
-	}
-	public static void askScaleSwitch(final OnFinishListener listenr,final Context ctx){
-		HttpUtil mHttpUtil = new HttpUtil(ctx);
-		//1 switch
-		HttpUtil.RequestData mRequestData = new HttpUtil.RequestData(HttpUtil.KEY_APP_SWITCH) {
-			
-			@Override
-			public void onSuccess(int what, Object obj) {
-				// 开关打开时，去请求列表，然后检查本地是否有已下载成功的应用需要push
-//				SwitchInfo switchInfo = (SwitchInfo)obj;
-				ScaleSwitchInfo switchInfo = (ScaleSwitchInfo)obj;
-				if (null != switchInfo) {
-					if (switchInfo.getmScaleSwitch()==1) {
-					listenr.onFinish(what);
-				} else {
-						listenr.onFinish(0);
-					}
-				}else{
-					listenr.onFinish(0);
-				}
-			}
-			
-			@Override
-			public void onFailed(int what, Object obj) {
-				// TODO Auto-generated method stub
-				listenr.onFinish(100);
 			}
 			
 		};

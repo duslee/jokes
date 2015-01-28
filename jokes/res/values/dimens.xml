@@ -25,4 +25,15 @@
     
     <dimen name="nav_center_size">20sp</dimen>
     
+    <!-- frag3 need dimens -->
+    <dimen name="frag3_tb_margin">10dip</dimen>
+    <dimen name="frag3_tv_margin">3dip</dimen>
+    
+    <!-- ImageView固定宽度和高度 -->
+    <dimen name="iv_width">100dip</dimen>
+    <dimen name="iv_height">80dip</dimen>
+    
+    <!-- ListView条目的线条宽度 -->
+    <dimen name="line_width">1.4px</dimen>
+    
 </resources>

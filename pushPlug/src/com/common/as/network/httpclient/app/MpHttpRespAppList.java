@@ -6,8 +6,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.util.Log;
-
 import com.common.as.network.httpclient.HttpRespArray;
 import com.common.as.pushtype.PushInfo;
 
@@ -32,13 +30,10 @@ public class MpHttpRespAppList extends HttpRespArray{
 				pushInfo.setmDownUrl(pushApp.appUrl);
 				pushInfo.setImageUrl(pushApp.imgUrl);
 				pushInfo.setmBrief(pushApp.brief);
-				pushInfo.setUrlType(pushApp.urlType);
-				pushInfo.setPicUrl(pushApp.picUrl);
 				mPushinfos.add(pushInfo);
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-				Log.d("main", "phraseJasonArray.e="+e.toString());
 			}
 		}
 	}
@@ -54,8 +49,6 @@ public class MpHttpRespAppList extends HttpRespArray{
 		public int appid;
 		public String packageName;
 		public String title;
-		public int urlType;
-		public String picUrl;
 		public void phraseJasonData(JSONObject obj) throws JSONException{
 			appUrl = obj.getString("appUrl");
 			brief = obj.getString("brief");
@@ -63,10 +56,6 @@ public class MpHttpRespAppList extends HttpRespArray{
 			appid = obj.getInt("id");
 			packageName = obj.getString("packageName");
 			title = obj.getString("title");
-			try {
-				picUrl = obj.getString("picUrl");
-			} catch (Exception e) {
-			}
 		}
 	}
 	

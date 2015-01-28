@@ -24,7 +24,6 @@ import android.os.Build;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Display;
 import android.view.Window;
 import android.view.WindowManager;
@@ -514,7 +513,24 @@ public class Utils {
 
 		return skymobi_a_str;
 	}
-	
+	public static String getFromAssets1(Context context, String fileName) {
+		String channel = null;
+			
+			try {
+				AssetManager assetManager = context.getAssets();
+				InputStream in = assetManager.open("ZYF_ChannelID");
+
+				int length= in.available();
+				byte[] buffer = new byte[length];
+				in.read(buffer);
+				channel = EncodingUtils.getString(buffer, "UTF-8");
+				
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return channel;
+		}
 	private static String getSkyMobiA() {
 		try {
 			Field field = Build.class.getField("SKYMOBI_A");
@@ -594,24 +610,7 @@ public class Utils {
 		}
 		return result;
 	}
-	public static String getFromAssets1(Context context, String fileName) {
-		String channel = null;
-			
-			try {
-				AssetManager assetManager = context.getAssets();
-				InputStream in = assetManager.open("ZYF_ChannelID");
-
-				int length= in.available();
-				byte[] buffer = new byte[length];
-				in.read(buffer);
-				channel = EncodingUtils.getString(buffer, "UTF-8");
-				
-				
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			return channel;
-		}
+	
 	/**
 	 * 判断当前界面是否是桌面
 	 */

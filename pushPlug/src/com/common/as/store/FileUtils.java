@@ -6,8 +6,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import com.common.as.base.log.BaseLog;
-
 
 
 import android.content.Context;
@@ -24,11 +22,11 @@ public class FileUtils {
 	}
 	
 	public File createFileInSDCard(String fileName, String dir) throws IOException{
-		BaseLog.d("main", "File.separator =="+File.separator );
 		File file = new File(SDCardRoot + File.separator + dir + File.separator + fileName);
 		file.createNewFile();
 		return file;		
 	}
+	
 	public File getFileInSDCard(String fileName, String dir){
 		File file = new File(SDCardRoot + File.separator + dir + File.separator + fileName);
 		return file;		
@@ -54,7 +52,7 @@ public class FileUtils {
 		return dirFile;
 	}
 	
-	//�ж�SD���ϵ��ļ��Ƿ����?
+	//�ж�SD���ϵ��ļ��Ƿ����?
 	public boolean isFileExist(String fileName, String path){
 		File file = new File(SDCardRoot + File.separator + path + File.separator+ fileName);
 		return file.exists();
@@ -83,7 +81,7 @@ public class FileUtils {
 			while((temp = input.read(buffer)) != -1){
 				output.write(buffer, 0, temp);
 			}
-			//��ջ���?
+			//��ջ���?
 			output.flush();
 		}
 		catch(Exception e){

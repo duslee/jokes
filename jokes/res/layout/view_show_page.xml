@@ -5,7 +5,6 @@
     android:orientation="vertical" >
 
     <!-- 导航栏 -->
-
     <RelativeLayout
         android:id="@+id/title_rl"
         style="@style/NavStyle" >

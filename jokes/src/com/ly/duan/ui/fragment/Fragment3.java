@@ -3,757 +3,614 @@ package com.ly.duan.ui.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.ProgressDialog;
-import android.content.Context;
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
+import android.os.Message;
 import android.support.annotation.Nullable;
-import android.text.method.ScrollingMovementMethod;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.common.as.base.log.BaseLog;
-import com.common.as.network.HttpUtil;
-import com.common.as.pushtype.PushInfo;
-import com.common.as.pushtype.PushInfoActionPaser;
-import com.common.as.pushtype.PushUtil.PushType;
-import com.common.as.store.AppListManager;
-import com.common.as.store.AppListManager.OnListChangeListener;
-import com.common.as.store.PushInfos;
-import com.common.as.utils.AppUtil;
-import com.common.as.utils.PopupUtils;
-import com.common.as.view.AsyncImageView;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.charon.pulltorefreshlistview.PullRefreshAndLoadMoreListView;
+import com.charon.pulltorefreshlistview.PullRefreshAndLoadMoreListView.OnLoadMoreListener;
+import com.charon.pulltorefreshlistview.PullToRefreshListView.OnRefreshListener;
+import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.ViewUtils;
+import com.lidroid.xutils.db.sqlite.Selector;
+import com.lidroid.xutils.db.sqlite.WhereBuilder;
 import com.lidroid.xutils.exception.DbException;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.RequestParams;
+import com.lidroid.xutils.http.ResponseInfo;
+import com.lidroid.xutils.http.callback.RequestCallBack;
+import com.lidroid.xutils.http.client.HttpRequest;
 import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
-import com.ly.duan.adapter.ViewFlowAdapter;
-import com.ly.duan.bean.BannerBean;
+import com.ly.duan.adapter.ArticleAdapter;
+import com.ly.duan.adapter.ArticleAdapter.OnFrag3ItemClickListener;
+import com.ly.duan.bean.ArticleBean;
+import com.ly.duan.bean.ColumnBean;
 import com.ly.duan.bean.MultiReqStatus;
 import com.ly.duan.help.GlobalHelp;
 import com.ly.duan.service.InitDataService;
 import com.ly.duan.ui.ShowPageActivity;
-import com.ly.duan.user_inter.DownloadUtils;
-import com.ly.duan.user_inter.IDownload;
-import com.ly.duan.utils.ActivityAnimator;
 import com.ly.duan.utils.Constants;
-import com.ly.duan.utils.PackageUtils;
-import com.ly.duan.utils.StringUtils;
-import com.ly.duan.view.CircleFlowIndicator;
-import com.ly.duan.view.LayersLayout;
-import com.ly.duan.view.ViewFlow;
+import com.ly.duan.utils.ScreenUtils;
 import com.sjm.gxdz.R;
 
 public class Fragment3 extends BaseFragment {
 
-	private static final int CLEAR_BANNER_REQUEST = 83;
-	private static final int CLEAR_APPLIST_REQUEST = 84;
-	private static final int INIT_VIEWFLOW = 85;
-
-	@ViewInject(R.id.listView)
-	private ListView listView;
-
-	@ViewInject(R.id.layerslayout)
-	private LayersLayout layersLayout;
-
-	private View item_vf;
-	private RelativeLayout rl;
-	private ViewFlow viewFlow;
-
-	private CircleFlowIndicator indicator;
-
-	private AdapterList mAdapterList;
-	private OnListChangeListener mOnListChangeListener;
-	private ArrayList<PushInfo> infos = new ArrayList<PushInfo>();
-	private ArrayList<PushInfo> nouse_infos = new ArrayList<PushInfo>();
-	private ProgressDialog pd;
+	private static final int FIRST_IN = 1;
+	private static final int DROP_DOWN = 2;
+	private static final int PULL_UP = 3;
+	
+	private static final int FRESH_LISTVIEW = 28;
+	private static final int MOVE_UP = 29;
+	private static final int CLEAR_CONTENT_REQUEST = 30;
+	
+	@ViewInject(R.id.dropDownListView)
+	private PullRefreshAndLoadMoreListView listView;
 
 	@ViewInject(R.id.fresh)
 	private ImageView fresh;
-
-	private List<BannerBean> bannerList = new ArrayList<BannerBean>();
-	private ViewFlowAdapter vfAdapter;
-	private int item;
+	
+	private ArticleAdapter adapter = null;
+	
+	private long appid = 30;
+	private long columnId;
+	private int ver;
+	private int first = 0;
+	private int max = 0;
+	private int curPage = 0;
+	private int pageSize = 12;
+	
+	private int currentStatus = FIRST_IN;
 
 	private boolean freshEnabled = false;
 
-	private HandlerThread thread;
-	private MyHandler myHandler;
+	private boolean isFirst = false;
 
+	private Frag3Handler myHandler;
+	private HandlerThread myThread;
+
+	public static Fragment3 newInstance(boolean first, ColumnBean bean) {
+		Fragment3 fragment = new Fragment3();
+		Bundle args = new Bundle();
+		args.putBoolean("first", first);
+		args.putLong("appid", bean.getAppid());
+		args.putLong("columnId", bean.getColumnId());
+		fragment.setArguments(args);
+		return fragment;
+	}
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		/* init Data */
-		thread = new HandlerThread("frag3 thread");
-		thread.start();
-		myHandler = new MyHandler(thread.getLooper());
-
-		// /* get Banner list */
-		// getBannerList();
+		initData();
 	}
 
 	@Override
 	public void onDestroy() {
-		if (thread != null) {
-			thread.quit();
+		if (null != myThread) {
+			myThread.quit();
 		}
 		super.onDestroy();
 	}
-
-	private void getBannerList() {
-		/* 1. get status */
-		MultiReqStatus status = GlobalHelp.getInstance().getMultiReqStatus();
-		int bannerStatus = InitDataService.BANNER_REQUESTING;
-		if (status != null) {
-			bannerStatus = status.getBannerStatus();
+	
+	private void initData() {
+		/* 1. get data */
+		if (getArguments() != null) {
+			appid = getArguments().getLong("appid");
+			columnId = getArguments().getLong("columnId");
+			isFirst = getArguments().getBoolean("first");
 		}
 
-		/* 2. get banner */
-		LogUtils.e("getBannerList bannerStatus=" + bannerStatus);
-		if ((bannerStatus == InitDataService.BANNER_REQUEST_FINISH)
-				&& (bannerList != null) && (bannerList.size() == 0)) {
-			myHandler.post(bannerRunnable);
-		}
+		/* 2. start HandlerThread */
+		myThread = new HandlerThread("My Thread " + columnId);
+		myThread.start();
+		myHandler = new Frag3Handler(myThread.getLooper());
 	}
-
-	@Override
-	public void onStop() {
-		super.onStop();
-		if (null != viewFlow && (bannerList.size() > 0)) {
-			item = viewFlow.getSelectedItemPosition();
-			if (bannerList.size() > 1) {
-				viewFlow.stopAutoFlowTimer();
-			}
-		}
-	}
-
-	@Override
-	public void onStart() {
-		super.onStart();
-		if ((null != viewFlow) && (bannerList.size() > 0) && item != 0) {
-			LogUtils.e("onStart item=" + item);
-			viewFlow.setSelection(item);
-			viewFlow.startAutoFlowTimer();
-		}
-	}
-
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.view_frag3, container, false);
+		View view = inflater.inflate(R.layout.view_frag1, container, false);
 		ViewUtils.inject(this, view);
+		
+		setListener();
 
-		/* 1. init Controller */
-		// item_vf = inflater.inflate(R.layout.item_viewflow, null);
-		// rl = (RelativeLayout) item_vf.findViewById(R.id.tab_rl);
-		// viewFlow = (ViewFlow) item_vf.findViewById(R.id.viewflow);
-		// indicator = (CircleFlowIndicator)
-		// item_vf.findViewById(R.id.indicator);
-		// viewFlow.setFlowIndicator(indicator);
-		//
-		// listView.addHeaderView(item_vf);
-		// layersLayout.setView(viewFlow); // 将viewFlow对象传递给自定义图层，用于对事件进行重定向
-		// item_vf.setVisibility(View.GONE);
+		setEmptyTv();
 
-		/* 2. display Banner */
 		baseInit();
-
-		/* 3. get APP list */
-		displayList();
-
+		
 		return view;
 	}
 
-	private void baseInit() {
-		/* 1. get status */
-		MultiReqStatus status = GlobalHelp.getInstance().getMultiReqStatus();
-		int bannerStatus = InitDataService.BANNER_REQUESTING;
-		if (status != null) {
-			bannerStatus = status.getBannerStatus();
-		}
-
-		/* 2. display banner */
-		LogUtils.e("baseInit (bannerList != null)=" + (bannerList != null));
-		if ((bannerStatus == InitDataService.BANNER_REQUEST_FINISH)
-				&& (bannerList != null) && (bannerList.size() > 0)
-				&& (null == viewFlow)) {
-			LogUtils.e("baseInit bannerList.size=" + bannerList.size());
-			initViewFlow();
-			// mHandler.sendEmptyMessage(INIT_VIEWFLOW);
-		}
-
-		// if (bannerList.size() == 0) {
-		// setBannerData();
-		// initViewFlow();
-		// }
-	}
-
-	private void displayList() {
-		infos = AppListManager.getApplists(AppListManager.FLAG_APP_LIST);
-		LogUtils.e("(null != infos)=" + (null != infos));
-		if (null != infos) {
-			LogUtils.e("infos.size()=" + infos.size());
-			if (infos.size() != 0) {
-				for (PushInfo pushInfo : infos) {
-					if (pushInfo.getPackageName().equals(
-							getActivity().getPackageName())) {
-						nouse_infos.add(pushInfo);
-						// break;
-					}
-				}
-				infos.removeAll(nouse_infos);
-			}
-			if (infos.size() == 0) {
-				createProgressDialog(getActivity());
-			}
-		} else {
-			createProgressDialog(getActivity());
-		}
-
-		mAdapterList = new AdapterList(infos);
-		listView.setAdapter(mAdapterList);
-		mOnListChangeListener = new OnListChangeListener() {
+	private void setListener() {
+		/* init adapter */
+		adapter = new ArticleAdapter(getActivity());
+		listView.setAdapter(adapter);
+		
+		/* set item click listener */
+		adapter.setFrag3ItemClicked(itemListener);
+		
+		// Drop down
+		listView.setOnRefreshListener(new OnRefreshListener() {
 
 			@Override
-			public void onDataChange(Object obj) {
-				mAdapterList.notifyDataChanged((ArrayList<PushInfo>) obj);
-				if (pd != null) {
-					pd.cancel();
-				}
+			public void onRefresh() {
+				currentStatus = DROP_DOWN;
+				first = 0;
+				max = pageSize;
+				myHandler.post(contentRunnable);
 			}
-		};
-		AppListManager.addListener(mOnListChangeListener);
+		});
 
-		HttpUtil mHttpUtil = new HttpUtil(getActivity());
-		HttpUtil.RequestData mRequestData = new HttpUtil.RequestData(
-				HttpUtil.KEY_STORE_LIST) {
+		// Pull up
+		listView.setOnLoadMoreListener(new OnLoadMoreListener() {
 
 			@Override
-			public void onSuccess(int what, Object obj) {
-				changeFreshFinishStatus();
-
-				if (pd != null) {
-					pd.cancel();
-				}
-				if (obj != null) {
-					ArrayList<PushInfo> _list = (ArrayList<PushInfo>) obj;
-					if (_list.size() == 0) {
-						LogUtils.e("obj != null, _list.size=" + _list.size());
-						mAdapterList.notifyDataSetChanged();
-						return;
-					}
-					mAdapterList.notifyDataChanged(_list);
-
-				} else {
-					PopupUtils.showShortToast(getActivity()
-							.getApplicationContext(), "no data");
-				}
-			}
-
-			@Override
-			public void onFailed(int what, Object obj) {
-				PopupUtils.showShortToast(
-						getActivity().getApplicationContext(),
-						"connected failed");
-				if (pd != null) {
-					pd.cancel();
-				}
-
-				changeFreshFinishStatus();
-			}
-
-		};
-		mHttpUtil.startRequest(mRequestData);
-	}
-
-	protected void changeFreshFinishStatus() {
-		LogUtils.e("fresh finished... freshEnabled=" + freshEnabled);
-
-		if (freshEnabled) {
-			freshEnabled = false;
-			fresh.clearAnimation();
-		}
-	}
-
-	private void createProgressDialog(Context context) {
-		BaseLog.v("main", "ItemListActivity.createProgressDialog");
-		pd = new ProgressDialog(context);
-		pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-		pd.setMessage("正在获取数据...");
-		pd.show();
-	}
-
-	@OnClick(R.id.fresh)
-	public void freshClicked(View v) {
-		if (freshEnabled) {
-			return;
-		}
-
-		// LogUtils.e("fresh clicked... (rotateAnimation!=null)="
-		// + (null != getRotateAnimation()));
-
-		freshEnabled = true;
-		/* set rotate animation */
-		// if (getRotateAnimation() != null) {
-		fresh.clearAnimation();
-		fresh.startAnimation(AnimationUtils.loadAnimation(getActivity(),
-				R.anim.rotate_clockwise));
-		// }
-
-		displayList();
-	}
-
-	private class AdapterList extends BaseAdapter implements OnClickListener {
-
-		private ArrayList<PushInfo> pushInfos;
-		private final String packageName;
-
-		public class ViewHolder {
-			public AsyncImageView photoAsynImg;
-			public TextView title;
-			public TextView brief;
-			public Button btn;
-		}
-
-		public AdapterList(ArrayList<PushInfo> pushInfos) {
-			super();
-			packageName = getActivity().getPackageName();
-			if (null != pushInfos) {
-				this.pushInfos = pushInfos;
-			} else {
-				this.pushInfos = new ArrayList<PushInfo>();
-			}
-
-		}
-
-		public void notifyDataChanged(ArrayList<PushInfo> temps) {
-			pushInfos.clear();
-			pushInfos.addAll(temps);
-
-			for (PushInfo pushInfo : pushInfos) {
-				if (pushInfo.getPackageName().equals(packageName)) {
-					pushInfos.remove(pushInfo);
-					break;
-				}
-			}
-			notifyDataSetChanged();
-		}
-
-		@Override
-		public int getCount() {
-			return pushInfos.size();
-		}
-
-		@Override
-		public Object getItem(int position) {
-			return pushInfos.get(position);
-		}
-
-		@Override
-		public long getItemId(int position) {
-			return position;
-		}
-
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-			ViewHolder viewHolder;
-			if (null == convertView) {
-				convertView = LayoutInflater.from(parent.getContext()).inflate(
-						R.layout.list_down_item, null);
-				viewHolder = new ViewHolder();
-				viewHolder.photoAsynImg = (AsyncImageView) convertView
-						.findViewById(R.id.icon);
-				viewHolder.title = (TextView) convertView
-						.findViewById(R.id.title);
-				viewHolder.brief = (TextView) convertView
-						.findViewById(R.id.brief);
-				viewHolder.btn = (Button) convertView.findViewById(R.id.btn);
-				convertView.setTag(viewHolder);
-			} else {
-				viewHolder = (ViewHolder) convertView.getTag();
-			}
-
-			PushInfo pi = (PushInfo) getItem(position);
-			viewHolder.title.setText(pi.getAppName());
-			viewHolder.photoAsynImg.setUrl(pi.getImageUrl());
-			viewHolder.brief.setText(pi.getmBrief());
-			viewHolder.brief.setMovementMethod(ScrollingMovementMethod
-					.getInstance());
-			setBtnStatus(viewHolder.btn, pi);
-			return convertView;
-		}
-
-		private void setBtnStatus(Button btn, PushInfo pi) {
-			if (AppUtil.isInstalled(getActivity(), pi.getPackageName())) {
-				btn.setText("启动");
-			} else {
-				PushInfo tempPi = PushInfos.getInstance().get(
-						pi.getPackageName());
-				if (null != tempPi
-						&& tempPi.getStatus() == PushInfo.STATUS_DOWN_FINISH
-						&& tempPi.isFileExist()) {
-					btn.setText("安装");
-				} else {
-					btn.setText("下载");
-				}
-
-			}
-			btn.setTag(pi);
-			btn.setOnClickListener(this);
-		}
-
-		@Override
-		public void onClick(View v) {
-			/* 首先判断APK是否正在下载或已下载完成 */
-			if (!checkSdcard()) {
-				return;
-			}
-
-			PushInfo pi = (PushInfo) v.getTag();
-			pi.setPushType(PushType.TYPE_STORE_LIST);
-			BaseLog.d("main",
-					"ItemListActivity.onClick.pi=" + pi.getPackageName());
-			PushInfo temp = PushInfos.getInstance().get(pi.getPackageName());
-
-			if (temp == null) {
-				PushInfos.getInstance().put(pi.getPackageName(), pi);
-			} else {
-				temp.setPushType(PushType.TYPE_STORE_LIST);
-				PushInfos.getInstance().put(pi.getPackageName(), temp);
-			}
-
-			PushInfoActionPaser.doClick(getActivity(),
-					PushType.TYPE_STORE_LIST, pi.getPackageName());
-		}
-
-	}
-
-	/** 修改ViewFlow的布局的宽高，并添加内容 */
-	protected void initViewFlow() {
-		/* 1. init Controller */
-		item_vf = getActivity().getLayoutInflater().inflate(
-				R.layout.item_viewflow, null);
-		rl = (RelativeLayout) item_vf.findViewById(R.id.tab_rl);
-		viewFlow = (ViewFlow) item_vf.findViewById(R.id.viewflow);
-		indicator = (CircleFlowIndicator) item_vf.findViewById(R.id.indicator);
-		viewFlow.setFlowIndicator(indicator);
-
-		listView.addHeaderView(item_vf);
-		layersLayout.setView(viewFlow); // 将viewFlow对象传递给自定义图层，用于对事件进行重定向
-
-		// item_vf.setVisibility(View.VISIBLE);
-
-		/* 2. set ViewFlow attr */
-		LogUtils.e("bannerList.size()=" + bannerList.size());
-		int vfWidth = getActivity().getResources().getDisplayMetrics().widthPixels;
-		int vfHeight = (int) ((200 * getActivity().getResources()
-				.getDisplayMetrics().heightPixels) / (float) 800);
-		LinearLayout.LayoutParams params = (android.widget.LinearLayout.LayoutParams) rl
-				.getLayoutParams();
-		params.width = vfWidth;
-		params.height = vfHeight;
-		rl.setLayoutParams(params);
-
-		/* 3. set adapter */
-		vfAdapter = new ViewFlowAdapter(getActivity(), bannerList, vfWidth,
-				vfHeight);
-		viewFlow.setAdapter(vfAdapter);
-		viewFlow.setTimeSpan(5000);
-		viewFlow.setmSideBuffer(bannerList.size());
-		if (bannerList.size() > 1) {
-			viewFlow.startAutoFlowTimer();
-		}
-
-		/* 4. 设置ViewFlow点击事件 */
-		viewFlow.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				LogUtils.e("viewflow.setOnItemClickListener: position="
-						+ position + ", id=" + id);
-				final BannerBean bean = bannerList.get(position);
-				LogUtils.e("bean.getContentType()=" + bean.getContentType());
-				switch (bean.getContentType()) {
-				/* 具体内容 */
-				case Constants.BANNER_TYPE_ARTICLE:
-				case Constants.BANNER_TYPE_POSTBAR:
-					sendIntent2(bean);
-
-					/* 网页 */
-				case Constants.BANNER_TYPE_PAGE:
-					sendIntent2(bean);
-					break;
-
-				/* APK */
-				case Constants.BANNER_TYPE_APK: {
-					/* 首先判断APK是否正在下载或已下载完成 */
-					if (!checkSdcard()) {
-						return;
-					}
-					final String pkg = bean.getContentPackage();
-					PushInfo pi = PushInfos.getInstance().get(pkg);
-					if (null == pi) {
-						pi = new PushInfo(pkg, (10000 + bean.getBannerId())
-								+ "", "");
-						pi.setAppName(bean.getBannerTitle());
-						pi.setImageUrl(bean.getBannerImgUrl());
-						pi.setmDownUrl(bean.getContentUrl());
-						pi.setmBrief(bean.getBannerDesc());
-						pi.setPushAppID(bean.getBannerId() + "");
-						pi.setPushType(PushType.TYPE_STORE_LIST);
-						pi.setStatus(PushInfo.STATUS_DOWN_STARTING);
-						PushInfos.getInstance().put(pkg, pi);
-
-						LogUtils.e("viewflow.onItemClick download apk!");
-						/* 启动后台服务开始下载 */
-						startDown(bean.getBannerTitle(), pi);
-
-					} else {
-						switch (pi.getStatus()) {
-						/* 正在下载 */
-						case PushInfo.STATUS_DOWN_STARTING:
-							showToast(R.string.downloading);
-							break;
-
-						/* 下载完成 */
-						case PushInfo.STATUS_DOWN_FINISH:
-							showToast(R.string.download_finished);
-							/* 自动弹出安装 */
-							AppUtil.showSetup(getActivity(), pi);
-							break;
-
-						case PushInfo.STATUS_SETUPED:
-							showToast(R.string.app_install_end);
-							break;
-
-						default:
-							break;
-						}
-					}
-				}
-					break;
-				}
+			public void onLoadMore() {
+				currentStatus = PULL_UP;
+				curPage++;
+				first = curPage * pageSize;
+				max = pageSize;
+				myHandler.post(contentRunnable);
 			}
 		});
 	}
 
-	protected void startDown(final String bannerTitle, PushInfo pi) {
-		LogUtils.e("viewflow.onItemClick download apk!");
-		/* 启动后台服务开始下载 */
-		showToast("《" + bannerTitle + "》开始下载");
-		DownloadUtils.getInstance().startDownload(getActivity(), pi,
-				new IDownload() {
-
-					@Override
-					public void onDlSuccess() {
-						showToast("《" + bannerTitle + "》下载完成");
-					}
-
-					@Override
-					public void onDlFailed() {
-						showToast(R.string.dl_failed);
-					}
-
-					@Override
-					public void onDlError() {
-						showToast(R.string.dl_error);
-					}
-				});
+	private void setEmptyTv() {
+		TextView tv = new TextView(getActivity());
+		tv.setGravity(Gravity.CENTER);
+		tv.setText(R.string.fresh2);
+		listView.setEmptyView(tv);
 	}
 
-	protected void sendIntent2(BannerBean bean) {
-		String url = bean.getContentUrl();
-		LogUtils.e("url=" + url);
-		if (StringUtils.isBlank(url)) {
-			showToast("该内容链接地址不存在");
+	private void baseInit() {
+		/* 1 get current request status */
+		MultiReqStatus reqStatus = GlobalHelp.getInstance().getMultiReqStatus();
+		int currentStatus = InitDataService.CONTENT_REQUESTING;
+		if (null != reqStatus) {
+			currentStatus = reqStatus.getCurrentStatus();
+		}
+		
+		/* 2. handle data */
+		if (currentStatus == InitDataService.CONTENT_REQUEST_FINISH) {
+			LogUtils.e("(null == adapter)=" + (null == adapter));
+			if ((null == adapter) || (adapter.getCount() == 0)) {
+				myHandler.post(contentRunnable);
+			}
+		}
+	}
+	
+	@OnClick(R.id.fresh)
+	public void freshClicked(View view) {
+		if (freshEnabled) {
 			return;
 		}
-		String subStr = url.substring(url.lastIndexOf(".") + 1);
-		LogUtils.e("subStr=" + subStr);
-		if (subStr.equalsIgnoreCase("html") || subStr.equalsIgnoreCase("htm")
-				|| subStr.equalsIgnoreCase("com")) {
-			Intent intent = new Intent(getActivity(), ShowPageActivity.class);
-			intent.putExtra("title", bean.getBannerTitle());
-			intent.putExtra("url", bean.getContentUrl());
-			startActivity(intent);
-		} else {
-		}
-		new ActivityAnimator().pushLeftAnimation(getActivity());
+
+		LogUtils.e("start fresh");
+		freshEnabled = true;
+		fresh.clearAnimation();
+		fresh.startAnimation(AnimationUtils.loadAnimation(getActivity(),
+				R.anim.rotate_clockwise));
+
+		currentStatus = DROP_DOWN;
+		myHandler.post(contentRunnable);
 	}
 
 	public void acceptNotify(int which) {
-		if (which == InitDataService.BANNER_REQUEST_FINISH) {
-			myHandler.post(bannerRunnable);
+		switch (which) {
+		case InitDataService.CONTENT_REQUEST_FINISH:
+			currentStatus = FIRST_IN;
+			myHandler.post(contentRunnable);
+			break;
+
+		default:
+			break;
 		}
 	}
-
-	private Runnable appListRunnable = new Runnable() {
-
-		@Override
-		public void run() {
-			displayList();
-		}
-	};
-
-	private Runnable bannerRunnable = new Runnable() {
-
+	
+	private Runnable contentRunnable = new Runnable() {
+		
 		@Override
 		public void run() {
 			LogUtils.e("thread.name=" + Thread.currentThread().getName());
-			getBannerFromDb();
+			getContentFromDb();
 		}
 	};
-
-	protected void getBannerFromDb() {
-		/* 1. get banner list from db */
-		bannerList.clear();
-		List<BannerBean> _list;
+	
+	private void getContentFromDb() {
+		/* 1. 从数据库中获取对应版本号 */
+		getVer();
+		/* 2. 从数据库获取数据 */
+		getListsFromDb();
+	}
+	
+	private void getVer() {
 		try {
-			_list = getDb().findAll(BannerBean.class);
+			int _curPage = curPage;
+			if (currentStatus == DROP_DOWN) {
+				_curPage = 0;
+			} else if (currentStatus == FIRST_IN) {
+				_curPage = 0;
+			}
+			ArticleBean bean = getDb().findFirst(Selector.from(ArticleBean.class)
+							.where("appid", "=", appid)
+							.and("columnId", "=", columnId)
+							.and("curPage", "=", _curPage));
+			if (bean != null) {
+				ver = bean.getVer();
+			} else {
+				ver = 0;
+			}
 		} catch (DbException e) {
 			e.printStackTrace();
-			/* 发送清除线程操作 */
-			myHandler.sendEmptyMessage(CLEAR_BANNER_REQUEST);
+			changeDropDownFinishStatus();
 			return;
 		}
-
-		LogUtils.e("(null != _list)=" + (null != _list));
-		if ((null != _list) && (_list.size() > 0)) {
-			bannerList.addAll(_list);
-		} else {
-			/* 发送清除线程操作 */
-			// if (bannerList.size() == 0) {
-			// setBannerData();
-			// }
-			// if (bannerList.size() > 0 && (null == viewFlow)) {
-			// initViewFlow();
-			// }
-
-			myHandler.sendEmptyMessage(CLEAR_BANNER_REQUEST);
-			return;
-		}
-
-		/* 2. 筛选出未安装的APK列表 */
-		List<BannerBean> installApkList = new ArrayList<BannerBean>();
-		for (BannerBean bean : bannerList) {
-			/* apk */
-			LogUtils.e("bean.getContentType()=" + bean.getContentType());
-			if (bean.getContentType() == 4) {
-				String packageName = bean.getContentPackage();
-				boolean isInstall = PackageUtils.isInstall(getActivity(),
-						packageName);
-				if (isInstall) {
-					installApkList.add(bean);
-				}
-			}
-		}
-
-		/* remove installed apk list */
-		if (installApkList.size() > 0) {
-			bannerList.removeAll(installApkList);
-		}
-
-		LogUtils.e("bannerList.size=" + bannerList.size()
-				+ ", (null == viewFlow)=" + (null == viewFlow));
-
-		/* 3. 初始化ViewFlow */
-		if (bannerList.size() > 0 && (null == viewFlow)) {
-			initViewFlow();
-			// mHandler.sendEmptyMessage(INIT_VIEWFLOW);
-		}
-
-		/* 4. 发送清除线程操作 */
-		myHandler.sendEmptyMessage(CLEAR_BANNER_REQUEST);
 	}
 
-	private class MyHandler extends Handler {
+	private void getListsFromDb() {
+		/* 1. get list from db */
+		LogUtils.e("isFirst=" + isFirst + ", currentStatus=" + currentStatus);
 
-		public MyHandler(Looper looper) {
+		try {
+			List<ArticleBean> _list = getDb().findAll(
+					Selector.from(ArticleBean.class)
+							.where("appid", "=", appid)
+							.and("columnId", "=", columnId)
+							.and("ver", "=", ver)
+							.and("curPage", "=", curPage));
+			LogUtils.e("(_list == null)=" + (_list == null) + ", curPage="
+					+ curPage + ", currentStatus=" + currentStatus);
+
+			/* 注意发送请求获取数据 */
+			if ((_list == null) || _list.size() == 0) {
+				LogUtils.e("_list.size=" + _list.size());
+				if (currentStatus == FIRST_IN) {
+					if (!isFirst) {
+						initParamsAndSendRequest(false);
+					}
+				} else {
+					initParamsAndSendRequest(false);
+				}
+				return;
+			} else {
+				if (currentStatus == DROP_DOWN) {
+					/* do not add list, but can check version update */
+				} else {
+					adapter.addArticles(_list);
+					if ((currentStatus == FIRST_IN) && (adapter != null)) {
+						mHandler.sendEmptyMessage(FRESH_LISTVIEW);
+					}
+				}
+				LogUtils.e("_list.size=" + _list.size() + ", adapter.size="
+						+ adapter.getCount());
+			}
+		} catch (DbException e) {
+			e.printStackTrace();
+			myHandler.sendEmptyMessage(CLEAR_CONTENT_REQUEST);
+			return;
+		}
+
+		/* 2. check update || pop up dialog */
+		if (currentStatus == FIRST_IN) {
+			if (isFirst) {
+			} else {
+				checkVersionUpdate();
+			}
+		} else {
+			checkVersionUpdate();
+		}
+	}
+	
+	private void checkVersionUpdate() {
+		initParamsAndSendRequest(true);
+	}
+
+	private void initParamsAndSendRequest(boolean checkUpdate) {
+		/* 1. 初始化参数 */
+		/* 修改分页请求时传递参数的起始值，因请求分页时已经是最后一页，若该页总数小于pageSize时，并修改下一页请求的起始值 */
+		first = curPage * pageSize;
+		LogUtils.e("first=" + first + ", adapter.getDuansSize()=" + adapter.getCount());
+		if (adapter.getCount() < first) {
+			first = adapter.getCount();
+		}
+		max = pageSize;
+
+		/* 2. 发送请求 */
+		List<NameValuePair> nvps = new ArrayList<NameValuePair>();
+		nvps.add(new BasicNameValuePair(Constants.KEY_APPID, appid + ""));
+		nvps.add(new BasicNameValuePair(Constants.KEY_CLMID, columnId + ""));
+		nvps.add(new BasicNameValuePair(Constants.KEY_VER, ver + ""));
+		nvps.add(new BasicNameValuePair(Constants.KEY_FIRST, first + ""));
+		nvps.add(new BasicNameValuePair(Constants.KEY_MAX, max + ""));
+		RequestParams params = new RequestParams();
+		params.addQueryStringParameter(nvps);
+		new HttpUtils().send(HttpRequest.HttpMethod.POST, Constants.ACTION_GET_COLUMN_CONTENT,
+				params, new ContentRequestCallback(checkUpdate));
+	}
+	
+	private class ContentRequestCallback extends RequestCallBack<String> {
+
+		boolean checkUpdate;
+
+		public ContentRequestCallback(boolean checkUpdate) {
+			this.checkUpdate = checkUpdate;
+		}
+
+		@Override
+		public void onStart() {
+			super.onStart();
+		}
+
+		@Override
+		public void onFailure(HttpException error, String msg) {
+			showToast(R.string.no_service);
+			if (currentStatus == DROP_DOWN) {
+				changeDropDownFinishStatus();
+			} else if (currentStatus == PULL_UP) {
+				listView.onLoadMoreComplete();
+			}
+
+			myHandler.sendEmptyMessage(CLEAR_CONTENT_REQUEST);
+		}
+
+		@Override
+		public void onSuccess(ResponseInfo<String> responseInfo) {
+			parseResult(responseInfo.result, checkUpdate);
+		}
+
+	}
+	
+	protected void parseResult(String result, boolean checkUpdate) {
+		LogUtils.e(result);
+		/* 1. 从服务器响应中获取相应数据，也可保存在本地数据库中 */
+		JSONObject jsonObject = null;
+		try {
+			jsonObject = JSON.parseObject(result);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if (jsonObject == null) {
+			LogUtils.e("jsonObject==null");
+			return;
+		}
+
+		int code = jsonObject.getIntValue("code");
+		if (code == 0) {/* 表示可以正常读取数据 */
+			/* 读取“hasNew”字段，判断是否有版本更新 */
+			boolean hasNew = jsonObject.getBooleanValue("hasNew");
+			LogUtils.e("hasNew=" + hasNew + ", checkUpdate=" + checkUpdate);
+			if (!hasNew) {
+				/* 没有版本更新 */
+				switch (currentStatus) {
+				case FIRST_IN:
+				default:
+					break;
+
+				case DROP_DOWN:
+					/* change listView status */
+					LogUtils.e("thread.name=" + Thread.currentThread().getName());
+					showToast(R.string.no_fresh);
+					changeDropDownFinishStatus();
+					break;
+
+				case PULL_UP:
+					LogUtils.e("thread.name=" + Thread.currentThread().getName());
+					mHandler.sendEmptyMessage(FRESH_LISTVIEW);
+					if (checkUpdate) {
+						/* change listView status */
+						setMoveUp();
+						listView.onLoadMoreComplete();
+					}
+					break;
+				}
+			} else { /* 有版本更新 */
+				LogUtils.e("get data from Server");
+
+				int _ver = jsonObject.getIntValue("ver");
+				int type = jsonObject.getIntValue("type");
+				JSONArray jsonArray = jsonObject.getJSONArray("articles");
+				/* 处理上拉加载没有获取到内容时 */
+				if (jsonArray.size() == 0) {
+					if (currentStatus == PULL_UP) {
+						/* 当执行上拉操作时，自动将curPage--，设置成先前的状态，保证准确性 */
+						curPage--;
+						listView.onLoadMoreComplete();
+						showToast(R.string.no_more);
+
+						myHandler.sendEmptyMessage(CLEAR_CONTENT_REQUEST);
+						return;
+					} else if (currentStatus == DROP_DOWN) {
+						showToast(R.string.no_fresh);
+						changeDropDownFinishStatus();
+
+						myHandler.sendEmptyMessage(CLEAR_CONTENT_REQUEST);
+						return;
+					}
+				}
+
+				/* 处理获取到内容时列表或数据库清空 */
+				switch (currentStatus) {
+				case PULL_UP:
+					if (checkUpdate) {
+						clearListAndDb();
+					}
+					break;
+
+				case FIRST_IN:
+				case DROP_DOWN:
+				default:
+					clearListAndDb();
+					break;
+				}
+
+				/* 开始解析数据 */
+				List<ArticleBean> list = new ArrayList<ArticleBean>();
+				for (int i = 0; i < jsonArray.size(); i++) {
+					ArticleBean bean = new ArticleBean();
+					JSONObject jsonObject2 = jsonArray.getJSONObject(i);
+					bean.setArticleName(jsonObject2.getString("articleName"));
+					bean.setArticleDesc(jsonObject2.getString("articleDesc"));
+					bean.setHasAudio(jsonObject2.getBooleanValue("hasAudio"));
+					bean.setHasVideo(jsonObject2.getBooleanValue("hasVideo"));
+					long id = jsonObject2.getLongValue("id");
+					bean.setArticleId(id);
+					bean.setImgUrl(jsonObject2.getString("imgUrl"));
+					bean.setUrl(jsonObject2.getString("url"));
+					bean.setHasPush(jsonObject2.getBooleanValue("push"));
+					bean.setHasVip(jsonObject2.getBooleanValue("vip"));
+					bean.setUrlType(jsonObject2.getIntValue("contentType"));
+					bean.setGood(jsonObject2.getIntValue("good"));
+					bean.setBad(jsonObject2.getIntValue("bad"));
+					bean.setVer(_ver);
+					bean.setType(type);
+					bean.setAppid(appid);
+					bean.setColumnId(columnId);
+					bean.setCurPage(0);
+					list.add(bean);
+				}
+
+				// 将数据保存到数据库中
+				try {
+					getDb().saveAll(list);
+				} catch (DbException e) {
+					e.printStackTrace();
+					return;
+				}
+
+				/* 同步适配器 */
+				LogUtils.e("parseResult list.size=" + list.size());
+				adapter.addArticles(list);
+
+				mHandler.sendEmptyMessage(FRESH_LISTVIEW);
+				changeFinishState();
+			}
+
+			myHandler.sendEmptyMessage(CLEAR_CONTENT_REQUEST);
+		} else {/* 出现其它异常 */
+			showToast(jsonObject.getString("dsc") + "");
+			if (currentStatus == DROP_DOWN) {
+				changeDropDownFinishStatus();
+			} else if (currentStatus == PULL_UP) {
+				mHandler.sendEmptyMessage(FRESH_LISTVIEW);
+				listView.onLoadMoreComplete();
+			}
+
+			myHandler.sendEmptyMessage(CLEAR_CONTENT_REQUEST);
+		}
+	}
+	
+	private void clearListAndDb() {
+		curPage = 0;
+		adapter.clear();
+		try {
+			getDb().delete(ArticleBean.class, WhereBuilder.b("appid", "=", appid)
+					.and("columnId", "=", columnId));
+		} catch (DbException e) {
+			e.printStackTrace();
+			return;
+		}
+	}
+	
+	protected void setMoveUp() {
+		mHandler.sendEmptyMessage(MOVE_UP);
+	}
+	
+	private void changeFinishState() {
+		LogUtils.e("freshEnabled=" + freshEnabled);
+		switch (currentStatus) {
+		case PULL_UP:
+			setMoveUp();
+			listView.onLoadMoreComplete();
+			break;
+
+		case DROP_DOWN:
+			changeDropDownFinishStatus();
+			break;
+
+		case FIRST_IN:
+			break;
+		}
+	}
+	
+	private void changeDropDownFinishStatus() {
+		if (freshEnabled) {
+			freshEnabled = false;
+			fresh.clearAnimation();
+		}
+		listView.onRefreshComplete();
+	}
+
+	private class Frag3Handler extends Handler {
+
+		public Frag3Handler(Looper looper) {
 			super(looper);
 		}
 
-		public void handleMessage(android.os.Message msg) {
+		@Override
+		public void handleMessage(Message msg) {
+			super.handleMessage(msg);
 			switch (msg.what) {
-			case CLEAR_BANNER_REQUEST:
-				myHandler.removeCallbacks(bannerRunnable);
-				break;
-
-			case CLEAR_APPLIST_REQUEST:
-				myHandler.removeCallbacks(appListRunnable);
+			case CLEAR_CONTENT_REQUEST:
+				myHandler.removeCallbacks(contentRunnable);
 				break;
 
 			default:
 				break;
 			}
-		};
+		}
 
 	}
-
-	private void setBannerData() {
-		BannerBean bean1 = new BannerBean();
-		bean1.setBannerTitle("桃桃斗地主");
-		bean1.setBannerImgUrl("http://ubanner.qiniudn.com/banner_28.jpg");
-		bean1.setBannerDesc("怀抱四大美女斗地主，让你的夜晚不再寂寞");
-		bean1.setContentPackage("com.dianfengjingji.dfddzdj");
-		bean1.setContentType(4);
-		bean1.setContentUrl("http://apk.boya1993.com/sdmrddz_141210.apk");
-		bean1.setBannerId(28);
-		bannerList.add(bean1);
-
-		BannerBean bean2 = new BannerBean();
-		bean2.setBannerTitle("超级战舰");
-		bean2.setBannerImgUrl("http://7qnch9.com2.z0.glb.qiniucdn.com/banner_35.jpg");
-		bean2.setBannerDesc("美女陪你打飞机，冲关有好礼，疯狂射吧");
-		bean2.setContentPackage("com.ly.shiprush");
-		bean2.setContentType(4);
-		bean2.setContentUrl("http://apk.boya1993.com/cjzj__banner001.apk");
-		bean2.setBannerId(35);
-		bannerList.add(bean2);
-
-		BannerBean bean3 = new BannerBean();
-		bean3.setBannerTitle("把妹圣经");
-		bean3.setBannerImgUrl("http://7qnch9.com2.z0.glb.qiniucdn.com/banner_24.jpg");
-		bean3.setBannerDesc("男女夜话，让你更大更强！");
-		bean3.setContentPackage("com.ly.bmsj");
-		bean3.setContentType(4);
-		bean3.setContentUrl("http://push-apk.qiniudn.com/bm_0001_1012.apk");
-		bean3.setBannerId(24);
-		bannerList.add(bean3);
-
-		LogUtils.e("bannerList.size=" + bannerList.size());
-	}
-
+	
 	private Handler mHandler = new Handler() {
 
-		public void handleMessage(android.os.Message msg) {
+		@Override
+		public void handleMessage(Message msg) {
+			super.handleMessage(msg);
 			switch (msg.what) {
-			case INIT_VIEWFLOW:
-				LogUtils.e("thread.name=" + Thread.currentThread().getName());
-				initViewFlow();
+			case FRESH_LISTVIEW:
+				adapter.notifyDataSetChanged();
 				break;
 
+			case MOVE_UP:
+				listView.smoothScrollBy(ScreenUtils.dpToPxInt(getActivity(), 30), 400);
+				break;
+				
 			default:
 				break;
 			}
-		};
+		}
 
 	};
+	
+	private OnFrag3ItemClickListener itemListener = new OnFrag3ItemClickListener() {
 
+		@Override
+		public void itemClicked(ArticleBean bean) {
+			Intent intent = new Intent(getActivity(), ShowPageActivity.class);
+			intent.putExtra("title", bean.getArticleName());
+			intent.putExtra("url", bean.getUrl());
+			startActivity(intent);
+		}
+		
+	};
+	
 }

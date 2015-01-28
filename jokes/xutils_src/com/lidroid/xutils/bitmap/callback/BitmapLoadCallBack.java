@@ -95,12 +95,12 @@ public abstract class BitmapLoadCallBack<T extends View> {
     }
 
     public void setDrawable(T container, Drawable drawable) {
-    	LogUtils.e("setDrawable (bitmapSetter != null)=" + (bitmapSetter != null) 
-    				+ ", (container instanceof ImageView)=" + (container instanceof ImageView));
+//    	LogUtils.e("setDrawable (bitmapSetter != null)=" + (bitmapSetter != null) 
+//    				+ ", (container instanceof ImageView)=" + (container instanceof ImageView));
         if (bitmapSetter != null) {
             bitmapSetter.setDrawable(container, drawable);
         } else if (container instanceof ImageView) {
-        	LogUtils.e("setDrawable (drawable == null)=" + (drawable == null));
+//        	LogUtils.e("setDrawable (drawable == null)=" + (drawable == null));
             ((ImageView) container).setImageDrawable(drawable);
         } else {
             container.setBackgroundDrawable(drawable);

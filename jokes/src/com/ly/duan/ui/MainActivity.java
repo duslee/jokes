@@ -1,5 +1,8 @@
 package com.ly.duan.ui;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
@@ -20,11 +23,16 @@ import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TabHost.OnTabChangeListener;
 
+import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.ViewUtils;
+import com.lidroid.xutils.db.sqlite.Selector;
+import com.lidroid.xutils.exception.DbException;
 import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ContentView;
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.ly.duan.bean.ColumnBean;
 import com.ly.duan.bean.MultiReqStatus;
+import com.ly.duan.help.DBHelp;
 import com.ly.duan.help.GlobalHelp;
 import com.ly.duan.service.InitDataService;
 import com.ly.duan.ui.fragment.DummyTabContent;
@@ -45,10 +53,17 @@ public class MainActivity extends FragmentActivity {
 	private static final int RE_OPEN_APP = 30;
 	private static final int GET_CONTENT1_SUCCESS = 31;
 	private static final int GET_CONTENT2_SUCCESS = 32;
-	private static final int GET_BANNER_SUCCESS = 33;
+	private static final int GET_CONTENT_SUCCESS = 33;
+	private static final int GET_BANNER_SUCCESS = 34;
+	
+	private static final int BIND_CLMS = 205;
 
 	@ViewInject(android.R.id.tabhost)
 	private TabHost mTabHost;
+	
+	private List<ColumnBean> clms = new ArrayList<ColumnBean>();
+	private DbUtils db;
+	private long appid;
 
 	private FragmentManager fm;
 	private String tabName;
@@ -57,7 +72,7 @@ public class MainActivity extends FragmentActivity {
 	private int iconArray[] = { R.drawable.tab1_item_selector,
 			R.drawable.tab2_item_selector, R.drawable.tab3_item_selector,
 			R.drawable.tab4_item_selector };
-	private String tabArray[] = { "tab1", "tab2", "tab3", "tab4" };
+	private String tabArray[] = {};
 
 	private Fragment1 fragment1;
 	private Fragment1 fragment2;
@@ -77,8 +92,11 @@ public class MainActivity extends FragmentActivity {
 		/* 2. registe BroadcastReceiver */
 		IntentFilter filter = new IntentFilter(InitDataService.ACTION);
 		registerReceiver(receiver, filter);
+		
+		/* 3. open setting */
+		
 
-		/* 3. init Operation */
+		/* 4. init Operation */
 		initOperation();
 	}
 
@@ -89,49 +107,71 @@ public class MainActivity extends FragmentActivity {
 	}
 
 	private void initOperation() {
-		/* 1. set default/saved tab name */
-		tabName = tabArray[0];
-		savedTabName = PreferencesUtils.getConfigSharedPreferences(
-				MainActivity.this).getString(Constants.TAB_NAME, tabName);
-
+		/* 1. init Data */
+		db = DBHelp.getInstance(getApplicationContext());
+		appid = Long.parseLong(ResourceUtils.getFileFromAssets(getBaseContext(),
+				"appid.txt"));
+		
 		/* 2. get data */
 		/* 2.1 get current status */
 		MultiReqStatus status = GlobalHelp.getInstance().getMultiReqStatus();
+		int currentStatus = InitDataService.COLUMN_REQUESTING;
 		int content1Status = InitDataService.CONTENT1_REQUESTING;
 		int content2Status = InitDataService.CONTENT2_REQUESTING;
 		if (null != status) {
+			currentStatus = status.getCurrentStatus();
 			content1Status = status.getContent1Status();
 			content2Status = status.getContent2Status();
 		}
-		LogUtils.e("content1Status=" + content1Status + ", content2Status="
-				+ content2Status);
+		LogUtils.e("currentStatus=" + currentStatus + ", content1Status=" + 
+				content1Status + ", content2Status=" + content2Status);
+		
+		/* 2.2 根据currentStatus判断是否弹出刷新框提示等待 */
+		switch (currentStatus) {
+		case InitDataService.CONTENT_REQUEST_FINISH:
+			mHandler.post(clmsRunnable);
+			break;
 
-		/* 2.2 根据content1Status & content2Status & savedTabName判断是否弹出刷新框提示等待 */
-		if (savedTabName.equalsIgnoreCase(tabArray[0])) {
-			switch (content1Status) {
-			case InitDataService.CONTENT1_REQUESTING:
-				openDialog();
-				break;
+		case InitDataService.CONTENT_REQUESTING:
+		case InitDataService.COLUMN_REQUEST_FINISH:
+			openDialog();
+			mHandler.post(clmsRunnable);
+			break;
 
-			default:
-				break;
-			}
-		} else if (savedTabName.equalsIgnoreCase(tabArray[1])) {
-			switch (content2Status) {
-			case InitDataService.CONTENT2_REQUESTING:
-				openDialog();
-				break;
+		case InitDataService.COLUMN_REQUESTING:
+			openDialog();
+			break;
 
-			default:
-				break;
-			}
+		default:
+			break;
 		}
 
-		/* 3. get Fragment */
-		getFragment();
-
-		/* 4. set up tab */
-		setupTabView();
+//		/* 2.2 根据content1Status & content2Status & savedTabName判断是否弹出刷新框提示等待 */
+//		if (savedTabName.equalsIgnoreCase(tabArray[0])) {
+//			switch (content1Status) {
+//			case InitDataService.CONTENT1_REQUESTING:
+//				openDialog();
+//				break;
+//
+//			default:
+//				break;
+//			}
+//		} else if (savedTabName.equalsIgnoreCase(tabArray[1])) {
+//			switch (content2Status) {
+//			case InitDataService.CONTENT2_REQUESTING:
+//				openDialog();
+//				break;
+//
+//			default:
+//				break;
+//			}
+//		}
+//
+//		/* 3. get Fragment */
+//		getFragment();
+//
+//		/* 4. set up tab */
+//		setupTabView();
 	}
 
 	protected void openDialog() {
@@ -179,6 +219,25 @@ public class MainActivity extends FragmentActivity {
 		saveTabInSP();
 		super.onStop();
 	}
+	
+	public void bindClms() {
+		/* 1. init String Array */
+		tabArray = new String[clms.size()];
+		for (int i = 0; i < clms.size(); i++) {
+			tabArray[i] = clms.get(i).getColumnName();
+		}
+		
+		/* 2. set default/saved tab name */
+		tabName = tabArray[0];
+		savedTabName = PreferencesUtils.getConfigSharedPreferences(
+				MainActivity.this).getString(Constants.TAB_NAME, tabName);
+
+		/* 3. get Fragment */
+		getFragment();
+		
+		/* 4. setup Tab View */
+		setupTabView();
+	}
 
 	private void setupTabView() {
 		/* set listener */
@@ -217,41 +276,38 @@ public class MainActivity extends FragmentActivity {
 			/* 处理各个标签对应的事件 */
 			if (tabId.equalsIgnoreCase(tabArray[0])) {
 				tabName = tabArray[0];
-				LogUtils.e("(fragment1==null)=" + (fragment1 == null)
-						+ ", tabName=" + tabName);
+				LogUtils.e("(fragment1==null)=" + (fragment1 == null) + ", tabName=" + tabName);
 				/* 将Fragment添加进容器中 */
 				if (null == fragment1) {
-					fragment1 = Fragment1.newInstance(true,
-							isSame(tabName, savedTabName));
+//					fragment1 = Fragment1.newInstance(true, isSame(tabName, savedTabName));
+					fragment1 = Fragment1.newInstance(true, isSame(tabName, savedTabName), clms.get(0));
 					ft.add(R.id.content, fragment1, tabArray[0]);
 				} else {/* 直接显示该Fragment */
 					ft.show(fragment1);
 				}
 			} else if (tabId.equalsIgnoreCase(tabArray[1])) {
 				tabName = tabArray[1];
-				LogUtils.e("(fragment2==null)=" + (fragment2 == null)
-						+ ", tabName=" + tabName);
+				LogUtils.e("(fragment2==null)=" + (fragment2 == null) + ", tabName=" + tabName);
 				if (null == fragment2) {
-					fragment2 = Fragment1.newInstance(false,
-							isSame(tabName, savedTabName));
+//					fragment2 = Fragment1.newInstance(false, isSame(tabName, savedTabName));
+					fragment2 = Fragment1.newInstance(false, isSame(tabName, savedTabName), clms.get(1));
 					ft.add(R.id.content, fragment2, tabArray[1]);
 				} else {
 					ft.show(fragment2);
 				}
 			} else if (tabId.equalsIgnoreCase(tabArray[2])) {
 				tabName = tabArray[2];
-				LogUtils.e("(fragment3==null)=" + (fragment3 == null)
-						+ ", tabName=" + tabName);
+				LogUtils.e("(fragment3==null)=" + (fragment3 == null) + ", tabName=" + tabName);
 				if (null == fragment3) {
-					fragment3 = new Fragment3();
+//					fragment3 = new Fragment3();
+					fragment3 = Fragment3.newInstance(isSame(tabName, savedTabName), clms.get(2));
 					ft.add(R.id.content, fragment3, tabArray[2]);
 				} else {
 					ft.show(fragment3);
 				}
 			} else if (tabId.equalsIgnoreCase(tabArray[3])) {
 				tabName = tabArray[3];
-				LogUtils.e("(fragment4==null)=" + (fragment4 == null)
-						+ ", tabName=" + tabName);
+				LogUtils.e("(fragment4==null)=" + (fragment4 == null) + ", tabName=" + tabName);
 				if (null == fragment4) {
 					fragment4 = new Fragment4();
 					ft.add(R.id.content, fragment4, tabArray[3]);
@@ -276,7 +332,7 @@ public class MainActivity extends FragmentActivity {
 					mExitTime = System.currentTimeMillis();
 				} else {
 					saveTabInSP();
-					this.finish();
+					MainActivity.this.finish();
 					System.exit(0);
 				}
 			}
@@ -298,115 +354,159 @@ public class MainActivity extends FragmentActivity {
 			String action = intent.getAction();
 			LogUtils.e("action=" + action);
 
-			if (!StringUtils.isBlank(action)
-					&& (action.equalsIgnoreCase(InitDataService.ACTION))) {
+			if (!StringUtils.isBlank(action) && 
+					(action.equalsIgnoreCase(InitDataService.ACTION))) {
 				int bc_type = intent.getIntExtra("bc_type", 0);
-				int content1Status = intent.getIntExtra("content1Status", 0);
-				int content2Status = intent.getIntExtra("content2Status", 0);
-				int bannerStatus = intent.getIntExtra("bannerStatus", 0);
+				
+				/* exit app directly */
+				if (bc_type == InitDataService.SEND_BC_EXIT) {
+					mHandler.sendEmptyMessage(RE_OPEN_APP);
+				} else {
+					int content1Status = intent.getIntExtra("content1Status", 0);
+					int content2Status = intent.getIntExtra("content2Status", 0);
+					int bannerStatus = intent.getIntExtra("bannerStatus", 0);
+					int currentStatus = intent.getIntExtra("currentStatus", 0);
 
-				LogUtils.e("MainActivity receiver bc_type=" + bc_type
-						+ ", content1Status=" + content1Status
-						+ ", content2Status=" + content2Status
-						+ ", bannerStatus=" + bannerStatus);
+					LogUtils.e("MainActivity receiver bc_type=" + bc_type
+							+ ", content1Status=" + content1Status
+							+ ", content2Status=" + content2Status
+							+ ", bannerStatus=" + bannerStatus
+							+ ", currentStatus=" + currentStatus);
 
-				switch (bc_type) {
-				/* handle content1 request */
-				case InitDataService.SEND_BC_CONTENT1: {
-					switch (content1Status) {
-					case InitDataService.CONTENT1_REQUEST_FAILED:
-						mHandler.sendEmptyMessage(RE_OPEN_APP);
-						ToastUtils.show(MainActivity.this, R.string.no_service);
-						break;
+					switch (bc_type) {
+					/* handle content1 request */
+					case InitDataService.SEND_BC_CONTENT1: {
+						switch (content1Status) {
+						case InitDataService.CONTENT1_REQUEST_FAILED:
+							mHandler.sendEmptyMessage(RE_OPEN_APP);
+							ToastUtils.show(MainActivity.this, R.string.no_service);
+							break;
 
-					case InitDataService.CONTENT1_RESPONSE_ERROR:
-						ToastUtils
-								.show(MainActivity.this, R.string.error_appid);
-						break;
+						case InitDataService.CONTENT1_RESPONSE_ERROR:
+							ToastUtils.show(MainActivity.this, R.string.error_appid);
+							break;
 
-					case InitDataService.CONTENT1_REQUEST_FINISH:
-						Message msg = new Message();
-						msg.what = GET_CONTENT1_SUCCESS;
-						msg.arg1 = bc_type;
-						msg.arg2 = content1Status;
-						mHandler.sendMessage(msg);
+						case InitDataService.CONTENT1_REQUEST_FINISH:
+							Message msg = new Message();
+							msg.what = GET_CONTENT1_SUCCESS;
+							msg.arg1 = bc_type;
+							msg.arg2 = content1Status;
+							mHandler.sendMessage(msg);
+							break;
 
-						// mHandler.sendEmptyMessage(GET_CONTENT1_SUCCESS);
-						break;
+						case InitDataService.CONTENT1_REQUESTING:
+						default:
+							break;
+						}
 
-					case InitDataService.CONTENT1_REQUESTING:
-					default:
-						break;
-					}
-
-					break;
-				}
-
-				/* handle content2 request */
-				case InitDataService.SEND_BC_CONTENT2: {
-					switch (content2Status) {
-					case InitDataService.CONTENT2_REQUEST_FAILED:
-						mHandler.sendEmptyMessage(RE_OPEN_APP);
-						ToastUtils.show(MainActivity.this, R.string.no_service);
-						break;
-
-					case InitDataService.CONTENT2_RESPONSE_ERROR:
-						ToastUtils
-								.show(MainActivity.this, R.string.error_appid);
-						break;
-
-					case InitDataService.CONTENT2_REQUEST_FINISH:
-						Message msg = new Message();
-						msg.what = GET_CONTENT2_SUCCESS;
-						msg.arg1 = bc_type;
-						msg.arg2 = content2Status;
-						mHandler.sendMessage(msg);
-
-						// mHandler.sendEmptyMessage(GET_CONTENT2_SUCCESS);
-						break;
-
-					case InitDataService.CONTENT2_REQUESTING:
-					default:
 						break;
 					}
 
-					break;
-				}
+					/* handle content2 request */
+					case InitDataService.SEND_BC_CONTENT2: {
+						switch (content2Status) {
+						case InitDataService.CONTENT2_REQUEST_FAILED:
+							mHandler.sendEmptyMessage(RE_OPEN_APP);
+							ToastUtils.show(MainActivity.this, R.string.no_service);
+							break;
 
-				/* handle banner request */
-				case InitDataService.SEND_BC_BANNER: {
-					switch (bannerStatus) {
-					case InitDataService.BANNER_REQUEST_FAILED:
-						ToastUtils.show(MainActivity.this, R.string.no_service);
-						break;
+						case InitDataService.CONTENT2_RESPONSE_ERROR:
+							ToastUtils.show(MainActivity.this, R.string.error_appid);
+							break;
 
-					case InitDataService.BANNER_RESPONSE_ERROR:
-						ToastUtils
-								.show(MainActivity.this, R.string.error_appid);
-						break;
+						case InitDataService.CONTENT2_REQUEST_FINISH:
+							Message msg = new Message();
+							msg.what = GET_CONTENT2_SUCCESS;
+							msg.arg1 = bc_type;
+							msg.arg2 = content2Status;
+							mHandler.sendMessage(msg);
+							break;
 
-					case InitDataService.BANNER_REQUEST_FINISH:
-						Message msg = new Message();
-						msg.what = GET_BANNER_SUCCESS;
-						msg.arg1 = bc_type;
-						msg.arg2 = bannerStatus;
-						mHandler.sendMessage(msg);
+						case InitDataService.CONTENT2_REQUESTING:
+						default:
+							break;
+						}
 
-						// mHandler.sendEmptyMessage(GET_BANNER_SUCCESS);
-						break;
-
-					case InitDataService.BANNER_REQUESTING:
-					default:
 						break;
 					}
 
-					break;
-				}
+					/* handle banner request */
+					case InitDataService.SEND_BC_BANNER: {
+						switch (bannerStatus) {
+						case InitDataService.BANNER_REQUEST_FAILED:
+							ToastUtils.show(MainActivity.this, R.string.no_service);
+							break;
 
-				default:
-					break;
-				}
+						case InitDataService.BANNER_RESPONSE_ERROR:
+							ToastUtils.show(MainActivity.this, R.string.error_appid);
+							break;
 
+						case InitDataService.BANNER_REQUEST_FINISH:
+							Message msg = new Message();
+							msg.what = GET_BANNER_SUCCESS;
+							msg.arg1 = bc_type;
+							msg.arg2 = bannerStatus;
+							mHandler.sendMessage(msg);
+							break;
+
+						case InitDataService.BANNER_REQUESTING:
+						default:
+							break;
+						}
+
+						break;
+					}
+					
+					case InitDataService.SEND_BC_CONTENT: {
+						switch (currentStatus) {
+						case InitDataService.CONTENT_REQUEST_FAILED:
+							ToastUtils.show(MainActivity.this, R.string.no_service);
+							break;
+
+						case InitDataService.CONTENT_RESPONSE_ERROR:
+							ToastUtils.show(MainActivity.this, R.string.error_appid);
+							mHandler.sendEmptyMessage(RE_OPEN_APP);
+							break;
+
+						case InitDataService.CONTENT_REQUEST_FINISH:
+							Message msg = mHandler.obtainMessage(GET_CONTENT_SUCCESS, 
+									bc_type, currentStatus);
+							mHandler.sendMessage(msg);
+							break;
+							
+						case InitDataService.CONTENT_REQUESTING:
+						default:
+							break;
+						}
+					}
+						break;
+						
+					case InitDataService.SEND_BC_CLM: {
+						switch (currentStatus) {
+						case InitDataService.COLUMN_REQUEST_FAILED:
+							ToastUtils.show(MainActivity.this, R.string.no_service);
+							break;
+
+						case InitDataService.COLUMN_RESPONSE_ERROR:
+							ToastUtils.show(MainActivity.this, R.string.error_appid);
+							mHandler.sendEmptyMessage(RE_OPEN_APP);
+							break;
+
+						case InitDataService.COLUMN_REQUEST_FINISH:
+							mHandler.post(clmsRunnable);
+							break;
+							
+						case InitDataService.COLUMN_REQUESTING:
+						default:
+							break;
+						}
+					}
+						break;
+
+					default:
+						break;
+					}
+				}
 			}
 		}
 
@@ -418,12 +518,17 @@ public class MainActivity extends FragmentActivity {
 		public void handleMessage(Message msg) {
 			super.handleMessage(msg);
 			switch (msg.what) {
+			case BIND_CLMS:
+				bindClms();
+				break;
+			
 			case RE_OPEN_APP:
 				handleExitApp();
 				break;
 
 			case GET_CONTENT1_SUCCESS:
 			case GET_CONTENT2_SUCCESS:
+			case GET_CONTENT_SUCCESS:
 				closeDialog();
 
 				LogUtils.e("thread.name=" + Thread.currentThread().getName()
@@ -472,7 +577,18 @@ public class MainActivity extends FragmentActivity {
 			}
 			// } else if ((which == InitDataService.BANNER_REQUEST_FINISH)
 			// && savedTabName.equalsIgnoreCase(tabArray[2])) {
-		} else if ((which == InitDataService.BANNER_REQUEST_FINISH)) {
+		}
+//		else if ((which == InitDataService.CONTENT_REQUEST_FINISH)) {
+//			LogUtils.e("(fragment2 != null)=" + (fragment2 != null));
+//			if (savedTabName.equalsIgnoreCase(tabArray[0]) && !hasNotifyClm1 && (fragment1 != null)) {
+//				hasNotifyClm1 = true;
+//				fragment1.acceptNotify(which);
+//			} else if (savedTabName.equalsIgnoreCase(tabArray[1]) && !hasNotifyClm2 && (fragment2 != null)) {
+//				hasNotifyClm2 = true;
+//				fragment2.acceptNotify(which);
+//			}
+//		}
+		else if ((which == InitDataService.BANNER_REQUEST_FINISH)) {
 			LogUtils.e("(fragment3 != null)=" + (fragment3 != null)
 					+ ", hasNotifyBanner1=" + hasNotifyBanner1
 					+ ", hasNotifyBanner2=" + hasNotifyBanner2);
@@ -484,6 +600,17 @@ public class MainActivity extends FragmentActivity {
 			if (!hasNotifyBanner1) {
 				hasNotifyBanner1 = true;
 				fragment1.acceptNotify(which);
+			}
+		}
+		
+		if ((which == InitDataService.CONTENT_REQUEST_FINISH)) {
+			LogUtils.e("CONTENT_REQUEST_FINISH savedTabName=" + savedTabName);
+			if (savedTabName.equalsIgnoreCase(tabArray[0]) && !hasNotifyClm1 && (fragment1 != null)) {
+				hasNotifyClm1 = true;
+				fragment1.acceptNotify(which);
+			} else if (savedTabName.equalsIgnoreCase(tabArray[1]) && !hasNotifyClm2 && (fragment2 != null)) {
+				hasNotifyClm2 = true;
+				fragment2.acceptNotify(which);
 			}
 		}
 	}
@@ -516,5 +643,30 @@ public class MainActivity extends FragmentActivity {
 		}
 		return false;
 	}
+	
+	private Runnable clmsRunnable = new Runnable() {
+		
+		@Override
+		public void run() {
+			getClmsFromDb();
+		}
+
+		private void getClmsFromDb() {
+			/* 1. 从数据库获取数据 */
+			List<ColumnBean> list = null;
+			try {
+				list = db.findAll(Selector.from(ColumnBean.class).where("appid", "=", appid));
+			} catch (DbException e) {
+				e.printStackTrace();
+			}
+			
+			/* 2. 添加进栏目列表中 */
+			if ((null != list) && (list.size() > 0)) {
+				clms.addAll(list);
+				mHandler.sendEmptyMessage(BIND_CLMS);
+			}
+			mHandler.removeCallbacks(clmsRunnable);
+		}
+	};
 
 }

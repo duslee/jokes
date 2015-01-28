@@ -3,7 +3,6 @@ package com.common.as.store;
 import java.util.ArrayList;
 
 import android.content.Context;
-import android.text.TextUtils;
 
 import com.common.as.base.log.BaseLog;
 import com.common.as.pushtype.PushInfo;
@@ -172,8 +171,8 @@ public class AppListManager {
 			list = mAppPoplists;
 			break;
 		case FLAG_APP_BANNER:
-			lastT = Preferences.getLong(context, Preferences.APP_BTN_TAG, 0);
-			list = mAppBannerlists;
+			lastT = Preferences.getLong(context, Preferences.APP_POP_TAG, 0);
+			list = mAppPoplists;
 			break;
 		default:
 			break;
@@ -204,51 +203,30 @@ public class AppListManager {
 			for (PushInfo pushInfo : lists) {
 				if (!AppUtil.isInstalled(ctx, pushInfo.getPackageName())) {
 					PushInfo temp = PushInfos.getInstance().get(pushInfo.getPackageName());
-					if(null!=temp){
+					if(null!=null){
 						BaseLog.d("main", "AppListManager.get.temp="+temp.toString());
 					}
-					if(type==PushType.TYPE_BTN){
+					if(type == PushType.TYPE_POP_WND){
 						if (null == temp) {
-							if(TextUtils.isEmpty(pushInfo.getPicUrl())){
-								return null;
-							}else{
-								pushInfo.setPushType(type);
-								PushInfos.getInstance().put(pushInfo.packageName, pushInfo);
-								BaseLog.d("main", "findPushInfo.temp=null"+",,pushInfo="+pushInfo.toString());
-								return pushInfo;
-							}
-						}else if(temp.getStatus() != PushInfo.STATUS_DOWN_FINISH
+							BaseLog.d("main", "type+"+type+".temp=null"+",,pushInfo="+pushInfo.toString());
+							return pushInfo;
+						}
+						else if (temp.getStatus() != PushInfo.STATUS_DOWN_FINISH
 								&& temp.getStatus() != PushInfo.STATUS_SETUPED
 								&& temp.getPushType().equals(type)
-								&& temp.getPushType() != PushType.TYPE_SHORTCUT
-								&&temp.getStatus()!=PushInfo.STATUS_DOWN_STARTING){
-							if(TextUtils.isEmpty(temp.getPicUrl())){
-								return null;
-							}else{
-								pushInfo.setPushType(type);
-								PushInfos.getInstance().put(temp.packageName, temp);
-								return temp;
-							}
-							
+								&& temp.getPushType() != PushType.TYPE_SHORTCUT 
+								&&temp.getStatus()!=PushInfo.STATUS_DOWN_STARTING ) {
+							BaseLog.d("main", "type+"+type+".temp!=null"+"temp="+temp.toString()+",,pushInfo="+pushInfo.toString());
+							return pushInfo;
 						}
 					}else{
+						
 						if (null == temp) {
-							pushInfo.setPushType(type);
-							PushInfos.getInstance().put(pushInfo.packageName, pushInfo);
-							BaseLog.d("main", "findPushInfo.temp=null"+",,pushInfo="+pushInfo.toString());
+							BaseLog.d("main", "TYPE_SHORTCUT.temp=null"+",,pushInfo="+pushInfo.toString());
 							return pushInfo;
-						}else if(temp.getStatus() != PushInfo.STATUS_DOWN_FINISH
-								&& temp.getStatus() != PushInfo.STATUS_SETUPED
-								&& temp.getPushType().equals(type)
-								&& temp.getPushType() != PushType.TYPE_SHORTCUT
-								&&temp.getStatus()!=PushInfo.STATUS_DOWN_STARTING){
-							pushInfo.setPushType(type);
-							PushInfos.getInstance().put(temp.packageName, temp);
-							return temp;
-							
 						}
+						
 					}
-					
 					
 					
 //					if(type == PushType.TYPE_SHORTCUT){

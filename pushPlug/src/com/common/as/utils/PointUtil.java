@@ -19,7 +19,6 @@ import com.common.as.pushtype.PushUtil.PushType;
 import com.common.as.store.AppListManager;
 import com.common.as.store.StartTimesInfo;
 import com.common.as.struct.PaySwitchInfo;
-import com.common.as.utils.http.HttpRespPaser;
 
 public class PointUtil {
 	public static final String TAG = "PointUtil";
@@ -29,7 +28,6 @@ public class PointUtil {
 	public static final int POINT_ID_SETUP_SUCCESS = 4;
 	public static final int POINT_ID_START_UP = 5;
 	public static final int POINT_ID_SETUP = 6;
-	public static final int POINT_ID_UNISTANTAR = 7;
 	public static class PointInfo {
 		final int pointid;
 		int subPoint;
@@ -93,39 +91,6 @@ public class PointUtil {
 			}
 		});
 	}
-	public static void SendPlugPoint(final Context ctx, final PointInfo pi) {
-		BaseLog.d(TAG, pi + "");
-		if (null == pi.pi) {
-			return;
-		}
-
-		Main.getUiHandler().post(new Runnable() {
-
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-				HttpUtil mHttpUtil = new HttpUtil(ctx);
-				RequestData rq = new RequestData(HttpUtil.KEY_POST_DATA) {
-
-					@Override
-					public void onSuccess(int what, Object obj) {
-						// TODO Auto-generated method stub
-						
-
-					}
-
-					@Override
-					public void onFailed(int what, Object obj) {
-					}
-				};
-				LogData lgoData = new LogData(0, pi.pi.getAppid(), 0, pi.pointid);
-				lgoData.setLogsubcode(pi.subPoint);
-				rq.setInput(lgoData);
-
-				mHttpUtil.startRequest(rq);
-			}
-		});
-	}
 	public static int getPaySwitch(final Context context){
 		Main.getUiHandler().post(new Runnable() {
 			
@@ -164,7 +129,6 @@ public class PointUtil {
 		if (null == times) {
 			times = new StartTimesInfo(s);
 		}
-		BaseLog.d("main", "timers="+times.getmStartTimes());
 		times.addCount();
 		times.save(s);
 		if (times.isFirstStart()) {
@@ -172,22 +136,12 @@ public class PointUtil {
 		} else {
 			startType = 1;
 		}
-//		MPHttpClientUtils.postLog(HttpUtil.KEY_POST_NET_DATA, null, startType,ctx);
-		
-		MPHttpClientUtils.postLog(HttpUtil.KEY_POST_NET_DATA, new MPHttpClientRespListener() {
+	MPHttpClientUtils.postLog(HttpUtil.KEY_POST_NET_DATA, new MPHttpClientRespListener() {
 			
 			@Override
 			public void onMPHttpClientResponse(int id, int errId, int statusId,
 					MPHttpClientData obj) {
 				// TODO Auto-generated method stub
-//				HttpRespPaser paser = new HttpRespPaser(ctx, obj, errId, statusId);
-//				BaseLog.d("main", "PointUtil.active.paser="+paser.isRespondSuccess());
-//				if(paser.isRespondSuccess()){
-//					AppUtil.saveYMRadom(ctx, MPHttpClientUtils.ROOM_SERVER_URL);
-//				}else{
-//					AppUtil.saveUnUserYM(ctx, MPHttpClientUtils.ROOM_SERVER_URL);
-//					SendPoint1(ctx, 0);
-//				}
 			}
 		}, startType,ctx);
 		

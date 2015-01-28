@@ -28,7 +28,6 @@ import com.common.as.pushtype.PushInfo;
 import com.common.as.pushtype.PushInfoActionPaser;
 import com.common.as.pushtype.PushUtil;
 import com.common.as.pushtype.PushUtil.PushType;
-import com.common.as.service.AppInfoUtil;
 import com.common.as.service.NotifySetUp;
 import com.common.as.service.SystemReceiver;
 import com.common.as.store.PushInfos;
@@ -252,13 +251,14 @@ public class DownloadService extends Service {
 
 		// is there a need to start the DownloadService? yes, if there
 		// are rows to be deleted.
-		
+
 		for (DownloadInfo info : mDownloads.values()) {
 		    if (info.mDeleted) {
 			keepService = true;
 			break;
 		    }
 		}
+
 		mNotifier.updateNotification(mDownloads.values());
 
 

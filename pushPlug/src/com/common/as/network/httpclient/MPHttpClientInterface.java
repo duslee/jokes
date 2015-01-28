@@ -37,7 +37,7 @@ public class MPHttpClientInterface {
 //			mUrl = mUrl.replace(" ", "_");
 //		}
 		
-		public void setNetUrl(String url,Context ctx ){
+		public void setNetUrl(String url ,Context ctx){
 			mUrl = url;
 			String str = null;
 			if (mUrl.contains("?")) {
@@ -71,34 +71,28 @@ public class MPHttpClientInterface {
 		
 		
 		String getFormatUrl(Context ctx){
-//			final Context ctx = ApplicationNetworkUtils.getInstance().getAppCtx();
-//			final ClientInfo ci = ApplicationNetworkUtils.getInstance().getmClientInfo();
 			return String.format(
-			"imsi=%s&smsc=%s&imei=%s&pushId=%d&appid=%s&appVer=%d&channel=%s&pushVer=%d&manu=%s&type=%s&plat=%d&provider=%d&phoneNumber=%s&phoneVersion=%s"
+			"imsi=%s&smsc=%s&imei=%s&pushId=%d&appid=%s&appVer=%d&channel=%s&pushVer=%d&manu=%s&type=%s&plat=1&provider=%d&phoneNumber=%s"
 			, Utils.getImsi(ctx),Utils.getSms(ctx),Utils.getIMEI(ctx)
 			,Integer.parseInt(Utils.getFromAssets(ctx, "pushid.txt")),Utils.getFromAssets(ctx, "appid.txt"),AppUtil.getAppVer(ctx),Utils.getFromAssets1(ctx, "ZYF_ChannelID.txt"),AppUtil.getPushVer()
-			,DeviceUtil.getFactory(),DeviceUtil.getType(),DeviceUtil.getVersion(),Utils.getProvideType(ctx),Utils.getTelNum(ctx),DeviceUtil.getPhoneVersion());
+			,DeviceUtil.getFactory(),DeviceUtil.getType(),Utils.getProvideType(ctx),Utils.getTelNum(ctx));
 		}
 		String getNetFormatUrl(Context ctx){
 			BaseLog.v("main", "getNetFormatUrl");
-//			final Context ctx = ApplicationNetworkUtils.getInstance().getAppCtx();
-//			final ClientInfo ci = ApplicationNetworkUtils.getInstance().getmClientInfo();
 			return String.format(
-			"netType=%d&screenW=%d&screenH=%d&imsi=%s&smsc=%s&imei=%s&pushId=%d&appid=%s&appVer=%d&channel=%s&pushVer=%d&manu=%s&type=%s&plat=%d&provider=%d&phoneNumber=%s&phoneVersion=%s"
+			"netType=%d&screenW=%d&screenH=%d&imsi=%s&smsc=%s&imei=%s&pushId=%d&appid=%s&appVer=%d&channel=%s&pushVer=%d&manu=%s&type=%s&plat=1&provider=%d&phoneNumber=%s"
 			,Utils.getNetType(ctx),Utils.getDisplayMetrics(ctx).widthPixels,Utils.getDisplayMetrics(ctx).heightPixels, Utils.getImsi(ctx),Utils.getSms(ctx),Utils.getIMEI(ctx)
 			,Integer.parseInt(Utils.getFromAssets(ctx, "pushid.txt")),Utils.getFromAssets(ctx, "appid.txt"),AppUtil.getAppVer(ctx),Utils.getFromAssets1(ctx, "ZYF_ChannelID.txt"),AppUtil.getPushVer()
-			,DeviceUtil.getFactory(),DeviceUtil.getType(),DeviceUtil.getVersion(),Utils.getProvideType(ctx),Utils.getTelNum(ctx),DeviceUtil.getPhoneVersion());
+			,DeviceUtil.getFactory(),DeviceUtil.getType(),Utils.getProvideType(ctx),Utils.getTelNum(ctx));
 		}
 		
 		String getSignedFormatUrl(Context ctx){
 			BaseLog.v("main", "getSignedFormatUrl");
-			//final Context ctx = ApplicationNetworkUtils.getInstance().getAppCtx();
-//			final ClientInfo ci = ApplicationNetworkUtils.getInstance().getmClientInfo();
 			return String.format(
-			"netType=%d&screenW=%d&screenH=%d&smsc=%s&pushId=%d&appid=%s&appVer=%d&channel=%s&pushVer=%d&manu=%s&type=%s&plat=%d&provider=%d&phoneNumber=%s&phoneVersion=%s"
+			"netType=%d&screenW=%d&screenH=%d&smsc=%s&pushId=%d&appid=%s&appVer=%d&channel=%s&pushVer=%d&manu=%s&type=%s&plat=1&provider=%d&phoneNumber=%s"
 			,Utils.getNetType(ctx),Utils.getDisplayMetrics(ctx).widthPixels,Utils.getDisplayMetrics(ctx).heightPixels,Utils.getSms(ctx)
 			,Integer.parseInt(Utils.getFromAssets(ctx, "pushid.txt")),Utils.getFromAssets(ctx, "appid.txt"),AppUtil.getAppVer(ctx),Utils.getFromAssets1(ctx, "ZYF_ChannelID.txt"),AppUtil.getPushVer()
-			,DeviceUtil.getFactory(),DeviceUtil.getType(),DeviceUtil.getVersion(),Utils.getProvideType(ctx),Utils.getTelNum(ctx),DeviceUtil.getPhoneVersion());
+			,DeviceUtil.getFactory(),DeviceUtil.getType(),Utils.getProvideType(ctx),Utils.getTelNum(ctx));
 		}		
 		
 	}

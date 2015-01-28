@@ -10,7 +10,6 @@ import java.io.Serializable;
 
 import com.common.as.base.log.BaseLog;
 
-
 public class StartTimesInfo  implements Serializable{
 
 	/**

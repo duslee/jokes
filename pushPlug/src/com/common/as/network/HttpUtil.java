@@ -1,6 +1,7 @@
 package com.common.as.network;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.common.as.base.log.BaseLog;
 import com.common.as.network.httpclient.MPHttpClientData;
@@ -10,16 +11,11 @@ import com.common.as.network.httpclient.app.MpHttpReqAppList.ListReq;
 import com.common.as.network.httpclient.app.MpHttpReqPostData.LogData;
 import com.common.as.network.httpclient.app.MpHttpRespAppList;
 import com.common.as.network.httpclient.app.MphttpRespAppSwitch;
-import com.common.as.network.httpclient.app.MphttpRespScaleSwitch;
 import com.common.as.store.AppListManager;
-import com.common.as.utils.AppUtil;
 import com.common.as.utils.http.HttpRespPaser;
 
 public class HttpUtil implements MPHttpClientRespListener{
 	private String TAG = "main";
-	
-	public static final int KEY_APP_SWITCH = 6;
-	
 	public static final int KEY_PUSH_SWITCH = 1;
 	
 	public static final int KEY_BG_LIST = 2;
@@ -92,8 +88,6 @@ public class HttpUtil implements MPHttpClientRespListener{
 				break;
 			case KEY_POST_NET_DATA:
 				MPHttpClientUtils.postLog(req.key, this,0,mContext);
-			case KEY_APP_SWITCH:
-				MPHttpClientUtils.getScaleSwitches(req.key, this, mContext);
 				break;
 			}
 			
@@ -143,19 +137,6 @@ public class HttpUtil implements MPHttpClientRespListener{
 					BaseLog.d(TAG, "HttpUtils.getmPushinfos="+respApplist.getmPushinfos());
 				}
 				mRequestData.onSuccess(mRequestData.key, respApplist.getmPushinfos());
-			}else if (mRequestData.key == KEY_BTN_LIST) {
-				MpHttpRespAppList respApplist = (MpHttpRespAppList)obj;
-				AppListManager.setmAppBannerlists(mContext, respApplist.getmPushinfos());
-				if (null != respApplist.getmPushinfos()) {
-					BaseLog.d(TAG, "HttpUtils.getmPushinfos="+respApplist.getmPushinfos());
-				}
-				mRequestData.onSuccess(mRequestData.key, respApplist.getmPushinfos());
-			}else if(mRequestData.key == KEY_APP_SWITCH){
-				MphttpRespScaleSwitch mScaleSwitch = (MphttpRespScaleSwitch)obj;
-				if (null != mScaleSwitch.getmPaySwitchInfo()) {
-					AppUtil.mScaleSwitchInfo = mScaleSwitch.getmPaySwitchInfo();
-				}
-				mRequestData.onSuccess(mRequestData.key, mScaleSwitch.getmPaySwitchInfo());
 			}
 			
 		} else {

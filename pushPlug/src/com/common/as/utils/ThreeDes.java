@@ -4,8 +4,6 @@ import java.security.*;
 import javax.crypto.*;
 import javax.crypto.spec.SecretKeySpec;
 
-import dalvik.annotation.TestTarget;
-
 import android.util.Log;
 /**
  * @author Slash

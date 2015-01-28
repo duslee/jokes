@@ -37,7 +37,6 @@ import com.common.as.pushtype.PushInfo;
 import com.common.as.pushtype.PushInfoActionPaser;
 import com.common.as.pushtype.PushUtil;
 import com.common.as.pushtype.PushUtil.PushType;
-import com.common.as.service.CheckService;
 import com.common.as.service.NotifySetUp;
 import com.common.as.store.AppListManager;
 import com.common.as.store.PushInfos;
@@ -911,20 +910,10 @@ public class DownloadThread extends Thread {
 		filename, uri, mimeType);
 		if (Downloads.isStatusCompleted(status)) {
 		    mInfo.sendIntentIfRequested();
-		    PushInfo pi = PushInfos.getInstance().get(mInfo.mAppItemPackageName);
-		    if (pi != null) {
-		    	downFinish(mInfo);
-			}else{
-				downFinish();
-			}
-		    
+		    downFinish(mInfo);
 		}
     }
     
-    private void downFinish(){
-    	BaseLog.d("main", "downFinish");
-    	CheckService.showPlugDialogView(mContext);
-    }
     
     
 

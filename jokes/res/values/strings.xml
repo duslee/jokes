@@ -68,5 +68,8 @@
     <string name="exit_app">获取栏目信息失败，请退出应用…</string>
     <string name="restart">重启</string>
     <string name="exit">退出</string>
+    
+    <string name="no_url_addr">抱歉，该视频链接地址不存在...</string>
+    <string name="play_video_failed">视频播放错误，请重新选择！</string>
 
 </resources>

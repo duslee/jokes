@@ -5,11 +5,13 @@ public class Constants {
 	/** 标记此应用退出时界面处于哪一个tab */
 	public static final String TAB_NAME = "tab_name";
 
-//	public static final String ACTION_GET_COLUMN_CONTENT = "http://upload.tortodream.com/upload/api/getColumnContent.do";
-	public static final String ACTION_GET_COLUMN_CONTENT = "http://192.168.100.22/upload/api/getColumnContent.do";
-//	public static final String ACTION_GET_BANNER_LIST = "http://upload.tortodream.com/upload/api/getBanner.do";
-	public static final String ACTION_GET_BANNER_LIST = "http://192.168.100.22/upload/api/getBanner.do";
-	public static final String ACTION_APPROVE_STAMP = "http://192.168.100.22/upload/api/appreciate.do";
+	public static final String ACTION_GET_COLUMNS = "http://upload.tortodream.com/upload/api/getRootColumns.do";
+	public static final String ACTION_GET_COLUMN_CONTENT = "http://upload.tortodream.com/upload/api/getColumnContent.do";
+//	public static final String ACTION_GET_COLUMN_CONTENT = "http://192.168.100.22/upload/api/getColumnContent.do";
+	public static final String ACTION_GET_BANNER_LIST = "http://upload.tortodream.com/upload/api/getBanner.do";
+//	public static final String ACTION_GET_BANNER_LIST = "http://192.168.100.22/upload/api/getBanner.do";
+//	public static final String ACTION_APPROVE_STAMP = "http://192.168.100.22/upload/api/appreciate.do";
+	public static final String ACTION_APPROVE_STAMP = "http://upload.tortodream.com/upload/api/appreciate.do";
 	
 	public static final String KEY_APPID = "appid";
 	public static final String KEY_CLMID = "columnId";

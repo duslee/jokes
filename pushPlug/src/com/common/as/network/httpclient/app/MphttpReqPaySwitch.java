@@ -10,11 +10,11 @@ import com.common.as.network.utils.ApplicationNetworkUtils;
 
 public class MphttpReqPaySwitch extends MPHttpClientRequestGet{
 
+
 	public MphttpReqPaySwitch(Context ctx) {
 		super(ctx,getUrl(), true);
 		// TODO Auto-generated constructor stub
 	}
-
 	public static String getUrl(){
 		String s = MPHttpClientUtils.ROOM_SERVER_URL + 
 				"switch!getPaySwitches";

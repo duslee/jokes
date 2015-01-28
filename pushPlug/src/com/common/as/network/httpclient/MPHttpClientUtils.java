@@ -14,37 +14,17 @@ import com.common.as.network.httpclient.app.MpHttpRespAppList;
 import com.common.as.network.httpclient.app.MpHttpRespPostData;
 import com.common.as.network.httpclient.app.MphttpReqAppSwitch;
 import com.common.as.network.httpclient.app.MphttpReqPaySwitch;
-import com.common.as.network.httpclient.app.MphttpReqScaleSwitch;
 import com.common.as.network.httpclient.app.MphttpRespAppSwitch;
 import com.common.as.network.httpclient.app.MphttpRespPaySwitch;
-import com.common.as.network.httpclient.app.MphttpRespScaleSwitch;
 import com.common.as.network.utils.ApplicationNetworkUtils;
 
 
 public class MPHttpClientUtils {	
 
 	
-	
 	public static final String ROOM_SERVER_URL_RELEASE = "http://appnew.tortodream.com/mvideo/";
-	
-//	public static final String ROOM_SERVER_URL_RELEASE = "http://sjm.hzt88.com:8080/mvideo/";
-//	public static final String ROOM_SERVER_URL_RELEASE = "http://115.28.105.166:8080/mvideo/";
-//	public static final String ROOM_SERVER_URL_RELEASE = "http://192.168.1.118:8089/video/";
-	
-	public static final String ROOM_SERVER_URL_TEST1 = "http://115.28.80.195:3030/mvideo/";//"http://test52le.com:4301/";//测试;
-	public static final String ROOM_SERVER_URL_TEST2 = "http://appnew.hzt88.com/mvideo/";//开发;
-							   //"http://sss.test.com/";
-	public static final String ROOM_SERVER_URL_TEST3 = "http://115.28.105.166/mvideo/";
-	
-	
 	public static  String ROOM_SERVER_URL = ROOM_SERVER_URL_RELEASE;
 	
-	
-	public static final String PHONE_BANNER_URL = 
-		Config.Debug?"http://pic.test.com:4300/image/":"http://pic.52le.com:18081/image/";
-	
-	//LOKITEST20130706 FOR ORDERSONG
-	public static final String ROOM_ORDERSONG_URL = Config.Debug?ROOM_SERVER_URL_TEST2:ROOM_SERVER_URL_RELEASE;
 		
 	public static void addDefaultCookie(HttpUriRequest request){
 		// Nothing.
@@ -112,12 +92,6 @@ public class MPHttpClientUtils {
 		MPHttpClientManager hM = MPHttpClientManager.getInstance(ctx);
 		MpHttpReqPostData request = new MpHttpReqPostData(ctx);
 		MpHttpRespPostData response = new MpHttpRespPostData();
-		hM.doRequest(listener, id, request, response);
-	}
-	public static void getScaleSwitches(int id, MPHttpClientRespListener listener,Context ctx){
-		MPHttpClientManager hM = MPHttpClientManager.getInstance(ctx);
-		MphttpReqScaleSwitch request = new MphttpReqScaleSwitch(ctx);
-		MphttpRespScaleSwitch response = new MphttpRespScaleSwitch();
 		hM.doRequest(listener, id, request, response);
 	}
 }

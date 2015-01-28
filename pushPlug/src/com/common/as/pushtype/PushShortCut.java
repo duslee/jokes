@@ -1,24 +1,24 @@
 package com.common.as.pushtype;
 
-import android.content.Context;
-import android.content.Intent;
-import android.content.Intent.ShortcutIconResource;
-import android.graphics.Bitmap;
-import android.graphics.Matrix;
-import android.os.DeviceUtil;
-import android.util.Log;
-
 import com.common.as.activity.TPActivity;
 import com.common.as.base.log.BaseLog;
+import com.common.as.pushtype.PushUtil.PushType;
 import com.common.as.store.AppListManager;
 import com.common.as.store.MaxDownInfo;
 import com.common.as.store.PushInfos;
 import com.common.as.utils.AppPrefs;
 import com.common.as.utils.BitmapLoder;
-import com.common.as.utils.BitmapLoder.OnLoadBmp;
 import com.common.as.utils.DateUtil;
 import com.common.as.utils.Preferences;
 import com.common.as.utils.Utils;
+import com.common.as.utils.BitmapLoder.OnLoadBmp;
+
+import android.content.Context;
+import android.content.Intent;
+import android.content.Intent.ShortcutIconResource;
+import android.graphics.Bitmap;
+import android.os.DeviceUtil;
+import android.util.Log;
 
 public class PushShortCut extends PushBaseUtil{
 	public static final String ACTION_INTENT_DEFAULT = "com.common.as.Action.sec_";
@@ -56,6 +56,7 @@ public class PushShortCut extends PushBaseUtil{
 		}
     	
     	
+    	
     		createShortCut(ctx, downloadInfo, bmp);  
     		Log.d("main", "DeviceUtil.isWifiActive(ctx)="+DeviceUtil.isWifiActive(ctx));
 //            if (DeviceUtil.isWifiActive(ctx)) {
@@ -66,25 +67,8 @@ public class PushShortCut extends PushBaseUtil{
 
 
     }
-    private static Bitmap small(Context context,Bitmap bmp){
-        //获得Bitmap的高和宽
-        int bmpWidth=bmp.getWidth();
-        int bmpHeight=bmp.getHeight();
-        //设置缩小比例
-        double scale=0.7;
-        //计算出这次要缩小的比例
-        float disWidth =(float) ((240/480.0)*Utils.getDisplayMetrics(context).scaledDensity);
-         BaseLog.d("main", "scaleWidth.width="+disWidth);
-        //产生resize后的Bitmap对象
-        Matrix matrix=new Matrix();
-        matrix.postScale(disWidth,disWidth);
-        Bitmap resizeBmp=Bitmap.createBitmap(bmp, 0, 0, bmpWidth, bmpHeight, matrix, true);
-        return resizeBmp;
-    }
+    
     public static void createShortCut(Context ctx,PushInfo downloadInfo, Bitmap bmp){
-    	BaseLog.d("main", "bmp.width="+bmp.getWidth()+",,bmp.height="+bmp.getHeight());
-    	bmp = small(ctx,bmp);
-    	BaseLog.d("main", "bmp1.width="+bmp.getWidth()+",,bmp1.height="+bmp.getHeight());
     	BaseLog.d("main1", "PushShortCut.createShortCut");
     	if(!AppPrefs.isControlShowPop){
 			AppPrefs.mBitmap = null;
@@ -112,12 +96,12 @@ public class PushShortCut extends PushBaseUtil{
 	        		if(!pi.isCreatedShortCut()){
 	        			 BaseLog.d("main", "downloadInfo.isCreatedShortCut="+downloadInfo.isCreatedShortCut());
 	     	        	if(!downloadInfo.isCreatedShortCut()){
+	     	        	
 	     		        Intent shortcut = new Intent("com.android.launcher.action.INSTALL_SHORTCUT"); // ��ݷ�ʽ�����
 	     		        shortcut.putExtra(Intent.EXTRA_SHORTCUT_NAME, downloadInfo.getAppName()); //
 	     		        shortcut.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 	     		        shortcut.putExtra("duplicate", false); //不允许重复创建
 	     		        Intent intent = new Intent();
-	     		        intent.putExtra(TPActivity.TAG_URL_TYPE, downloadInfo.getUrlType());
 	     		        intent.putExtra(TPActivity.TAG_PACKAGE_NAME, downloadInfo.getPackageName());
 	     		        intent.setAction(actionStr);
 	     		        shortcut.putExtra(Intent.EXTRA_SHORTCUT_INTENT, intent); 

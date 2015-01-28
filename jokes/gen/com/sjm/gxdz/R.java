@@ -284,9 +284,12 @@ containing a value of this type.
          */
         public static final int drop_item_nick_color=0x7f070005;
         public static final int frag_bg_color=0x7f070007;
+        /**  line colors 
+         */
+        public static final int line_bg_color=0x7f07000c;
         public static final int nav_bg_color=0x7f070009;
         public static final int nav_center_color=0x7f070008;
-        public static final int num_tv_selector=0x7f07000c;
+        public static final int num_tv_selector=0x7f07000d;
         public static final int up_down_focus_color=0x7f07000a;
         public static final int up_down_unfocus_color=0x7f07000b;
         public static final int white=0x7f070000;
@@ -307,6 +310,17 @@ containing a value of this type.
          */
         public static final int drop_item_nick_size=0x7f080007;
         public static final int drop_item_right_margin=0x7f08000a;
+        /**  frag3 need dimens 
+         */
+        public static final int frag3_tb_margin=0x7f08000d;
+        public static final int frag3_tv_margin=0x7f08000e;
+        public static final int iv_height=0x7f080010;
+        /**  ImageView固定宽度和高度 
+         */
+        public static final int iv_width=0x7f08000f;
+        /**  ListView条目的线条宽度 
+         */
+        public static final int line_width=0x7f080011;
         public static final int nav_center_size=0x7f08000c;
         /**  导航栏高度（按480*800标准来计算） 
          */
@@ -348,35 +362,37 @@ containing a value of this type.
         public static final int pay_bg_022=0x7f020020;
         public static final int pay_bg_111=0x7f020021;
         public static final int pay_bg_1_1=0x7f020022;
-        public static final int push_back_btn=0x7f020023;
-        public static final int push_list_down_btn_selector=0x7f020024;
-        public static final int push_list_icon=0x7f020025;
-        public static final int quit=0x7f020026;
-        public static final int setting=0x7f020027;
-        public static final int tab1=0x7f020028;
-        public static final int tab1_focus=0x7f020029;
-        public static final int tab1_item_selector=0x7f02002a;
-        public static final int tab2=0x7f02002b;
-        public static final int tab2_focus=0x7f02002c;
-        public static final int tab2_item_selector=0x7f02002d;
-        public static final int tab3=0x7f02002e;
-        public static final int tab3_focus=0x7f02002f;
-        public static final int tab3_item_selector=0x7f020030;
-        public static final int tab4=0x7f020031;
-        public static final int tab4_focus=0x7f020032;
-        public static final int tab4_item_selector=0x7f020033;
-        public static final int translate_bg=0x7f020034;
-        public static final int translate_bg_selector=0x7f020035;
-        public static final int up=0x7f020036;
-        public static final int up_focus=0x7f020037;
-        public static final int up_selector=0x7f020038;
-        public static final int welcome=0x7f020039;
+        public static final int play=0x7f020023;
+        public static final int play_selector=0x7f020024;
+        public static final int push_back_btn=0x7f020025;
+        public static final int push_list_down_btn_selector=0x7f020026;
+        public static final int push_list_icon=0x7f020027;
+        public static final int quit=0x7f020028;
+        public static final int setting=0x7f020029;
+        public static final int tab1=0x7f02002a;
+        public static final int tab1_focus=0x7f02002b;
+        public static final int tab1_item_selector=0x7f02002c;
+        public static final int tab2=0x7f02002d;
+        public static final int tab2_focus=0x7f02002e;
+        public static final int tab2_item_selector=0x7f02002f;
+        public static final int tab3=0x7f020030;
+        public static final int tab3_focus=0x7f020031;
+        public static final int tab3_item_selector=0x7f020032;
+        public static final int tab4=0x7f020033;
+        public static final int tab4_focus=0x7f020034;
+        public static final int tab4_item_selector=0x7f020035;
+        public static final int translate_bg=0x7f020036;
+        public static final int translate_bg_selector=0x7f020037;
+        public static final int up=0x7f020038;
+        public static final int up_focus=0x7f020039;
+        public static final int up_selector=0x7f02003a;
+        public static final int welcome=0x7f02003b;
     }
     public static final class id {
         public static final int add_tv1=0x7f06002b;
         public static final int add_tv2=0x7f06002f;
-        public static final int appIcon=0x7f060040;
-        public static final int back=0x7f060059;
+        public static final int appIcon=0x7f060048;
+        public static final int back=0x7f06005f;
         public static final int banner_content_ll=0x7f060030;
         public static final int banner_item_pw=0x7f060006;
         public static final int banner_iv=0x7f060007;
@@ -384,14 +400,14 @@ containing a value of this type.
         public static final int banner_rl=0x7f060005;
         public static final int banner_tv=0x7f060004;
         public static final int bg_ll=0x7f060013;
-        public static final int brief=0x7f060036;
-        public static final int btn=0x7f060037;
+        public static final int brief=0x7f06003e;
+        public static final int btn=0x7f06003f;
         public static final int btnNo=0x7f060009;
         public static final int btnYes=0x7f060011;
-        public static final int cache_rl=0x7f06004f;
-        public static final int cache_tv=0x7f060052;
-        public static final int content=0x7f060053;
-        public static final int description=0x7f060042;
+        public static final int cache_rl=0x7f06005a;
+        public static final int cache_tv=0x7f06005d;
+        public static final int content=0x7f060055;
+        public static final int description=0x7f06004a;
         public static final int dg_ll=0x7f06000e;
         public static final int dg_title_iv=0x7f06000c;
         public static final int dg_title_ll=0x7f06000b;
@@ -401,7 +417,7 @@ containing a value of this type.
         public static final int down_iv=0x7f06002d;
         public static final int down_ll=0x7f06002c;
         public static final int down_tv=0x7f06002e;
-        public static final int dropDownListView=0x7f06004c;
+        public static final int dropDownListView=0x7f060054;
         public static final int drop_down_list_footer_button=0x7f060019;
         public static final int drop_down_list_footer_progress_bar=0x7f060018;
         public static final int drop_down_list_header_default_text=0x7f06001d;
@@ -418,52 +434,60 @@ containing a value of this type.
         public static final int duan_pw=0x7f060024;
         public static final int duan_rl=0x7f060023;
         public static final int fill=0x7f060001;
-        public static final int fresh=0x7f06004b;
+        public static final int frag3_iv=0x7f060032;
+        public static final int frag3_rl=0x7f060031;
+        public static final int frag3_tv=0x7f060033;
+        public static final int frag4_content=0x7f060035;
+        public static final int frag4_ll=0x7f060034;
+        public static final int frag4_picture=0x7f060037;
+        public static final int frag4_play=0x7f060038;
+        public static final int frag4_rl=0x7f060036;
+        public static final int fresh=0x7f060053;
         public static final int girldlg=0x7f06000a;
         public static final int icon=0x7f06000d;
-        public static final int indicator=0x7f060034;
-        public static final int item_iv=0x7f060031;
-        public static final int iv_arrow=0x7f06003c;
-        public static final int iv_icon=0x7f060046;
-        public static final int layerslayout=0x7f06004d;
-        public static final int leftBtn=0x7f060048;
-        public static final int left_iv=0x7f060050;
-        public static final int listView=0x7f06004e;
+        public static final int indicator=0x7f06003c;
+        public static final int item_iv=0x7f060039;
+        public static final int iv_arrow=0x7f060044;
+        public static final int iv_icon=0x7f06004e;
+        public static final int leftBtn=0x7f060050;
+        public static final int left_iv=0x7f06005b;
         public static final int listView1=0x7f060002;
-        public static final int list_top_title=0x7f060047;
-        public static final int load_more_pb=0x7f060038;
-        public static final int load_more_tv=0x7f060039;
-        public static final int noti_iv=0x7f060054;
-        public static final int noti_pb=0x7f060056;
-        public static final int noti_subTitle=0x7f060057;
-        public static final int noti_title=0x7f060055;
-        public static final int paused_text=0x7f060043;
-        public static final int pb_refresh=0x7f06003d;
-        public static final int progress_text=0x7f060041;
-        public static final int right_iv=0x7f060051;
-        public static final int rl_description=0x7f06003b;
+        public static final int list_top_title=0x7f06004f;
+        public static final int load_more_pb=0x7f060040;
+        public static final int load_more_tv=0x7f060041;
+        public static final int noti_iv=0x7f060056;
+        public static final int noti_pb=0x7f060058;
+        public static final int noti_subTitle=0x7f060059;
+        public static final int noti_title=0x7f060057;
+        public static final int paused_text=0x7f06004b;
+        public static final int pb=0x7f060062;
+        public static final int pb_refresh=0x7f060045;
+        public static final int progress_text=0x7f060049;
+        public static final int right_iv=0x7f06005c;
+        public static final int rl_description=0x7f060043;
         public static final int stroke=0x7f060000;
-        public static final int tab_rl=0x7f060032;
-        public static final int textBrief=0x7f060045;
-        public static final int textTitle=0x7f060044;
-        public static final int title=0x7f060035;
-        public static final int title_rl=0x7f060058;
+        public static final int tab_rl=0x7f06003a;
+        public static final int textBrief=0x7f06004d;
+        public static final int textTitle=0x7f06004c;
+        public static final int title=0x7f06003d;
+        public static final int title_rl=0x7f06005e;
         public static final int topIcon=0x7f060012;
-        public static final int tp_webView=0x7f06004a;
-        public static final int tv_time=0x7f06003f;
-        public static final int tv_title=0x7f06003e;
+        public static final int tp_webView=0x7f060052;
+        public static final int tv_time=0x7f060047;
+        public static final int tv_title=0x7f060046;
         public static final int txtBrief=0x7f060010;
         public static final int txtContent=0x7f060014;
         public static final int txtContent_tt=0x7f060015;
         public static final int txtTitle=0x7f06000f;
-        public static final int txt_content=0x7f06003a;
+        public static final int txt_content=0x7f060042;
         public static final int up_iv=0x7f060029;
         public static final int up_ll=0x7f060028;
         public static final int up_rl=0x7f060027;
         public static final int up_tv=0x7f06002a;
-        public static final int video_ll=0x7f060049;
-        public static final int viewflow=0x7f060033;
-        public static final int webView=0x7f06005a;
+        public static final int video_ll=0x7f060051;
+        public static final int viewflow=0x7f06003b;
+        public static final int vv=0x7f060061;
+        public static final int webView=0x7f060060;
     }
     public static final class layout {
         public static final int activity_itemlist=0x7f030000;
@@ -477,25 +501,27 @@ containing a value of this type.
         public static final int drop_down_list_footer=0x7f030008;
         public static final int drop_down_list_header=0x7f030009;
         public static final int drop_item=0x7f03000a;
-        public static final int item_vf=0x7f03000b;
-        public static final int item_viewflow=0x7f03000c;
-        public static final int list_down_item=0x7f03000d;
-        public static final int load_more_footer=0x7f03000e;
-        public static final int progress_dlg=0x7f03000f;
-        public static final int pull_to_refresh_header=0x7f030010;
-        public static final int status_bar_ongoing_event_progress_bar=0x7f030011;
-        public static final int status_bar_startup=0x7f030012;
-        public static final int tab_bottom_nav=0x7f030013;
-        public static final int top_bar=0x7f030014;
-        public static final int tp_view=0x7f030015;
-        public static final int view_frag1=0x7f030016;
-        public static final int view_frag3=0x7f030017;
-        public static final int view_frag4=0x7f030018;
+        public static final int item_frag3=0x7f03000b;
+        public static final int item_frag4=0x7f03000c;
+        public static final int item_vf=0x7f03000d;
+        public static final int item_viewflow=0x7f03000e;
+        public static final int list_down_item=0x7f03000f;
+        public static final int load_more_footer=0x7f030010;
+        public static final int progress_dlg=0x7f030011;
+        public static final int pull_to_refresh_header=0x7f030012;
+        public static final int status_bar_ongoing_event_progress_bar=0x7f030013;
+        public static final int status_bar_startup=0x7f030014;
+        public static final int tab_bottom_nav=0x7f030015;
+        public static final int top_bar=0x7f030016;
+        public static final int tp_view=0x7f030017;
+        public static final int view_frag1=0x7f030018;
         public static final int view_main=0x7f030019;
         public static final int view_noti=0x7f03001a;
         public static final int view_noti2=0x7f03001b;
-        public static final int view_show_page=0x7f03001c;
-        public static final int view_welcome=0x7f03001d;
+        public static final int view_settings=0x7f03001c;
+        public static final int view_show_page=0x7f03001d;
+        public static final int view_vv=0x7f03001e;
+        public static final int view_welcome=0x7f03001f;
     }
     public static final class string {
         public static final int app_install_end=0x7f09002a;
@@ -532,7 +558,9 @@ containing a value of this type.
         /**  访问服务器时用到的字符串 
          */
         public static final int no_service=0x7f090017;
+        public static final int no_url_addr=0x7f090030;
         public static final int open_now=0x7f09001c;
+        public static final int play_video_failed=0x7f090031;
         public static final int popular=0x7f09001a;
         public static final int pull_refresh=0x7f090001;
         public static final int refreshing=0x7f090003;
@@ -571,6 +599,9 @@ containing a value of this type.
         public static final int DialogPrompt=0x7f050001;
         public static final int DropItemContentStyle=0x7f05000c;
         public static final int DropItemNickStyle=0x7f05000b;
+        /**  in Frag3 
+         */
+        public static final int Frag3TVStyle=0x7f05001c;
         public static final int MyDialogStyle=0x7f050000;
         /**  导航栏中间文本样式 
          */

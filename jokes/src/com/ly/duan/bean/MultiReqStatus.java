@@ -5,6 +5,7 @@ public class MultiReqStatus {
 	private int content1Status;
 	private int content2Status;
 	private int bannerStatus;
+	private int currentStatus;
 	
 	public MultiReqStatus() {
 	}
@@ -38,13 +39,22 @@ public class MultiReqStatus {
 	public void setBannerStatus(int bannerStatus) {
 		this.bannerStatus = bannerStatus;
 	}
-	
+
+	public int getCurrentStatus() {
+		return currentStatus;
+	}
+
+	public void setCurrentStatus(int currentStatus) {
+		this.currentStatus = currentStatus;
+	}
+
 	@Override
 	public String toString() {
 		return "MultiReqStatus:{" + 
 				"\'content1Status=\'" + content1Status + 
 				", \'content2Status=\'" + content2Status + 
 				", \'bannerStatus=\'" + bannerStatus + 
+				", \'currentStatus=\'" + currentStatus + 
 				"}";
 	}
 

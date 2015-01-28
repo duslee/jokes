@@ -282,7 +282,7 @@ public class BitmapUtils implements TaskHandler {
 			
 			// set loading image
 			Drawable loadingDrawable = displayConfig.getLoadingDrawable();
-			LogUtils.e("(null == loadingDrawable)=" + (null == loadingDrawable));
+//			LogUtils.e("(null == loadingDrawable)=" + (null == loadingDrawable));
 //			callBack.setDrawable(container, new AsyncDrawable<T>(loadingDrawable, loadTask));
 			callBack.setDrawable(container, loadingDrawable);
 

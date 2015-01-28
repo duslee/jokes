@@ -24,7 +24,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -982,19 +981,17 @@ public class DownloadManager {
     }
     
     
+    
+    
     DownDailogView mDailogView;
     private void openDownedItem(Context ctx, PushInfo info,Cursor cursor, long id){
-//    	BaseLog.d("main2", "DownloadManager.openDownedItem.弹出安装,,info="+info.toString());
-    	if(mDailogView==null){
-    		BaseLog.d("main2", "DownloadManager.openDownedItem.弹出安装,,mDailogView==null");
-    		mDailogView = new DownDailogView(ctx, info);
-    		
-    	}else{
-    		BaseLog.d("main2", "DownloadManager.openDownedItem.弹出安装,,mDailogView!=null");
+    	BaseLog.d("main2", "DownloadManager.openDownedItem.弹出安装,,info="+info.toString());
+    	if(mDailogView!=null){
+    		mDailogView.removeTipView();
     	}
+    	mDailogView = new DownDailogView(ctx, info);
     	mDailogView.setPushInfo(info);
     	mDailogView.fun();
-//    	new DownDailogView(ctx, info).fun();
     	ctx.sendBroadcast(new Intent("intent.action.ACTION_ITEM_DOWN"));
 //    	Intent intent = new Intent(Intent.ACTION_VIEW);
 //    	String mime = cursor.getString(cursor.getColumnIndex(COLUMN_MEDIA_TYPE));

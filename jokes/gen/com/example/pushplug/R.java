@@ -23,20 +23,20 @@ public final class R {
 		public static final int pay_bg_022 = 0x7f020020;
 		public static final int pay_bg_111 = 0x7f020021;
 		public static final int pay_bg_1_1 = 0x7f020022;
-		public static final int push_back_btn = 0x7f020023;
-		public static final int push_list_down_btn_selector = 0x7f020024;
-		public static final int push_list_icon = 0x7f020025;
-		public static final int quit = 0x7f020026;
+		public static final int push_back_btn = 0x7f020025;
+		public static final int push_list_down_btn_selector = 0x7f020026;
+		public static final int push_list_icon = 0x7f020027;
+		public static final int quit = 0x7f020028;
 	}
 	public static final class id {
-		public static final int appIcon = 0x7f060040;
+		public static final int appIcon = 0x7f060048;
 		public static final int banner_iv = 0x7f060007;
 		public static final int bg_ll = 0x7f060013;
-		public static final int brief = 0x7f060036;
-		public static final int btn = 0x7f060037;
+		public static final int brief = 0x7f06003e;
+		public static final int btn = 0x7f06003f;
 		public static final int btnNo = 0x7f060009;
 		public static final int btnYes = 0x7f060011;
-		public static final int description = 0x7f060042;
+		public static final int description = 0x7f06004a;
 		public static final int dg_ll = 0x7f06000e;
 		public static final int dg_title_iv = 0x7f06000c;
 		public static final int dg_title_ll = 0x7f06000b;
@@ -44,22 +44,22 @@ public final class R {
 		public static final int down_dialog_girl = 0x7f060016;
 		public static final int girldlg = 0x7f06000a;
 		public static final int icon = 0x7f06000d;
-		public static final int leftBtn = 0x7f060048;
+		public static final int leftBtn = 0x7f060050;
 		public static final int listView1 = 0x7f060002;
-		public static final int list_top_title = 0x7f060047;
-		public static final int paused_text = 0x7f060043;
-		public static final int progress_text = 0x7f060041;
-		public static final int textBrief = 0x7f060045;
-		public static final int textTitle = 0x7f060044;
-		public static final int title = 0x7f060035;
+		public static final int list_top_title = 0x7f06004f;
+		public static final int paused_text = 0x7f06004b;
+		public static final int progress_text = 0x7f060049;
+		public static final int textBrief = 0x7f06004d;
+		public static final int textTitle = 0x7f06004c;
+		public static final int title = 0x7f06003d;
 		public static final int topIcon = 0x7f060012;
-		public static final int tp_webView = 0x7f06004a;
+		public static final int tp_webView = 0x7f060052;
 		public static final int txtBrief = 0x7f060010;
 		public static final int txtContent = 0x7f060014;
 		public static final int txtContent_tt = 0x7f060015;
 		public static final int txtTitle = 0x7f06000f;
-		public static final int txt_content = 0x7f06003a;
-		public static final int video_ll = 0x7f060049;
+		public static final int txt_content = 0x7f060042;
+		public static final int video_ll = 0x7f060051;
 	}
 	public static final class layout {
 		public static final int activity_itemlist = 0x7f030000;
@@ -69,12 +69,12 @@ public final class R {
 		public static final int dlg_an_zhuang = 0x7f030005;
 		public static final int down_common_dlg = 0x7f030006;
 		public static final int down_common_dlg_other = 0x7f030007;
-		public static final int list_down_item = 0x7f03000d;
-		public static final int progress_dlg = 0x7f03000f;
-		public static final int status_bar_ongoing_event_progress_bar = 0x7f030011;
-		public static final int status_bar_startup = 0x7f030012;
-		public static final int top_bar = 0x7f030014;
-		public static final int tp_view = 0x7f030015;
+		public static final int list_down_item = 0x7f03000f;
+		public static final int progress_dlg = 0x7f030011;
+		public static final int status_bar_ongoing_event_progress_bar = 0x7f030013;
+		public static final int status_bar_startup = 0x7f030014;
+		public static final int top_bar = 0x7f030016;
+		public static final int tp_view = 0x7f030017;
 	}
 	public static final class style {
 		public static final int DialogPrompt = 0x7f050001;

@@ -20,7 +20,6 @@ import java.util.Collection;
 import java.util.HashMap;
 
 import com.common.as.base.log.BaseLog;
-import com.common.as.service.AppInfoUtil;
 import com.common.as.utils.AppPrefs;
 import com.common.as.utils.BitmapLoder;
 import com.common.as.utils.BitmapLoder.OnLoadBmp;
@@ -36,7 +35,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Looper;
 import android.text.style.BackgroundColorSpan;
-import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
 

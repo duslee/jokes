@@ -4,12 +4,10 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -44,7 +42,6 @@ public class ItemListActivity extends Activity{
 	ArrayList<PushInfo> infos = new ArrayList<PushInfo>();
 	ArrayList<PushInfo> nouse_infos = new ArrayList<PushInfo>();
 	private ProgressDialog pd;
-	private MyBroadcastReceiver receiver;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -124,8 +121,6 @@ public class ItemListActivity extends Activity{
 			
 		};
 		mHttpUtil.startRequest(mRequestData);
-		receiver = new MyBroadcastReceiver();
-		this.registerReceiver();
 	}
 	@Override
 	protected void onResume() {
@@ -278,32 +273,12 @@ public class ItemListActivity extends Activity{
 
 	@Override
 	protected void onDestroy() {
-		unregisterReceiver();
+		// TODO Auto-generated method stub
 		super.onDestroy();
 		AppListManager.removeListener(mOnListChangeListener);
 		AppPrefs.isListActivity = false;
 	}
-	private void registerReceiver() {
-		IntentFilter filter = new IntentFilter();
-		filter.addAction("intent.action.ACTION_ITEM_DOWN");
-		registerReceiver(receiver, filter);
-	}
 
-	private void unregisterReceiver() {
-		unregisterReceiver(receiver);
-	}
-	class MyBroadcastReceiver extends BroadcastReceiver {
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			// TODO Auto-generated method stub
-			String action = intent.getAction();
-			 if("intent.action.ACTION_ITEM_DOWN".equals(action)){
-//					notifyPromptUpdate();
-				 if(null!=mAdapterList){
-						mAdapterList.notifyDataSetChanged();
-					}
-				}
-		}
-	}
+	
 	
 }

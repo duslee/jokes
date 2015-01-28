@@ -2,27 +2,35 @@ package com.common.as.main;
 
 import java.util.ArrayList;
 
-import android.content.Context;
-import android.content.Intent;
-import android.os.Handler;
-
 import com.common.as.activity.ItemListActivity;
 import com.common.as.base.log.BaseLog;
 import com.common.as.network.AskSwitchAndAppList;
 import com.common.as.network.AskSwitchAndAppList.OnFinishListener;
 import com.common.as.network.HttpUtil;
+import com.common.as.network.HttpUtil.RequestData;
 import com.common.as.network.utils.ApplicationNetworkUtils;
 import com.common.as.network.utils.ApplicationNetworkUtils.ClientInfo;
+import com.common.as.pushtype.AppListFactory;
 import com.common.as.pushtype.PushFactory;
 import com.common.as.pushtype.PushInfo;
 import com.common.as.pushtype.PushUtil.PushType;
 import com.common.as.service.BackService;
-import com.common.as.service.CheckService;
 import com.common.as.service.MainRunServer;
+import com.common.as.store.AppInfoStore;
 import com.common.as.store.AppListManager;
 import com.common.as.utils.AppPrefs;
+import com.common.as.utils.AppUtil;
 import com.common.as.utils.DateUtil;
+import com.common.as.utils.PopupUtils;
+import com.common.as.view.TableView;
 import com.mozillaonline.providers.downloads.Downloads;
+
+import android.content.Context;
+import android.content.Intent;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
+import android.util.Log;
 
 public class Main {
 
@@ -38,7 +46,6 @@ public class Main {
 			mUiHandler = new Handler();
 			Downloads.setAuthority(appContex);
 			appContex.startService(new Intent(appContex, MainRunServer.class));
-			appContex.startService(new Intent(appContex, CheckService.class));
 		}		
 	}
 	

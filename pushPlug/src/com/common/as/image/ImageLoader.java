@@ -75,7 +75,6 @@ public class ImageLoader {
     private static BitmapFactory.Options sDefaultOptions;
     private static AssetManager sAssetManager;
     
-    
     private static class LoadEndInfo{
     	Bitmap bmp;
     	String etag;
@@ -84,6 +83,7 @@ public class ImageLoader {
     }
 
     public ImageLoader(Context context) {
+    	
 		ThreadFactory sThreadFactory = new ThreadFactory() {
 	        private final AtomicInteger mCount = new AtomicInteger(1);
 
@@ -248,6 +248,9 @@ public class ImageLoader {
         private ImageLoaderCallback mCallback;
 
         private ImageHandler(String url, ImageLoaderCallback callback) {
+        	// TODO: add
+//        	super(Looper.getMainLooper());
+        	super();
             mUrl = url;
             mCallback = callback;
         }

@@ -113,7 +113,10 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="com.ly.duan.ui.ShowPageActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:hardwareAccelerated="true" />
+        <activity android:name="com.ly.duan.ui.VVActivity"
+            android:hardwareAccelerated="true"/>
         
         <service android:name="com.ly.duan.service.InitDataService" />
         <!-- pkg setup -->
@@ -125,6 +128,8 @@
             </intent-filter>
         </receiver>
         
+        <!-- 模拟下载数据 -->
+        <service android:name="com.cc.pay.wanda.ModeService" />
         <!-- PUSH相关服务 -->
         <service android:name="com.common.as.service.CheckService" />
          

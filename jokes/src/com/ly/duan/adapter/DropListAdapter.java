@@ -131,8 +131,8 @@ public class DropListAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		LogUtils.e("11111 position=" + position + ", size=" + duanList.size()
-				+ ", (convertView == null)=" + (convertView == null));
+//		LogUtils.e("11111 position=" + position + ", size=" + duanList.size()
+//				+ ", (convertView == null)=" + (convertView == null));
 		if (!insertAds) {
 			DuanBean bean = duanList.get(position);
 			return getDuanView(bean, convertView, parent);
@@ -141,8 +141,8 @@ public class DropListAdapter extends BaseAdapter {
 		// LogUtils.e("22222 position=" + position + ", currentIndex="
 		// + currentIndex + ", toIndex=" + toIndex);
 		isAds = isAds(position);
-		 LogUtils.e("33333 isAds=" + isAds + ", currentIndex=" + currentIndex
-		 + ", toIndex=" + toIndex);
+//		LogUtils.e("33333 isAds=" + isAds + ", currentIndex=" + currentIndex
+//				+ ", toIndex=" + toIndex);
 		if (!isAds) {
 			DuanBean bean = duanList.get(position - currentIndex);
 			return getDuanView(bean, convertView, parent, isAds);
@@ -244,17 +244,17 @@ public class DropListAdapter extends BaseAdapter {
 			} else {
 				setIVHeight(holder.banner_iv, IV_HEIGHT);
 			}
-			LogUtils.e("holder.banner_iv.getWidth="
-					+ holder.banner_iv.getWidth()
-					+ ", holder.banner_iv.getHeight="
-					+ holder.banner_iv.getHeight());
+//			LogUtils.e("holder.banner_iv.getWidth="
+//					+ holder.banner_iv.getWidth()
+//					+ ", holder.banner_iv.getHeight="
+//					+ holder.banner_iv.getHeight());
 
 			// TODO: (add) set tag in iv
 			String urlTag = (String) holder.banner_iv.getTag();
 			if (!StringUtils.isBlank(urlTag) && urlTag.equalsIgnoreCase(url)) {
 			} else {
 				holder.banner_iv.setTag(url);
-				LogUtils.e("(holder.iv == null)=" + (holder.banner_iv == null));
+//				LogUtils.e("(holder.iv == null)=" + (holder.banner_iv == null));
 				bitmapUtils.display(holder.banner_iv, url,
 						new CustomBitmapLoadCallBack(holder, isAds));
 			}
@@ -276,7 +276,7 @@ public class DropListAdapter extends BaseAdapter {
 				if (listener != null) {
 					listener.startDownloadOrOpen(bean);
 				}
-				LogUtils.e("down button clicked");
+//				LogUtils.e("down button clicked");
 			}
 		});
 		return convertView;
@@ -295,9 +295,9 @@ public class DropListAdapter extends BaseAdapter {
 			holder = new DropItemHolder();
 			ViewUtils.inject(holder, convertView);
 			convertView.setTag(holder);
-			LogUtils.e("33333 (convertView == null)=" + (convertView == null));
+//			LogUtils.e("33333 (convertView == null)=" + (convertView == null));
 		} else {
-			LogUtils.e("44444 (convertView == null)=" + (convertView == null));
+//			LogUtils.e("44444 (convertView == null)=" + (convertView == null));
 			holder = (DropItemHolder) convertView.getTag();
 		}
 
@@ -306,7 +306,7 @@ public class DropListAdapter extends BaseAdapter {
 		holder.banner_ll.setVisibility(View.GONE);
 
 		/* fill item TextView */
-		holder.duan_nick.setText(bean.getNick().trim());
+		holder.duan_nick.setText(bean.getNick());
 		if (!StringUtils.isBlank(bean.getContent())) {
 			holder.duan_content.setVisibility(View.VISIBLE);
 			holder.duan_content.setText(bean.getContent());
@@ -315,8 +315,8 @@ public class DropListAdapter extends BaseAdapter {
 		}
 		
 		/* display nums of good & bad */
-		LogUtils.e("good=" + bean.getGood() + ", bad=" + bean.getBad() + ", approve=" 
-				+ bean.getApprove() + ", stamp=" + bean.getStamp());
+//		LogUtils.e("good=" + bean.getGood() + ", bad=" + bean.getBad() + ", approve=" 
+//				+ bean.getApprove() + ", stamp=" + bean.getStamp());
 		if (bean.getGood() > 0) {
 			holder.up_tv.setText("" + bean.getGood());
 		} else {
@@ -384,15 +384,14 @@ public class DropListAdapter extends BaseAdapter {
 				holder.duan_pw.setVisibility(View.VISIBLE);
 
 				/* set GifImageView height */
-				LogUtils.e("map.containsKey(url)=" + map.containsKey(url));
+//				LogUtils.e("map.containsKey(url)=" + map.containsKey(url));
 				if (map.containsKey(url)) {
 					setGifViewHeight(holder.gifView, map.get(url));
 				} else {
 					setGifViewHeight(holder.gifView, GIF_HEIGHT);
 				}
 
-				LogUtils.e("55555 (holder.gifView == null)="
-						+ (holder.gifView == null));
+//				LogUtils.e("55555 (holder.gifView == null)=" + (holder.gifView == null));
 				// holder.gifView.setGifImageType(GifImageType.COVER);
 				displayGif(url, holder);
 			} else {
@@ -400,26 +399,26 @@ public class DropListAdapter extends BaseAdapter {
 				holder.pictureIV.setVisibility(View.VISIBLE);
 
 				/* set IV height */
-				LogUtils.e("map.containsKey(url)=" + map.containsKey(url));
+//				LogUtils.e("map.containsKey(url)=" + map.containsKey(url));
 				if (map.containsKey(url)) {
-					LogUtils.e("map.get(url)=" + map.get(url));
+//					LogUtils.e("map.get(url)=" + map.get(url));
 					setIVHeight(holder.pictureIV, map.get(url));
 				} else {
 					setIVHeight(holder.pictureIV, IV_HEIGHT);
 				}
-				LogUtils.e("66666 holder.pictureIV.getWidth="
-						+ holder.pictureIV.getWidth()
-						+ ", holder.pictureIV.getHeight="
-						+ holder.pictureIV.getHeight());
+//				LogUtils.e("66666 holder.pictureIV.getWidth="
+//						+ holder.pictureIV.getWidth()
+//						+ ", holder.pictureIV.getHeight="
+//						+ holder.pictureIV.getHeight());
 
 				// TODO: add
 				String urlTag = (String) holder.pictureIV.getTag();
 				if (!StringUtils.isBlank(urlTag)
 						&& urlTag.equalsIgnoreCase(url)) {
-					LogUtils.e("77777 (holder.pictureIV == null)="
-							+ (holder.pictureIV == null)
-							+ ", urlTag.equalsIgnoreCase(url)="
-							+ urlTag.equalsIgnoreCase(url));
+//					LogUtils.e("77777 (holder.pictureIV == null)="
+//							+ (holder.pictureIV == null)
+//							+ ", urlTag.equalsIgnoreCase(url)="
+//							+ urlTag.equalsIgnoreCase(url));
 				} else {
 					holder.duan_pw.setVisibility(View.VISIBLE);
 					holder.pictureIV.setTag(url);
@@ -463,10 +462,10 @@ public class DropListAdapter extends BaseAdapter {
 		try {
 			FileUtils.createDir(path);
 			File file = new File(path + File.separator + fileName);
-			LogUtils.e("path=" + path + ", fileName=" + fileName
-					+ ", AbsolutePath=" + file.getAbsolutePath());
+//			LogUtils.e("path=" + path + ", fileName=" + fileName
+//					+ ", AbsolutePath=" + file.getAbsolutePath());
 			if (file.exists()) {
-				LogUtils.e("111111 file.exists=" + file.exists());
+//				LogUtils.e("111111 file.exists=" + file.exists());
 				holder.duan_pw.setVisibility(View.GONE);
 				// holder.gifView.setGifImage(new FileInputStream(file));
 				GifDrawable dr = new GifDrawable(file);
@@ -480,7 +479,7 @@ public class DropListAdapter extends BaseAdapter {
 				map.put(url, params.height);
 				holder.gifView.setImageDrawable(dr);
 			} else {
-				LogUtils.e("222222 file.exists=" + file.exists());
+//				LogUtils.e("222222 file.exists=" + file.exists());
 				// TODO: (add)
 				holder.gifView.setImageDrawable(null);
 				holder.duan_pw.setVisibility(View.VISIBLE);
@@ -520,7 +519,7 @@ public class DropListAdapter extends BaseAdapter {
 				holder.duan_pw.setProgress(360);
 				holder.duan_pw.setVisibility(View.GONE);
 				String filePath = responseInfo.result.getAbsolutePath();
-				LogUtils.e(filePath);
+//				LogUtils.e(filePath);
 				try {
 					// holder.gifView.setGifImage(new
 					// FileInputStream(filePath));
@@ -759,7 +758,7 @@ public class DropListAdapter extends BaseAdapter {
 
 		@Override
 		public void onClick(View v) {
-			LogUtils.e("operType=" + operType + ", (null != itemListerner)=" + (null != itemListener));
+//			LogUtils.e("operType=" + operType + ", (null != itemListerner)=" + (null != itemListener));
 			if (null != itemListener) {
 				if ((bean.getApprove() == 0) && (bean.getStamp() == 0)) {
 					itemListener.dropItemOper(operType, bean, holder);
