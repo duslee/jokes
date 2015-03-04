@@ -1,11 +1,15 @@
 package com.ly.duan.bean;
 
+import java.io.Serializable;
+
 import com.lidroid.xutils.db.annotation.Column;
 import com.lidroid.xutils.db.annotation.Table;
 
 @Table(name="banners")
-public class BannerBean extends EntityBase {
+public class BannerBean extends EntityBase implements Serializable {
 	
+	private static final long serialVersionUID = -3345102002110715142L;
+
 	@Column(column="bannerId")
 	private long bannerId;
 
@@ -39,6 +43,12 @@ public class BannerBean extends EntityBase {
 	/** APK包名 */
 	@Column(column="contentPackage")
 	private String contentPackage;
+
+	@Column(column="userNick")
+	private String userNick;
+	
+	@Column(column="userVarUrl")
+	private String userVarUrl;
 
 	public BannerBean() {
 		super();
@@ -123,6 +133,46 @@ public class BannerBean extends EntityBase {
 	public void setContentPackage(String contentPackage) {
 		this.contentPackage = contentPackage;
 	}
+
+	public String getUserNick() {
+		return userNick == null ? "" : userNick;
+	}
+
+	public void setUserNick(String userNick) {
+		this.userNick = userNick;
+	}
+
+	public String getUserVarUrl() {
+		return userVarUrl == null ? "" : userVarUrl;
+	}
+
+	public void setUserVarUrl(String userVarUrl) {
+		this.userVarUrl = userVarUrl;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o instanceof BannerBean) {
+			BannerBean bean = (BannerBean) o;
+			return 	(getId() == bean.getId()) &&
+					(bannerId == bean.getBannerId()) &&
+					(ver == bean.getVer()) &&
+					((bannerTitle == null) ? (bannerTitle == bean.getBannerTitle()) : (bannerTitle.equals(bean.getBannerTitle()))) &&
+					((bannerDesc == null) ? (bannerDesc == bean.getBannerDesc()) : (bannerDesc.equals(bean.getBannerDesc()))) &&
+					(contentType == bean.getContentType()) &&
+					((bannerImgUrl == null) ? (bannerImgUrl == bean.getBannerImgUrl()) : (bannerImgUrl.equals(bean.getBannerImgUrl()))) &&
+					(contentId == bean.getContentId()) &&
+					((contentUrl == null) ? (contentUrl == bean.getContentUrl()) : (contentUrl.equals(bean.getContentUrl()))) &&
+					((contentPackage == null) ? (contentPackage == bean.getContentPackage()) : (contentPackage.equals(bean.getContentPackage()))) &&
+					((userNick == null) ? (userNick == bean.getUserNick()) : (userNick.equals(bean.getUserNick()))) &&
+					((userVarUrl == null) ? (userVarUrl == bean.getUserVarUrl()) : (userVarUrl.equals(bean.getUserVarUrl())))
+					;
+		}
+		return false;
+	}
 	
 	@Override
 	public String toString() {
@@ -138,6 +188,8 @@ public class BannerBean extends EntityBase {
 				", \'contentId\'=" + contentId + 
 				", \'contentUrl\'=\'" + contentUrl + "\'"+ 
 				", \'contentPackage\'='" + contentPackage + "\'"+ 
+				", \'userNick\'=\'" + userNick + "\'" + 
+				", \'userVarUrl\'=\'" + userVarUrl + "\'" + 
 				'}';
 	}
 

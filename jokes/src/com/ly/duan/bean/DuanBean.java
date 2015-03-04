@@ -1,11 +1,15 @@
 package com.ly.duan.bean;
 
+import java.io.Serializable;
+
 import com.lidroid.xutils.db.annotation.Column;
 import com.lidroid.xutils.db.annotation.Table;
 
 @Table(name="duans")
-public class DuanBean extends EntityBase {
+public class DuanBean extends EntityBase implements Serializable {
 	
+	private static final long serialVersionUID = 4277199663386083690L;
+
 	@Column(column="duanId")
 	private long duanId; 
 	

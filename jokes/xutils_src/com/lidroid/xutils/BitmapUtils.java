@@ -250,6 +250,7 @@ public class BitmapUtils implements TaskHandler {
 
 		container.clearAnimation();
 
+		LogUtils.d("uri=" + uri + ", TextUtils.isEmpty(uri)=" + TextUtils.isEmpty(uri));
 		if (TextUtils.isEmpty(uri)) {
 			callBack.onLoadFailed(container, uri, displayConfig.getLoadFailedDrawable());
 			return;

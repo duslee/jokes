@@ -16,10 +16,9 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
-            android:background="@drawable/translate_bg_selector"
             android:contentDescription="@null"
             android:scaleType="centerCrop"
-            android:src="@drawable/fresh" />
+            android:src="@drawable/fresh_selector" />
     </RelativeLayout>
 
     <com.charon.pulltorefreshlistview.PullRefreshAndLoadMoreListView

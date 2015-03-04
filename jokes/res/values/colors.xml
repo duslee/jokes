@@ -23,7 +23,13 @@
     <color name="up_down_focus_color">#ffffff</color>
     <color name="up_down_unfocus_color">#919191</color>
     
+    <color name="send_focus_color">#ffffff</color>
+    <color name="send_unfocus_color">#eeeeee</color>
+    
     <!-- line colors -->
     <color name="line_bg_color">#999999</color>
+    
+    <drawable name="send_focus_color">#eeeeee</drawable>
+    <drawable name="send_unfocus_color">#ffffff</drawable>
     
 </resources>

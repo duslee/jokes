@@ -36,8 +36,9 @@ import com.ly.duan.bean.MultiReqStatus;
 import com.ly.duan.help.DBHelp;
 import com.ly.duan.help.GlobalHelp;
 import com.ly.duan.help.HttpHelp.MyRequestCallback;
+import com.ly.duan.help.SavedStatusHelp;
 import com.ly.duan.utils.Constants;
-import com.ly.duan.utils.PreferencesUtils;
+import com.ly.duan.utils.StringUtils;
 import com.ly.duan.utils.ToastUtils;
 
 public class InitDataService extends Service {
@@ -119,6 +120,8 @@ public class InitDataService extends Service {
 	private String tabName = "";
 	/** 用于标记进入主页后第一次显示的栏目界面 */
 	private long columnId = 0L;
+	
+	private SavedStatusHelp savedStatusHelp;
 
 	@Override
 	public IBinder onBind(Intent intent) {
@@ -130,8 +133,8 @@ public class InitDataService extends Service {
 		super.onCreate();
 		db = DBHelp.getInstance(InitDataService.this);
 		status = new MultiReqStatus();
-		tabName = PreferencesUtils.getConfigSharedPreferences(InitDataService.this)
-				.getString(Constants.TAB_NAME, "");
+		savedStatusHelp = SavedStatusHelp.getInstance();
+		tabName = savedStatusHelp.getTabName(InitDataService.this);
 		
 		handlerThread = new HandlerThread("back service");
 		handlerThread.start();
@@ -147,9 +150,8 @@ public class InitDataService extends Service {
 
 		mHandler.post(clmRunnable);
 //		mHandler.post(content1Runnable);
-		// TODO: modify
 //		mHandler.post(content2Runnable);
-//		mHandler.post(bannerRunnable);
+		mHandler.post(bannerRunnable);
 		return START_NOT_STICKY;
 	}
 
@@ -235,9 +237,20 @@ public class InitDataService extends Service {
 			/* 1. handle columnId */
 			/* 1.1 get columnId according to appid & tabName */
 			try {
-				ColumnBean columnBean = db.findFirst(Selector.from(ColumnBean.class)
-						.where("appid", "=", appid)
-						.and("columnName", "=", tabName));
+				ColumnBean columnBean = null;
+				/* strategy of protect */
+				if (StringUtils.isBlank(tabName)) {
+					columnBean = db.findFirst(Selector.from(ColumnBean.class)
+						.where("appid", "=", appid));
+					if (null != columnBean) {
+						tabName = columnBean.getColumnName();
+						savedStatusHelp.saveTabName(InitDataService.this, tabName);
+					}
+				} else {
+					columnBean = db.findFirst(Selector.from(ColumnBean.class)
+							.where("appid", "=", appid)
+							.and("columnName", "=", tabName));
+				}
 				if (null != columnBean) {
 					columnId = columnBean.getColumnId();
 					type = columnBean.getType();
@@ -426,6 +439,8 @@ public class InitDataService extends Service {
 					bean.setBannerDesc(jsonObject2.getString("bannerDesc"));
 					bean.setBannerImgUrl(jsonObject2.getString("bannerImgUrl"));
 					bean.setContentUrl(jsonObject2.getString("contentUrl"));
+					bean.setUserNick(jsonObject2.getString("userNick"));
+					bean.setUserVarUrl(jsonObject2.getString("userVarUrl"));
 					bannerList.add(bean);
 				}
 				/* 保存到本地数据库，先删除掉本地数据 */
@@ -721,10 +736,21 @@ public class InitDataService extends Service {
 
 	private void parseJsonArrayByType(JSONObject jsonObject, int type, int _ver) {
 		/* parse Duans content */
-		LogUtils.e("jsonObject=" + jsonObject.toString() + ", type=" + type + ", _ver=" + _ver);
+//		LogUtils.e("jsonObject=" + jsonObject.toString() + ", type=" + type + ", _ver=" + _ver);
 		if (type == 8) {
 			JSONArray jsonArray = jsonObject.getJSONArray("jokes");
 			List<DuanBean> list = new ArrayList<DuanBean>();
+			
+			/* clear data in DB */
+			if (jsonArray.size() > 0) {
+				try {
+					db.delete(DuanBean.class, WhereBuilder.b("appid", "=", appid)
+							.and("columnId", "=", columnId));
+				} catch (DbException e) {
+					e.printStackTrace();
+				}
+			}
+			
 			for (int i = 0; i < jsonArray.size(); i++) {
 				DuanBean bean = new DuanBean();
 				JSONObject jsonObject2 = jsonArray.getJSONObject(i);
@@ -759,6 +785,17 @@ public class InitDataService extends Service {
 		else if (type == 3) {
 			JSONArray jsonArray = jsonObject.getJSONArray("articles");
 			List<ArticleBean> list = new ArrayList<ArticleBean>();
+			
+			/* clear data in DB */
+			if (jsonArray.size() > 0) {
+				try {
+					db.delete(ArticleBean.class, WhereBuilder.b("appid", "=", appid)
+							.and("columnId", "=", columnId));
+				} catch (DbException e) {
+					e.printStackTrace();
+				}
+			}
+			
 			for (int i = 0; i < jsonArray.size(); i++) {
 				ArticleBean bean = new ArticleBean();
 				JSONObject jsonObject2 = jsonArray.getJSONObject(i);
@@ -802,7 +839,7 @@ public class InitDataService extends Service {
 
 	private void handleBroadcastAndNextStep(int what, MultiReqStatus reqStatus) {
 		/* 1. save status */
-		GlobalHelp.getInstance().setMultiReqStatus(reqStatus);
+		GlobalHelp.getInstance().setMultiReqStatus(InitDataService.this, reqStatus);
 
 		int content1Status = reqStatus.getContent1Status();
 		int content2Status = reqStatus.getContent2Status();
@@ -818,8 +855,8 @@ public class InitDataService extends Service {
 		intent.putExtra("bc_type", what);
 		sendBroadcast(intent);
 
-		/* 3. handle next step */
-		/* 3.1 handle Clm(Note: Do not handle repeatedly) */
+		/* 3. handle next step(Note: Do not handle repeatedly) */
+		/* 3.1 handle Clm */
 		if (what == SEND_BC_CLM) {
 			/* ready to get content/banner */
 			if (currentStatus == COLUMN_REQUEST_FINISH || currentStatus == COLUMN_REQUEST_FAILED ||
@@ -828,7 +865,7 @@ public class InitDataService extends Service {
 				mHandler.post(contentRunnable);
 			}
 		}
-		/* 3.2 handle content/banner(Note: Do not handle repeatedly) */
+		/* 3.2 handle content/banner */
 		else {
 			boolean contentReqEnd = ((currentStatus == CONTENT_REQUEST_FAILED)
 					|| (currentStatus == CONTENT_REQUEST_FINISH) || (currentStatus == CONTENT_RESPONSE_ERROR));
@@ -947,6 +984,8 @@ public class InitDataService extends Service {
 						bean.setColumnId(jsonObject2.getLongValue("id"));
 						if (i == 0) {
 							tabName = jsonObject2.getString("columnName");
+//							PreferencesUtils.getConfigSharedPreferences(InitDataService.this).edit().putString(Constants.TAB_NAME, tabName).commit();
+							savedStatusHelp.saveTabName(InitDataService.this, tabName);
 						}
 						bean.setColumnName(jsonObject2.getString("columnName"));
 						bean.setColumnDesc(jsonObject2.getString("columnDesc"));

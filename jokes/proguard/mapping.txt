@@ -2,8 +2,6 @@ android.os.DeviceUtil -> android.os.a:
     boolean isWifiActive(android.content.Context) -> a
     java.lang.String getFactory() -> a
     java.lang.String getType() -> b
-    int getVersion() -> c
-    java.lang.String getPhoneVersion() -> d
 android.os.FileUtils -> android.os.FileUtils:
     java.util.regex.Pattern SAFE_FILENAME_PATTERN -> a
     int setPermissions(java.lang.String,int,int,int) -> setPermissions
@@ -67,6 +65,7 @@ android.support.v4.app.BackStackRecord -> android.support.v4.app.d:
     void dump(java.lang.String,java.io.FileDescriptor,java.io.PrintWriter,java.lang.String[]) -> a
     void dump(java.lang.String,java.io.PrintWriter,boolean) -> a
     void addOp(android.support.v4.app.BackStackRecord$Op) -> a
+    android.support.v4.app.FragmentTransaction add(int,android.support.v4.app.Fragment) -> a
     android.support.v4.app.FragmentTransaction add(int,android.support.v4.app.Fragment,java.lang.String) -> a
     void doAddOp(int,android.support.v4.app.Fragment,java.lang.String,int) -> a
     android.support.v4.app.FragmentTransaction remove(android.support.v4.app.Fragment) -> a
@@ -256,6 +255,7 @@ android.support.v4.app.Fragment -> android.support.v4.app.Fragment:
     java.lang.String toString() -> toString
     void setArguments(android.os.Bundle) -> g
     android.os.Bundle getArguments() -> g
+    void setInitialSavedState(android.support.v4.app.Fragment$SavedState) -> a
     android.support.v4.app.FragmentActivity getActivity() -> h
     android.content.res.Resources getResources() -> i
     android.support.v4.app.FragmentManager getFragmentManager() -> j
@@ -264,6 +264,8 @@ android.support.v4.app.Fragment -> android.support.v4.app.Fragment:
     boolean isDetached() -> m
     boolean isHidden() -> n
     void onHiddenChanged(boolean) -> b
+    void setMenuVisibility(boolean) -> c
+    void setUserVisibleHint(boolean) -> d
     void startActivity(android.content.Intent) -> a
     void onActivityResult(int,int,android.content.Intent) -> a
     android.view.LayoutInflater getLayoutInflater(android.os.Bundle) -> b
@@ -410,6 +412,9 @@ android.support.v4.app.FragmentManager -> android.support.v4.app.q:
     boolean executePendingTransactions() -> b
     android.support.v4.app.Fragment findFragmentByTag(java.lang.String) -> a
     void popBackStack(int,int) -> a
+    void putFragment(android.os.Bundle,java.lang.String,android.support.v4.app.Fragment) -> a
+    android.support.v4.app.Fragment getFragment(android.os.Bundle,java.lang.String) -> a
+    android.support.v4.app.Fragment$SavedState saveFragmentInstanceState(android.support.v4.app.Fragment) -> a
 android.support.v4.app.FragmentManager$OnBackStackChangedListener -> android.support.v4.app.r:
     void onBackStackChanged() -> a
 android.support.v4.app.FragmentManagerImpl -> android.support.v4.app.s:
@@ -449,19 +454,20 @@ android.support.v4.app.FragmentManagerImpl -> android.support.v4.app.s:
     void popBackStack(int,int) -> a
     void putFragment(android.os.Bundle,java.lang.String,android.support.v4.app.Fragment) -> a
     android.support.v4.app.Fragment getFragment(android.os.Bundle,java.lang.String) -> a
+    android.support.v4.app.Fragment$SavedState saveFragmentInstanceState(android.support.v4.app.Fragment) -> a
     java.lang.String toString() -> toString
     void dump(java.lang.String,java.io.FileDescriptor,java.io.PrintWriter,java.lang.String[]) -> a
     android.view.animation.Animation makeOpenCloseAnimation(android.content.Context,float,float,float,float) -> a
     android.view.animation.Animation makeFadeAnimation(android.content.Context,float,float) -> a
     android.view.animation.Animation loadAnimation(android.support.v4.app.Fragment,int,boolean,int) -> a
-    void performPendingDeferredStart(android.support.v4.app.Fragment) -> a
+    void performPendingDeferredStart(android.support.v4.app.Fragment) -> b
     void moveToState(android.support.v4.app.Fragment,int,int,int,boolean) -> a
-    void moveToState(android.support.v4.app.Fragment) -> b
+    void moveToState(android.support.v4.app.Fragment) -> c
     void moveToState(int,boolean) -> a
     void moveToState(int,int,int,boolean) -> a
     void startPendingDeferredFragments() -> d
-    void makeActive(android.support.v4.app.Fragment) -> c
-    void makeInactive(android.support.v4.app.Fragment) -> d
+    void makeActive(android.support.v4.app.Fragment) -> d
+    void makeInactive(android.support.v4.app.Fragment) -> e
     void addFragment(android.support.v4.app.Fragment,boolean) -> a
     void removeFragment(android.support.v4.app.Fragment,int,int) -> a
     void hideFragment(android.support.v4.app.Fragment,int,int) -> b
@@ -480,8 +486,8 @@ android.support.v4.app.FragmentManagerImpl -> android.support.v4.app.s:
     void addBackStackState(android.support.v4.app.BackStackRecord) -> b
     boolean popBackStackState(android.os.Handler,java.lang.String,int,int) -> a
     java.util.ArrayList retainNonConfig() -> g
-    void saveFragmentViewState(android.support.v4.app.Fragment) -> e
-    android.os.Bundle saveFragmentBasicState(android.support.v4.app.Fragment) -> f
+    void saveFragmentViewState(android.support.v4.app.Fragment) -> f
+    android.os.Bundle saveFragmentBasicState(android.support.v4.app.Fragment) -> g
     android.os.Parcelable saveAllState() -> h
     void restoreAllState(android.os.Parcelable,java.util.ArrayList) -> a
     void attachActivity(android.support.v4.app.FragmentActivity,android.support.v4.app.FragmentContainer,android.support.v4.app.Fragment) -> a
@@ -555,6 +561,21 @@ android.support.v4.app.FragmentState$1 -> android.support.v4.app.y:
     android.support.v4.app.FragmentState[] newArray(int) -> a
     java.lang.Object[] newArray(int) -> newArray
     java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
+android.support.v4.app.FragmentStatePagerAdapter -> android.support.v4.app.z:
+    android.support.v4.app.FragmentManager mFragmentManager -> a
+    android.support.v4.app.FragmentTransaction mCurTransaction -> b
+    java.util.ArrayList mSavedState -> c
+    java.util.ArrayList mFragments -> d
+    android.support.v4.app.Fragment mCurrentPrimaryItem -> e
+    android.support.v4.app.Fragment getItem(int) -> a
+    void startUpdate(android.view.ViewGroup) -> a
+    java.lang.Object instantiateItem(android.view.ViewGroup,int) -> a
+    void destroyItem(android.view.ViewGroup,int,java.lang.Object) -> a
+    void setPrimaryItem(android.view.ViewGroup,int,java.lang.Object) -> b
+    void finishUpdate(android.view.ViewGroup) -> b
+    boolean isViewFromObject(android.view.View,java.lang.Object) -> a
+    android.os.Parcelable saveState() -> a
+    void restoreState(android.os.Parcelable,java.lang.ClassLoader) -> a
 android.support.v4.app.FragmentTabHost -> android.support.v4.app.FragmentTabHost:
     java.util.ArrayList mTabs -> a
     android.content.Context mContext -> b
@@ -572,18 +593,18 @@ android.support.v4.app.FragmentTabHost -> android.support.v4.app.FragmentTabHost
     void onRestoreInstanceState(android.os.Parcelable) -> onRestoreInstanceState
     void onTabChanged(java.lang.String) -> onTabChanged
     android.support.v4.app.FragmentTransaction doTabChanged(java.lang.String,android.support.v4.app.FragmentTransaction) -> a
-android.support.v4.app.FragmentTabHost$1 -> android.support.v4.app.z:
+android.support.v4.app.FragmentTabHost$1 -> android.support.v4.app.aa:
 android.support.v4.app.FragmentTabHost$SavedState -> android.support.v4.app.FragmentTabHost$SavedState:
     java.lang.String curTab -> a
     android.os.Parcelable$Creator CREATOR -> CREATOR
     void writeToParcel(android.os.Parcel,int) -> writeToParcel
     java.lang.String toString() -> toString
-android.support.v4.app.FragmentTabHost$SavedState$1 -> android.support.v4.app.aa:
+android.support.v4.app.FragmentTabHost$SavedState$1 -> android.support.v4.app.ab:
     android.support.v4.app.FragmentTabHost$SavedState createFromParcel(android.os.Parcel) -> a
     android.support.v4.app.FragmentTabHost$SavedState[] newArray(int) -> a
     java.lang.Object[] newArray(int) -> newArray
     java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
-android.support.v4.app.FragmentTabHost$TabInfo -> android.support.v4.app.ab:
+android.support.v4.app.FragmentTabHost$TabInfo -> android.support.v4.app.ac:
     java.lang.String tag -> a
     java.lang.Class clss -> b
     android.os.Bundle args -> c
@@ -594,6 +615,7 @@ android.support.v4.app.FragmentTabHost$TabInfo -> android.support.v4.app.ab:
     java.lang.Class access$300(android.support.v4.app.FragmentTabHost$TabInfo) -> c
     android.os.Bundle access$400(android.support.v4.app.FragmentTabHost$TabInfo) -> d
 android.support.v4.app.FragmentTransaction -> android.support.v4.app.FragmentTransaction:
+    android.support.v4.app.FragmentTransaction add(int,android.support.v4.app.Fragment) -> a
     android.support.v4.app.FragmentTransaction add(int,android.support.v4.app.Fragment,java.lang.String) -> a
     android.support.v4.app.FragmentTransaction remove(android.support.v4.app.Fragment) -> a
     android.support.v4.app.FragmentTransaction hide(android.support.v4.app.Fragment) -> b
@@ -603,7 +625,7 @@ android.support.v4.app.FragmentTransaction -> android.support.v4.app.FragmentTra
     int commit() -> a
     int commitAllowingStateLoss() -> b
 android.support.v4.app.FragmentTransaction$Transit -> android.support.v4.app.FragmentTransaction$Transit:
-android.support.v4.app.FragmentTransitionCompat21 -> android.support.v4.app.ac:
+android.support.v4.app.FragmentTransitionCompat21 -> android.support.v4.app.ad:
     java.lang.String getTransitionName(android.view.View) -> a
     java.lang.Object cloneTransition(java.lang.Object) -> a
     java.lang.Object captureExitingViews(java.lang.Object,android.view.View,java.util.ArrayList,java.util.Map) -> a
@@ -620,9 +642,9 @@ android.support.v4.app.FragmentTransitionCompat21 -> android.support.v4.app.ac:
     void removeTargets(java.lang.Object,java.util.ArrayList) -> a
     void addTargets(java.lang.Object,java.util.ArrayList) -> b
     void access$000(java.util.ArrayList,android.view.View) -> a
-android.support.v4.app.FragmentTransitionCompat21$1 -> android.support.v4.app.ad:
+android.support.v4.app.FragmentTransitionCompat21$1 -> android.support.v4.app.ae:
     android.graphics.Rect val$epicenter -> a
-android.support.v4.app.FragmentTransitionCompat21$2 -> android.support.v4.app.ae:
+android.support.v4.app.FragmentTransitionCompat21$2 -> android.support.v4.app.af:
     android.view.View val$container -> a
     android.support.v4.app.FragmentTransitionCompat21$ViewRetriever val$inFragment -> b
     java.util.Map val$nameOverrides -> c
@@ -630,9 +652,9 @@ android.support.v4.app.FragmentTransitionCompat21$2 -> android.support.v4.app.ae
     android.transition.Transition val$enterTransition -> e
     java.util.ArrayList val$enteringViews -> f
     boolean onPreDraw() -> onPreDraw
-android.support.v4.app.FragmentTransitionCompat21$3 -> android.support.v4.app.af:
+android.support.v4.app.FragmentTransitionCompat21$3 -> android.support.v4.app.ag:
     android.support.v4.app.FragmentTransitionCompat21$EpicenterView val$epicenterView -> a
-android.support.v4.app.FragmentTransitionCompat21$4 -> android.support.v4.app.ag:
+android.support.v4.app.FragmentTransitionCompat21$4 -> android.support.v4.app.ah:
     android.view.View val$sceneRoot -> a
     android.transition.Transition val$enterTransition -> b
     android.view.View val$nonExistentView -> c
@@ -645,17 +667,17 @@ android.support.v4.app.FragmentTransitionCompat21$4 -> android.support.v4.app.ag
     java.util.ArrayList val$hiddenViews -> j
     android.transition.Transition val$overallTransition -> k
     boolean onPreDraw() -> onPreDraw
-android.support.v4.app.FragmentTransitionCompat21$EpicenterView -> android.support.v4.app.ah:
+android.support.v4.app.FragmentTransitionCompat21$EpicenterView -> android.support.v4.app.ai:
     android.view.View epicenter -> a
-android.support.v4.app.FragmentTransitionCompat21$ViewRetriever -> android.support.v4.app.ai:
+android.support.v4.app.FragmentTransitionCompat21$ViewRetriever -> android.support.v4.app.aj:
     android.view.View getView() -> a
-android.support.v4.app.LoaderManager -> android.support.v4.app.aj:
+android.support.v4.app.LoaderManager -> android.support.v4.app.ak:
     boolean hasRunningLoaders() -> a
-android.support.v4.app.LoaderManager$LoaderCallbacks -> android.support.v4.app.ak:
+android.support.v4.app.LoaderManager$LoaderCallbacks -> android.support.v4.app.al:
     android.support.v4.content.Loader onCreateLoader(int,android.os.Bundle) -> a
     void onLoadFinished(android.support.v4.content.Loader,java.lang.Object) -> a
     void onLoaderReset(android.support.v4.content.Loader) -> a
-android.support.v4.app.LoaderManagerImpl -> android.support.v4.app.al:
+android.support.v4.app.LoaderManagerImpl -> android.support.v4.app.am:
     boolean DEBUG -> a
     android.support.v4.util.SparseArrayCompat mLoaders -> b
     android.support.v4.util.SparseArrayCompat mInactiveLoaders -> c
@@ -674,7 +696,7 @@ android.support.v4.app.LoaderManagerImpl -> android.support.v4.app.al:
     java.lang.String toString() -> toString
     void dump(java.lang.String,java.io.FileDescriptor,java.io.PrintWriter,java.lang.String[]) -> a
     boolean hasRunningLoaders() -> a
-android.support.v4.app.LoaderManagerImpl$LoaderInfo -> android.support.v4.app.am:
+android.support.v4.app.LoaderManagerImpl$LoaderInfo -> android.support.v4.app.an:
     int mId -> a
     android.os.Bundle mArgs -> b
     android.support.v4.app.LoaderManager$LoaderCallbacks mCallbacks -> c
@@ -699,22 +721,22 @@ android.support.v4.app.LoaderManagerImpl$LoaderInfo -> android.support.v4.app.am
     void callOnLoadFinished(android.support.v4.content.Loader,java.lang.Object) -> a
     java.lang.String toString() -> toString
     void dump(java.lang.String,java.io.FileDescriptor,java.io.PrintWriter,java.lang.String[]) -> a
-android.support.v4.app.NoSaveStateFrameLayout -> android.support.v4.app.an:
+android.support.v4.app.NoSaveStateFrameLayout -> android.support.v4.app.ao:
     android.view.ViewGroup wrap(android.view.View) -> a
     void dispatchSaveInstanceState(android.util.SparseArray) -> dispatchSaveInstanceState
     void dispatchRestoreInstanceState(android.util.SparseArray) -> dispatchRestoreInstanceState
-android.support.v4.app.NotificationBuilderWithActions -> android.support.v4.app.ao:
+android.support.v4.app.NotificationBuilderWithActions -> android.support.v4.app.ap:
     void addAction(android.support.v4.app.NotificationCompatBase$Action) -> a
-android.support.v4.app.NotificationBuilderWithBuilderAccessor -> android.support.v4.app.ap:
+android.support.v4.app.NotificationBuilderWithBuilderAccessor -> android.support.v4.app.aq:
     android.app.Notification$Builder getBuilder() -> a
-android.support.v4.app.NotificationCompat -> android.support.v4.app.aq:
+android.support.v4.app.NotificationCompat -> android.support.v4.app.ar:
     android.support.v4.app.NotificationCompat$NotificationCompatImpl IMPL -> a
     void addActionsToBuilder(android.support.v4.app.NotificationBuilderWithActions,java.util.ArrayList) -> b
     void addStyleToBuilderJellybean(android.support.v4.app.NotificationBuilderWithBuilderAccessor,android.support.v4.app.NotificationCompat$Style) -> b
     void access$000(android.support.v4.app.NotificationBuilderWithActions,java.util.ArrayList) -> a
     void access$100(android.support.v4.app.NotificationBuilderWithBuilderAccessor,android.support.v4.app.NotificationCompat$Style) -> a
     android.support.v4.app.NotificationCompat$NotificationCompatImpl access$200() -> a
-android.support.v4.app.NotificationCompat$Action -> android.support.v4.app.ar:
+android.support.v4.app.NotificationCompat$Action -> android.support.v4.app.as:
     android.os.Bundle mExtras -> e
     android.support.v4.app.RemoteInput[] mRemoteInputs -> f
     int icon -> a
@@ -727,14 +749,14 @@ android.support.v4.app.NotificationCompat$Action -> android.support.v4.app.ar:
     android.os.Bundle getExtras() -> d
     android.support.v4.app.RemoteInput[] getRemoteInputs() -> e
     android.support.v4.app.RemoteInputCompatBase$RemoteInput[] getRemoteInputs() -> f
-android.support.v4.app.NotificationCompat$Action$1 -> android.support.v4.app.as:
-android.support.v4.app.NotificationCompat$BigPictureStyle -> android.support.v4.app.at:
+android.support.v4.app.NotificationCompat$Action$1 -> android.support.v4.app.at:
+android.support.v4.app.NotificationCompat$BigPictureStyle -> android.support.v4.app.au:
     android.graphics.Bitmap mPicture -> a
     android.graphics.Bitmap mBigLargeIcon -> b
     boolean mBigLargeIconSet -> c
-android.support.v4.app.NotificationCompat$BigTextStyle -> android.support.v4.app.au:
+android.support.v4.app.NotificationCompat$BigTextStyle -> android.support.v4.app.av:
     java.lang.CharSequence mBigText -> a
-android.support.v4.app.NotificationCompat$Builder -> android.support.v4.app.av:
+android.support.v4.app.NotificationCompat$Builder -> android.support.v4.app.aw:
     android.content.Context mContext -> a
     java.lang.CharSequence mContentTitle -> b
     java.lang.CharSequence mContentText -> c
@@ -771,59 +793,59 @@ android.support.v4.app.NotificationCompat$Builder -> android.support.v4.app.av:
     android.support.v4.app.NotificationCompat$Builder setTicker(java.lang.CharSequence) -> b
     android.app.Notification build() -> a
     java.lang.CharSequence limitCharSequenceLength(java.lang.CharSequence) -> c
-android.support.v4.app.NotificationCompat$InboxStyle -> android.support.v4.app.aw:
+android.support.v4.app.NotificationCompat$InboxStyle -> android.support.v4.app.ax:
     java.util.ArrayList mTexts -> a
-android.support.v4.app.NotificationCompat$NotificationCompatImpl -> android.support.v4.app.ax:
+android.support.v4.app.NotificationCompat$NotificationCompatImpl -> android.support.v4.app.ay:
     android.app.Notification build(android.support.v4.app.NotificationCompat$Builder) -> a
-android.support.v4.app.NotificationCompat$NotificationCompatImplApi20 -> android.support.v4.app.ay:
+android.support.v4.app.NotificationCompat$NotificationCompatImplApi20 -> android.support.v4.app.az:
     android.app.Notification build(android.support.v4.app.NotificationCompat$Builder) -> a
-android.support.v4.app.NotificationCompat$NotificationCompatImplApi21 -> android.support.v4.app.az:
+android.support.v4.app.NotificationCompat$NotificationCompatImplApi21 -> android.support.v4.app.ba:
     android.app.Notification build(android.support.v4.app.NotificationCompat$Builder) -> a
-android.support.v4.app.NotificationCompat$NotificationCompatImplBase -> android.support.v4.app.ba:
+android.support.v4.app.NotificationCompat$NotificationCompatImplBase -> android.support.v4.app.bb:
     android.app.Notification build(android.support.v4.app.NotificationCompat$Builder) -> a
-android.support.v4.app.NotificationCompat$NotificationCompatImplGingerbread -> android.support.v4.app.bb:
+android.support.v4.app.NotificationCompat$NotificationCompatImplGingerbread -> android.support.v4.app.bc:
     android.app.Notification build(android.support.v4.app.NotificationCompat$Builder) -> a
-android.support.v4.app.NotificationCompat$NotificationCompatImplHoneycomb -> android.support.v4.app.bc:
+android.support.v4.app.NotificationCompat$NotificationCompatImplHoneycomb -> android.support.v4.app.bd:
     android.app.Notification build(android.support.v4.app.NotificationCompat$Builder) -> a
-android.support.v4.app.NotificationCompat$NotificationCompatImplIceCreamSandwich -> android.support.v4.app.bd:
+android.support.v4.app.NotificationCompat$NotificationCompatImplIceCreamSandwich -> android.support.v4.app.be:
     android.app.Notification build(android.support.v4.app.NotificationCompat$Builder) -> a
-android.support.v4.app.NotificationCompat$NotificationCompatImplJellybean -> android.support.v4.app.be:
+android.support.v4.app.NotificationCompat$NotificationCompatImplJellybean -> android.support.v4.app.bf:
     android.app.Notification build(android.support.v4.app.NotificationCompat$Builder) -> a
-android.support.v4.app.NotificationCompat$NotificationCompatImplKitKat -> android.support.v4.app.bf:
+android.support.v4.app.NotificationCompat$NotificationCompatImplKitKat -> android.support.v4.app.bg:
     android.app.Notification build(android.support.v4.app.NotificationCompat$Builder) -> a
-android.support.v4.app.NotificationCompat$Style -> android.support.v4.app.bg:
+android.support.v4.app.NotificationCompat$Style -> android.support.v4.app.bh:
     java.lang.CharSequence mBigContentTitle -> d
     java.lang.CharSequence mSummaryText -> e
     boolean mSummaryTextSet -> f
-android.support.v4.app.NotificationCompatApi20 -> android.support.v4.app.bh:
+android.support.v4.app.NotificationCompatApi20 -> android.support.v4.app.bi:
     void addAction(android.app.Notification$Builder,android.support.v4.app.NotificationCompatBase$Action) -> a
-android.support.v4.app.NotificationCompatApi20$Builder -> android.support.v4.app.bi:
+android.support.v4.app.NotificationCompatApi20$Builder -> android.support.v4.app.bj:
     android.app.Notification$Builder b -> a
     android.os.Bundle mExtras -> b
     void addAction(android.support.v4.app.NotificationCompatBase$Action) -> a
     android.app.Notification$Builder getBuilder() -> a
     android.app.Notification build() -> b
-android.support.v4.app.NotificationCompatApi21 -> android.support.v4.app.bj:
-android.support.v4.app.NotificationCompatApi21$Builder -> android.support.v4.app.bk:
+android.support.v4.app.NotificationCompatApi21 -> android.support.v4.app.bk:
+android.support.v4.app.NotificationCompatApi21$Builder -> android.support.v4.app.bl:
     android.app.Notification$Builder b -> a
     void addAction(android.support.v4.app.NotificationCompatBase$Action) -> a
     android.app.Notification$Builder getBuilder() -> a
     android.app.Notification build() -> b
-android.support.v4.app.NotificationCompatBase -> android.support.v4.app.bl:
-android.support.v4.app.NotificationCompatBase$Action -> android.support.v4.app.bm:
+android.support.v4.app.NotificationCompatBase -> android.support.v4.app.bm:
+android.support.v4.app.NotificationCompatBase$Action -> android.support.v4.app.bn:
     int getIcon() -> a
     java.lang.CharSequence getTitle() -> b
     android.app.PendingIntent getActionIntent() -> c
     android.os.Bundle getExtras() -> d
     android.support.v4.app.RemoteInputCompatBase$RemoteInput[] getRemoteInputs() -> f
-android.support.v4.app.NotificationCompatBase$Action$Factory -> android.support.v4.app.bn:
-android.support.v4.app.NotificationCompatGingerbread -> android.support.v4.app.bo:
+android.support.v4.app.NotificationCompatBase$Action$Factory -> android.support.v4.app.bo:
+android.support.v4.app.NotificationCompatGingerbread -> android.support.v4.app.bp:
     android.app.Notification add(android.app.Notification,android.content.Context,java.lang.CharSequence,java.lang.CharSequence,android.app.PendingIntent,android.app.PendingIntent) -> a
-android.support.v4.app.NotificationCompatHoneycomb -> android.support.v4.app.bp:
+android.support.v4.app.NotificationCompatHoneycomb -> android.support.v4.app.bq:
     android.app.Notification add(android.content.Context,android.app.Notification,java.lang.CharSequence,java.lang.CharSequence,java.lang.CharSequence,android.widget.RemoteViews,int,android.app.PendingIntent,android.app.PendingIntent,android.graphics.Bitmap) -> a
-android.support.v4.app.NotificationCompatIceCreamSandwich -> android.support.v4.app.bq:
+android.support.v4.app.NotificationCompatIceCreamSandwich -> android.support.v4.app.br:
     android.app.Notification add(android.content.Context,android.app.Notification,java.lang.CharSequence,java.lang.CharSequence,java.lang.CharSequence,android.widget.RemoteViews,int,android.app.PendingIntent,android.app.PendingIntent,android.graphics.Bitmap,int,int,boolean) -> a
-android.support.v4.app.NotificationCompatJellybean -> android.support.v4.app.br:
+android.support.v4.app.NotificationCompatJellybean -> android.support.v4.app.bs:
     java.lang.Object sExtrasLock -> a
     java.lang.reflect.Field sExtrasField -> b
     boolean sExtrasFieldAccessFailed -> c
@@ -834,15 +856,15 @@ android.support.v4.app.NotificationCompatJellybean -> android.support.v4.app.br:
     android.util.SparseArray buildActionExtrasMap(java.util.List) -> a
     android.os.Bundle getExtras(android.app.Notification) -> a
     android.os.Bundle writeActionAndGetExtras(android.app.Notification$Builder,android.support.v4.app.NotificationCompatBase$Action) -> a
-android.support.v4.app.NotificationCompatJellybean$Builder -> android.support.v4.app.bs:
+android.support.v4.app.NotificationCompatJellybean$Builder -> android.support.v4.app.bt:
     android.app.Notification$Builder b -> a
     android.os.Bundle mExtras -> b
     java.util.List mActionExtrasList -> c
     void addAction(android.support.v4.app.NotificationCompatBase$Action) -> a
     android.app.Notification$Builder getBuilder() -> a
     android.app.Notification build() -> b
-android.support.v4.app.NotificationCompatKitKat -> android.support.v4.app.bt:
-android.support.v4.app.NotificationCompatKitKat$Builder -> android.support.v4.app.bu:
+android.support.v4.app.NotificationCompatKitKat -> android.support.v4.app.bu:
+android.support.v4.app.NotificationCompatKitKat$Builder -> android.support.v4.app.bv:
     android.app.Notification$Builder b -> a
     android.os.Bundle mExtras -> b
     java.util.List mActionExtrasList -> c
@@ -850,7 +872,7 @@ android.support.v4.app.NotificationCompatKitKat$Builder -> android.support.v4.ap
     android.app.Notification$Builder getBuilder() -> a
     android.app.Notification build() -> b
 android.support.v4.app.NotificationCompatSideChannelService -> android.support.v4.app.NotificationCompatSideChannelService:
-android.support.v4.app.RemoteInput -> android.support.v4.app.bv:
+android.support.v4.app.RemoteInput -> android.support.v4.app.bw:
     java.lang.String mResultKey -> b
     java.lang.CharSequence mLabel -> c
     java.lang.CharSequence[] mChoices -> d
@@ -863,25 +885,25 @@ android.support.v4.app.RemoteInput -> android.support.v4.app.bv:
     java.lang.CharSequence[] getChoices() -> c
     boolean getAllowFreeFormInput() -> d
     android.os.Bundle getExtras() -> e
-android.support.v4.app.RemoteInput$1 -> android.support.v4.app.bw:
-android.support.v4.app.RemoteInput$Impl -> android.support.v4.app.bx:
-android.support.v4.app.RemoteInput$ImplApi20 -> android.support.v4.app.by:
-android.support.v4.app.RemoteInput$ImplBase -> android.support.v4.app.bz:
-android.support.v4.app.RemoteInput$ImplJellybean -> android.support.v4.app.ca:
-android.support.v4.app.RemoteInputCompatApi20 -> android.support.v4.app.cb:
+android.support.v4.app.RemoteInput$1 -> android.support.v4.app.bx:
+android.support.v4.app.RemoteInput$Impl -> android.support.v4.app.by:
+android.support.v4.app.RemoteInput$ImplApi20 -> android.support.v4.app.bz:
+android.support.v4.app.RemoteInput$ImplBase -> android.support.v4.app.ca:
+android.support.v4.app.RemoteInput$ImplJellybean -> android.support.v4.app.cb:
+android.support.v4.app.RemoteInputCompatApi20 -> android.support.v4.app.cc:
     android.app.RemoteInput[] fromCompat(android.support.v4.app.RemoteInputCompatBase$RemoteInput[]) -> a
-android.support.v4.app.RemoteInputCompatBase -> android.support.v4.app.cc:
-android.support.v4.app.RemoteInputCompatBase$RemoteInput -> android.support.v4.app.cd:
+android.support.v4.app.RemoteInputCompatBase -> android.support.v4.app.cd:
+android.support.v4.app.RemoteInputCompatBase$RemoteInput -> android.support.v4.app.ce:
     java.lang.String getResultKey() -> a
     java.lang.CharSequence getLabel() -> b
     java.lang.CharSequence[] getChoices() -> c
     boolean getAllowFreeFormInput() -> d
     android.os.Bundle getExtras() -> e
-android.support.v4.app.RemoteInputCompatBase$RemoteInput$Factory -> android.support.v4.app.ce:
-android.support.v4.app.RemoteInputCompatJellybean -> android.support.v4.app.cf:
+android.support.v4.app.RemoteInputCompatBase$RemoteInput$Factory -> android.support.v4.app.cf:
+android.support.v4.app.RemoteInputCompatJellybean -> android.support.v4.app.cg:
     android.os.Bundle toBundle(android.support.v4.app.RemoteInputCompatBase$RemoteInput) -> a
     android.os.Bundle[] toBundleArray(android.support.v4.app.RemoteInputCompatBase$RemoteInput[]) -> a
-android.support.v4.app.SharedElementCallback -> android.support.v4.app.cg:
+android.support.v4.app.SharedElementCallback -> android.support.v4.app.ch:
     void onSharedElementStart(java.util.List,java.util.List,java.util.List) -> a
     void onSharedElementEnd(java.util.List,java.util.List,java.util.List) -> b
     void onMapSharedElements(java.util.List,java.util.Map) -> a
@@ -1411,7 +1433,7 @@ android.support.v4.view.MotionEventCompatEclair -> android.support.v4.view.ad:
     int getPointerCount(android.view.MotionEvent) -> a
 android.support.v4.view.PagerAdapter -> android.support.v4.view.ae:
     android.database.DataSetObservable mObservable -> a
-    int getCount() -> a
+    int getCount() -> b
     void startUpdate(android.view.ViewGroup) -> a
     java.lang.Object instantiateItem(android.view.ViewGroup,int) -> a
     void destroyItem(android.view.ViewGroup,int,java.lang.Object) -> a
@@ -1423,13 +1445,13 @@ android.support.v4.view.PagerAdapter -> android.support.v4.view.ae:
     void setPrimaryItem(android.view.View,int,java.lang.Object) -> b
     void finishUpdate(android.view.View) -> b
     boolean isViewFromObject(android.view.View,java.lang.Object) -> a
-    android.os.Parcelable saveState() -> b
+    android.os.Parcelable saveState() -> a
     void restoreState(android.os.Parcelable,java.lang.ClassLoader) -> a
     int getItemPosition(java.lang.Object) -> a
     void registerDataSetObserver(android.database.DataSetObserver) -> a
     void unregisterDataSetObserver(android.database.DataSetObserver) -> b
-    java.lang.CharSequence getPageTitle(int) -> a
-    float getPageWidth(int) -> b
+    java.lang.CharSequence getPageTitle(int) -> b
+    float getPageWidth(int) -> c
 android.support.v4.view.PagerTabStrip -> android.support.v4.view.PagerTabStrip:
     int mIndicatorColor -> f
     int mIndicatorHeight -> g
@@ -2987,6 +3009,7 @@ com.alibaba.fastjson.JSON -> com.alibaba.fastjson.a:
     void writeJSONString(java.lang.Appendable) -> a
     java.lang.Object toJSON(java.lang.Object) -> b
     java.lang.Object toJSON(java.lang.Object,com.alibaba.fastjson.parser.ParserConfig) -> a
+    java.lang.Object toJavaObject(com.alibaba.fastjson.JSON,java.lang.Class) -> a
 com.alibaba.fastjson.JSONArray -> com.alibaba.fastjson.JSONArray:
     java.util.List list -> f
     java.lang.Object relatedArray -> d
@@ -3894,20 +3917,23 @@ com.charon.pulltorefreshlistview.LoadMoreListView -> com.charon.pulltorefreshlis
     com.charon.pulltorefreshlistview.LoadMoreListView$OnLoadMoreListener mOnLoadMoreListener -> c
     boolean mIsLoading -> d
     int mCurrentScrollState -> e
-    android.widget.AbsListView$OnScrollListener superOnScrollListener -> f
+    boolean mLastItemVisible -> f
+    android.widget.AbsListView$OnScrollListener superOnScrollListener -> g
     void init(android.content.Context) -> a
-    void hideFooterView() -> a
-    void showFooterView() -> b
+    void hideFooterView() -> b
+    void showFooterView() -> c
     void setOnScrollListener(android.widget.AbsListView$OnScrollListener) -> setOnScrollListener
     void setOnLoadMoreListener(com.charon.pulltorefreshlistview.LoadMoreListView$OnLoadMoreListener) -> setOnLoadMoreListener
-    void access$0(com.charon.pulltorefreshlistview.LoadMoreListView,int) -> a
-    android.widget.AbsListView$OnScrollListener access$1(com.charon.pulltorefreshlistview.LoadMoreListView) -> a
-    void access$2(com.charon.pulltorefreshlistview.LoadMoreListView) -> b
-    boolean access$3(com.charon.pulltorefreshlistview.LoadMoreListView) -> c
-    int access$4(com.charon.pulltorefreshlistview.LoadMoreListView) -> d
-    void access$5(com.charon.pulltorefreshlistview.LoadMoreListView) -> e
-    void access$6(com.charon.pulltorefreshlistview.LoadMoreListView,boolean) -> a
-    com.charon.pulltorefreshlistview.LoadMoreListView$OnLoadMoreListener access$7(com.charon.pulltorefreshlistview.LoadMoreListView) -> f
+    void onLoadMoreComplete() -> a
+    void onMeasure(int,int) -> onMeasure
+    com.charon.pulltorefreshlistview.LoadMoreListView$OnLoadMoreListener access$0(com.charon.pulltorefreshlistview.LoadMoreListView) -> a
+    boolean access$1(com.charon.pulltorefreshlistview.LoadMoreListView) -> b
+    boolean access$2(com.charon.pulltorefreshlistview.LoadMoreListView) -> c
+    void access$3(com.charon.pulltorefreshlistview.LoadMoreListView) -> d
+    void access$4(com.charon.pulltorefreshlistview.LoadMoreListView,boolean) -> a
+    void access$5(com.charon.pulltorefreshlistview.LoadMoreListView,int) -> a
+    android.widget.AbsListView$OnScrollListener access$6(com.charon.pulltorefreshlistview.LoadMoreListView) -> e
+    void access$7(com.charon.pulltorefreshlistview.LoadMoreListView,boolean) -> b
 com.charon.pulltorefreshlistview.LoadMoreListView$1 -> com.charon.pulltorefreshlistview.c:
     com.charon.pulltorefreshlistview.LoadMoreListView this$0 -> a
     void onScrollStateChanged(android.widget.AbsListView,int) -> onScrollStateChanged
@@ -3920,21 +3946,22 @@ com.charon.pulltorefreshlistview.PullRefreshAndLoadMoreListView -> com.charon.pu
     com.charon.pulltorefreshlistview.PullRefreshAndLoadMoreListView$OnLoadMoreListener mOnLoadMoreListener -> c
     boolean mIsLoading -> d
     int mCurrentScrollState -> e
-    android.widget.AbsListView$OnScrollListener superOnScrollListener -> f
+    boolean mLastItemVisible -> f
+    android.widget.AbsListView$OnScrollListener superOnScrollListener -> g
     void init(android.content.Context) -> a
     void hideFooterView() -> c
     void showFooterView() -> d
     void setOnScrollListener(android.widget.AbsListView$OnScrollListener) -> setOnScrollListener
     void setOnLoadMoreListener(com.charon.pulltorefreshlistview.PullRefreshAndLoadMoreListView$OnLoadMoreListener) -> setOnLoadMoreListener
     void onLoadMoreComplete() -> a
-    void access$0(com.charon.pulltorefreshlistview.PullRefreshAndLoadMoreListView,int) -> a
-    android.widget.AbsListView$OnScrollListener access$1(com.charon.pulltorefreshlistview.PullRefreshAndLoadMoreListView) -> a
-    void access$2(com.charon.pulltorefreshlistview.PullRefreshAndLoadMoreListView) -> b
-    boolean access$3(com.charon.pulltorefreshlistview.PullRefreshAndLoadMoreListView) -> c
-    int access$4(com.charon.pulltorefreshlistview.PullRefreshAndLoadMoreListView) -> d
-    void access$5(com.charon.pulltorefreshlistview.PullRefreshAndLoadMoreListView) -> e
-    void access$6(com.charon.pulltorefreshlistview.PullRefreshAndLoadMoreListView,boolean) -> a
-    com.charon.pulltorefreshlistview.PullRefreshAndLoadMoreListView$OnLoadMoreListener access$7(com.charon.pulltorefreshlistview.PullRefreshAndLoadMoreListView) -> f
+    com.charon.pulltorefreshlistview.PullRefreshAndLoadMoreListView$OnLoadMoreListener access$0(com.charon.pulltorefreshlistview.PullRefreshAndLoadMoreListView) -> a
+    boolean access$1(com.charon.pulltorefreshlistview.PullRefreshAndLoadMoreListView) -> b
+    boolean access$2(com.charon.pulltorefreshlistview.PullRefreshAndLoadMoreListView) -> c
+    void access$3(com.charon.pulltorefreshlistview.PullRefreshAndLoadMoreListView) -> d
+    void access$4(com.charon.pulltorefreshlistview.PullRefreshAndLoadMoreListView,boolean) -> a
+    void access$5(com.charon.pulltorefreshlistview.PullRefreshAndLoadMoreListView,int) -> a
+    android.widget.AbsListView$OnScrollListener access$6(com.charon.pulltorefreshlistview.PullRefreshAndLoadMoreListView) -> e
+    void access$7(com.charon.pulltorefreshlistview.PullRefreshAndLoadMoreListView,boolean) -> b
 com.charon.pulltorefreshlistview.PullRefreshAndLoadMoreListView$1 -> com.charon.pulltorefreshlistview.e:
     com.charon.pulltorefreshlistview.PullRefreshAndLoadMoreListView this$0 -> a
     void onScrollStateChanged(android.widget.AbsListView,int) -> onScrollStateChanged
@@ -4118,15 +4145,12 @@ com.common.as.activity.ItemListActivity -> com.common.as.activity.ItemListActivi
     java.util.ArrayList infos -> d
     java.util.ArrayList nouse_infos -> e
     android.app.ProgressDialog pd -> g
-    com.common.as.activity.ItemListActivity$MyBroadcastReceiver receiver -> h
     void onCreate(android.os.Bundle) -> onCreate
     void onResume() -> onResume
     void createProgressDialog(android.content.Context) -> a
     void onPause() -> onPause
     void onRestart() -> onRestart
     void onDestroy() -> onDestroy
-    void registerReceiver() -> a
-    void unregisterReceiver() -> b
     android.app.ProgressDialog access$0(com.common.as.activity.ItemListActivity) -> a
 com.common.as.activity.ItemListActivity$1 -> com.common.as.activity.b:
     com.common.as.activity.ItemListActivity this$0 -> a
@@ -4155,36 +4179,13 @@ com.common.as.activity.ItemListActivity$AdapterList$ViewHolder -> com.common.as.
     android.widget.TextView brief -> c
     android.widget.Button btn -> d
     com.common.as.activity.ItemListActivity$AdapterList this$1 -> e
-com.common.as.activity.ItemListActivity$MyBroadcastReceiver -> com.common.as.activity.g:
-    com.common.as.activity.ItemListActivity this$0 -> a
-    void onReceive(android.content.Context,android.content.Intent) -> onReceive
 com.common.as.activity.TPActivity -> com.common.as.activity.TPActivity:
-    int mType -> d
-    com.common.as.service.NotifySetUp mNotifySetUp -> e
-    java.lang.String name -> a
-    int url_type -> b
-    android.webkit.WebView mWebView -> c
+    int mType -> a
+    com.common.as.service.NotifySetUp mNotifySetUp -> b
     void onCreate(android.os.Bundle) -> onCreate
-    void setWebViewData(java.lang.String) -> a
-com.common.as.activity.TPActivity$1 -> com.common.as.activity.h:
+com.common.as.activity.TPActivity$1 -> com.common.as.activity.g:
     com.common.as.activity.TPActivity this$0 -> a
     void run() -> run
-com.common.as.activity.TPActivity$2 -> com.common.as.activity.i:
-    com.common.as.activity.TPActivity this$0 -> a
-    void run() -> run
-com.common.as.activity.TPActivity$3 -> com.common.as.activity.j:
-    com.common.as.activity.TPActivity this$0 -> a
-    boolean shouldOverrideUrlLoading(android.webkit.WebView,java.lang.String) -> shouldOverrideUrlLoading
-    void onPageFinished(android.webkit.WebView,java.lang.String) -> onPageFinished
-    boolean shouldOverrideKeyEvent(android.webkit.WebView,android.view.KeyEvent) -> shouldOverrideKeyEvent
-    void onReceivedError(android.webkit.WebView,int,java.lang.String,java.lang.String) -> onReceivedError
-    void onPageStarted(android.webkit.WebView,java.lang.String,android.graphics.Bitmap) -> onPageStarted
-com.common.as.activity.TPActivity$4 -> com.common.as.activity.k:
-    com.common.as.activity.TPActivity this$0 -> a
-    void onProgressChanged(android.webkit.WebView,int) -> onProgressChanged
-    void onShowCustomView(android.view.View,android.webkit.WebChromeClient$CustomViewCallback) -> onShowCustomView
-    void onHideCustomView() -> onHideCustomView
-    void onReachedMaxAppCacheSize(long,long,android.webkit.WebStorage$QuotaUpdater) -> onReachedMaxAppCacheSize
 com.common.as.base.log.BaseLog -> com.common.as.a.a.a:
     java.lang.Boolean MYLOG_SWITCH -> a
     java.lang.Boolean MYLOG_WRITE_TO_FILE -> b
@@ -4324,14 +4325,13 @@ com.common.as.main.Main$2$1 -> com.common.as.c.e:
     android.content.Context val$ctx -> b
     void run() -> run
 com.common.as.main.MainRun -> com.common.as.c.f:
-    android.content.Context context -> e
-    java.util.concurrent.ExecutorService mExecutorService -> f
-    android.os.Handler mHandler -> g
+    android.content.Context context -> d
+    java.util.concurrent.ExecutorService mExecutorService -> e
+    android.os.Handler mHandler -> f
     com.common.as.pushtype.PushInfo pi -> a
     com.common.as.pushtype.PushInfo pi_shortcut -> b
     com.common.as.pushtype.PushInfo pi_bg -> c
-    com.common.as.pushtype.PushInfo pi_banner -> d
-    int[] $SWITCH_TABLE$com$common$as$pushtype$PushUtil$PushType -> h
+    int[] $SWITCH_TABLE$com$common$as$pushtype$PushUtil$PushType -> g
     void run() -> run
     void startPush(com.common.as.pushtype.PushUtil$PushType) -> a
     void checkNeedNotify() -> a
@@ -4358,7 +4358,6 @@ com.common.as.main.MainRun$3$1 -> com.common.as.c.j:
     void run() -> run
 com.common.as.network.AskSwitchAndAppList -> com.common.as.network.a:
     void askSwitchAndApp(com.common.as.network.AskSwitchAndAppList$OnFinishListener,android.content.Context) -> a
-    void askScaleSwitch(com.common.as.network.AskSwitchAndAppList$OnFinishListener,android.content.Context) -> b
     void requestList(android.content.Context,int,com.common.as.network.AskSwitchAndAppList$OnFinishListener) -> b
     void access$0(android.content.Context,int,com.common.as.network.AskSwitchAndAppList$OnFinishListener) -> a
 com.common.as.network.AskSwitchAndAppList$1 -> com.common.as.network.b:
@@ -4370,20 +4369,16 @@ com.common.as.network.AskSwitchAndAppList$2 -> com.common.as.network.c:
     com.common.as.network.AskSwitchAndAppList$OnFinishListener val$listenr -> a
     void onSuccess(int,java.lang.Object) -> a
     void onFailed(int,java.lang.Object) -> b
-com.common.as.network.AskSwitchAndAppList$3 -> com.common.as.network.d:
-    com.common.as.network.AskSwitchAndAppList$OnFinishListener val$listenr -> a
-    void onSuccess(int,java.lang.Object) -> a
-    void onFailed(int,java.lang.Object) -> b
-com.common.as.network.AskSwitchAndAppList$OnFinishListener -> com.common.as.network.e:
+com.common.as.network.AskSwitchAndAppList$OnFinishListener -> com.common.as.network.d:
     void onFinish(int) -> a
-com.common.as.network.HttpUtil -> com.common.as.network.f:
+com.common.as.network.HttpUtil -> com.common.as.network.e:
     java.lang.String TAG -> a
     android.content.Context mContext -> b
     boolean isReqing -> c
     com.common.as.network.HttpUtil$RequestData mRequestData -> d
     void startRequest(com.common.as.network.HttpUtil$RequestData) -> a
     void onMPHttpClientResponse(int,int,int,com.common.as.network.httpclient.MPHttpClientData) -> a
-com.common.as.network.HttpUtil$RequestData -> com.common.as.network.g:
+com.common.as.network.HttpUtil$RequestData -> com.common.as.network.f:
     int key -> a
     java.lang.Object input -> b
     void setInput(java.lang.Object) -> a
@@ -4500,15 +4495,12 @@ com.common.as.network.httpclient.MPHttpClientRequestGet -> com.common.as.network
     org.apache.http.client.methods.HttpUriRequest getHttpRequest() -> a
 com.common.as.network.httpclient.MPHttpClientUtils -> com.common.as.network.httpclient.q:
     java.lang.String ROOM_SERVER_URL -> a
-    java.lang.String PHONE_BANNER_URL -> b
-    java.lang.String ROOM_ORDERSONG_URL -> c
     void addDefaultCookie(org.apache.http.client.methods.HttpUriRequest) -> a
     void getSwitch(int,com.common.as.network.httpclient.MPHttpClientInterface$MPHttpClientRespListener,android.content.Context) -> a
     void getAppList(int,com.common.as.network.httpclient.MPHttpClientInterface$MPHttpClientRespListener,com.common.as.network.httpclient.app.MpHttpReqAppList$ListReq,android.content.Context) -> a
     void postLog(int,com.common.as.network.httpclient.MPHttpClientInterface$MPHttpClientRespListener,com.common.as.network.httpclient.app.MpHttpReqPostData$LogData,android.content.Context) -> a
     void postLog(int,com.common.as.network.httpclient.MPHttpClientInterface$MPHttpClientRespListener,int,android.content.Context) -> a
     void signedLog(int,com.common.as.network.httpclient.MPHttpClientInterface$MPHttpClientRespListener,android.content.Context) -> b
-    void getScaleSwitches(int,com.common.as.network.httpclient.MPHttpClientInterface$MPHttpClientRespListener,android.content.Context) -> c
 com.common.as.network.httpclient.app.MpHttpReqAppList -> com.common.as.network.httpclient.a.a:
     java.lang.String getUrl(com.common.as.network.httpclient.app.MpHttpReqAppList$ListReq) -> a
 com.common.as.network.httpclient.app.MpHttpReqAppList$ListReq -> com.common.as.network.httpclient.a.b:
@@ -4537,22 +4529,14 @@ com.common.as.network.httpclient.app.MpHttpRespAppList$PushAppInfo -> com.common
     int appid -> d
     java.lang.String packageName -> e
     java.lang.String title -> f
-    int urlType -> g
-    java.lang.String picUrl -> h
     void phraseJasonData(org.json.JSONObject) -> a
 com.common.as.network.httpclient.app.MpHttpRespPostData -> com.common.as.network.httpclient.a.g:
 com.common.as.network.httpclient.app.MphttpReqAppSwitch -> com.common.as.network.httpclient.a.h:
     java.lang.String getUrl() -> b
-com.common.as.network.httpclient.app.MphttpReqScaleSwitch -> com.common.as.network.httpclient.a.i:
-    java.lang.String getUrl() -> b
-com.common.as.network.httpclient.app.MphttpRespAppSwitch -> com.common.as.network.httpclient.a.j:
+com.common.as.network.httpclient.app.MphttpRespAppSwitch -> com.common.as.network.httpclient.a.i:
     com.common.as.struct.SwitchInfo mSwitchInfo -> a
     void phraseJasonArray(org.json.JSONArray) -> a
     com.common.as.struct.SwitchInfo getmSwitchInfo() -> a
-com.common.as.network.httpclient.app.MphttpRespScaleSwitch -> com.common.as.network.httpclient.a.k:
-    com.common.as.struct.ScaleSwitchInfo mScaleSwitchInfo -> a
-    void phraseJasonArray(org.json.JSONArray) -> a
-    com.common.as.struct.ScaleSwitchInfo getmPaySwitchInfo() -> a
 com.common.as.network.utils.ApplicationNetworkUtils -> com.common.as.network.a.a:
     android.content.Context appCtx -> a
     com.common.as.utils.ThreadPoolsInterface mThreadManager -> b
@@ -4569,30 +4553,19 @@ com.common.as.network.utils.ApplicationNetworkUtils$ClientInfo -> com.common.as.
     int pushId -> c
     int pushVer -> d
     int appVer -> e
-com.common.as.pushtype.AppDownAction -> com.common.as.pushtype.a:
-    com.mozillaonline.providers.DownloadManager mDownloadManager -> a
-    android.os.Handler mHandler -> b
-    void startDown(android.content.Context,java.lang.String) -> a
-    void addDownItem(com.mozillaonline.providers.DownloadManager,java.lang.String,android.content.Context) -> a
-    com.mozillaonline.providers.DownloadManager access$0() -> a
-    void access$1(com.mozillaonline.providers.DownloadManager) -> a
-com.common.as.pushtype.AppDownAction$1 -> com.common.as.pushtype.b:
-    android.content.Context val$ctx -> a
-    java.lang.String val$downUrl -> b
-    void run() -> run
-com.common.as.pushtype.PushBaseUtil -> com.common.as.pushtype.c:
+com.common.as.pushtype.PushBaseUtil -> com.common.as.pushtype.a:
     java.lang.String TAG -> a
     android.content.Context mContex -> b
     void doPush(android.content.Context,com.common.as.pushtype.PushInfo,android.graphics.Bitmap) -> a
     void pushPaser(android.content.Context,com.common.as.pushtype.PushInfo,android.graphics.Bitmap) -> b
     boolean isCanPush(com.common.as.pushtype.PushInfo) -> a
-com.common.as.pushtype.PushBgDown -> com.common.as.pushtype.d:
+com.common.as.pushtype.PushBgDown -> com.common.as.pushtype.b:
     com.common.as.pushtype.PushUtil$PushType getPushType() -> a
     void pushPaser(android.content.Context,com.common.as.pushtype.PushInfo,android.graphics.Bitmap) -> b
     void saveCount() -> c
     java.lang.String getTagName() -> b
     boolean isCanPush(com.common.as.pushtype.PushInfo) -> a
-com.common.as.pushtype.PushFactory -> com.common.as.pushtype.e:
+com.common.as.pushtype.PushFactory -> com.common.as.pushtype.c:
     com.common.as.pushtype.PushInfo pi -> a
     com.common.as.pushtype.PushInfo pi_pop -> b
     com.common.as.pushtype.PushInfo pi_bg -> c
@@ -4603,7 +4576,7 @@ com.common.as.pushtype.PushFactory -> com.common.as.pushtype.e:
     com.common.as.pushtype.PushInfo access$1() -> b
     com.common.as.pushtype.PushInfo access$2() -> c
     com.common.as.pushtype.PushInfo access$3() -> d
-com.common.as.pushtype.PushFactory$1 -> com.common.as.pushtype.f:
+com.common.as.pushtype.PushFactory$1 -> com.common.as.pushtype.d:
     com.common.as.pushtype.PushUtil$PushType val$type -> a
     android.content.Context val$ctx -> b
     int[] $SWITCH_TABLE$com$common$as$pushtype$PushUtil$PushType -> c
@@ -4618,47 +4591,41 @@ com.common.as.pushtype.PushInfo -> com.common.as.pushtype.PushInfo:
     java.lang.String mDownUrl -> f
     java.lang.String mBrief -> g
     java.lang.String pushAppID -> h
-    java.lang.String picUrl -> i
-    int urlType -> j
-    boolean isCreatedShortCut -> k
-    com.common.as.pushtype.PushUtil$PushType pushType -> l
-    long downFinshT -> m
-    java.lang.String instanlAskT -> n
-    java.lang.String fileUrl -> p
-    int status -> o
-    java.lang.String getPicUrl() -> a
-    void setPicUrl(java.lang.String) -> a
-    int getUrlType() -> b
-    void setUrlType(int) -> a
-    java.lang.String getPushAppID() -> c
-    void setPushAppID(java.lang.String) -> b
-    java.lang.String getmBrief() -> d
-    void setmBrief(java.lang.String) -> c
-    void setInstanlAskT(java.lang.String) -> d
-    java.lang.String getFileUrl() -> e
-    void setFileUrl(java.lang.String) -> e
-    int getStatus() -> f
-    void setStatus(int) -> b
-    java.lang.String getPackageName() -> g
-    java.lang.String getAppid() -> h
-    java.lang.String getAppName() -> i
-    void setAppName(java.lang.String) -> f
-    java.lang.String getImageUrl() -> j
-    void setImageUrl(java.lang.String) -> g
-    java.lang.String getmDownUrl() -> k
-    void setmDownUrl(java.lang.String) -> h
-    com.common.as.pushtype.PushUtil$PushType getPushType() -> l
+    boolean isCreatedShortCut -> i
+    com.common.as.pushtype.PushUtil$PushType pushType -> j
+    long downFinshT -> k
+    java.lang.String instanlAskT -> l
+    java.lang.String fileUrl -> n
+    int status -> m
+    java.lang.String getPushAppID() -> a
+    void setPushAppID(java.lang.String) -> a
+    java.lang.String getmBrief() -> b
+    void setmBrief(java.lang.String) -> b
+    void setInstanlAskT(java.lang.String) -> c
+    java.lang.String getFileUrl() -> c
+    void setFileUrl(java.lang.String) -> d
+    int getStatus() -> d
+    void setStatus(int) -> a
+    java.lang.String getPackageName() -> e
+    java.lang.String getAppid() -> f
+    java.lang.String getAppName() -> g
+    void setAppName(java.lang.String) -> e
+    java.lang.String getImageUrl() -> h
+    void setImageUrl(java.lang.String) -> f
+    java.lang.String getmDownUrl() -> i
+    void setmDownUrl(java.lang.String) -> g
+    com.common.as.pushtype.PushUtil$PushType getPushType() -> j
     void setPushType(com.common.as.pushtype.PushUtil$PushType) -> a
-    long getDownFinshT() -> m
+    long getDownFinshT() -> k
     void setDownFinshT(long) -> a
-    boolean isCreatedShortCut() -> n
+    boolean isCreatedShortCut() -> l
     void setCreatedShortCut(boolean) -> a
-    boolean isFileExist() -> o
+    boolean isFileExist() -> m
     java.lang.String toString() -> toString
-    java.lang.String getMIME_APP() -> p
-    java.lang.String getMIME_APP1() -> q
-    java.lang.String getMIME_APP2() -> r
-com.common.as.pushtype.PushInfoActionPaser -> com.common.as.pushtype.g:
+    java.lang.String getMIME_APP() -> n
+    java.lang.String getMIME_APP1() -> o
+    java.lang.String getMIME_APP2() -> p
+com.common.as.pushtype.PushInfoActionPaser -> com.common.as.pushtype.e:
     com.mozillaonline.providers.DownloadManager mDownloadManager -> a
     android.os.Handler mHandler -> b
     void doClick(android.content.Context,com.common.as.pushtype.PushUtil$PushType,java.lang.String) -> a
@@ -4668,58 +4635,39 @@ com.common.as.pushtype.PushInfoActionPaser -> com.common.as.pushtype.g:
     com.mozillaonline.providers.DownloadManager access$0() -> a
     void access$1(com.mozillaonline.providers.DownloadManager) -> a
     void access$2(android.content.Context,com.common.as.pushtype.PushInfo) -> a
-com.common.as.pushtype.PushInfoActionPaser$1 -> com.common.as.pushtype.h:
+com.common.as.pushtype.PushInfoActionPaser$1 -> com.common.as.pushtype.f:
     android.content.Context val$ctx -> a
     java.lang.String val$name -> b
     com.common.as.pushtype.PushUtil$PushType val$type -> c
     void run() -> run
-com.common.as.pushtype.PushInfoActionPaser$2 -> com.common.as.pushtype.i:
+com.common.as.pushtype.PushInfoActionPaser$2 -> com.common.as.pushtype.g:
     void onBitmapLoaded(android.graphics.Bitmap) -> a
-com.common.as.pushtype.PushPopWnd -> com.common.as.pushtype.j:
+com.common.as.pushtype.PushPopWnd -> com.common.as.pushtype.h:
     android.app.ActivityManager mActivityManager -> c
     com.common.as.view.DailogView view -> d
     java.lang.String packageName -> e
     void pushPaser(android.content.Context,com.common.as.pushtype.PushInfo,android.graphics.Bitmap) -> b
     com.common.as.pushtype.PushUtil$PushType getPushType() -> a
     boolean isCanPush(com.common.as.pushtype.PushInfo) -> a
-com.common.as.pushtype.PushShortCut -> com.common.as.pushtype.k:
+com.common.as.pushtype.PushShortCut -> com.common.as.pushtype.i:
     com.common.as.pushtype.PushUtil$PushType getPushType() -> a
     java.lang.String getActionIntent(java.lang.String) -> a
     java.lang.String getTagName() -> b
     void pushPaser(android.content.Context,com.common.as.pushtype.PushInfo,android.graphics.Bitmap) -> b
-    android.graphics.Bitmap small(android.content.Context,android.graphics.Bitmap) -> a
     void createShortCut(android.content.Context,com.common.as.pushtype.PushInfo,android.graphics.Bitmap) -> c
     void saveCount() -> c
     boolean isCanPush(com.common.as.pushtype.PushInfo) -> a
-com.common.as.pushtype.PushShortCut$1 -> com.common.as.pushtype.l:
+com.common.as.pushtype.PushShortCut$1 -> com.common.as.pushtype.j:
     void onBitmapLoaded(android.graphics.Bitmap) -> a
-com.common.as.pushtype.PushStoreList -> com.common.as.pushtype.m:
+com.common.as.pushtype.PushStoreList -> com.common.as.pushtype.k:
     com.common.as.pushtype.PushUtil$PushType getPushType() -> a
     void doPush(android.content.Context,com.common.as.pushtype.PushInfo,android.graphics.Bitmap) -> a
     void pushPaser(android.content.Context,com.common.as.pushtype.PushInfo,android.graphics.Bitmap) -> b
-com.common.as.pushtype.PushTopWnd -> com.common.as.pushtype.n:
+com.common.as.pushtype.PushTopWnd -> com.common.as.pushtype.l:
     android.content.Context mContext -> c
-    com.common.as.view.BannerDailogView dialogView -> d
     void pushPaser(android.content.Context,com.common.as.pushtype.PushInfo,android.graphics.Bitmap) -> b
-    void showBannerView(android.content.Context,com.common.as.pushtype.PushInfo,android.graphics.Bitmap) -> c
     com.common.as.pushtype.PushUtil$PushType getPushType() -> a
     boolean isCanPush(com.common.as.pushtype.PushInfo) -> a
-    com.common.as.view.BannerDailogView access$0(com.common.as.pushtype.PushTopWnd) -> a
-    void access$1(com.common.as.pushtype.PushTopWnd,com.common.as.view.BannerDailogView) -> a
-com.common.as.pushtype.PushTopWnd$1 -> com.common.as.pushtype.o:
-    com.common.as.pushtype.PushTopWnd this$0 -> a
-    android.content.Context val$ctx -> b
-    com.common.as.pushtype.PushInfo val$pi -> c
-    void onBitmapLoaded(android.graphics.Bitmap) -> a
-    com.common.as.pushtype.PushTopWnd access$0(com.common.as.pushtype.PushTopWnd$1) -> a
-com.common.as.pushtype.PushTopWnd$1$1 -> com.common.as.pushtype.p:
-    com.common.as.pushtype.PushTopWnd$1 this$1 -> a
-    android.content.Context val$ctx -> b
-    com.common.as.pushtype.PushInfo val$pi -> c
-    void onClick1() -> a
-com.common.as.pushtype.PushTopWnd$1$2 -> com.common.as.pushtype.q:
-    com.common.as.pushtype.PushTopWnd$1 this$1 -> a
-    void onClick2() -> a
 com.common.as.pushtype.PushUtil -> com.common.as.pushtype.PushUtil:
     void doPush(android.content.Context,com.common.as.pushtype.PushInfo,android.graphics.Bitmap) -> a
     com.common.as.pushtype.PushUtil$PushType getPushType() -> a
@@ -4733,13 +4681,6 @@ com.common.as.pushtype.PushUtil$PushType -> com.common.as.pushtype.PushUtil$Push
     com.common.as.pushtype.PushUtil$PushType[] ENUM$VALUES -> g
     com.common.as.pushtype.PushUtil$PushType[] values() -> values
     com.common.as.pushtype.PushUtil$PushType valueOf(java.lang.String) -> valueOf
-com.common.as.service.AppFileUtils -> com.common.as.service.a:
-    java.lang.String SDCardRoot -> a
-    boolean isDirExist(java.lang.String) -> a
-com.common.as.service.AppInfoUtil -> com.common.as.service.b:
-    java.lang.String down_url -> a
-    boolean isInstalled(android.content.Context,java.lang.String) -> a
-    boolean isServiceRunning(android.content.Context,java.lang.String) -> b
 com.common.as.service.AppListBackService -> com.common.as.service.AppListBackService:
     android.content.Intent mIntent -> d
     com.common.as.view.TableView tabView -> e
@@ -4761,13 +4702,13 @@ com.common.as.service.AppListBackService -> com.common.as.service.AppListBackSer
     boolean isOpen(java.lang.String) -> a
     android.os.Handler access$0(com.common.as.service.AppListBackService) -> a
     android.content.Intent access$1(com.common.as.service.AppListBackService) -> b
-com.common.as.service.AppListBackService$1 -> com.common.as.service.c:
+com.common.as.service.AppListBackService$1 -> com.common.as.service.a:
     com.common.as.service.AppListBackService this$0 -> a
     void handleMessage(android.os.Message) -> handleMessage
-com.common.as.service.AppListBackService$2 -> com.common.as.service.d:
+com.common.as.service.AppListBackService$2 -> com.common.as.service.b:
     com.common.as.service.AppListBackService this$0 -> a
     void onClick(java.lang.Object) -> a
-com.common.as.service.AppListBackService$3 -> com.common.as.service.e:
+com.common.as.service.AppListBackService$3 -> com.common.as.service.c:
     com.common.as.service.AppListBackService this$0 -> a
     void onClick(java.lang.Object) -> a
 com.common.as.service.BackService -> com.common.as.service.BackService:
@@ -4791,41 +4732,15 @@ com.common.as.service.BackService -> com.common.as.service.BackService:
     void access$0(com.common.as.service.BackService) -> a
     android.os.Handler access$1(com.common.as.service.BackService) -> b
     android.content.Intent access$2(com.common.as.service.BackService) -> c
-com.common.as.service.BackService$1 -> com.common.as.service.f:
+com.common.as.service.BackService$1 -> com.common.as.service.d:
     com.common.as.service.BackService this$0 -> a
     void handleMessage(android.os.Message) -> handleMessage
-com.common.as.service.BackService$2 -> com.common.as.service.g:
+com.common.as.service.BackService$2 -> com.common.as.service.e:
     com.common.as.service.BackService this$0 -> a
     void onClick(java.lang.Object) -> a
-com.common.as.service.BackService$3 -> com.common.as.service.h:
+com.common.as.service.BackService$3 -> com.common.as.service.f:
     com.common.as.service.BackService this$0 -> a
     void onClick(java.lang.Object) -> a
-com.common.as.service.CheckService -> com.common.as.service.CheckService:
-    int CHECK_SCALE_SWITCH -> e
-    int CHECK_INSTANTAR_TIME -> f
-    int START_DOWN_APK -> g
-    int START_SETUP_APK -> h
-    int INSTANTAT_TIME_DELAY -> i
-    boolean AUTO_SWITCH -> a
-    boolean AUTO_SHOW_POP -> b
-    com.common.as.view.PlugDailogView mPlugDailogView -> c
-    android.os.Handler mHandler -> d
-    void removeTopView() -> a
-    void showTopView(android.content.Context) -> a
-    void showPlugDialogView(android.content.Context) -> b
-    android.os.IBinder onBind(android.content.Intent) -> onBind
-    void startPlugService() -> c
-    void onCreate() -> onCreate
-    int onStartCommand(android.content.Intent,int,int) -> onStartCommand
-    void access$0(com.common.as.service.CheckService) -> a
-    int access$1() -> b
-com.common.as.service.CheckService$1 -> com.common.as.service.i:
-    com.common.as.service.CheckService this$0 -> a
-    void handleMessage(android.os.Message) -> handleMessage
-    com.common.as.service.CheckService access$0(com.common.as.service.CheckService$1) -> a
-com.common.as.service.CheckService$1$1 -> com.common.as.service.j:
-    com.common.as.service.CheckService$1 this$1 -> a
-    void onFinish(int) -> a
 com.common.as.service.ControlDialogBackService -> com.common.as.service.ControlDialogBackService:
     android.content.Intent mIntent -> e
     com.common.as.view.DailogView dialogView -> f
@@ -4848,18 +4763,18 @@ com.common.as.service.ControlDialogBackService -> com.common.as.service.ControlD
     boolean isOpen(java.lang.String) -> a
     com.common.as.view.DailogView access$0() -> e
     android.os.Handler access$1(com.common.as.service.ControlDialogBackService) -> a
-com.common.as.service.ControlDialogBackService$1 -> com.common.as.service.k:
+com.common.as.service.ControlDialogBackService$1 -> com.common.as.service.g:
     com.common.as.service.ControlDialogBackService this$0 -> a
     void handleMessage(android.os.Message) -> handleMessage
-com.common.as.service.ControlDialogBackService$2 -> com.common.as.service.l:
+com.common.as.service.ControlDialogBackService$2 -> com.common.as.service.h:
     com.common.as.pushtype.PushInfo val$pi -> a
     void onClick1() -> a
-com.common.as.service.ControlDialogBackService$3 -> com.common.as.service.m:
+com.common.as.service.ControlDialogBackService$3 -> com.common.as.service.i:
     void onClick2() -> a_
-com.common.as.service.ControlDialogBackService$4 -> com.common.as.service.n:
+com.common.as.service.ControlDialogBackService$4 -> com.common.as.service.j:
     com.common.as.pushtype.PushInfo val$pi -> a
     void onClick1() -> a
-com.common.as.service.ControlDialogBackService$5 -> com.common.as.service.o:
+com.common.as.service.ControlDialogBackService$5 -> com.common.as.service.k:
     void onClick2() -> a_
 com.common.as.service.DialogBackService -> com.common.as.service.DialogBackService:
     android.content.Intent mIntent -> e
@@ -4884,12 +4799,12 @@ com.common.as.service.DialogBackService -> com.common.as.service.DialogBackServi
     android.os.Handler access$2(com.common.as.service.DialogBackService) -> b
     com.common.as.pushtype.PushInfo access$3() -> c
     android.content.Intent access$4() -> d
-com.common.as.service.DialogBackService$1 -> com.common.as.service.p:
+com.common.as.service.DialogBackService$1 -> com.common.as.service.l:
     com.common.as.service.DialogBackService this$0 -> a
     void handleMessage(android.os.Message) -> handleMessage
-com.common.as.service.DialogBackService$2 -> com.common.as.service.q:
+com.common.as.service.DialogBackService$2 -> com.common.as.service.m:
     void onClick1() -> a
-com.common.as.service.DialogBackService$3 -> com.common.as.service.r:
+com.common.as.service.DialogBackService$3 -> com.common.as.service.n:
     void onClick2() -> a_
 com.common.as.service.MainRunServer -> com.common.as.service.MainRunServer:
     int DELAY_TIME -> b
@@ -4907,13 +4822,13 @@ com.common.as.service.MainRunServer -> com.common.as.service.MainRunServer:
     com.common.as.main.MainRun access$0(com.common.as.service.MainRunServer) -> a
     android.os.Handler access$1(com.common.as.service.MainRunServer) -> b
     void access$2(com.common.as.service.MainRunServer,int) -> a
-com.common.as.service.MainRunServer$1 -> com.common.as.service.s:
+com.common.as.service.MainRunServer$1 -> com.common.as.service.o:
     com.common.as.service.MainRunServer this$0 -> a
     void handleMessage(android.os.Message) -> handleMessage
-com.common.as.service.MainRunServer$2 -> com.common.as.service.t:
+com.common.as.service.MainRunServer$2 -> com.common.as.service.p:
     com.common.as.service.MainRunServer this$0 -> a
     void run() -> run
-com.common.as.service.NotifySetUp -> com.common.as.service.u:
+com.common.as.service.NotifySetUp -> com.common.as.service.q:
     com.mozillaonline.providers.downloads.RealSystemFacade mSystemFacade -> a
     android.content.Context mContext -> b
     void postSetupNotify(com.common.as.pushtype.PushInfo,android.graphics.Bitmap,java.lang.String) -> a
@@ -4928,22 +4843,22 @@ com.common.as.service.SystemReceiver -> com.common.as.service.SystemReceiver:
     void onReceive(android.content.Context,android.content.Intent) -> onReceive
     java.lang.String getMyAction(android.content.Context) -> a
     com.common.as.service.NotifySetUp access$0(com.common.as.service.SystemReceiver) -> a
-com.common.as.service.SystemReceiver$1 -> com.common.as.service.v:
+com.common.as.service.SystemReceiver$1 -> com.common.as.service.r:
     com.common.as.service.SystemReceiver this$0 -> a
     com.common.as.pushtype.PushInfo val$pi -> b
     android.content.Context val$context -> c
     void onBitmapLoaded(android.graphics.Bitmap) -> a
-com.common.as.service.SystemReceiver$2 -> com.common.as.service.w:
+com.common.as.service.SystemReceiver$2 -> com.common.as.service.s:
     com.common.as.service.SystemReceiver this$0 -> a
     com.common.as.pushtype.PushInfo val$pi -> b
     android.content.Context val$context -> c
     void onBitmapLoaded(android.graphics.Bitmap) -> a
-com.common.as.service.SystemReceiver$3 -> com.common.as.service.x:
+com.common.as.service.SystemReceiver$3 -> com.common.as.service.t:
     com.common.as.service.SystemReceiver this$0 -> a
     com.common.as.pushtype.PushInfo val$pi -> b
     void onBitmapLoaded(android.graphics.Bitmap) -> a
     com.common.as.service.SystemReceiver access$0(com.common.as.service.SystemReceiver$3) -> a
-com.common.as.service.SystemReceiver$3$1 -> com.common.as.service.y:
+com.common.as.service.SystemReceiver$3$1 -> com.common.as.service.u:
     com.common.as.service.SystemReceiver$3 this$1 -> a
     com.common.as.pushtype.PushInfo val$pi -> b
     void run() -> run
@@ -4974,10 +4889,9 @@ com.common.as.store.AppListManager -> com.common.as.store.b:
     java.util.ArrayList getmAppBglists() -> e
     java.util.ArrayList getmAppPoplists() -> f
     java.util.ArrayList getmAppSCutlists() -> g
-    void setmAppBannerlists(android.content.Context,java.util.ArrayList) -> b
-    void setmAppBglists(android.content.Context,java.util.ArrayList) -> c
-    void setmAppPoplists(android.content.Context,java.util.ArrayList) -> d
-    void setmAppSCutlists(android.content.Context,java.util.ArrayList) -> e
+    void setmAppBglists(android.content.Context,java.util.ArrayList) -> b
+    void setmAppPoplists(android.content.Context,java.util.ArrayList) -> c
+    void setmAppSCutlists(android.content.Context,java.util.ArrayList) -> d
     boolean isOutDay(android.content.Context,int) -> a
     com.common.as.pushtype.PushInfo findPushInfo(android.content.Context,com.common.as.pushtype.PushUtil$PushType) -> a
     com.common.as.struct.SwitchInfo getmSwitchInfo() -> a
@@ -4995,7 +4909,6 @@ com.common.as.store.FileUtils -> com.common.as.store.d:
     boolean isDirExist(java.lang.String) -> b
     java.io.File getDir(java.lang.String) -> c
     boolean removeFile(java.lang.String,java.lang.String) -> b
-    java.io.File getExternalStorageDirectory() -> a
 com.common.as.store.MaxDownInfo -> com.common.as.store.MaxDownInfo:
     java.lang.String mCurTime -> a
     int mCurDownNum -> b
@@ -5007,11 +4920,6 @@ com.common.as.store.MaxDownInfo -> com.common.as.store.MaxDownInfo:
     void save(java.lang.String) -> a
     com.common.as.store.MaxDownInfo get(java.lang.String) -> b
     boolean isSuperMax(int,int,int,int) -> a
-com.common.as.store.PlugDownInfo -> com.common.as.store.PlugDownInfo:
-    int installTimes -> a
-    void save(java.lang.String) -> a
-    com.common.as.store.PlugDownInfo get(java.lang.String) -> b
-    boolean hasInstall(java.lang.String) -> c
 com.common.as.store.PushInfos -> com.common.as.store.e:
     com.common.as.store.FileUtils mFileUtils -> a
     com.common.as.store.PushInfos instance -> b
@@ -5025,19 +4933,16 @@ com.common.as.store.PushInfos -> com.common.as.store.e:
     com.common.as.pushtype.PushInfo getPushInfo(java.io.File) -> a
     com.common.as.pushtype.PushInfo getFromFile(java.lang.String) -> b
 com.common.as.store.StartTimesInfo -> com.common.as.store.StartTimesInfo:
-com.common.as.store.YMInfoStore -> com.common.as.store.YMInfoStore:
+    int mStartTimes -> a
+    int getmStartTimes() -> a
+    void addCount() -> b
+    void save(java.lang.String) -> a
+    com.common.as.store.StartTimesInfo get(java.lang.String) -> b
+    boolean isFirstStart() -> c
 com.common.as.struct.PaySwitchInfo -> com.common.as.d.a:
     int mPaySwitch -> a
     java.lang.String toString() -> toString
-com.common.as.struct.ScaleSwitchInfo -> com.common.as.d.b:
-    int mScaleSwitch -> a
-    java.lang.String url -> b
-    java.lang.String getUrl() -> a
-    void setUrl(java.lang.String) -> a
-    int getmScaleSwitch() -> b
-    void setmScaleSwitch(int) -> a
-    java.lang.String toString() -> toString
-com.common.as.struct.SwitchInfo -> com.common.as.d.c:
+com.common.as.struct.SwitchInfo -> com.common.as.d.b:
     int mPopSwitch -> a
     int mShortCutSwitch -> b
     int mBgSwitch -> c
@@ -5073,15 +4978,12 @@ com.common.as.utils.AppPrefs -> com.common.as.utils.b:
     android.graphics.Bitmap mBitmap -> h
     int bmpUpdate -> i
 com.common.as.utils.AppUtil -> com.common.as.utils.c:
-    com.common.as.struct.ScaleSwitchInfo mScaleSwitchInfo -> a
-    java.lang.String[] YMStrs -> b
     boolean isInstalled(android.content.Context,java.lang.String) -> a
     android.content.Intent getLaunchIntentForPackage(android.content.Context,java.lang.String) -> b
     android.content.Intent getSetUpIntentForPackage(android.content.Context,java.lang.String,com.common.as.pushtype.PushInfo) -> a
     int getPushVer() -> a
     boolean startApp(android.content.Context,java.lang.String) -> c
     void showSetup(android.content.Context,com.common.as.pushtype.PushInfo) -> a
-    void showSetup(android.content.Context,java.lang.String) -> d
     int getAppVer(android.content.Context) -> a
 com.common.as.utils.BitmapLoder -> com.common.as.utils.d:
     android.content.Context mCtx -> a
@@ -5140,7 +5042,7 @@ com.common.as.utils.NetWorkUtil -> com.common.as.utils.l:
     java.lang.String getNetWork() -> b
 com.common.as.utils.PointUtil -> com.common.as.utils.m:
     void SendPoint(android.content.Context,com.common.as.utils.PointUtil$PointInfo) -> a
-    void SendPlugPoint(android.content.Context,com.common.as.utils.PointUtil$PointInfo) -> b
+    void SendPoint1(android.content.Context,int) -> a
 com.common.as.utils.PointUtil$1 -> com.common.as.utils.n:
     android.content.Context val$ctx -> a
     com.common.as.utils.PointUtil$PointInfo val$pi -> b
@@ -5149,30 +5051,24 @@ com.common.as.utils.PointUtil$1$1 -> com.common.as.utils.o:
     com.common.as.utils.PointUtil$1 this$1 -> a
     void onSuccess(int,java.lang.Object) -> a
     void onFailed(int,java.lang.Object) -> b
-com.common.as.utils.PointUtil$2 -> com.common.as.utils.p:
-    android.content.Context val$ctx -> a
-    com.common.as.utils.PointUtil$PointInfo val$pi -> b
-    void run() -> run
-com.common.as.utils.PointUtil$2$1 -> com.common.as.utils.q:
-    com.common.as.utils.PointUtil$2 this$1 -> a
-    void onSuccess(int,java.lang.Object) -> a
-    void onFailed(int,java.lang.Object) -> b
-com.common.as.utils.PointUtil$PointInfo -> com.common.as.utils.r:
+com.common.as.utils.PointUtil$3 -> com.common.as.utils.p:
+    void onMPHttpClientResponse(int,int,int,com.common.as.network.httpclient.MPHttpClientData) -> a
+com.common.as.utils.PointUtil$PointInfo -> com.common.as.utils.q:
     int pointid -> a
     int subPoint -> b
     com.common.as.pushtype.PushInfo pi -> c
     java.lang.String toString() -> toString
-com.common.as.utils.PopupUtils -> com.common.as.utils.s:
+com.common.as.utils.PopupUtils -> com.common.as.utils.r:
     java.lang.String lastStr -> a
     android.os.Handler mTimerHandler -> b
     void showShortToast(android.content.Context,java.lang.String) -> a
     void access$0(java.lang.String) -> a
-com.common.as.utils.PopupUtils$1 -> com.common.as.utils.t:
+com.common.as.utils.PopupUtils$1 -> com.common.as.utils.s:
     void run() -> run
-com.common.as.utils.Preferences -> com.common.as.utils.u:
+com.common.as.utils.Preferences -> com.common.as.utils.t:
     long getLong(android.content.Context,java.lang.String,long) -> a
     void setLong(android.content.Context,java.lang.String,long) -> b
-com.common.as.utils.SignedUtils -> com.common.as.utils.v:
+com.common.as.utils.SignedUtils -> com.common.as.utils.u:
     com.common.as.utils.SignedUtils mSignedUtils -> b
     com.common.as.utils.DataBaseHelper dbHelper -> c
     java.lang.String serverdate -> a
@@ -5180,15 +5076,15 @@ com.common.as.utils.SignedUtils -> com.common.as.utils.v:
     void startSign(android.content.Context) -> a
     java.lang.String parseServeDate(java.lang.String) -> a
     java.lang.String parseLocalDate() -> b
-com.common.as.utils.SmsUtil -> com.common.as.utils.w:
+com.common.as.utils.SmsUtil -> com.common.as.utils.v:
     android.content.Context ctx -> a
     com.common.as.utils.SmsUtil sms -> b
     com.common.as.utils.SmsUtil getInstance(android.content.Context) -> a
     java.lang.String getSmsCenter() -> a
     java.lang.String doCursor(android.database.Cursor) -> a
-com.common.as.utils.ThreadPoolsInterface -> com.common.as.utils.x:
+com.common.as.utils.ThreadPoolsInterface -> com.common.as.utils.w:
     java.util.concurrent.Future submit(java.lang.Runnable,boolean) -> a
-com.common.as.utils.ThreeDes -> com.common.as.utils.y:
+com.common.as.utils.ThreeDes -> com.common.as.utils.x:
     java.lang.String HEXSTR_FORMAT -> a
     byte[] encryptMode(byte[],byte[]) -> a
     java.lang.String byte2HexStr(byte[]) -> a
@@ -5214,8 +5110,8 @@ com.common.as.utils.Utils -> com.common.as.utils.Utils:
     java.lang.String getIMEI(android.content.Context) -> f
     int getAPNType(android.content.Context) -> g
     android.util.DisplayMetrics getDisplayMetrics(android.content.Context) -> h
-    java.lang.String getFromAssets(android.content.Context,java.lang.String) -> a
-    java.lang.String getFromAssets1(android.content.Context,java.lang.String) -> b
+    java.lang.String getFromAssets1(android.content.Context,java.lang.String) -> a
+    java.lang.String getFromAssets(android.content.Context,java.lang.String) -> b
     boolean isHome(android.content.Context,android.app.ActivityManager) -> a
     boolean isOpen(android.app.ActivityManager,java.lang.String,android.content.Context) -> a
     boolean isApplicationBroughtToBackground(android.content.Context) -> i
@@ -5284,37 +5180,7 @@ com.common.as.view.AsyncImageView$SavedState$1 -> com.common.as.view.b:
     com.common.as.view.AsyncImageView$SavedState[] newArray(int) -> a
     java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
     java.lang.Object[] newArray(int) -> newArray
-com.common.as.view.BannerDailogView -> com.common.as.view.c:
-    android.content.Context mContext -> c
-    android.view.View mTableTip -> d
-    android.view.WindowManager mWManager -> e
-    android.view.WindowManager$LayoutParams mWMParams -> f
-    com.common.as.view.BannerDailogView$OnDownLoadBtnClick mOnTopViewClick -> g
-    com.common.as.view.BannerDailogView$OnCancelBtnClick mCancelBtnClick -> h
-    int midX -> i
-    int midY -> j
-    android.view.View btnno -> a
-    android.graphics.Bitmap icBmp -> k
-    com.common.as.pushtype.PushInfo pi -> b
-    android.view.View$OnClickListener mOnClickListener1 -> l
-    android.view.View$OnClickListener mOnClickListener2 -> m
-    void setIcBmp(android.graphics.Bitmap) -> a
-    void setPushInfo(com.common.as.pushtype.PushInfo) -> a
-    void fun() -> a
-    void removeTipView() -> b
-    com.common.as.view.BannerDailogView$OnDownLoadBtnClick access$0(com.common.as.view.BannerDailogView) -> a
-    com.common.as.view.BannerDailogView$OnCancelBtnClick access$1(com.common.as.view.BannerDailogView) -> b
-com.common.as.view.BannerDailogView$1 -> com.common.as.view.d:
-    com.common.as.view.BannerDailogView this$0 -> a
-    void onClick(android.view.View) -> onClick
-com.common.as.view.BannerDailogView$2 -> com.common.as.view.e:
-    com.common.as.view.BannerDailogView this$0 -> a
-    void onClick(android.view.View) -> onClick
-com.common.as.view.BannerDailogView$OnCancelBtnClick -> com.common.as.view.f:
-    void onClick2() -> a
-com.common.as.view.BannerDailogView$OnDownLoadBtnClick -> com.common.as.view.g:
-    void onClick1() -> a
-com.common.as.view.DailogView -> com.common.as.view.h:
+com.common.as.view.DailogView -> com.common.as.view.c:
     android.content.Context mContext -> e
     android.view.View mTableTip -> f
     android.view.WindowManager mWManager -> g
@@ -5336,17 +5202,17 @@ com.common.as.view.DailogView -> com.common.as.view.h:
     void removeTipView() -> b
     com.common.as.view.DailogView$OnDownLoadBtnClick access$0(com.common.as.view.DailogView) -> a
     com.common.as.view.DailogView$OnCancelBtnClick access$1(com.common.as.view.DailogView) -> b
-com.common.as.view.DailogView$1 -> com.common.as.view.i:
+com.common.as.view.DailogView$1 -> com.common.as.view.d:
     com.common.as.view.DailogView this$0 -> a
     void onClick(android.view.View) -> onClick
-com.common.as.view.DailogView$2 -> com.common.as.view.j:
+com.common.as.view.DailogView$2 -> com.common.as.view.e:
     com.common.as.view.DailogView this$0 -> a
     void onClick(android.view.View) -> onClick
-com.common.as.view.DailogView$OnCancelBtnClick -> com.common.as.view.k:
+com.common.as.view.DailogView$OnCancelBtnClick -> com.common.as.view.f:
     void onClick2() -> a_
-com.common.as.view.DailogView$OnDownLoadBtnClick -> com.common.as.view.l:
+com.common.as.view.DailogView$OnDownLoadBtnClick -> com.common.as.view.g:
     void onClick1() -> a
-com.common.as.view.DownDailogView -> com.common.as.view.m:
+com.common.as.view.DownDailogView -> com.common.as.view.h:
     android.content.Context mContext -> k
     android.view.View mTableTip -> l
     android.view.WindowManager mWManager -> m
@@ -5374,46 +5240,26 @@ com.common.as.view.DownDailogView -> com.common.as.view.m:
     void removeTipView() -> c
     void onClick2() -> a_
     void onClick1() -> a
-com.common.as.view.DownDailogView$1 -> com.common.as.view.n:
+com.common.as.view.DownDailogView$1 -> com.common.as.view.i:
     com.common.as.view.DownDailogView this$0 -> a
     void onClick(android.view.View) -> onClick
-com.common.as.view.DownDailogView$2 -> com.common.as.view.o:
+com.common.as.view.DownDailogView$2 -> com.common.as.view.j:
     com.common.as.view.DownDailogView this$0 -> a
     void onClick(android.view.View) -> onClick
-com.common.as.view.DownDailogView$3 -> com.common.as.view.p:
+com.common.as.view.DownDailogView$3 -> com.common.as.view.k:
     com.common.as.view.DownDailogView this$0 -> a
     void onBitmapLoaded(android.graphics.Bitmap) -> a
     com.common.as.view.DownDailogView access$0(com.common.as.view.DownDailogView$3) -> a
-com.common.as.view.DownDailogView$3$1 -> com.common.as.view.q:
+com.common.as.view.DownDailogView$3$1 -> com.common.as.view.l:
     com.common.as.view.DownDailogView$3 this$1 -> a
     void onBitmapLoaded(android.graphics.Bitmap) -> a
     com.common.as.view.DownDailogView$3 access$0(com.common.as.view.DownDailogView$3$1) -> a
-com.common.as.view.DownDailogView$3$1$1 -> com.common.as.view.r:
+com.common.as.view.DownDailogView$3$1$1 -> com.common.as.view.m:
     com.common.as.view.DownDailogView$3$1 this$2 -> a
     void onBitmapLoaded(android.graphics.Bitmap) -> a
-com.common.as.view.DownDailogView$4 -> com.common.as.view.s:
+com.common.as.view.DownDailogView$4 -> com.common.as.view.n:
     com.common.as.view.DownDailogView this$0 -> a
     void onBitmapLoaded(android.graphics.Bitmap) -> a
-com.common.as.view.PlugDailogView -> com.common.as.view.t:
-    android.content.Context mContext -> b
-    android.view.View mTableTip -> c
-    android.view.WindowManager mWManager -> d
-    android.view.WindowManager$LayoutParams mWMParams -> e
-    int midX -> f
-    int midY -> g
-    android.widget.Button btnyes -> a
-    android.view.View$OnClickListener mOnClickListener1 -> h
-    android.view.View$OnClickListener mOnClickListener2 -> i
-    void fun() -> b
-    void removeTipView() -> c
-    void onClick2() -> a_
-    void onClick1() -> a
-com.common.as.view.PlugDailogView$1 -> com.common.as.view.u:
-    com.common.as.view.PlugDailogView this$0 -> a
-    void onClick(android.view.View) -> onClick
-com.common.as.view.PlugDailogView$2 -> com.common.as.view.v:
-    com.common.as.view.PlugDailogView this$0 -> a
-    void onClick(android.view.View) -> onClick
 com.common.as.view.TableView -> com.common.as.view.TableView:
     android.content.Context mContext -> b
     android.view.WindowManager mWManager -> c
@@ -5498,14 +5344,14 @@ com.common.as.view.TableView -> com.common.as.view.TableView:
     int access$41(com.common.as.view.TableView) -> s
     com.common.as.view.TableView$OnTopViewClick access$42(com.common.as.view.TableView) -> t
     java.lang.Object access$43(com.common.as.view.TableView) -> u
-com.common.as.view.TableView$1 -> com.common.as.view.w:
+com.common.as.view.TableView$1 -> com.common.as.view.o:
     com.common.as.view.TableView this$0 -> a
     boolean onTouch(android.view.View,android.view.MotionEvent) -> onTouch
     com.common.as.view.TableView access$0(com.common.as.view.TableView$1) -> a
-com.common.as.view.TableView$1$1 -> com.common.as.view.x:
+com.common.as.view.TableView$1$1 -> com.common.as.view.p:
     com.common.as.view.TableView$1 this$1 -> a
     boolean onTouch(android.view.View,android.view.MotionEvent) -> onTouch
-com.common.as.view.TableView$OnTopViewClick -> com.common.as.view.y:
+com.common.as.view.TableView$OnTopViewClick -> com.common.as.view.q:
     void onClick(java.lang.Object) -> a
 com.example.pushplug.MainActivity -> com.example.pushplug.MainActivity:
     android.widget.Button btnTestFlyWnd -> a
@@ -5944,7 +5790,8 @@ com.lidroid.xutils.BitmapUtils -> com.lidroid.xutils.a:
     com.lidroid.xutils.bitmap.BitmapGlobalConfig globalConfig -> e
     com.lidroid.xutils.bitmap.BitmapDisplayConfig defaultDisplayConfig -> f
     android.os.Handler mHandler -> g
-    void display(android.view.View,java.lang.String,com.lidroid.xutils.bitmap.BitmapDisplayConfig) -> a
+    com.lidroid.xutils.BitmapUtils configDefaultBitmapConfig(android.graphics.Bitmap$Config) -> a
+    void display(android.view.View,java.lang.String) -> a
     void display(android.view.View,java.lang.String,com.lidroid.xutils.bitmap.callback.BitmapLoadCallBack) -> a
     void display(android.view.View,java.lang.String,com.lidroid.xutils.bitmap.BitmapDisplayConfig,com.lidroid.xutils.bitmap.callback.BitmapLoadCallBack) -> a
     void clearCache() -> a
@@ -5996,14 +5843,15 @@ com.lidroid.xutils.DbUtils -> com.lidroid.xutils.d:
     void delete(java.lang.Class,com.lidroid.xutils.db.sqlite.WhereBuilder) -> a
     void deleteAll(java.lang.Class) -> a
     java.lang.Object findFirst(com.lidroid.xutils.db.sqlite.Selector) -> a
+    java.lang.Object findFirst(java.lang.Class) -> b
     java.util.List findAll(com.lidroid.xutils.db.sqlite.Selector) -> b
-    java.util.List findAll(java.lang.Class) -> b
+    java.util.List findAll(java.lang.Class) -> c
     android.database.sqlite.SQLiteDatabase createDatabase(com.lidroid.xutils.DbUtils$DaoConfig) -> b
     void saveOrUpdateWithoutTransaction(java.lang.Object) -> b
     boolean saveBindingIdWithoutTransaction(java.lang.Object) -> c
     long getLastAutoIncrementId(java.lang.String) -> c
-    void createTableIfNotExist(java.lang.Class) -> c
-    boolean tableIsExist(java.lang.Class) -> d
+    void createTableIfNotExist(java.lang.Class) -> d
+    boolean tableIsExist(java.lang.Class) -> e
     void dropDb() -> b
     void debugSql(java.lang.String) -> d
     void beginTransaction() -> c
@@ -6089,6 +5937,7 @@ com.lidroid.xutils.bitmap.BitmapDisplayConfig -> com.lidroid.xutils.bitmap.c:
     android.graphics.drawable.Drawable getLoadFailedDrawable() -> d
     boolean isAutoRotation() -> e
     boolean isShowOriginal() -> f
+    void setBitmapConfig(android.graphics.Bitmap$Config) -> a
     com.lidroid.xutils.bitmap.factory.BitmapFactory getBitmapFactory() -> g
     com.lidroid.xutils.task.Priority getPriority() -> h
     java.lang.String toString() -> toString
@@ -6589,6 +6438,7 @@ com.lidroid.xutils.db.sqlite.Selector -> com.lidroid.xutils.db.sqlite.f:
     com.lidroid.xutils.db.sqlite.Selector from(java.lang.Class) -> a
     com.lidroid.xutils.db.sqlite.Selector where(java.lang.String,java.lang.String,java.lang.Object) -> a
     com.lidroid.xutils.db.sqlite.Selector and(java.lang.String,java.lang.String,java.lang.Object) -> b
+    com.lidroid.xutils.db.sqlite.Selector and(com.lidroid.xutils.db.sqlite.WhereBuilder) -> a
     com.lidroid.xutils.db.sqlite.Selector limit(int) -> a
     java.lang.String toString() -> toString
     java.lang.Class getEntityType() -> a
@@ -6617,6 +6467,7 @@ com.lidroid.xutils.db.sqlite.WhereBuilder -> com.lidroid.xutils.db.sqlite.j:
     java.util.List whereItems -> a
     com.lidroid.xutils.db.sqlite.WhereBuilder b(java.lang.String,java.lang.String,java.lang.Object) -> a
     com.lidroid.xutils.db.sqlite.WhereBuilder and(java.lang.String,java.lang.String,java.lang.Object) -> b
+    com.lidroid.xutils.db.sqlite.WhereBuilder expr(java.lang.String) -> a
     int getWhereItemSize() -> a
     java.lang.String toString() -> toString
     void appendCondition(java.lang.String,java.lang.String,java.lang.String,java.lang.Object) -> a
@@ -6782,6 +6633,7 @@ com.lidroid.xutils.http.RequestParams -> com.lidroid.xutils.http.d:
     com.lidroid.xutils.task.Priority getPriority() -> a
     java.lang.String getCharset() -> b
     void addQueryStringParameter(java.util.List) -> a
+    void addBodyParameter(java.util.List) -> b
     org.apache.http.HttpEntity getEntity() -> c
     java.util.List getQueryStringParams() -> d
     java.util.List getHeaders() -> e
@@ -7354,7 +7206,64 @@ com.lidroid.xutils.view.annotation.event.OnTabChange -> com.lidroid.xutils.view.
 com.lidroid.xutils.view.annotation.event.OnTouch -> com.lidroid.xutils.view.annotation.event.OnTouch:
     int[] value() -> value
     int[] parentId() -> parentId
-com.ly.duan.adapter.DropListAdapter -> com.ly.duan.a.a:
+com.ly.duan.adapter.ArticleAdapter -> com.ly.duan.a.a:
+    android.content.Context mContext -> a
+    java.util.List list -> b
+    int width -> c
+    int height -> d
+    com.lidroid.xutils.BitmapUtils bitmapUtils -> e
+    com.ly.duan.adapter.ArticleAdapter$OnFrag3ItemClickListener itemListener -> f
+    android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
+    void addArticles(java.util.List) -> a
+    void clear() -> a
+    int getCount() -> getCount
+    java.lang.Object getItem(int) -> getItem
+    long getItemId(int) -> getItemId
+    void setFrag3ItemClicked(com.ly.duan.adapter.ArticleAdapter$OnFrag3ItemClickListener) -> a
+    com.ly.duan.adapter.ArticleAdapter$OnFrag3ItemClickListener access$0(com.ly.duan.adapter.ArticleAdapter) -> a
+com.ly.duan.adapter.ArticleAdapter$1 -> com.ly.duan.a.b:
+    com.ly.duan.adapter.ArticleAdapter this$0 -> a
+    com.ly.duan.bean.ArticleBean val$bean -> b
+    void onClick(android.view.View) -> onClick
+com.ly.duan.adapter.ArticleAdapter$CustomBitmapLoadCallback -> com.ly.duan.a.c:
+    com.ly.duan.adapter.ArticleAdapter this$0 -> a
+    void onLoadCompleted(android.widget.ImageView,java.lang.String,android.graphics.Bitmap,com.lidroid.xutils.bitmap.BitmapDisplayConfig,com.lidroid.xutils.bitmap.callback.BitmapLoadFrom) -> a
+    void onLoadCompleted(android.view.View,java.lang.String,android.graphics.Bitmap,com.lidroid.xutils.bitmap.BitmapDisplayConfig,com.lidroid.xutils.bitmap.callback.BitmapLoadFrom) -> a
+com.ly.duan.adapter.ArticleAdapter$Frag3ViewHolder -> com.ly.duan.a.d:
+    android.widget.RelativeLayout frag3_rl -> b
+    android.widget.ImageView frag3_iv -> c
+    android.widget.TextView frag3_tv -> d
+    com.ly.duan.adapter.ArticleAdapter this$0 -> a
+    android.widget.TextView access$0(com.ly.duan.adapter.ArticleAdapter$Frag3ViewHolder) -> a
+    android.widget.RelativeLayout access$1(com.ly.duan.adapter.ArticleAdapter$Frag3ViewHolder) -> b
+    android.widget.ImageView access$2(com.ly.duan.adapter.ArticleAdapter$Frag3ViewHolder) -> c
+com.ly.duan.adapter.ArticleAdapter$OnFrag3ItemClickListener -> com.ly.duan.a.e:
+    void itemClicked(com.ly.duan.bean.ArticleBean) -> a
+com.ly.duan.adapter.CommentAdapter -> com.ly.duan.a.f:
+    android.content.Context mContext -> a
+    com.lidroid.xutils.BitmapUtils bitmapUtils -> b
+    java.util.List list -> c
+    void addComments(java.util.List) -> a
+    void clear() -> a
+    int getCount() -> getCount
+    java.lang.Object getItem(int) -> getItem
+    long getItemId(int) -> getItemId
+    android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
+com.ly.duan.adapter.CommentAdapter$CommentViewHolder -> com.ly.duan.a.g:
+    android.widget.ImageView comment_iv -> b
+    android.widget.TextView comment_title -> c
+    android.widget.TextView comment_time -> d
+    android.widget.TextView comment_content -> e
+    com.ly.duan.adapter.CommentAdapter this$0 -> a
+    android.widget.ImageView access$0(com.ly.duan.adapter.CommentAdapter$CommentViewHolder) -> a
+    android.widget.TextView access$1(com.ly.duan.adapter.CommentAdapter$CommentViewHolder) -> b
+    android.widget.TextView access$2(com.ly.duan.adapter.CommentAdapter$CommentViewHolder) -> c
+    android.widget.TextView access$3(com.ly.duan.adapter.CommentAdapter$CommentViewHolder) -> d
+com.ly.duan.adapter.CommentAdapter$CustomAvatarLoadCallback -> com.ly.duan.a.h:
+    com.ly.duan.adapter.CommentAdapter this$0 -> a
+    void onLoadCompleted(android.widget.ImageView,java.lang.String,android.graphics.Bitmap,com.lidroid.xutils.bitmap.BitmapDisplayConfig,com.lidroid.xutils.bitmap.callback.BitmapLoadFrom) -> a
+    void onLoadCompleted(android.view.View,java.lang.String,android.graphics.Bitmap,com.lidroid.xutils.bitmap.BitmapDisplayConfig,com.lidroid.xutils.bitmap.callback.BitmapLoadFrom) -> a
+com.ly.duan.adapter.DropListAdapter -> com.ly.duan.a.i:
     android.content.Context mContext -> a
     android.view.LayoutInflater mInflater -> b
     java.util.List duanList -> c
@@ -7368,31 +7277,44 @@ com.ly.duan.adapter.DropListAdapter -> com.ly.duan.a.a:
     com.lidroid.xutils.BitmapUtils bitmapUtils -> k
     com.ly.duan.utils.GifUtils gifUtils -> l
     java.util.Map map -> m
-    com.ly.duan.user_inter.OnDownloadOrOpenListener listener -> n
+    com.ly.duan.adapter.DropListAdapter$OnDownloadOrOpenListener listener -> n
+    com.ly.duan.adapter.DropListAdapter$OnDropItemOperListerner itemListener -> o
     void clear() -> a
+    int getDuansSize() -> b
+    java.util.List getDuansList() -> c
     void addDuans(java.util.List) -> a
+    int getBannerSize() -> d
+    java.util.List getBannerList() -> e
     void addBanners(java.util.List) -> b
     int getCount() -> getCount
     java.lang.Object getItem(int) -> getItem
     long getItemId(int) -> getItemId
     android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
     boolean isAds(int) -> a
-    android.view.View getBannerView(com.ly.duan.bean.BannerBean,android.view.View,android.view.ViewGroup,boolean) -> a
-    android.view.View getDuanView(com.ly.duan.bean.DuanBean,android.view.View,android.view.ViewGroup) -> a
-    android.view.View getDuanView(com.ly.duan.bean.DuanBean,android.view.View,android.view.ViewGroup,boolean) -> a
+    android.view.View getBannerView(com.ly.duan.bean.BannerBean,android.view.View,android.view.ViewGroup,boolean,int) -> a
+    android.view.View getDuanView(com.ly.duan.bean.DuanBean,android.view.View,android.view.ViewGroup,boolean,int) -> a
     void setIVHeight(android.widget.ImageView,int) -> a
     void setGifViewHeight(pl.droidsonroids.gif.GifImageView,int) -> a
     void displayGif(java.lang.String,com.ly.duan.adapter.DropListAdapter$DropItemHolder) -> a
     void startDownFile(java.lang.String,java.lang.String,com.ly.duan.adapter.DropListAdapter$DropItemHolder) -> a
-    void setDownloadListener(com.ly.duan.user_inter.OnDownloadOrOpenListener) -> a
+    void setDownloadListener(com.ly.duan.adapter.DropListAdapter$OnDownloadOrOpenListener) -> a
+    void setDropItemListener(com.ly.duan.adapter.DropListAdapter$OnDropItemOperListerner) -> a
+    void changeDuansList(com.ly.duan.bean.DuanBean) -> a
     android.content.Context access$0(com.ly.duan.adapter.DropListAdapter) -> a
     java.util.Map access$1(com.ly.duan.adapter.DropListAdapter) -> b
-    com.ly.duan.user_inter.OnDownloadOrOpenListener access$2(com.ly.duan.adapter.DropListAdapter) -> c
-com.ly.duan.adapter.DropListAdapter$1 -> com.ly.duan.a.b:
+    com.ly.duan.adapter.DropListAdapter$OnDropItemOperListerner access$2(com.ly.duan.adapter.DropListAdapter) -> c
+    com.ly.duan.adapter.DropListAdapter$OnDownloadOrOpenListener access$3(com.ly.duan.adapter.DropListAdapter) -> d
+com.ly.duan.adapter.DropListAdapter$1 -> com.ly.duan.a.j:
     com.ly.duan.adapter.DropListAdapter this$0 -> a
     com.ly.duan.bean.BannerBean val$bean -> b
     void onClick(android.view.View) -> onClick
-com.ly.duan.adapter.DropListAdapter$2 -> com.ly.duan.a.c:
+com.ly.duan.adapter.DropListAdapter$2 -> com.ly.duan.a.k:
+    com.ly.duan.adapter.DropListAdapter this$0 -> a
+    com.ly.duan.bean.DuanBean val$bean -> b
+    boolean val$isAds -> c
+    int val$pos -> d
+    void onClick(android.view.View) -> onClick
+com.ly.duan.adapter.DropListAdapter$3 -> com.ly.duan.a.l:
     com.ly.duan.adapter.DropListAdapter this$0 -> a
     com.ly.duan.adapter.DropListAdapter$DropItemHolder val$holder -> b
     java.lang.String val$url -> c
@@ -7400,11 +7322,11 @@ com.ly.duan.adapter.DropListAdapter$2 -> com.ly.duan.a.c:
     void onLoading(long,long,boolean) -> a
     void onSuccess(com.lidroid.xutils.http.ResponseInfo) -> a
     void onFailure(com.lidroid.xutils.exception.HttpException,java.lang.String) -> a
-com.ly.duan.adapter.DropListAdapter$CustomAvatarLoadCallback -> com.ly.duan.a.d:
+com.ly.duan.adapter.DropListAdapter$CustomAvatarLoadCallback -> com.ly.duan.a.m:
     com.ly.duan.adapter.DropListAdapter this$0 -> a
     void onLoadCompleted(android.widget.ImageView,java.lang.String,android.graphics.Bitmap,com.lidroid.xutils.bitmap.BitmapDisplayConfig,com.lidroid.xutils.bitmap.callback.BitmapLoadFrom) -> a
     void onLoadCompleted(android.view.View,java.lang.String,android.graphics.Bitmap,com.lidroid.xutils.bitmap.BitmapDisplayConfig,com.lidroid.xutils.bitmap.callback.BitmapLoadFrom) -> a
-com.ly.duan.adapter.DropListAdapter$CustomBitmapLoadCallBack -> com.ly.duan.a.e:
+com.ly.duan.adapter.DropListAdapter$CustomBitmapLoadCallBack -> com.ly.duan.a.n:
     com.ly.duan.adapter.DropListAdapter$DropItemHolder holder -> b
     boolean _isAds -> c
     com.ly.duan.adapter.DropListAdapter this$0 -> a
@@ -7414,53 +7336,185 @@ com.ly.duan.adapter.DropListAdapter$CustomBitmapLoadCallBack -> com.ly.duan.a.e:
     void onLoading(android.view.View,java.lang.String,com.lidroid.xutils.bitmap.BitmapDisplayConfig,long,long) -> a
     void onLoadStarted(android.view.View,java.lang.String,com.lidroid.xutils.bitmap.BitmapDisplayConfig) -> b
     void onLoadCompleted(android.view.View,java.lang.String,android.graphics.Bitmap,com.lidroid.xutils.bitmap.BitmapDisplayConfig,com.lidroid.xutils.bitmap.callback.BitmapLoadFrom) -> a
-com.ly.duan.adapter.DropListAdapter$DropItemHolder -> com.ly.duan.a.f:
-    android.widget.LinearLayout duan_ll -> b
-    android.widget.ImageView duan_avatar -> c
-    android.widget.TextView duan_nick -> d
-    android.widget.TextView duan_content -> e
-    android.widget.RelativeLayout duan_rl -> f
-    android.widget.ImageView pictureIV -> g
-    pl.droidsonroids.gif.GifImageView gifView -> h
-    com.ly.duan.view.ProgressWheel duan_pw -> i
-    android.widget.LinearLayout banner_ll -> j
-    android.widget.LinearLayout banner_content_ll -> k
-    android.widget.TextView banner_tv -> l
-    android.widget.RelativeLayout banner_rl -> m
-    android.widget.ImageView banner_iv -> n
-    android.widget.Button down_btn -> o
-    com.ly.duan.view.ProgressWheel banner_pw -> p
+com.ly.duan.adapter.DropListAdapter$DropItemClickListener -> com.ly.duan.a.o:
+    int operType -> b
+    com.ly.duan.bean.DuanBean bean -> c
+    com.ly.duan.adapter.DropListAdapter$DropItemHolder holder -> d
     com.ly.duan.adapter.DropListAdapter this$0 -> a
+    void onClick(android.view.View) -> onClick
+com.ly.duan.adapter.DropListAdapter$DropItemHolder -> com.ly.duan.a.p:
+    android.widget.LinearLayout duan_ll -> k
+    android.widget.ImageView duan_avatar -> l
+    android.widget.TextView duan_nick -> m
+    android.widget.TextView duan_content -> n
+    android.widget.RelativeLayout duan_rl -> o
+    android.widget.ImageView pictureIV -> p
+    pl.droidsonroids.gif.GifImageView gifView -> q
+    com.ly.duan.view.ProgressWheel duan_pw -> r
+    android.widget.LinearLayout up_ll -> a
+    android.widget.ImageView up_iv -> b
+    android.widget.TextView up_tv -> c
+    android.widget.TextView add_tv1 -> d
+    android.widget.LinearLayout down_ll -> e
+    android.widget.ImageView down_iv -> f
+    android.widget.TextView down_tv -> g
+    android.widget.TextView add_tv2 -> h
+    android.widget.LinearLayout comment_ll -> i
+    android.widget.LinearLayout banner_ll -> s
+    android.widget.LinearLayout banner_content_ll -> t
+    android.widget.TextView banner_tv -> u
+    android.widget.RelativeLayout banner_rl -> v
+    android.widget.ImageView banner_iv -> w
+    android.widget.Button down_btn -> x
+    com.ly.duan.view.ProgressWheel banner_pw -> y
+    com.ly.duan.adapter.DropListAdapter this$0 -> j
     com.ly.duan.view.ProgressWheel access$0(com.ly.duan.adapter.DropListAdapter$DropItemHolder) -> a
     com.ly.duan.view.ProgressWheel access$1(com.ly.duan.adapter.DropListAdapter$DropItemHolder) -> b
     android.widget.ImageView access$2(com.ly.duan.adapter.DropListAdapter$DropItemHolder) -> c
     android.widget.ImageView access$3(com.ly.duan.adapter.DropListAdapter$DropItemHolder) -> d
-    android.widget.LinearLayout access$5(com.ly.duan.adapter.DropListAdapter$DropItemHolder) -> e
-    android.widget.LinearLayout access$6(com.ly.duan.adapter.DropListAdapter$DropItemHolder) -> f
-    android.widget.LinearLayout access$7(com.ly.duan.adapter.DropListAdapter$DropItemHolder) -> g
-    android.widget.TextView access$8(com.ly.duan.adapter.DropListAdapter$DropItemHolder) -> h
-    android.widget.RelativeLayout access$9(com.ly.duan.adapter.DropListAdapter$DropItemHolder) -> i
-    android.widget.Button access$10(com.ly.duan.adapter.DropListAdapter$DropItemHolder) -> j
-    android.widget.TextView access$11(com.ly.duan.adapter.DropListAdapter$DropItemHolder) -> k
-    android.widget.TextView access$12(com.ly.duan.adapter.DropListAdapter$DropItemHolder) -> l
-    android.widget.ImageView access$13(com.ly.duan.adapter.DropListAdapter$DropItemHolder) -> m
-    android.widget.RelativeLayout access$14(com.ly.duan.adapter.DropListAdapter$DropItemHolder) -> n
-    pl.droidsonroids.gif.GifImageView access$15(com.ly.duan.adapter.DropListAdapter$DropItemHolder) -> o
-com.ly.duan.adapter.ViewFlowAdapter -> com.ly.duan.a.g:
-    android.content.Context context -> a
+    android.widget.LinearLayout access$4(com.ly.duan.adapter.DropListAdapter$DropItemHolder) -> e
+    android.widget.LinearLayout access$5(com.ly.duan.adapter.DropListAdapter$DropItemHolder) -> f
+    android.widget.LinearLayout access$6(com.ly.duan.adapter.DropListAdapter$DropItemHolder) -> g
+    android.widget.TextView access$7(com.ly.duan.adapter.DropListAdapter$DropItemHolder) -> h
+    android.widget.RelativeLayout access$8(com.ly.duan.adapter.DropListAdapter$DropItemHolder) -> i
+    android.widget.Button access$9(com.ly.duan.adapter.DropListAdapter$DropItemHolder) -> j
+    android.widget.TextView access$10(com.ly.duan.adapter.DropListAdapter$DropItemHolder) -> k
+    android.widget.TextView access$11(com.ly.duan.adapter.DropListAdapter$DropItemHolder) -> l
+    android.widget.ImageView access$12(com.ly.duan.adapter.DropListAdapter$DropItemHolder) -> m
+    android.widget.RelativeLayout access$13(com.ly.duan.adapter.DropListAdapter$DropItemHolder) -> n
+    pl.droidsonroids.gif.GifImageView access$14(com.ly.duan.adapter.DropListAdapter$DropItemHolder) -> o
+com.ly.duan.adapter.DropListAdapter$OnDownloadOrOpenListener -> com.ly.duan.a.q:
+    void startDownloadOrOpen(com.ly.duan.bean.BannerBean) -> a
+com.ly.duan.adapter.DropListAdapter$OnDropItemOperListerner -> com.ly.duan.a.r:
+    void dropItemOper(int,com.ly.duan.bean.DuanBean,com.ly.duan.adapter.DropListAdapter$DropItemHolder) -> a
+    void startComment(int,boolean,int) -> a
+com.ly.duan.adapter.Frag4Adapter -> com.ly.duan.a.s:
+    android.content.Context mContext -> a
     java.util.List list -> b
     com.lidroid.xutils.BitmapUtils bitmapUtils -> c
-    com.lidroid.xutils.bitmap.BitmapDisplayConfig config -> d
+    java.util.Map map -> d
+    com.ly.duan.adapter.Frag4Adapter$OnVideoPlayListener playListener -> e
+    com.ly.duan.adapter.Frag4Adapter$OnFrag4ItemOperListerner itemListener -> f
+    void addArticles(java.util.List) -> a
+    void clear() -> a
+    java.util.List getArticleList() -> b
+    int getCount() -> getCount
     java.lang.Object getItem(int) -> getItem
     long getItemId(int) -> getItemId
-    int getCount() -> getCount
     android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
-com.ly.duan.adapter.ViewFlowAdapter$ViewHolder -> com.ly.duan.a.h:
-    android.widget.ImageView item_iv -> b
-    com.ly.duan.adapter.ViewFlowAdapter this$0 -> a
-    void access$0(com.ly.duan.adapter.ViewFlowAdapter$ViewHolder,android.widget.ImageView) -> a
-    android.widget.ImageView access$1(com.ly.duan.adapter.ViewFlowAdapter$ViewHolder) -> a
+    void setIVHeight(android.widget.ImageView,int) -> a
+    void setVideoPlayListener(com.ly.duan.adapter.Frag4Adapter$OnVideoPlayListener) -> a
+    void setFrag4ItemListener(com.ly.duan.adapter.Frag4Adapter$OnFrag4ItemOperListerner) -> a
+    void changeArticlesList(com.ly.duan.bean.ArticleBean) -> a
+    android.content.Context access$0(com.ly.duan.adapter.Frag4Adapter) -> a
+    java.util.Map access$1(com.ly.duan.adapter.Frag4Adapter) -> b
+    com.ly.duan.adapter.Frag4Adapter$OnFrag4ItemOperListerner access$2(com.ly.duan.adapter.Frag4Adapter) -> c
+    com.ly.duan.adapter.Frag4Adapter$OnVideoPlayListener access$3(com.ly.duan.adapter.Frag4Adapter) -> d
+com.ly.duan.adapter.Frag4Adapter$1 -> com.ly.duan.a.t:
+    com.ly.duan.adapter.Frag4Adapter this$0 -> a
+    com.ly.duan.bean.ArticleBean val$bean -> b
+    void onClick(android.view.View) -> onClick
+com.ly.duan.adapter.Frag4Adapter$2 -> com.ly.duan.a.u:
+    com.ly.duan.adapter.Frag4Adapter this$0 -> a
+    com.ly.duan.bean.ArticleBean val$bean -> b
+    int val$position -> c
+    void onClick(android.view.View) -> onClick
+com.ly.duan.adapter.Frag4Adapter$CustomBitmapLoadCallBack -> com.ly.duan.a.v:
+    com.ly.duan.adapter.Frag4Adapter$Frag4ViewHolder holder -> b
+    com.ly.duan.adapter.Frag4Adapter this$0 -> a
+    void onLoadCompleted(android.widget.ImageView,java.lang.String,android.graphics.Bitmap,com.lidroid.xutils.bitmap.BitmapDisplayConfig,com.lidroid.xutils.bitmap.callback.BitmapLoadFrom) -> a
+    void onLoadCompleted(android.view.View,java.lang.String,android.graphics.Bitmap,com.lidroid.xutils.bitmap.BitmapDisplayConfig,com.lidroid.xutils.bitmap.callback.BitmapLoadFrom) -> a
+com.ly.duan.adapter.Frag4Adapter$DropItemClickListener -> com.ly.duan.a.w:
+    int operType -> b
+    com.ly.duan.bean.ArticleBean bean -> c
+    com.ly.duan.adapter.Frag4Adapter$Frag4ViewHolder holder -> d
+    com.ly.duan.adapter.Frag4Adapter this$0 -> a
+    void onClick(android.view.View) -> onClick
+com.ly.duan.adapter.Frag4Adapter$Frag4ViewHolder -> com.ly.duan.a.x:
+    android.widget.TextView frag4_content -> k
+    android.widget.RelativeLayout frag4_rl -> l
+    android.widget.ImageView frag4_picture -> m
+    android.widget.LinearLayout up_ll -> a
+    android.widget.ImageView up_iv -> b
+    android.widget.TextView up_tv -> c
+    android.widget.TextView add_tv1 -> d
+    android.widget.LinearLayout down_ll -> e
+    android.widget.ImageView down_iv -> f
+    android.widget.TextView down_tv -> g
+    android.widget.TextView add_tv2 -> h
+    android.widget.LinearLayout comment_ll -> i
+    com.ly.duan.adapter.Frag4Adapter this$0 -> j
+    android.widget.ImageView access$0(com.ly.duan.adapter.Frag4Adapter$Frag4ViewHolder) -> a
+    android.widget.TextView access$1(com.ly.duan.adapter.Frag4Adapter$Frag4ViewHolder) -> b
+    android.widget.RelativeLayout access$2(com.ly.duan.adapter.Frag4Adapter$Frag4ViewHolder) -> c
+com.ly.duan.adapter.Frag4Adapter$OnFrag4ItemOperListerner -> com.ly.duan.a.y:
+    void dropItemOper(int,com.ly.duan.bean.ArticleBean,com.ly.duan.adapter.Frag4Adapter$Frag4ViewHolder) -> a
+    void startComment(int,boolean,int) -> a
+com.ly.duan.adapter.Frag4Adapter$OnVideoPlayListener -> com.ly.duan.a.z:
+    void playVideo(com.ly.duan.bean.ArticleBean) -> a
+com.ly.duan.bean.ArticleBean -> com.ly.duan.bean.ArticleBean:
+    long serialVersionUID -> serialVersionUID
+    long articleId -> articleId
+    long appid -> appid
+    long columnId -> columnId
+    int ver -> ver
+    java.lang.String articleName -> articleName
+    java.lang.String articleDesc -> articleDesc
+    boolean hasAudio -> hasAudio
+    boolean hasVideo -> hasVideo
+    java.lang.String imgUrl -> imgUrl
+    boolean hasPush -> hasPush
+    java.lang.String url -> url
+    boolean hasVip -> hasVip
+    int curPage -> curPage
+    int urlType -> urlType
+    int type -> type
+    int good -> good
+    int bad -> bad
+    int approve -> approve
+    int stamp -> stamp
+    long getArticleId() -> getArticleId
+    void setArticleId(long) -> setArticleId
+    java.lang.String getArticleName() -> getArticleName
+    void setArticleName(java.lang.String) -> setArticleName
+    java.lang.String getImgUrl() -> getImgUrl
+    void setImgUrl(java.lang.String) -> setImgUrl
+    java.lang.String getUrl() -> getUrl
+    void setUrl(java.lang.String) -> setUrl
+    java.lang.String getArticleDesc() -> getArticleDesc
+    void setArticleDesc(java.lang.String) -> setArticleDesc
+    long getColumnId() -> getColumnId
+    void setColumnId(long) -> setColumnId
+    long getAppid() -> getAppid
+    void setAppid(long) -> setAppid
+    int getVer() -> getVer
+    void setVer(int) -> setVer
+    boolean isHasPush() -> isHasPush
+    void setHasPush(boolean) -> setHasPush
+    boolean isHasAudio() -> isHasAudio
+    void setHasAudio(boolean) -> setHasAudio
+    boolean isHasVideo() -> isHasVideo
+    void setHasVideo(boolean) -> setHasVideo
+    boolean isHasVip() -> isHasVip
+    void setHasVip(boolean) -> setHasVip
+    int getCurPage() -> getCurPage
+    void setCurPage(int) -> setCurPage
+    int getUrlType() -> getUrlType
+    void setUrlType(int) -> setUrlType
+    int getType() -> getType
+    void setType(int) -> setType
+    int getGood() -> getGood
+    void setGood(int) -> setGood
+    int getBad() -> getBad
+    void setBad(int) -> setBad
+    int getApprove() -> getApprove
+    void setApprove(int) -> setApprove
+    int getStamp() -> getStamp
+    void setStamp(int) -> setStamp
+    boolean equals(java.lang.Object) -> equals
+    java.lang.String toString() -> toString
 com.ly.duan.bean.BannerBean -> com.ly.duan.bean.BannerBean:
+    long serialVersionUID -> serialVersionUID
     long bannerId -> bannerId
     long appid -> appid
     int ver -> ver
@@ -7471,6 +7525,8 @@ com.ly.duan.bean.BannerBean -> com.ly.duan.bean.BannerBean:
     long contentId -> contentId
     java.lang.String contentUrl -> contentUrl
     java.lang.String contentPackage -> contentPackage
+    java.lang.String userNick -> userNick
+    java.lang.String userVarUrl -> userVarUrl
     long getBannerId() -> getBannerId
     void setBannerId(long) -> setBannerId
     long getAppid() -> getAppid
@@ -7491,8 +7547,84 @@ com.ly.duan.bean.BannerBean -> com.ly.duan.bean.BannerBean:
     void setContentUrl(java.lang.String) -> setContentUrl
     java.lang.String getContentPackage() -> getContentPackage
     void setContentPackage(java.lang.String) -> setContentPackage
+    java.lang.String getUserNick() -> getUserNick
+    void setUserNick(java.lang.String) -> setUserNick
+    java.lang.String getUserVarUrl() -> getUserVarUrl
+    void setUserVarUrl(java.lang.String) -> setUserVarUrl
+    boolean equals(java.lang.Object) -> equals
+    java.lang.String toString() -> toString
+com.ly.duan.bean.ColumnBean -> com.ly.duan.bean.ColumnBean:
+    long appid -> appid
+    long columnId -> columnId
+    java.lang.String columnName -> columnName
+    java.lang.String columnDesc -> columnDesc
+    java.lang.String imgUrl -> imgUrl
+    int type -> type
+    boolean hasVip -> hasVip
+    int ver -> ver
+    long getColumnId() -> getColumnId
+    void setColumnId(long) -> setColumnId
+    java.lang.String getColumnName() -> getColumnName
+    void setColumnName(java.lang.String) -> setColumnName
+    java.lang.String getColumnDesc() -> getColumnDesc
+    void setColumnDesc(java.lang.String) -> setColumnDesc
+    java.lang.String getImgUrl() -> getImgUrl
+    void setImgUrl(java.lang.String) -> setImgUrl
+    int getType() -> getType
+    void setType(int) -> setType
+    boolean isHasVip() -> isHasVip
+    void setHasVip(boolean) -> setHasVip
+    int getVer() -> getVer
+    void setVer(int) -> setVer
+    long getAppid() -> getAppid
+    void setAppid(long) -> setAppid
+    boolean equals(java.lang.Object) -> equals
+    java.lang.String toString() -> toString
+com.ly.duan.bean.CommentBean -> com.ly.duan.bean.CommentBean:
+    long appid -> appid
+    int contentType -> contentType
+    long contentId -> contentId
+    int page -> page
+    java.lang.String commentId -> commentId
+    java.lang.String comment -> comment
+    java.lang.String createTime -> createTime
+    java.lang.String userNick -> userNick
+    java.lang.String userVar -> userVar
+    int userType -> userType
+    java.lang.String ip -> ip
+    int goodCount -> goodCount
+    int badCount -> badCount
+    long getAppid() -> getAppid
+    void setAppid(long) -> setAppid
+    int getContentType() -> getContentType
+    void setContentType(int) -> setContentType
+    long getContentId() -> getContentId
+    void setContentId(long) -> setContentId
+    int getPage() -> getPage
+    void setPage(int) -> setPage
+    java.lang.String getCommentId() -> getCommentId
+    void setCommentId(java.lang.String) -> setCommentId
+    java.lang.String getComment() -> getComment
+    void setComment(java.lang.String) -> setComment
+    java.lang.String getCreateTime() -> getCreateTime
+    void setCreateTime(java.lang.String) -> setCreateTime
+    java.lang.String getUserNick() -> getUserNick
+    void setUserNick(java.lang.String) -> setUserNick
+    java.lang.String getUserVar() -> getUserVar
+    void setUserVar(java.lang.String) -> setUserVar
+    int getUserType() -> getUserType
+    void setUserType(int) -> setUserType
+    java.lang.String getIp() -> getIp
+    void setIp(java.lang.String) -> setIp
+    int getGoodCount() -> getGoodCount
+    void setGoodCount(int) -> setGoodCount
+    int getBadCount() -> getBadCount
+    void setBadCount(int) -> setBadCount
+    boolean equals(java.lang.Object) -> equals
     java.lang.String toString() -> toString
 com.ly.duan.bean.DuanBean -> com.ly.duan.bean.DuanBean:
+    long serialVersionUID -> serialVersionUID
+    long duanId -> duanId
     long appid -> appid
     long columnId -> columnId
     int ver -> ver
@@ -7503,6 +7635,13 @@ com.ly.duan.bean.DuanBean -> com.ly.duan.bean.DuanBean:
     java.lang.String imgUrl -> imgUrl
     int imgType -> imgType
     boolean vip -> vip
+    int good -> good
+    int bad -> bad
+    int approve -> approve
+    int stamp -> stamp
+    int contentType -> contentType
+    long getDuanId() -> getDuanId
+    void setDuanId(long) -> setDuanId
     long getAppid() -> getAppid
     void setAppid(long) -> setAppid
     long getColumnId() -> getColumnId
@@ -7523,6 +7662,16 @@ com.ly.duan.bean.DuanBean -> com.ly.duan.bean.DuanBean:
     void setImgType(int) -> setImgType
     boolean getVip() -> getVip
     void setVip(boolean) -> setVip
+    int getGood() -> getGood
+    void setGood(int) -> setGood
+    int getBad() -> getBad
+    void setBad(int) -> setBad
+    int getApprove() -> getApprove
+    void setApprove(int) -> setApprove
+    int getStamp() -> getStamp
+    void setStamp(int) -> setStamp
+    int getContentType() -> getContentType
+    void setContentType(int) -> setContentType
     java.lang.String toString() -> toString
 com.ly.duan.bean.EntityBase -> com.ly.duan.bean.EntityBase:
     int id -> id
@@ -7532,16 +7681,62 @@ com.ly.duan.bean.MultiReqStatus -> com.ly.duan.bean.MultiReqStatus:
     int content1Status -> content1Status
     int content2Status -> content2Status
     int bannerStatus -> bannerStatus
+    int currentStatus -> currentStatus
     int getContent1Status() -> getContent1Status
     void setContent1Status(int) -> setContent1Status
     int getContent2Status() -> getContent2Status
     void setContent2Status(int) -> setContent2Status
     int getBannerStatus() -> getBannerStatus
     void setBannerStatus(int) -> setBannerStatus
+    int getCurrentStatus() -> getCurrentStatus
+    void setCurrentStatus(int) -> setCurrentStatus
+    java.lang.String toString() -> toString
+com.ly.duan.bean.PushBean -> com.ly.duan.bean.PushBean:
+    long appid -> appid
+    long pushId -> pushId
+    int ver -> ver
+    java.lang.String pushTitle -> pushTitle
+    java.lang.String pushDesc -> pushDesc
+    java.lang.String pushImgUrl -> pushImgUrl
+    int sourceType -> sourceType
+    long sourceId -> sourceId
+    java.lang.String contentUrl -> contentUrl
+    java.lang.String userNick -> userNick
+    java.lang.String userVarUrl -> userVarUrl
+    long getAppid() -> getAppid
+    void setAppid(long) -> setAppid
+    long getPushId() -> getPushId
+    void setPushId(long) -> setPushId
+    int getVer() -> getVer
+    void setVer(int) -> setVer
+    java.lang.String getPushTitle() -> getPushTitle
+    void setPushTitle(java.lang.String) -> setPushTitle
+    java.lang.String getPushDesc() -> getPushDesc
+    void setPushDesc(java.lang.String) -> setPushDesc
+    java.lang.String getPushImgUrl() -> getPushImgUrl
+    void setPushImgUrl(java.lang.String) -> setPushImgUrl
+    int getSourceType() -> getSourceType
+    void setSourceType(int) -> setSourceType
+    long getSourceId() -> getSourceId
+    void setSourceId(long) -> setSourceId
+    java.lang.String getContentUrl() -> getContentUrl
+    void setContentUrl(java.lang.String) -> setContentUrl
+    java.lang.String getUserNick() -> getUserNick
+    void setUserNick(java.lang.String) -> setUserNick
+    java.lang.String getUserVarUrl() -> getUserVarUrl
+    void setUserVarUrl(java.lang.String) -> setUserVarUrl
+    boolean equals(java.lang.Object) -> equals
+    java.lang.String toString() -> toString
+com.ly.duan.bean.SavedStatus -> com.ly.duan.bean.SavedStatus:
+    java.lang.String tabName -> tabName
+    java.lang.String getTabName() -> getTabName
+    void setTabName(java.lang.String) -> setTabName
+    boolean equals(java.lang.Object) -> equals
     java.lang.String toString() -> toString
 com.ly.duan.help.BitmapHelp -> com.ly.duan.b.a:
     com.lidroid.xutils.BitmapUtils bitmapUtils -> a
     com.lidroid.xutils.BitmapUtils getInstance(android.content.Context) -> a
+    void syncInit(android.content.Context) -> c
     void clearAllCache(android.content.Context) -> b
 com.ly.duan.help.DBHelp -> com.ly.duan.b.b:
     com.lidroid.xutils.DbUtils dbUtils -> a
@@ -7550,33 +7745,48 @@ com.ly.duan.help.GlobalHelp -> com.ly.duan.b.c:
     com.ly.duan.help.GlobalHelp instance -> a
     java.util.Map maps -> b
     com.ly.duan.help.GlobalHelp getInstance() -> a
-    void setMultiReqStatus(com.ly.duan.bean.MultiReqStatus) -> a
-    com.ly.duan.bean.MultiReqStatus getMultiReqStatus() -> b
+    void setMultiReqStatus(android.content.Context,com.ly.duan.bean.MultiReqStatus) -> a
+    com.ly.duan.bean.MultiReqStatus getMultiReqStatus(android.content.Context) -> a
 com.ly.duan.help.HttpHelp -> com.ly.duan.b.d:
     com.lidroid.xutils.HttpUtils httpUtils -> a
     void closeHttpClient() -> a
 com.ly.duan.help.HttpHelp$MyRequestCallback -> com.ly.duan.b.e:
     void onSuccess(com.lidroid.xutils.http.ResponseInfo) -> a
     void onFailure(com.lidroid.xutils.exception.HttpException,java.lang.String) -> a
+com.ly.duan.help.SavedStatusHelp -> com.ly.duan.b.f:
+    com.ly.duan.help.SavedStatusHelp instance -> a
+    com.ly.duan.help.SavedStatusHelp getInstance() -> a
+    void saveTabName(android.content.Context,java.lang.String) -> a
+    java.lang.String getTabName(android.content.Context) -> a
 com.ly.duan.service.InitDataService -> com.ly.duan.service.InitDataService:
-    long appid -> a
-    int content1Ver -> b
-    int content2Ver -> c
-    int bannerVer -> d
-    int currentContent1Status -> e
-    int currentContent2Status -> f
-    int currentBannerStatus -> g
-    boolean reRequestContent1 -> h
-    boolean reRequestContent2 -> i
-    boolean reRequestBanner -> j
-    com.lidroid.xutils.DbUtils db -> k
-    com.ly.duan.service.InitDataService$MyHandler mHandler -> l
-    android.os.HandlerThread handlerThread -> m
-    com.ly.duan.bean.MultiReqStatus status -> n
-    java.lang.Runnable content1Runnable -> o
-    java.lang.Runnable content2Runnable -> p
-    java.lang.Runnable bannerRunnable -> q
-    com.ly.duan.help.HttpHelp$MyRequestCallback bannerCallback -> r
+    int content1Ver -> a
+    int content2Ver -> b
+    int bannerVer -> c
+    int clmVer -> d
+    int contentVer -> e
+    int currentContent1Status -> f
+    int currentContent2Status -> g
+    int currentBannerStatus -> h
+    int currentStatus -> i
+    boolean reRequestContent1 -> j
+    boolean reRequestContent2 -> k
+    boolean reRequestContent -> l
+    boolean reRequestBanner -> m
+    boolean reRequestClm -> n
+    com.lidroid.xutils.DbUtils db -> o
+    com.ly.duan.service.InitDataService$MyHandler mHandler -> p
+    android.os.HandlerThread handlerThread -> q
+    com.ly.duan.bean.MultiReqStatus status -> r
+    long appid -> s
+    java.lang.String tabName -> t
+    long columnId -> u
+    com.ly.duan.help.SavedStatusHelp savedStatusHelp -> v
+    java.lang.Runnable clmRunnable -> w
+    java.lang.Runnable contentRunnable -> x
+    java.lang.Runnable content1Runnable -> y
+    java.lang.Runnable content2Runnable -> z
+    java.lang.Runnable bannerRunnable -> A
+    com.ly.duan.help.HttpHelp$MyRequestCallback bannerCallback -> B
     android.os.IBinder onBind(android.content.Intent) -> onBind
     void onCreate() -> onCreate
     int onStartCommand(android.content.Intent,int,int) -> onStartCommand
@@ -7584,96 +7794,241 @@ com.ly.duan.service.InitDataService -> com.ly.duan.service.InitDataService:
     void getBannerFromHttp() -> a
     void sendBannerRequest() -> b
     void parseBannerResult(java.lang.String) -> a
-    void getContentFromHttp(int) -> a
+    void sendContentRequest() -> c
+    void getContentFromHttp(int) -> b
     void sendContentRequest(int,int) -> a
+    void parseContentResult(java.lang.String) -> b
+    void parseJsonArrayByType(com.alibaba.fastjson.JSONObject,int,int) -> a
+    void handleExitBroadcast(int) -> a
     void handleBroadcastAndNextStep(int,com.ly.duan.bean.MultiReqStatus) -> a
-    void access$0(com.ly.duan.service.InitDataService,int) -> a
-    void access$1(com.ly.duan.service.InitDataService) -> a
-    void access$2(com.ly.duan.service.InitDataService,int) -> b
-    com.ly.duan.bean.MultiReqStatus access$3(com.ly.duan.service.InitDataService) -> b
-    int access$4(com.ly.duan.service.InitDataService) -> c
-    int access$5(com.ly.duan.service.InitDataService) -> d
-    com.ly.duan.service.InitDataService$MyHandler access$6(com.ly.duan.service.InitDataService) -> e
-    void access$7(com.ly.duan.service.InitDataService,java.lang.String) -> a
-    boolean access$8(com.ly.duan.service.InitDataService) -> f
-    void access$9(com.ly.duan.service.InitDataService,boolean) -> a
-    void access$10(com.ly.duan.service.InitDataService,int,com.ly.duan.bean.MultiReqStatus) -> a
-    void access$11(com.ly.duan.service.InitDataService,int,int,com.ly.duan.bean.MultiReqStatus) -> a
-    void access$12(com.ly.duan.service.InitDataService,int) -> c
-    int access$13(com.ly.duan.service.InitDataService) -> g
-    void access$14(com.ly.duan.service.InitDataService,int) -> d
-    long access$15(com.ly.duan.service.InitDataService) -> h
-    com.lidroid.xutils.DbUtils access$16(com.ly.duan.service.InitDataService) -> i
-    boolean access$17(com.ly.duan.service.InitDataService) -> j
-    void access$18(com.ly.duan.service.InitDataService,boolean) -> b
-    boolean access$19(com.ly.duan.service.InitDataService) -> k
-    void access$20(com.ly.duan.service.InitDataService,boolean) -> c
+    void getClmsFromHttp() -> d
+    void sendClmsRequest() -> e
+    void access$0(com.ly.duan.service.InitDataService) -> a
+    java.lang.String access$1(com.ly.duan.service.InitDataService) -> b
+    com.lidroid.xutils.DbUtils access$2(com.ly.duan.service.InitDataService) -> c
+    long access$3(com.ly.duan.service.InitDataService) -> d
+    void access$4(com.ly.duan.service.InitDataService,java.lang.String) -> a
+    com.ly.duan.help.SavedStatusHelp access$5(com.ly.duan.service.InitDataService) -> e
+    void access$6(com.ly.duan.service.InitDataService,long) -> a
+    long access$7(com.ly.duan.service.InitDataService) -> f
+    com.ly.duan.service.InitDataService$MyHandler access$8(com.ly.duan.service.InitDataService) -> g
+    void access$9(com.ly.duan.service.InitDataService,int) -> a
+    int access$10(com.ly.duan.service.InitDataService) -> h
+    void access$11(com.ly.duan.service.InitDataService) -> i
+    void access$12(com.ly.duan.service.InitDataService,int) -> b
+    void access$13(com.ly.duan.service.InitDataService) -> j
+    void access$14(com.ly.duan.service.InitDataService,int) -> c
+    com.ly.duan.bean.MultiReqStatus access$15(com.ly.duan.service.InitDataService) -> k
+    int access$16(com.ly.duan.service.InitDataService) -> l
+    int access$17(com.ly.duan.service.InitDataService) -> m
+    void access$18(com.ly.duan.service.InitDataService,java.lang.String) -> b
+    boolean access$19(com.ly.duan.service.InitDataService) -> n
+    void access$20(com.ly.duan.service.InitDataService,boolean) -> a
+    void access$21(com.ly.duan.service.InitDataService,int,com.ly.duan.bean.MultiReqStatus) -> a
+    void access$22(com.ly.duan.service.InitDataService,int,int,com.ly.duan.bean.MultiReqStatus) -> a
+    void access$23(com.ly.duan.service.InitDataService,int) -> d
+    boolean access$24(com.ly.duan.service.InitDataService) -> o
+    void access$25(com.ly.duan.service.InitDataService,boolean) -> b
+    void access$26(com.ly.duan.service.InitDataService,java.lang.String) -> c
+    boolean access$27(com.ly.duan.service.InitDataService) -> p
+    void access$28(com.ly.duan.service.InitDataService,boolean) -> c
 com.ly.duan.service.InitDataService$1 -> com.ly.duan.service.a:
     com.ly.duan.service.InitDataService this$0 -> a
     void run() -> run
 com.ly.duan.service.InitDataService$2 -> com.ly.duan.service.b:
     com.ly.duan.service.InitDataService this$0 -> a
     void run() -> run
+    void getContentFromHttp() -> a
 com.ly.duan.service.InitDataService$3 -> com.ly.duan.service.c:
     com.ly.duan.service.InitDataService this$0 -> a
     void run() -> run
 com.ly.duan.service.InitDataService$4 -> com.ly.duan.service.d:
     com.ly.duan.service.InitDataService this$0 -> a
-    void onStart() -> b
-    void onSuccess(com.lidroid.xutils.http.ResponseInfo) -> a
-    void onFailure(com.lidroid.xutils.exception.HttpException,java.lang.String) -> a
-com.ly.duan.service.InitDataService$ContentRequestCallBack -> com.ly.duan.service.e:
-    int columnId -> b
+    void run() -> run
+com.ly.duan.service.InitDataService$5 -> com.ly.duan.service.e:
+    com.ly.duan.service.InitDataService this$0 -> a
+    void run() -> run
+com.ly.duan.service.InitDataService$6 -> com.ly.duan.service.f:
     com.ly.duan.service.InitDataService this$0 -> a
     void onStart() -> b
     void onSuccess(com.lidroid.xutils.http.ResponseInfo) -> a
-    void parseContentResult(java.lang.String) -> b
     void onFailure(com.lidroid.xutils.exception.HttpException,java.lang.String) -> a
-com.ly.duan.service.InitDataService$MyHandler -> com.ly.duan.service.f:
+com.ly.duan.service.InitDataService$ClmsRequestCallBack -> com.ly.duan.service.g:
+    com.ly.duan.service.InitDataService this$0 -> a
+    void onStart() -> b
+    void onSuccess(com.lidroid.xutils.http.ResponseInfo) -> a
+    void onFailure(com.lidroid.xutils.exception.HttpException,java.lang.String) -> a
+    void parseClmsResult(java.lang.String) -> b
+com.ly.duan.service.InitDataService$ContentRequestCallBack -> com.ly.duan.service.h:
+    int columnId -> b
+    com.ly.duan.service.InitDataService this$0 -> a
+    void onStart() -> b
+    void onFailure(com.lidroid.xutils.exception.HttpException,java.lang.String) -> a
+    void onSuccess(com.lidroid.xutils.http.ResponseInfo) -> a
+com.ly.duan.service.InitDataService$MyHandler -> com.ly.duan.service.i:
     com.ly.duan.service.InitDataService this$0 -> a
     void handleMessage(android.os.Message) -> handleMessage
 com.ly.duan.service.PkgSetupReceiver -> com.ly.duan.service.PkgSetupReceiver:
     void onReceive(android.content.Context,android.content.Intent) -> onReceive
+com.ly.duan.service.PushService -> com.ly.duan.service.PushService:
+    long appid -> a
+    int ver -> b
+    com.ly.duan.bean.PushBean pushBean -> c
+    com.lidroid.xutils.DbUtils db -> d
+    com.ly.duan.service.PushService$MyHandler mHandler -> e
+    android.os.HandlerThread handlerThread -> f
+    android.app.NotificationManager nm -> g
+    android.support.v4.app.NotificationCompat$Builder builder -> h
+    boolean isVersionBig -> i
+    boolean requestPush -> j
+    java.lang.Runnable pushRunnable -> k
+    android.os.IBinder onBind(android.content.Intent) -> onBind
+    void onCreate() -> onCreate
+    void initData() -> a
+    int onStartCommand(android.content.Intent,int,int) -> onStartCommand
+    void getPushesFromHttp() -> b
+    void sendPushRequest() -> c
+    void postNotification(com.ly.duan.bean.PushBean) -> a
+    com.ly.duan.bean.PushBean getPushBean() -> d
+    void createNotiBuilder(android.widget.RemoteViews,com.ly.duan.bean.PushBean) -> a
+    void createNotification(android.widget.RemoteViews,com.ly.duan.bean.PushBean) -> b
+    void displayNotiIV(android.widget.RemoteViews,java.lang.String) -> a
+    void access$0(com.ly.duan.service.PushService) -> a
+    com.ly.duan.service.PushService$MyHandler access$1(com.ly.duan.service.PushService) -> b
+    java.lang.Runnable access$2(com.ly.duan.service.PushService) -> c
+    boolean access$3(com.ly.duan.service.PushService) -> d
+    void access$4(com.ly.duan.service.PushService,boolean) -> a
+    void access$5(com.ly.duan.service.PushService) -> e
+    com.lidroid.xutils.DbUtils access$6(com.ly.duan.service.PushService) -> f
+    long access$7(com.ly.duan.service.PushService) -> g
+    int access$8(com.ly.duan.service.PushService) -> h
+    void access$9(com.ly.duan.service.PushService,com.ly.duan.bean.PushBean) -> a
+    com.ly.duan.bean.PushBean access$10(com.ly.duan.service.PushService) -> i
+    void access$11(com.ly.duan.service.PushService,int) -> a
+com.ly.duan.service.PushService$1 -> com.ly.duan.service.j:
+    com.ly.duan.service.PushService this$0 -> a
+    void run() -> run
+com.ly.duan.service.PushService$2 -> com.ly.duan.service.k:
+    com.ly.duan.service.PushService this$0 -> a
+    android.widget.RemoteViews val$remoteViews -> b
+    void onImageRequestStarted(com.common.as.image.ImageRequest) -> a
+    void onImageRequestFailed(com.common.as.image.ImageRequest,java.lang.Throwable) -> a
+    void onImageRequestEnded(com.common.as.image.ImageRequest,android.graphics.Bitmap) -> a
+    void onImageRequestCancelled(com.common.as.image.ImageRequest) -> b
+com.ly.duan.service.PushService$MyHandler -> com.ly.duan.service.l:
+    com.ly.duan.service.PushService this$0 -> a
+    void handleMessage(android.os.Message) -> handleMessage
+com.ly.duan.service.PushService$PushRequestCallBack -> com.ly.duan.service.m:
+    com.ly.duan.service.PushService this$0 -> a
+    void onFailure(com.lidroid.xutils.exception.HttpException,java.lang.String) -> a
+    void onSuccess(com.lidroid.xutils.http.ResponseInfo) -> a
+    void parsePushResult(java.lang.String) -> b
+    void clearDataInDb() -> c
 com.ly.duan.ui.BaseActivity -> com.ly.duan.ui.BaseActivity:
     com.lidroid.xutils.DbUtils dbUtils -> a
     com.lidroid.xutils.BitmapUtils bitmapUtils -> b
-    boolean checkNetWork() -> a
+    com.lidroid.xutils.BitmapUtils getBitmapUtils() -> a
+    boolean checkNetWork() -> b
     void showToast(java.lang.String) -> a
     void showToast(int) -> a
+com.ly.duan.ui.CommentDetailActivity -> com.ly.duan.ui.CommentDetailActivity:
+    android.widget.ImageView fresh -> n
+    android.widget.RelativeLayout bottom_rl -> o
+    android.support.v4.view.ViewPager viewPager -> p
+    com.ly.duan.ui.CommentDetailActivity$CommentPagerAdapter adapter -> q
+    java.util.List duansList -> r
+    java.util.List bannerList -> s
+    java.util.List articleList -> t
+    boolean insertAds -> u
+    boolean isAds -> v
+    int pos -> w
+    int articlePos -> x
+    boolean hasClick -> y
+    boolean freshEnabled -> z
+    int contentType -> A
+    void onCreate(android.os.Bundle) -> onCreate
+    void initOperation() -> i
+    void initUI() -> j
+    void goToSendComment() -> k
+    void initData() -> l
+    void onActivityResult(int,int,android.content.Intent) -> onActivityResult
+    void refreshLists() -> m
+    void setBottomVisibility() -> g
+    void freshFinish() -> h
+    int access$0(com.ly.duan.ui.CommentDetailActivity) -> a
+    boolean access$1(com.ly.duan.ui.CommentDetailActivity) -> b
+    java.util.List access$2(com.ly.duan.ui.CommentDetailActivity) -> c
+    boolean access$3(com.ly.duan.ui.CommentDetailActivity) -> d
+    java.util.List access$4(com.ly.duan.ui.CommentDetailActivity) -> e
+    java.util.List access$5(com.ly.duan.ui.CommentDetailActivity) -> f
+    boolean access$6(com.ly.duan.ui.CommentDetailActivity) -> g
+    void access$7(com.ly.duan.ui.CommentDetailActivity,boolean) -> a
+    android.widget.ImageView access$8(com.ly.duan.ui.CommentDetailActivity) -> h
+    void access$9(com.ly.duan.ui.CommentDetailActivity) -> i
+    boolean access$10(com.ly.duan.ui.CommentDetailActivity) -> j
+    void access$11(com.ly.duan.ui.CommentDetailActivity,boolean) -> b
+    android.support.v4.view.ViewPager access$12(com.ly.duan.ui.CommentDetailActivity) -> k
+    void access$13(com.ly.duan.ui.CommentDetailActivity) -> l
+com.ly.duan.ui.CommentDetailActivity$1 -> com.ly.duan.ui.a:
+    com.ly.duan.ui.CommentDetailActivity this$0 -> a
+    void onClick(android.view.View) -> onClick
+com.ly.duan.ui.CommentDetailActivity$2 -> com.ly.duan.ui.b:
+    com.ly.duan.ui.CommentDetailActivity this$0 -> a
+    void onClick(android.view.View) -> onClick
+com.ly.duan.ui.CommentDetailActivity$3 -> com.ly.duan.ui.c:
+    com.ly.duan.ui.CommentDetailActivity this$0 -> a
+    void onClick(android.view.View) -> onClick
+com.ly.duan.ui.CommentDetailActivity$CommentPagerAdapter -> com.ly.duan.ui.d:
+    java.util.Map fragments -> a
+    com.ly.duan.ui.CommentDetailActivity this$0 -> b
+    android.support.v4.app.Fragment getItem(int) -> a
+    int getCount() -> b
+    int getItemPosition(java.lang.Object) -> a
+    android.support.v4.app.Fragment getFragment(int) -> d
 com.ly.duan.ui.MainActivity -> com.ly.duan.ui.MainActivity:
-    android.widget.TabHost mTabHost -> n
-    android.support.v4.app.FragmentManager fm -> o
-    java.lang.String tabName -> p
-    java.lang.String savedTabName -> q
-    int[] iconArray -> r
-    java.lang.String[] tabArray -> s
-    com.ly.duan.ui.fragment.Fragment1 fragment1 -> t
-    com.ly.duan.ui.fragment.Fragment1 fragment2 -> u
-    com.ly.duan.ui.fragment.Fragment3 fragment3 -> v
-    com.ly.duan.ui.fragment.Fragment4 fragment4 -> w
-    android.app.ProgressDialog freshDialog -> x
-    com.ly.duan.ui.MainActivity$MainHandler mHandler -> y
-    android.widget.TabHost$OnTabChangeListener listener -> z
-    long mExitTime -> A
-    android.content.BroadcastReceiver receiver -> B
-    boolean hasNotifyClm1 -> C
-    boolean hasNotifyClm2 -> D
-    boolean hasNotifyBanner1 -> E
-    boolean hasNotifyBanner2 -> F
+    com.ly.duan.view.TabMenu tabMenu -> n
+    android.widget.TabHost mTabHost -> o
+    java.util.List clms -> p
+    com.lidroid.xutils.DbUtils db -> q
+    long appid -> r
+    android.support.v4.app.FragmentManager fm -> s
+    java.lang.String tabName -> t
+    java.lang.String savedTabName -> u
+    com.ly.duan.help.SavedStatusHelp savedStatusHelp -> v
+    int[] iconArray -> w
+    java.lang.String[] tabArray -> x
+    com.ly.duan.ui.fragment.Fragment1 fragment1 -> y
+    com.ly.duan.ui.fragment.Fragment1 fragment2 -> z
+    com.ly.duan.ui.fragment.Fragment3 fragment3 -> A
+    com.ly.duan.ui.fragment.Fragment4 fragment4 -> B
+    android.app.ProgressDialog freshDialog -> C
+    com.ly.duan.ui.MainActivity$MainHandler mHandler -> D
+    android.widget.TabHost$OnTabChangeListener listener -> E
+    long mExitTime -> F
+    android.content.BroadcastReceiver receiver -> G
+    boolean hasNotifyClm1 -> H
+    boolean hasNotifyClm2 -> I
+    boolean hasNotifyClm3 -> J
+    boolean hasNotifyClm4 -> K
+    boolean hasNotifyBanner1 -> L
+    boolean hasNotifyBanner2 -> M
+    java.lang.Runnable clmsRunnable -> N
     void onCreate(android.os.Bundle) -> onCreate
     void onDestroy() -> onDestroy
-    void initOperation() -> i
+    void initTabMenu() -> j
+    void initOperation() -> k
     void openDialog() -> g
     void closeDialog() -> h
     void hideFragment(android.support.v4.app.FragmentTransaction) -> a
-    void getFragment() -> j
+    void getFragment() -> l
     void onStop() -> onStop
-    void setupTabView() -> k
+    void bindClms() -> i
+    void setupTabView() -> m
     android.view.View getTabItemView(int) -> a
     boolean onKeyDown(int,android.view.KeyEvent) -> onKeyDown
-    void saveTabInSP() -> l
+    void saveTabInSP() -> n
     void notifyFragment(int) -> b
-    void handleExitApp() -> m
+    void handleExitApp() -> o
     boolean isSame(java.lang.String,java.lang.String) -> a
     android.support.v4.app.FragmentManager access$0(com.ly.duan.ui.MainActivity) -> a
     void access$1(com.ly.duan.ui.MainActivity,android.support.v4.app.FragmentTransaction) -> a
@@ -7683,102 +8038,334 @@ com.ly.duan.ui.MainActivity -> com.ly.duan.ui.MainActivity:
     java.lang.String access$5(com.ly.duan.ui.MainActivity) -> d
     java.lang.String access$6(com.ly.duan.ui.MainActivity) -> e
     boolean access$7(com.ly.duan.ui.MainActivity,java.lang.String,java.lang.String) -> a
-    void access$8(com.ly.duan.ui.MainActivity,com.ly.duan.ui.fragment.Fragment1) -> a
-    com.ly.duan.ui.fragment.Fragment1 access$9(com.ly.duan.ui.MainActivity) -> f
-    void access$10(com.ly.duan.ui.MainActivity,com.ly.duan.ui.fragment.Fragment1) -> b
-    com.ly.duan.ui.fragment.Fragment3 access$11(com.ly.duan.ui.MainActivity) -> g
-    void access$12(com.ly.duan.ui.MainActivity,com.ly.duan.ui.fragment.Fragment3) -> a
-    com.ly.duan.ui.fragment.Fragment4 access$13(com.ly.duan.ui.MainActivity) -> h
-    void access$14(com.ly.duan.ui.MainActivity,com.ly.duan.ui.fragment.Fragment4) -> a
-    com.ly.duan.ui.MainActivity$MainHandler access$15(com.ly.duan.ui.MainActivity) -> i
-    void access$16(com.ly.duan.ui.MainActivity) -> j
-    void access$17(com.ly.duan.ui.MainActivity,int) -> a
-com.ly.duan.ui.MainActivity$1 -> com.ly.duan.ui.a:
+    java.util.List access$8(com.ly.duan.ui.MainActivity) -> f
+    void access$9(com.ly.duan.ui.MainActivity,com.ly.duan.ui.fragment.Fragment1) -> a
+    com.ly.duan.ui.fragment.Fragment1 access$10(com.ly.duan.ui.MainActivity) -> g
+    void access$11(com.ly.duan.ui.MainActivity,com.ly.duan.ui.fragment.Fragment1) -> b
+    com.ly.duan.ui.fragment.Fragment3 access$12(com.ly.duan.ui.MainActivity) -> h
+    void access$13(com.ly.duan.ui.MainActivity,com.ly.duan.ui.fragment.Fragment3) -> a
+    com.ly.duan.ui.fragment.Fragment4 access$14(com.ly.duan.ui.MainActivity) -> i
+    void access$15(com.ly.duan.ui.MainActivity,com.ly.duan.ui.fragment.Fragment4) -> a
+    com.ly.duan.ui.MainActivity$MainHandler access$16(com.ly.duan.ui.MainActivity) -> j
+    java.lang.Runnable access$17(com.ly.duan.ui.MainActivity) -> k
+    com.lidroid.xutils.DbUtils access$18(com.ly.duan.ui.MainActivity) -> l
+    long access$19(com.ly.duan.ui.MainActivity) -> m
+    void access$20(com.ly.duan.ui.MainActivity) -> n
+    void access$21(com.ly.duan.ui.MainActivity,int) -> a
+    com.ly.duan.view.TabMenu access$22(com.ly.duan.ui.MainActivity) -> o
+com.ly.duan.ui.MainActivity$1 -> com.ly.duan.ui.e:
     com.ly.duan.ui.MainActivity this$0 -> a
     void onTabChanged(java.lang.String) -> onTabChanged
-com.ly.duan.ui.MainActivity$2 -> com.ly.duan.ui.b:
+com.ly.duan.ui.MainActivity$2 -> com.ly.duan.ui.f:
     com.ly.duan.ui.MainActivity this$0 -> a
     void onReceive(android.content.Context,android.content.Intent) -> onReceive
-com.ly.duan.ui.MainActivity$3 -> com.ly.duan.ui.c:
+com.ly.duan.ui.MainActivity$3 -> com.ly.duan.ui.g:
+    com.ly.duan.ui.MainActivity this$0 -> a
+    void run() -> run
+    void getClmsFromDb() -> a
+com.ly.duan.ui.MainActivity$4 -> com.ly.duan.ui.h:
+    com.ly.duan.ui.MainActivity this$0 -> a
+    void onClick(android.view.View) -> onClick
+com.ly.duan.ui.MainActivity$5 -> com.ly.duan.ui.i:
     com.ly.duan.ui.MainActivity this$0 -> a
     void onClick(android.content.DialogInterface,int) -> onClick
-com.ly.duan.ui.MainActivity$MainHandler -> com.ly.duan.ui.d:
+com.ly.duan.ui.MainActivity$MainHandler -> com.ly.duan.ui.j:
     com.ly.duan.ui.MainActivity this$0 -> a
     void handleMessage(android.os.Message) -> handleMessage
 com.ly.duan.ui.MyApplication -> com.ly.duan.ui.MyApplication:
     void onCreate() -> onCreate
+com.ly.duan.ui.SendCommentActivity -> com.ly.duan.ui.SendCommentActivity:
+    android.widget.Button send -> a
+    android.widget.EditText comment_et -> b
+    android.widget.TextView comment_extra_nums -> c
+    long appid -> d
+    int contentType -> e
+    long contentId -> f
+    boolean startSend -> g
+    android.os.Handler mHandler -> h
+    android.text.TextWatcher textWatcher -> i
+    void onCreate(android.os.Bundle) -> onCreate
+    void initOperation() -> c
+    void sendCommentRequest() -> d
+    void initData() -> e
+    void backClicked(android.view.View) -> backClicked
+    boolean onKeyDown(int,android.view.KeyEvent) -> onKeyDown
+    void backToFrontView(boolean) -> a
+    void access$0(com.ly.duan.ui.SendCommentActivity,boolean) -> a
+    void access$1(com.ly.duan.ui.SendCommentActivity,boolean) -> b
+    android.widget.EditText access$2(com.ly.duan.ui.SendCommentActivity) -> a
+    android.widget.TextView access$3(com.ly.duan.ui.SendCommentActivity) -> b
+    android.os.Handler access$4(com.ly.duan.ui.SendCommentActivity) -> c
+    boolean access$5(com.ly.duan.ui.SendCommentActivity) -> d
+    void access$6(com.ly.duan.ui.SendCommentActivity) -> e
+com.ly.duan.ui.SendCommentActivity$1 -> com.ly.duan.ui.k:
+    com.ly.duan.ui.SendCommentActivity this$0 -> a
+    void handleMessage(android.os.Message) -> handleMessage
+com.ly.duan.ui.SendCommentActivity$2 -> com.ly.duan.ui.l:
+    java.lang.CharSequence temp -> b
+    int editStart -> c
+    int editEnd -> d
+    com.ly.duan.ui.SendCommentActivity this$0 -> a
+    void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
+    void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
+    void afterTextChanged(android.text.Editable) -> afterTextChanged
+com.ly.duan.ui.SendCommentActivity$3 -> com.ly.duan.ui.m:
+    com.ly.duan.ui.SendCommentActivity this$0 -> a
+    void onClick(android.view.View) -> onClick
+com.ly.duan.ui.SendCommentActivity$CommentRequestCallback -> com.ly.duan.ui.n:
+    com.ly.duan.ui.SendCommentActivity this$0 -> a
+    void onFailure(com.lidroid.xutils.exception.HttpException,java.lang.String) -> a
+    void onSuccess(com.lidroid.xutils.http.ResponseInfo) -> a
+    void parseResult(java.lang.String) -> b
+com.ly.duan.ui.SettingActivity -> com.ly.duan.ui.SettingActivity:
+    android.widget.RelativeLayout cache_rl -> a
+    android.widget.TextView cache_tv -> b
+    void onCreate(android.os.Bundle) -> onCreate
+    void backClicked(android.view.View) -> backClicked
+    void displayCacheSize() -> c
+    void setListener() -> d
+    void cleanCache() -> e
+    void deleteAllGif(android.content.Context) -> a
+    void access$0(com.ly.duan.ui.SettingActivity) -> a
+com.ly.duan.ui.SettingActivity$1 -> com.ly.duan.ui.o:
+    com.ly.duan.ui.SettingActivity this$0 -> a
+    void onClick(android.view.View) -> onClick
+    com.ly.duan.ui.SettingActivity access$0(com.ly.duan.ui.SettingActivity$1) -> a
+com.ly.duan.ui.SettingActivity$1$1 -> com.ly.duan.ui.p:
+    com.ly.duan.ui.SettingActivity$1 this$1 -> a
+    void onClick(android.content.DialogInterface,int) -> onClick
+com.ly.duan.ui.SettingActivity$1$2 -> com.ly.duan.ui.q:
+    com.ly.duan.ui.SettingActivity$1 this$1 -> a
+    void onClick(android.content.DialogInterface,int) -> onClick
 com.ly.duan.ui.ShowPageActivity -> com.ly.duan.ui.ShowPageActivity:
     android.webkit.WebView mWebView -> a
     android.widget.TextView title -> c
-    android.widget.LinearLayout video_ll -> d
-    android.widget.RelativeLayout title_rl -> e
-    android.view.View mView -> f
-    android.webkit.WebChromeClient$CustomViewCallback mCallback -> g
-    android.os.Handler mHandler -> h
+    android.widget.LinearLayout ll -> d
+    android.widget.RelativeLayout rl -> e
+    android.widget.LinearLayout ll_head -> f
+    android.widget.ImageView iv -> g
+    android.widget.TextView tv -> h
+    android.view.View mView -> i
+    android.webkit.WebChromeClient$CustomViewCallback mCallback -> j
+    com.ly.duan.ui.ShowPageActivity$MyWebChromeClient client -> k
     java.lang.String url -> b
     void onCreate(android.os.Bundle) -> onCreate
     void backClicked(android.view.View) -> backClicked
-    void initData() -> d
+    void initData() -> e
     void getAlertDialog(android.content.Context) -> a
-    void setWebViewData() -> e
-    void quitFullScreen() -> b
-    void setFullScreen() -> c
+    void setWebViewData() -> f
+    void quitFullScreen() -> c
+    void setFullScreen() -> d
     void onSaveInstanceState(android.os.Bundle) -> onSaveInstanceState
-    void hideView() -> f
-    boolean onKeyDown(int,android.view.KeyEvent) -> onKeyDown
+    void onBackPressed() -> onBackPressed
     void onDestroy() -> onDestroy
     void onResume() -> onResume
     void onPause() -> onPause
     android.view.View access$0(com.ly.duan.ui.ShowPageActivity) -> a
     android.widget.LinearLayout access$1(com.ly.duan.ui.ShowPageActivity) -> b
     android.widget.RelativeLayout access$2(com.ly.duan.ui.ShowPageActivity) -> c
-    void access$3(com.ly.duan.ui.ShowPageActivity,android.view.View) -> a
-    void access$4(com.ly.duan.ui.ShowPageActivity,android.webkit.WebChromeClient$CustomViewCallback) -> a
-    void access$5(com.ly.duan.ui.ShowPageActivity) -> d
-com.ly.duan.ui.ShowPageActivity$1 -> com.ly.duan.ui.e:
-    com.ly.duan.ui.ShowPageActivity this$0 -> a
-    void handleMessage(android.os.Message) -> handleMessage
-com.ly.duan.ui.ShowPageActivity$2 -> com.ly.duan.ui.f:
+    android.widget.LinearLayout access$3(com.ly.duan.ui.ShowPageActivity) -> d
+    void access$4(com.ly.duan.ui.ShowPageActivity,android.view.View) -> a
+    void access$5(com.ly.duan.ui.ShowPageActivity,android.webkit.WebChromeClient$CustomViewCallback) -> a
+    android.webkit.WebChromeClient$CustomViewCallback access$6(com.ly.duan.ui.ShowPageActivity) -> e
+com.ly.duan.ui.ShowPageActivity$1 -> com.ly.duan.ui.r:
     com.ly.duan.ui.ShowPageActivity this$0 -> a
     android.app.AlertDialog$Builder val$bd -> b
     void onClick(android.content.DialogInterface,int) -> onClick
-com.ly.duan.ui.ShowPageActivity$3 -> com.ly.duan.ui.g:
+com.ly.duan.ui.ShowPageActivity$MyWebChromeClient -> com.ly.duan.ui.s:
     com.ly.duan.ui.ShowPageActivity this$0 -> a
-    boolean shouldOverrideUrlLoading(android.webkit.WebView,java.lang.String) -> shouldOverrideUrlLoading
-    void onPageFinished(android.webkit.WebView,java.lang.String) -> onPageFinished
-    boolean shouldOverrideKeyEvent(android.webkit.WebView,android.view.KeyEvent) -> shouldOverrideKeyEvent
-    void onReceivedError(android.webkit.WebView,int,java.lang.String,java.lang.String) -> onReceivedError
-    void onPageStarted(android.webkit.WebView,java.lang.String,android.graphics.Bitmap) -> onPageStarted
-com.ly.duan.ui.ShowPageActivity$4 -> com.ly.duan.ui.h:
-    com.ly.duan.ui.ShowPageActivity this$0 -> a
-    void onProgressChanged(android.webkit.WebView,int) -> onProgressChanged
     void onShowCustomView(android.view.View,android.webkit.WebChromeClient$CustomViewCallback) -> onShowCustomView
     void onHideCustomView() -> onHideCustomView
+    void onProgressChanged(android.webkit.WebView,int) -> onProgressChanged
     void onReachedMaxAppCacheSize(long,long,android.webkit.WebStorage$QuotaUpdater) -> onReachedMaxAppCacheSize
-com.ly.duan.ui.WelcomeActivity -> com.ly.duan.ui.WelcomeActivity:
-    android.content.BroadcastReceiver receiver -> a
+com.ly.duan.ui.VVActivity -> com.ly.duan.ui.VVActivity:
+    android.widget.ProgressBar pb -> a
+    android.widget.VideoView mVideoView -> b
+    android.net.Uri mUri -> c
+    int mPositionWhenPaused -> d
+    android.view.SurfaceHolder surfaceHolder -> e
     void onCreate(android.os.Bundle) -> onCreate
+    void onStart() -> onStart
+    void onResume() -> onResume
+    void onPause() -> onPause
+    void onStop() -> onStop
     void onDestroy() -> onDestroy
-    void initOperation() -> b
-    void checkInternet() -> c
-com.ly.duan.ui.WelcomeActivity$1 -> com.ly.duan.ui.i:
+    void initData() -> c
+    void initUI() -> d
+    void onPrepared(android.media.MediaPlayer) -> onPrepared
+    boolean onError(android.media.MediaPlayer,int,int) -> onError
+    void onCompletion(android.media.MediaPlayer) -> onCompletion
+    void setVideoLayout(android.media.MediaPlayer) -> a
+com.ly.duan.ui.WelcomeActivity -> com.ly.duan.ui.WelcomeActivity:
+    android.os.Handler mHandler -> a
+    android.content.BroadcastReceiver receiver -> b
+    void onCreate(android.os.Bundle) -> onCreate
+    void goToMain() -> c
+    void onDestroy() -> onDestroy
+    void initOperation() -> d
+    void checkInternet() -> e
+    void handleExitApp() -> f
+    void setAlarm2() -> g
+    android.os.Handler access$0(com.ly.duan.ui.WelcomeActivity) -> a
+    void access$1(com.ly.duan.ui.WelcomeActivity) -> b
+com.ly.duan.ui.WelcomeActivity$1 -> com.ly.duan.ui.t:
+    com.ly.duan.ui.WelcomeActivity this$0 -> a
+    void handleMessage(android.os.Message) -> handleMessage
+com.ly.duan.ui.WelcomeActivity$2 -> com.ly.duan.ui.u:
     com.ly.duan.ui.WelcomeActivity this$0 -> a
     void onReceive(android.content.Context,android.content.Intent) -> onReceive
-com.ly.duan.ui.WelcomeActivity$2 -> com.ly.duan.ui.j:
+com.ly.duan.ui.WelcomeActivity$3 -> com.ly.duan.ui.v:
     com.ly.duan.ui.WelcomeActivity this$0 -> a
-    void run() -> run
+    void onClick(android.content.DialogInterface,int) -> onClick
 com.ly.duan.ui.fragment.BaseFragment -> com.ly.duan.ui.a.a:
     com.lidroid.xutils.DbUtils dbUtils -> a
     com.lidroid.xutils.BitmapUtils bitmapUtils -> b
     android.view.animation.Animation rotateAnimation -> c
     com.lidroid.xutils.DbUtils getDb() -> a
-    boolean checkSdcard() -> L
+    com.lidroid.xutils.BitmapUtils getBitmapUtils() -> L
+    boolean checkSdcard() -> M
     void showToast(java.lang.String) -> a
     void showToast(int) -> a
-com.ly.duan.ui.fragment.DummyTabContent -> com.ly.duan.ui.a.b:
+com.ly.duan.ui.fragment.CommentFragment -> com.ly.duan.ui.a.b:
+    android.widget.LinearLayout banner_ll -> a
+    android.widget.LinearLayout banner_content_ll -> b
+    android.widget.TextView banner_tv -> c
+    android.widget.RelativeLayout banner_rl -> d
+    android.widget.ImageView banner_iv -> e
+    android.widget.Button down_btn -> f
+    android.widget.RelativeLayout no_banner_rl -> g
+    android.widget.LinearLayout duan_ll -> h
+    android.widget.ScrollView scrollView -> i
+    android.widget.ImageView duan_avatar -> aj
+    android.widget.TextView duan_nick -> ak
+    android.widget.TextView duan_content -> al
+    android.widget.RelativeLayout duan_rl -> am
+    com.ly.duan.view.ProgressWheel duan_pw -> an
+    android.widget.ImageView duan_picture -> ao
+    pl.droidsonroids.gif.GifImageView duan_gif -> ap
+    android.widget.LinearLayout frag4_ll -> aq
+    android.widget.TextView frag4_content -> ar
+    android.widget.RelativeLayout frag4_rl -> as
+    android.widget.ImageView frag4_picture -> at
+    com.charon.pulltorefreshlistview.LoadMoreListView listView -> au
+    com.ly.duan.bean.ArticleBean articleBean -> av
+    com.ly.duan.bean.DuanBean duanBean -> aw
+    com.ly.duan.bean.BannerBean bannerBean -> ax
+    com.ly.duan.adapter.CommentAdapter adapter -> ay
+    long appid -> az
+    int page -> aA
+    int contentType -> aB
+    long contentId -> aC
+    int currentStatus -> aD
+    com.ly.duan.utils.GifUtils gifUtils -> aE
+    boolean insertAds -> aF
+    boolean isAds -> aG
+    com.ly.duan.ui.fragment.CommentFragment$FragHandler myHandler -> aH
+    android.os.HandlerThread myThread -> aI
+    android.os.Handler mHandler -> aJ
+    boolean getContentSuccess -> aK
+    java.lang.Runnable commentRunnable -> aL
+    com.ly.duan.ui.fragment.CommentFragment$IBottomVisibility visibility -> aM
+    com.ly.duan.ui.fragment.CommentFragment newInstance(int,com.ly.duan.bean.ArticleBean) -> a
+    com.ly.duan.ui.fragment.CommentFragment newInstance(int,com.ly.duan.bean.DuanBean,boolean) -> a
+    com.ly.duan.ui.fragment.CommentFragment newInstance(int,com.ly.duan.bean.DuanBean,boolean,boolean) -> a
+    com.ly.duan.ui.fragment.CommentFragment newInstance(int,com.ly.duan.bean.BannerBean,boolean,boolean) -> a
+    void onAttach(android.app.Activity) -> a
+    void onCreate(android.os.Bundle) -> a
+    void initData() -> P
+    void initHandler() -> Q
+    android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> a
+    void setUserVisibleHint(boolean) -> d
+    void initAdapter() -> R
+    void initUI() -> S
+    void displayBannerView() -> T
+    void startDownloadOrOpen(com.ly.duan.bean.BannerBean) -> a
+    void sendIntent(com.ly.duan.bean.BannerBean) -> b
+    void displayDuansView() -> U
+    void displayGif(java.lang.String,pl.droidsonroids.gif.GifImageView) -> a
+    void startDownFile(java.lang.String,java.lang.String,pl.droidsonroids.gif.GifImageView) -> a
+    void displayArticleView() -> V
+    void playVideo() -> W
+    void setGifViewHeight(pl.droidsonroids.gif.GifImageView,int) -> a
+    void setIVHeight(android.widget.ImageView,int) -> a
+    void getCommentFromHttp() -> X
+    void initParamsAndSendRequest(boolean) -> a
+    void changeFinishState() -> Y
+    void setMoveUp() -> N
+    void refreshList() -> O
+    com.ly.duan.adapter.CommentAdapter access$0(com.ly.duan.ui.fragment.CommentFragment) -> a
+    void access$1(com.ly.duan.ui.fragment.CommentFragment) -> b
+    com.charon.pulltorefreshlistview.LoadMoreListView access$2(com.ly.duan.ui.fragment.CommentFragment) -> c
+    void access$3(com.ly.duan.ui.fragment.CommentFragment) -> d
+    com.ly.duan.ui.fragment.CommentFragment$FragHandler access$4(com.ly.duan.ui.fragment.CommentFragment) -> e
+    java.lang.Runnable access$5(com.ly.duan.ui.fragment.CommentFragment) -> f
+    int access$6(com.ly.duan.ui.fragment.CommentFragment) -> g
+    com.ly.duan.ui.fragment.CommentFragment$IBottomVisibility access$7(com.ly.duan.ui.fragment.CommentFragment) -> h
+    android.os.Handler access$8(com.ly.duan.ui.fragment.CommentFragment) -> i
+    int access$9(com.ly.duan.ui.fragment.CommentFragment) -> j
+    void access$10(com.ly.duan.ui.fragment.CommentFragment,int) -> a
+    int access$11(com.ly.duan.ui.fragment.CommentFragment) -> k
+    long access$12(com.ly.duan.ui.fragment.CommentFragment) -> l
+    long access$13(com.ly.duan.ui.fragment.CommentFragment) -> m
+    void access$14(com.ly.duan.ui.fragment.CommentFragment) -> n
+    void access$15(com.ly.duan.ui.fragment.CommentFragment,int) -> b
+    com.ly.duan.bean.BannerBean access$16(com.ly.duan.ui.fragment.CommentFragment) -> o
+    void access$17(com.ly.duan.ui.fragment.CommentFragment,com.ly.duan.bean.BannerBean) -> a
+    com.ly.duan.view.ProgressWheel access$18(com.ly.duan.ui.fragment.CommentFragment) -> p
+    void access$19(com.ly.duan.ui.fragment.CommentFragment) -> q
+com.ly.duan.ui.fragment.CommentFragment$1 -> com.ly.duan.ui.a.c:
+    com.ly.duan.ui.fragment.CommentFragment this$0 -> a
+    void handleMessage(android.os.Message) -> handleMessage
+com.ly.duan.ui.fragment.CommentFragment$2 -> com.ly.duan.ui.a.d:
+    com.ly.duan.ui.fragment.CommentFragment this$0 -> a
+    void run() -> run
+com.ly.duan.ui.fragment.CommentFragment$3 -> com.ly.duan.ui.a.e:
+    com.ly.duan.ui.fragment.CommentFragment this$0 -> a
+    void onLoadMore() -> a
+com.ly.duan.ui.fragment.CommentFragment$4 -> com.ly.duan.ui.a.f:
+    com.ly.duan.ui.fragment.CommentFragment this$0 -> a
+    void onClick(android.view.View) -> onClick
+com.ly.duan.ui.fragment.CommentFragment$5 -> com.ly.duan.ui.a.g:
+    com.ly.duan.ui.fragment.CommentFragment this$0 -> a
+    com.ly.duan.bean.BannerBean val$bean -> b
+    void onDlSuccess() -> a
+    void onDlFailed() -> b
+    void onDlError() -> c
+com.ly.duan.ui.fragment.CommentFragment$6 -> com.ly.duan.ui.a.h:
+    com.ly.duan.ui.fragment.CommentFragment this$0 -> a
+    pl.droidsonroids.gif.GifImageView val$gifView -> b
+    void onStart() -> b
+    void onLoading(long,long,boolean) -> a
+    void onSuccess(com.lidroid.xutils.http.ResponseInfo) -> a
+    void onFailure(com.lidroid.xutils.exception.HttpException,java.lang.String) -> a
+com.ly.duan.ui.fragment.CommentFragment$7 -> com.ly.duan.ui.a.i:
+    com.ly.duan.ui.fragment.CommentFragment this$0 -> a
+    void onClick(android.view.View) -> onClick
+com.ly.duan.ui.fragment.CommentFragment$CommentRequestCallback -> com.ly.duan.ui.a.j:
+    boolean checkUpdate -> b
+    com.ly.duan.ui.fragment.CommentFragment this$0 -> a
+    void onFailure(com.lidroid.xutils.exception.HttpException,java.lang.String) -> a
+    void onSuccess(com.lidroid.xutils.http.ResponseInfo) -> a
+    void parseResult(java.lang.String,boolean) -> a
+com.ly.duan.ui.fragment.CommentFragment$CustomAvatarLoadCallback -> com.ly.duan.ui.a.k:
+    com.ly.duan.ui.fragment.CommentFragment this$0 -> a
+    void onLoadCompleted(android.widget.ImageView,java.lang.String,android.graphics.Bitmap,com.lidroid.xutils.bitmap.BitmapDisplayConfig,com.lidroid.xutils.bitmap.callback.BitmapLoadFrom) -> a
+    void onLoadCompleted(android.view.View,java.lang.String,android.graphics.Bitmap,com.lidroid.xutils.bitmap.BitmapDisplayConfig,com.lidroid.xutils.bitmap.callback.BitmapLoadFrom) -> a
+com.ly.duan.ui.fragment.CommentFragment$CustomBitmapLoadCallBack -> com.ly.duan.ui.a.l:
+    android.content.Context context -> b
+    com.ly.duan.ui.fragment.CommentFragment this$0 -> a
+    void onLoadCompleted(android.widget.ImageView,java.lang.String,android.graphics.Bitmap,com.lidroid.xutils.bitmap.BitmapDisplayConfig,com.lidroid.xutils.bitmap.callback.BitmapLoadFrom) -> a
+    void onLoadCompleted(android.view.View,java.lang.String,android.graphics.Bitmap,com.lidroid.xutils.bitmap.BitmapDisplayConfig,com.lidroid.xutils.bitmap.callback.BitmapLoadFrom) -> a
+com.ly.duan.ui.fragment.CommentFragment$FragHandler -> com.ly.duan.ui.a.m:
+    com.ly.duan.ui.fragment.CommentFragment this$0 -> a
+    void handleMessage(android.os.Message) -> handleMessage
+com.ly.duan.ui.fragment.CommentFragment$IBottomVisibility -> com.ly.duan.ui.a.n:
+    void setBottomVisibility() -> g
+    void freshFinish() -> h
+com.ly.duan.ui.fragment.DummyTabContent -> com.ly.duan.ui.a.o:
     android.content.Context mContext -> a
     android.view.View createTabContent(java.lang.String) -> createTabContent
-com.ly.duan.ui.fragment.Fragment1 -> com.ly.duan.ui.a.c:
+com.ly.duan.ui.fragment.Fragment1 -> com.ly.duan.ui.a.p:
     com.charon.pulltorefreshlistview.PullRefreshAndLoadMoreListView dropDownListView -> a
     android.widget.ImageView fresh -> b
     com.ly.duan.adapter.DropListAdapter adapter -> c
@@ -7797,194 +8384,276 @@ com.ly.duan.ui.fragment.Fragment1 -> com.ly.duan.ui.a.c:
     com.ly.duan.ui.fragment.Fragment1$FragHandler myHandler -> ap
     android.os.HandlerThread myThread -> aq
     android.os.Handler mHandler -> ar
-    com.ly.duan.user_inter.OnDownloadOrOpenListener listener -> as
+    com.ly.duan.adapter.DropListAdapter$OnDownloadOrOpenListener listener -> as
     java.lang.Runnable bannerRunnable -> at
     java.lang.Runnable contentRunnable -> au
-    com.ly.duan.ui.fragment.Fragment1 newInstance(boolean,boolean) -> a
+    com.ly.duan.adapter.DropListAdapter$OnDropItemOperListerner itemListener -> av
+    com.ly.duan.ui.fragment.Fragment1 newInstance(boolean,boolean,com.ly.duan.bean.ColumnBean) -> a
     void onCreate(android.os.Bundle) -> a
     void onDestroy() -> r
-    void initData() -> O
+    void initData() -> P
+    void initHandler() -> Q
     android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> a
-    void baseInit() -> P
-    void setEmptyTv() -> Q
+    void baseInit() -> R
+    void setEmptyTv() -> S
     void freshClicked(android.view.View) -> freshClicked
-    void setListener() -> R
-    void changeDropDownFinishStatus() -> S
-    void setMoveUp() -> M
-    void clearListAndDb() -> T
+    void setListener() -> T
+    void changeDropDownFinishStatus() -> U
+    void setMoveUp() -> N
+    void clearListAndDb() -> V
     void sendIntent(com.ly.duan.bean.BannerBean) -> a
     void acceptNotify(int) -> b
-    void getBannerFromDb() -> N
-    void getContentFromDb() -> U
-    void getListsFromDb() -> V
-    void getVer() -> W
-    void checkVersionUpdate() -> X
+    void getBannerFromDb() -> O
+    void getContentFromDb() -> W
+    void getListsFromDb() -> X
+    void getVer() -> Y
+    void checkVersionUpdate() -> Z
     void initParamsAndSendRequest(boolean) -> a
     void parseResult(java.lang.String,boolean) -> a
-    void changeFinishState() -> Y
+    void changeFinishState() -> aa
+    void setBannerData() -> ab
     com.ly.duan.adapter.DropListAdapter access$0(com.ly.duan.ui.fragment.Fragment1) -> a
     java.util.List access$1(com.ly.duan.ui.fragment.Fragment1) -> b
-    long access$2(com.ly.duan.ui.fragment.Fragment1) -> c
-    void access$3(com.ly.duan.ui.fragment.Fragment1) -> d
-    int access$4(com.ly.duan.ui.fragment.Fragment1) -> e
-    void access$5(com.ly.duan.ui.fragment.Fragment1) -> f
-    com.charon.pulltorefreshlistview.PullRefreshAndLoadMoreListView access$6(com.ly.duan.ui.fragment.Fragment1) -> g
-    com.ly.duan.ui.fragment.Fragment1$FragHandler access$7(com.ly.duan.ui.fragment.Fragment1) -> h
-    java.lang.Runnable access$8(com.ly.duan.ui.fragment.Fragment1) -> i
-    java.lang.Runnable access$9(com.ly.duan.ui.fragment.Fragment1) -> j
-    void access$10(com.ly.duan.ui.fragment.Fragment1,int) -> a
-    void access$11(com.ly.duan.ui.fragment.Fragment1,int) -> b
-    int access$12(com.ly.duan.ui.fragment.Fragment1) -> k
-    void access$13(com.ly.duan.ui.fragment.Fragment1,int) -> c
-    int access$14(com.ly.duan.ui.fragment.Fragment1) -> l
-    void access$15(com.ly.duan.ui.fragment.Fragment1,int) -> d
-com.ly.duan.ui.fragment.Fragment1$1 -> com.ly.duan.ui.a.d:
+    com.charon.pulltorefreshlistview.PullRefreshAndLoadMoreListView access$2(com.ly.duan.ui.fragment.Fragment1) -> c
+    void access$3(com.ly.duan.ui.fragment.Fragment1,com.ly.duan.bean.BannerBean) -> a
+    long access$4(com.ly.duan.ui.fragment.Fragment1) -> d
+    void access$5(com.ly.duan.ui.fragment.Fragment1) -> e
+    boolean access$6(com.ly.duan.ui.fragment.Fragment1) -> f
+    int access$7(com.ly.duan.ui.fragment.Fragment1) -> g
+    void access$8(com.ly.duan.ui.fragment.Fragment1) -> h
+    com.ly.duan.ui.fragment.Fragment1$FragHandler access$9(com.ly.duan.ui.fragment.Fragment1) -> i
+    java.lang.Runnable access$10(com.ly.duan.ui.fragment.Fragment1) -> j
+    java.lang.Runnable access$11(com.ly.duan.ui.fragment.Fragment1) -> k
+    android.os.Handler access$12(com.ly.duan.ui.fragment.Fragment1) -> l
+    void access$13(com.ly.duan.ui.fragment.Fragment1,int) -> a
+    void access$14(com.ly.duan.ui.fragment.Fragment1,int) -> b
+    int access$15(com.ly.duan.ui.fragment.Fragment1) -> m
+    void access$16(com.ly.duan.ui.fragment.Fragment1,int) -> c
+    int access$17(com.ly.duan.ui.fragment.Fragment1) -> n
+    void access$18(com.ly.duan.ui.fragment.Fragment1,int) -> d
+com.ly.duan.ui.fragment.Fragment1$1 -> com.ly.duan.ui.a.q:
     com.ly.duan.ui.fragment.Fragment1 this$0 -> a
     void handleMessage(android.os.Message) -> handleMessage
-com.ly.duan.ui.fragment.Fragment1$2 -> com.ly.duan.ui.a.e:
+com.ly.duan.ui.fragment.Fragment1$2 -> com.ly.duan.ui.a.r:
     com.ly.duan.ui.fragment.Fragment1 this$0 -> a
     void startDownloadOrOpen(com.ly.duan.bean.BannerBean) -> a
     com.ly.duan.ui.fragment.Fragment1 access$0(com.ly.duan.ui.fragment.Fragment1$2) -> a
-com.ly.duan.ui.fragment.Fragment1$2$1 -> com.ly.duan.ui.a.f:
+com.ly.duan.ui.fragment.Fragment1$2$1 -> com.ly.duan.ui.a.s:
     com.ly.duan.ui.fragment.Fragment1$2 this$1 -> a
     com.ly.duan.bean.BannerBean val$bean -> b
     void onDlSuccess() -> a
     void onDlFailed() -> b
     void onDlError() -> c
-com.ly.duan.ui.fragment.Fragment1$3 -> com.ly.duan.ui.a.g:
+com.ly.duan.ui.fragment.Fragment1$3 -> com.ly.duan.ui.a.t:
     com.ly.duan.ui.fragment.Fragment1 this$0 -> a
     void run() -> run
-com.ly.duan.ui.fragment.Fragment1$4 -> com.ly.duan.ui.a.h:
+com.ly.duan.ui.fragment.Fragment1$4 -> com.ly.duan.ui.a.u:
     com.ly.duan.ui.fragment.Fragment1 this$0 -> a
     void run() -> run
-com.ly.duan.ui.fragment.Fragment1$5 -> com.ly.duan.ui.a.i:
+com.ly.duan.ui.fragment.Fragment1$5 -> com.ly.duan.ui.a.v:
+    com.ly.duan.ui.fragment.Fragment1 this$0 -> a
+    void dropItemOper(int,com.ly.duan.bean.DuanBean,com.ly.duan.adapter.DropListAdapter$DropItemHolder) -> a
+    void startComment(int,boolean,int) -> a
+com.ly.duan.ui.fragment.Fragment1$6 -> com.ly.duan.ui.a.w:
     com.ly.duan.ui.fragment.Fragment1 this$0 -> a
     void onRefresh() -> a
-com.ly.duan.ui.fragment.Fragment1$6 -> com.ly.duan.ui.a.j:
+com.ly.duan.ui.fragment.Fragment1$7 -> com.ly.duan.ui.a.x:
     com.ly.duan.ui.fragment.Fragment1 this$0 -> a
     void onLoadMore() -> a
-com.ly.duan.ui.fragment.Fragment1$7 -> com.ly.duan.ui.a.k:
-    com.ly.duan.ui.fragment.Fragment1 this$0 -> a
-    void run() -> run
-com.ly.duan.ui.fragment.Fragment1$ContentRequestCallback -> com.ly.duan.ui.a.l:
+com.ly.duan.ui.fragment.Fragment1$ContentRequestCallback -> com.ly.duan.ui.a.y:
     boolean checkUpdate -> a
     com.ly.duan.ui.fragment.Fragment1 this$0 -> b
     void onStart() -> b
     void onSuccess(com.lidroid.xutils.http.ResponseInfo) -> a
     void onFailure(com.lidroid.xutils.exception.HttpException,java.lang.String) -> a
-com.ly.duan.ui.fragment.Fragment1$FragHandler -> com.ly.duan.ui.a.m:
+com.ly.duan.ui.fragment.Fragment1$DropItemCallBack -> com.ly.duan.ui.a.z:
+    int operType -> b
+    com.ly.duan.bean.DuanBean bean -> c
+    com.ly.duan.adapter.DropListAdapter$DropItemHolder holder -> d
+    com.ly.duan.ui.fragment.Fragment1 this$0 -> a
+    void onSuccess(com.lidroid.xutils.http.ResponseInfo) -> a
+    void parseResult(java.lang.String) -> b
+    void onFailure(com.lidroid.xutils.exception.HttpException,java.lang.String) -> a
+com.ly.duan.ui.fragment.Fragment1$FragHandler -> com.ly.duan.ui.a.aa:
     com.ly.duan.ui.fragment.Fragment1 this$0 -> a
     void handleMessage(android.os.Message) -> handleMessage
-com.ly.duan.ui.fragment.Fragment3 -> com.ly.duan.ui.a.n:
-    android.widget.ListView listView -> a
-    com.ly.duan.view.LayersLayout layersLayout -> b
-    android.view.View item_vf -> c
-    android.widget.RelativeLayout rl -> d
-    com.ly.duan.view.ViewFlow viewFlow -> e
-    com.ly.duan.view.CircleFlowIndicator indicator -> f
-    com.ly.duan.ui.fragment.Fragment3$AdapterList mAdapterList -> g
-    com.common.as.store.AppListManager$OnListChangeListener mOnListChangeListener -> h
-    java.util.ArrayList infos -> i
-    java.util.ArrayList nouse_infos -> aj
-    android.app.ProgressDialog pd -> ak
-    android.widget.ImageView fresh -> al
-    java.util.List bannerList -> am
-    com.ly.duan.adapter.ViewFlowAdapter vfAdapter -> an
-    int item -> ao
-    boolean freshEnabled -> ap
-    android.os.HandlerThread thread -> aq
-    com.ly.duan.ui.fragment.Fragment3$MyHandler myHandler -> ar
-    java.lang.Runnable appListRunnable -> as
-    java.lang.Runnable bannerRunnable -> at
-    android.os.Handler mHandler -> au
+com.ly.duan.ui.fragment.Fragment1$MyAnimationListener -> com.ly.duan.ui.a.ab:
+    android.content.Context mContext -> a
+    android.widget.TextView tv -> b
+    boolean exit -> c
+    void onAnimationStart(android.view.animation.Animation) -> onAnimationStart
+    void onAnimationEnd(android.view.animation.Animation) -> onAnimationEnd
+    void onAnimationRepeat(android.view.animation.Animation) -> onAnimationRepeat
+com.ly.duan.ui.fragment.Fragment3 -> com.ly.duan.ui.a.ac:
+    com.charon.pulltorefreshlistview.PullRefreshAndLoadMoreListView listView -> a
+    android.widget.ImageView fresh -> b
+    com.ly.duan.adapter.ArticleAdapter adapter -> c
+    long appid -> d
+    long columnId -> e
+    int ver -> f
+    int first -> g
+    int max -> h
+    int curPage -> i
+    int pageSize -> aj
+    int currentStatus -> ak
+    boolean freshEnabled -> al
+    boolean isFirst -> am
+    com.ly.duan.ui.fragment.Fragment3$Frag3Handler myHandler -> an
+    android.os.HandlerThread myThread -> ao
+    java.lang.Runnable contentRunnable -> ap
+    android.os.Handler mHandler -> aq
+    com.ly.duan.adapter.ArticleAdapter$OnFrag3ItemClickListener itemListener -> ar
+    com.ly.duan.ui.fragment.Fragment3 newInstance(boolean,com.ly.duan.bean.ColumnBean) -> a
     void onCreate(android.os.Bundle) -> a
     void onDestroy() -> r
-    void onStop() -> d
-    void onStart() -> c
+    void initData() -> O
+    void initHandler() -> P
     android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> a
-    void baseInit() -> P
-    void displayList() -> Q
-    void changeFreshFinishStatus() -> M
-    void createProgressDialog(android.content.Context) -> a
+    void setListener() -> Q
+    void setEmptyTv() -> R
+    void baseInit() -> S
     void freshClicked(android.view.View) -> freshClicked
-    void initViewFlow() -> N
-    void startDown(java.lang.String,com.common.as.pushtype.PushInfo) -> a
-    void sendIntent2(com.ly.duan.bean.BannerBean) -> a
     void acceptNotify(int) -> b
-    void getBannerFromDb() -> O
+    void getContentFromDb() -> T
+    void getVer() -> U
+    void getListsFromDb() -> V
+    void checkVersionUpdate() -> W
+    void initParamsAndSendRequest(boolean) -> a
+    void parseResult(java.lang.String,boolean) -> a
+    void clearListAndDb() -> X
+    void setMoveUp() -> N
+    void changeFinishState() -> Y
+    void changeDropDownFinishStatus() -> Z
     void access$0(com.ly.duan.ui.fragment.Fragment3) -> a
-    com.ly.duan.ui.fragment.Fragment3$MyHandler access$1(com.ly.duan.ui.fragment.Fragment3) -> b
-    java.lang.Runnable access$2(com.ly.duan.ui.fragment.Fragment3) -> c
-    java.lang.Runnable access$3(com.ly.duan.ui.fragment.Fragment3) -> d
-    com.ly.duan.ui.fragment.Fragment3$AdapterList access$4(com.ly.duan.ui.fragment.Fragment3) -> e
-    android.app.ProgressDialog access$5(com.ly.duan.ui.fragment.Fragment3) -> f
-    java.util.List access$6(com.ly.duan.ui.fragment.Fragment3) -> g
-com.ly.duan.ui.fragment.Fragment3$1 -> com.ly.duan.ui.a.o:
+    com.ly.duan.adapter.ArticleAdapter access$1(com.ly.duan.ui.fragment.Fragment3) -> b
+    com.charon.pulltorefreshlistview.PullRefreshAndLoadMoreListView access$2(com.ly.duan.ui.fragment.Fragment3) -> c
+    int access$3(com.ly.duan.ui.fragment.Fragment3) -> d
+    void access$4(com.ly.duan.ui.fragment.Fragment3) -> e
+    com.ly.duan.ui.fragment.Fragment3$Frag3Handler access$5(com.ly.duan.ui.fragment.Fragment3) -> f
+    java.lang.Runnable access$6(com.ly.duan.ui.fragment.Fragment3) -> g
+    void access$7(com.ly.duan.ui.fragment.Fragment3,int) -> a
+    void access$8(com.ly.duan.ui.fragment.Fragment3,int) -> b
+    int access$9(com.ly.duan.ui.fragment.Fragment3) -> h
+    void access$10(com.ly.duan.ui.fragment.Fragment3,int) -> c
+    int access$11(com.ly.duan.ui.fragment.Fragment3) -> i
+    void access$12(com.ly.duan.ui.fragment.Fragment3,int) -> d
+com.ly.duan.ui.fragment.Fragment3$1 -> com.ly.duan.ui.a.ad:
     com.ly.duan.ui.fragment.Fragment3 this$0 -> a
     void run() -> run
-com.ly.duan.ui.fragment.Fragment3$2 -> com.ly.duan.ui.a.p:
-    com.ly.duan.ui.fragment.Fragment3 this$0 -> a
-    void run() -> run
-com.ly.duan.ui.fragment.Fragment3$3 -> com.ly.duan.ui.a.q:
+com.ly.duan.ui.fragment.Fragment3$2 -> com.ly.duan.ui.a.ae:
     com.ly.duan.ui.fragment.Fragment3 this$0 -> a
     void handleMessage(android.os.Message) -> handleMessage
-com.ly.duan.ui.fragment.Fragment3$4 -> com.ly.duan.ui.a.r:
+com.ly.duan.ui.fragment.Fragment3$3 -> com.ly.duan.ui.a.af:
     com.ly.duan.ui.fragment.Fragment3 this$0 -> a
-    void onDataChange(java.lang.Object) -> a
-com.ly.duan.ui.fragment.Fragment3$5 -> com.ly.duan.ui.a.s:
+    void itemClicked(com.ly.duan.bean.ArticleBean) -> a
+com.ly.duan.ui.fragment.Fragment3$4 -> com.ly.duan.ui.a.ag:
     com.ly.duan.ui.fragment.Fragment3 this$0 -> a
-    void onSuccess(int,java.lang.Object) -> a
-    void onFailed(int,java.lang.Object) -> b
-com.ly.duan.ui.fragment.Fragment3$6 -> com.ly.duan.ui.a.t:
+    void onRefresh() -> a
+com.ly.duan.ui.fragment.Fragment3$5 -> com.ly.duan.ui.a.ah:
     com.ly.duan.ui.fragment.Fragment3 this$0 -> a
-    void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
-com.ly.duan.ui.fragment.Fragment3$7 -> com.ly.duan.ui.a.u:
-    com.ly.duan.ui.fragment.Fragment3 this$0 -> a
-    java.lang.String val$bannerTitle -> b
-    void onDlSuccess() -> a
-    void onDlFailed() -> b
-    void onDlError() -> c
-com.ly.duan.ui.fragment.Fragment3$AdapterList -> com.ly.duan.ui.a.v:
-    java.util.ArrayList pushInfos -> b
-    java.lang.String packageName -> c
-    com.ly.duan.ui.fragment.Fragment3 this$0 -> a
-    void notifyDataChanged(java.util.ArrayList) -> a
-    int getCount() -> getCount
-    java.lang.Object getItem(int) -> getItem
-    long getItemId(int) -> getItemId
-    android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
-    void setBtnStatus(android.widget.Button,com.common.as.pushtype.PushInfo) -> a
-    void onClick(android.view.View) -> onClick
-com.ly.duan.ui.fragment.Fragment3$AdapterList$ViewHolder -> com.ly.duan.ui.a.w:
-    com.common.as.view.AsyncImageView photoAsynImg -> a
-    android.widget.TextView title -> b
-    android.widget.TextView brief -> c
-    android.widget.Button btn -> d
-    com.ly.duan.ui.fragment.Fragment3$AdapterList this$1 -> e
-com.ly.duan.ui.fragment.Fragment3$MyHandler -> com.ly.duan.ui.a.x:
+    void onLoadMore() -> a
+com.ly.duan.ui.fragment.Fragment3$ContentRequestCallback -> com.ly.duan.ui.a.ai:
+    boolean checkUpdate -> a
+    com.ly.duan.ui.fragment.Fragment3 this$0 -> b
+    void onStart() -> b
+    void onFailure(com.lidroid.xutils.exception.HttpException,java.lang.String) -> a
+    void onSuccess(com.lidroid.xutils.http.ResponseInfo) -> a
+com.ly.duan.ui.fragment.Fragment3$Frag3Handler -> com.ly.duan.ui.a.aj:
     com.ly.duan.ui.fragment.Fragment3 this$0 -> a
     void handleMessage(android.os.Message) -> handleMessage
-com.ly.duan.ui.fragment.Fragment4 -> com.ly.duan.ui.a.y:
-    android.widget.TextView cacheTV -> a
-    android.widget.RelativeLayout rl -> b
+com.ly.duan.ui.fragment.Fragment4 -> com.ly.duan.ui.a.ak:
+    com.charon.pulltorefreshlistview.PullRefreshAndLoadMoreListView listView -> a
+    android.widget.ImageView fresh -> b
+    com.ly.duan.adapter.Frag4Adapter adapter -> c
+    long appid -> d
+    long columnId -> e
+    int ver -> f
+    int first -> g
+    int max -> h
+    int curPage -> i
+    int pageSize -> aj
+    int currentStatus -> ak
+    boolean freshEnabled -> al
+    boolean isFirst -> am
+    com.ly.duan.ui.fragment.Fragment4$Frag4Handler myHandler -> an
+    android.os.HandlerThread myThread -> ao
+    java.lang.Runnable contentRunnable -> ap
+    android.os.Handler mHandler -> aq
+    com.ly.duan.adapter.Frag4Adapter$OnVideoPlayListener playListener -> ar
+    com.ly.duan.adapter.Frag4Adapter$OnFrag4ItemOperListerner itemListener -> as
+    com.ly.duan.ui.fragment.Fragment4 newInstance(boolean,com.ly.duan.bean.ColumnBean) -> a
     void onCreate(android.os.Bundle) -> a
-    void onStart() -> c
+    void onDestroy() -> r
+    void initData() -> O
+    void initHandler() -> P
     android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> a
-    void displayCacheSize() -> M
-    void setListener() -> N
-    void cleanCache() -> O
-    void deleteAllGif(android.content.Context) -> a
+    void setListener() -> Q
+    void setEmptyTv() -> R
+    void baseInit() -> S
+    void freshClicked(android.view.View) -> freshClicked
+    void acceptNotify(int) -> b
+    void getContentFromDb() -> T
+    void getVer() -> U
+    void getListsFromDb() -> V
+    void checkVersionUpdate() -> W
+    void initParamsAndSendRequest(boolean) -> a
+    void parseResult(java.lang.String,boolean) -> a
+    void clearListAndDb() -> X
+    void setMoveUp() -> N
+    void changeFinishState() -> Y
+    void changeDropDownFinishStatus() -> Z
+    void setData() -> aa
     void access$0(com.ly.duan.ui.fragment.Fragment4) -> a
-com.ly.duan.ui.fragment.Fragment4$1 -> com.ly.duan.ui.a.z:
+    void access$1(com.ly.duan.ui.fragment.Fragment4) -> b
+    com.ly.duan.adapter.Frag4Adapter access$2(com.ly.duan.ui.fragment.Fragment4) -> c
+    com.charon.pulltorefreshlistview.PullRefreshAndLoadMoreListView access$3(com.ly.duan.ui.fragment.Fragment4) -> d
+    int access$4(com.ly.duan.ui.fragment.Fragment4) -> e
+    void access$5(com.ly.duan.ui.fragment.Fragment4) -> f
+    com.ly.duan.ui.fragment.Fragment4$Frag4Handler access$6(com.ly.duan.ui.fragment.Fragment4) -> g
+    java.lang.Runnable access$7(com.ly.duan.ui.fragment.Fragment4) -> h
+    android.os.Handler access$8(com.ly.duan.ui.fragment.Fragment4) -> i
+    void access$9(com.ly.duan.ui.fragment.Fragment4,int) -> a
+    void access$10(com.ly.duan.ui.fragment.Fragment4,int) -> b
+    int access$11(com.ly.duan.ui.fragment.Fragment4) -> j
+    void access$12(com.ly.duan.ui.fragment.Fragment4,int) -> c
+    int access$13(com.ly.duan.ui.fragment.Fragment4) -> k
+    void access$14(com.ly.duan.ui.fragment.Fragment4,int) -> d
+com.ly.duan.ui.fragment.Fragment4$1 -> com.ly.duan.ui.a.al:
     com.ly.duan.ui.fragment.Fragment4 this$0 -> a
-    void onClick(android.view.View) -> onClick
-    com.ly.duan.ui.fragment.Fragment4 access$0(com.ly.duan.ui.fragment.Fragment4$1) -> a
-com.ly.duan.ui.fragment.Fragment4$1$1 -> com.ly.duan.ui.a.aa:
-    com.ly.duan.ui.fragment.Fragment4$1 this$1 -> a
-    void onClick(android.content.DialogInterface,int) -> onClick
-com.ly.duan.ui.fragment.Fragment4$1$2 -> com.ly.duan.ui.a.ab:
-    com.ly.duan.ui.fragment.Fragment4$1 this$1 -> a
-    void onClick(android.content.DialogInterface,int) -> onClick
+    void run() -> run
+com.ly.duan.ui.fragment.Fragment4$2 -> com.ly.duan.ui.a.am:
+    com.ly.duan.ui.fragment.Fragment4 this$0 -> a
+    void handleMessage(android.os.Message) -> handleMessage
+com.ly.duan.ui.fragment.Fragment4$3 -> com.ly.duan.ui.a.an:
+    com.ly.duan.ui.fragment.Fragment4 this$0 -> a
+    void playVideo(com.ly.duan.bean.ArticleBean) -> a
+com.ly.duan.ui.fragment.Fragment4$4 -> com.ly.duan.ui.a.ao:
+    com.ly.duan.ui.fragment.Fragment4 this$0 -> a
+    void dropItemOper(int,com.ly.duan.bean.ArticleBean,com.ly.duan.adapter.Frag4Adapter$Frag4ViewHolder) -> a
+    void startComment(int,boolean,int) -> a
+com.ly.duan.ui.fragment.Fragment4$5 -> com.ly.duan.ui.a.ap:
+    com.ly.duan.ui.fragment.Fragment4 this$0 -> a
+    void onRefresh() -> a
+com.ly.duan.ui.fragment.Fragment4$6 -> com.ly.duan.ui.a.aq:
+    com.ly.duan.ui.fragment.Fragment4 this$0 -> a
+    void onLoadMore() -> a
+com.ly.duan.ui.fragment.Fragment4$ContentRequestCallback -> com.ly.duan.ui.a.ar:
+    boolean checkUpdate -> a
+    com.ly.duan.ui.fragment.Fragment4 this$0 -> b
+    void onStart() -> b
+    void onFailure(com.lidroid.xutils.exception.HttpException,java.lang.String) -> a
+    void onSuccess(com.lidroid.xutils.http.ResponseInfo) -> a
+com.ly.duan.ui.fragment.Fragment4$Frag4Handler -> com.ly.duan.ui.a.as:
+    com.ly.duan.ui.fragment.Fragment4 this$0 -> a
+    void handleMessage(android.os.Message) -> handleMessage
+com.ly.duan.ui.fragment.Fragment4$Frag4ItemCallBack -> com.ly.duan.ui.a.at:
+    int operType -> b
+    com.ly.duan.bean.ArticleBean bean -> c
+    com.ly.duan.adapter.Frag4Adapter$Frag4ViewHolder holder -> d
+    com.ly.duan.ui.fragment.Fragment4 this$0 -> a
+    void onSuccess(com.lidroid.xutils.http.ResponseInfo) -> a
+    void parseResult(java.lang.String) -> b
+    void onFailure(com.lidroid.xutils.exception.HttpException,java.lang.String) -> a
 com.ly.duan.user_inter.DownloadUtils -> com.ly.duan.c.a:
     com.ly.duan.user_inter.DownloadUtils instance -> a
     java.util.Map downMaps -> b
@@ -8037,10 +8706,9 @@ com.ly.duan.user_inter.IDownload -> com.ly.duan.c.f:
     void onDlSuccess() -> a
     void onDlFailed() -> b
     void onDlError() -> c
-com.ly.duan.user_inter.OnDownloadOrOpenListener -> com.ly.duan.c.g:
-    void startDownloadOrOpen(com.ly.duan.bean.BannerBean) -> a
 com.ly.duan.utils.ActivityAnimator -> com.ly.duan.d.a:
     void pushLeftAnimation(android.app.Activity) -> a
+    void fadeAnimation(android.app.Activity) -> b
 com.ly.duan.utils.AppUtils -> com.ly.duan.d.b:
     boolean compareToVersion(int) -> a
     int getAppVer(android.content.Context) -> a
@@ -8049,8 +8717,11 @@ com.ly.duan.utils.BasicUtils -> com.ly.duan.d.c:
     boolean judgeNotNull(java.lang.String,java.lang.String[]) -> a
 com.ly.duan.utils.DeviceUtils -> com.ly.duan.d.d:
     java.lang.String mSmsNumber -> a
+    java.lang.String getType() -> a
     java.lang.String getIMEI(android.content.Context) -> a
     java.lang.String getImsi(android.content.Context) -> b
+    java.lang.String getName() -> b
+    java.lang.String getRandonName() -> c
 com.ly.duan.utils.DialogUtils -> com.ly.duan.d.e:
     android.app.ProgressDialog getFreshDialog(android.app.Activity) -> a
 com.ly.duan.utils.FileUtils -> com.ly.duan.d.f:
@@ -8229,6 +8900,18 @@ com.ly.duan.view.ProgressWheel -> com.ly.duan.view.ProgressWheel:
     void setContourColor(int) -> setContourColor
     float getContourSize() -> getContourSize
     void setContourSize(float) -> setContourSize
+com.ly.duan.view.TabMenu -> com.ly.duan.view.TabMenu:
+    android.view.View mView -> a
+    android.widget.Button setButton -> b
+    void init(android.content.Context) -> a
+    android.widget.Button getSetButton() -> a
+    android.view.View access$0(com.ly.duan.view.TabMenu) -> a
+com.ly.duan.view.TabMenu$1 -> com.ly.duan.view.c:
+    com.ly.duan.view.TabMenu this$0 -> a
+    boolean onKey(android.view.View,int,android.view.KeyEvent) -> onKey
+com.ly.duan.view.TabMenu$2 -> com.ly.duan.view.d:
+    com.ly.duan.view.TabMenu this$0 -> a
+    boolean onTouch(android.view.View,android.view.MotionEvent) -> onTouch
 com.ly.duan.view.ViewFlow -> com.ly.duan.view.ViewFlow:
     java.util.LinkedList mLoadedViews -> c
     int mCurrentBufferIndex -> d
@@ -8291,17 +8974,17 @@ com.ly.duan.view.ViewFlow -> com.ly.duan.view.ViewFlow:
     int access$6(com.ly.duan.view.ViewFlow) -> f
     void access$7(com.ly.duan.view.ViewFlow,int) -> b
     long access$8(com.ly.duan.view.ViewFlow) -> g
-com.ly.duan.view.ViewFlow$1 -> com.ly.duan.view.c:
+com.ly.duan.view.ViewFlow$1 -> com.ly.duan.view.e:
     com.ly.duan.view.ViewFlow this$0 -> a
     void onGlobalLayout() -> onGlobalLayout
-com.ly.duan.view.ViewFlow$2 -> com.ly.duan.view.d:
+com.ly.duan.view.ViewFlow$2 -> com.ly.duan.view.f:
     com.ly.duan.view.ViewFlow this$0 -> a
     void handleMessage(android.os.Message) -> handleMessage
-com.ly.duan.view.ViewFlow$AdapterDataSetObserver -> com.ly.duan.view.e:
+com.ly.duan.view.ViewFlow$AdapterDataSetObserver -> com.ly.duan.view.g:
     com.ly.duan.view.ViewFlow this$0 -> a
     void onChanged() -> onChanged
     void onInvalidated() -> onInvalidated
-com.ly.duan.view.ViewFlow$ViewSwitchListener -> com.ly.duan.view.f:
+com.ly.duan.view.ViewFlow$ViewSwitchListener -> com.ly.duan.view.h:
     void onSwitched(android.view.View,int) -> a
 com.mozillaonline.providers.DownloadManager -> com.mozillaonline.providers.a:
     java.lang.String[] COLUMNS -> b
@@ -8384,7 +9067,6 @@ com.mozillaonline.providers.DownloadManager$Request -> com.mozillaonline.provide
     com.mozillaonline.providers.DownloadManager$Request setTitle(java.lang.CharSequence) -> a
     com.mozillaonline.providers.DownloadManager$Request setDescription(java.lang.CharSequence) -> b
     com.mozillaonline.providers.DownloadManager$Request setMimeType(java.lang.String) -> c
-    com.mozillaonline.providers.DownloadManager$Request setShowRunningNotification(boolean) -> a
     android.content.ContentValues toContentValues(java.lang.String) -> d
     void encodeHttpHeaders(android.content.ContentValues) -> a
     void putIfNonNull(android.content.ContentValues,java.lang.String,java.lang.Object) -> a
@@ -8611,7 +9293,6 @@ com.mozillaonline.providers.downloads.DownloadThread -> com.mozillaonline.provid
     void setupDestinationFile(com.mozillaonline.providers.downloads.DownloadThread$State,com.mozillaonline.providers.downloads.DownloadThread$InnerState) -> d
     void addRequestHeaders(com.mozillaonline.providers.downloads.DownloadThread$InnerState,org.apache.http.client.methods.HttpGet) -> a
     void notifyDownloadCompleted(int,boolean,int,boolean,java.lang.String,java.lang.String,java.lang.String) -> a
-    void downFinish() -> c
     void downFinish(com.mozillaonline.providers.downloads.DownloadInfo) -> a
     void notifyThroughDatabase(int,boolean,int,boolean,java.lang.String,java.lang.String,java.lang.String) -> b
     java.lang.String sanitizeMimeType(java.lang.String) -> b

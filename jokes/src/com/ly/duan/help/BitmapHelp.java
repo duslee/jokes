@@ -11,11 +11,17 @@ public class BitmapHelp {
 
 	public static BitmapUtils getInstance(Context context) {
 		if (null == bitmapUtils) {
-			bitmapUtils = new BitmapUtils(context, CACHE_DIR);
+			syncInit(context);
 		}
 		return bitmapUtils;
 	}
 	
+	private synchronized static void syncInit(Context context) {
+		if (null == bitmapUtils) {
+			bitmapUtils = new BitmapUtils(context, CACHE_DIR);
+		}
+	}
+
 	public static void clearAllCache(Context context) {
 		if (null == bitmapUtils) {
 			getInstance(context);

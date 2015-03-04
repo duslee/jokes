@@ -22,6 +22,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 
 import com.sjm.gxdz.R;
 
@@ -31,6 +32,7 @@ import com.sjm.gxdz.R;
  * @author Charon Chui
  */
 public class PullRefreshAndLoadMoreListView extends PullToRefreshListView {
+	
     protected static final String TAG = "LoadMoreListView";
     private View mFooterView;
     private OnScrollListener mOnScrollListener;
@@ -43,7 +45,7 @@ public class PullRefreshAndLoadMoreListView extends PullToRefreshListView {
     
 //    private int mFooterheight;
 
-    private int mCurrentScrollState;
+//    private int mCurrentScrollState;
 
     public PullRefreshAndLoadMoreListView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
@@ -69,7 +71,6 @@ public class PullRefreshAndLoadMoreListView extends PullToRefreshListView {
          * Must use super.setOnScrollListener() here to avoid override when call this view's setOnScrollListener method
          */
         super.setOnScrollListener(superOnScrollListener);
-        super.setOnTouchListener(touchListener);
     }
 
     /**
@@ -77,7 +78,8 @@ public class PullRefreshAndLoadMoreListView extends PullToRefreshListView {
      */
     private void hideFooterView() {
 //    	Log.e("bmp test", "hide Footer View!!!");
-        mFooterView.setPadding(0, -mFooterView.getHeight(), 0, 0);
+//        mFooterView.setPadding(0, -mFooterView.getHeight(), 0, 0);
+    	scrollBy(0, -mFooterView.getHeight());
     	mFooterView.setVisibility(View.GONE);
 //    	android.widget.AbsListView.LayoutParams lp = (android.widget.AbsListView.LayoutParams) mFooterView.getLayoutParams();
 //    	if (lp == null) {
@@ -93,8 +95,10 @@ public class PullRefreshAndLoadMoreListView extends PullToRefreshListView {
      */
     private void showFooterView() {
 //    	Log.e("bmp test", "show Footer View!!!");
+    	scrollBy(0, 0);
         mFooterView.setVisibility(View.VISIBLE);
-        mFooterView.setPadding(0, 0, 0, 0);
+//        mFooterView.setPadding(0, 0, 0, 0);
+//        scrollBy(0, 0);
 //    	android.widget.AbsListView.LayoutParams lp = (android.widget.AbsListView.LayoutParams) mFooterView.getLayoutParams();
 //    	lp.height = mFooterheight;
 //    	mFooterView.setLayoutParams(lp);
@@ -122,16 +126,30 @@ public class PullRefreshAndLoadMoreListView extends PullToRefreshListView {
      */
     public void onLoadMoreComplete() {
 //    	Log.e("bmp test", "load more complete!!!");
-    	touchUp = true;
         mIsLoading = false;
         hideFooterView();
     }
+    
+    private boolean mLastItemVisible;
 
     private OnScrollListener superOnScrollListener = new OnScrollListener() {
     	
         @Override
         public void onScrollStateChanged(AbsListView view, int scrollState) {
-        	mCurrentScrollState = scrollState;
+        	Log.e("bmp test", "1111 scrollState=" + scrollState);
+        	if (scrollState == OnScrollListener.SCROLL_STATE_IDLE 
+        			&& null != mOnLoadMoreListener 
+        			&& mLastItemVisible) {
+        		Log.e("bmp test", "onScrollStateChanged mIsLoading=" + mIsLoading + 
+        				", mLastItemVisible=" + mLastItemVisible);
+        		if (!mIsLoading) {
+        			showFooterView();
+            		mIsLoading = true;
+            		mOnLoadMoreListener.onLoadMore();
+				}
+    		}
+        	
+//        	mCurrentScrollState = scrollState;
             // Avoid override when use setOnScrollListener
             if (mOnScrollListener != null) {
                 mOnScrollListener.onScrollStateChanged(view, scrollState);
@@ -140,10 +158,10 @@ public class PullRefreshAndLoadMoreListView extends PullToRefreshListView {
 //        	Log.e("bmp test", "onScrollStateChanged mCurrentScrollState=" + mCurrentScrollState 
 //					+ ", scrollState=" + scrollState);
         }
-
+        
         @Override
         public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-//        	Log.e("bmp test", "onScroll push onScroll3 first:"+firstVisibleItem+", visi:"+visibleItemCount+", total:"+totalItemCount);
+        	Log.e("bmp test", "onScroll push onScroll3 first:"+firstVisibleItem+", visi:"+visibleItemCount+", total:"+totalItemCount);
 //        	Log.e("bmp test", "onScroll mIsLoading=" + mIsLoading + ", mCurrentScrollState=" + mCurrentScrollState + ", touchUp=" + touchUp);
             if (mOnScrollListener != null) {
                 mOnScrollListener.onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);
@@ -151,43 +169,31 @@ public class PullRefreshAndLoadMoreListView extends PullToRefreshListView {
             
             // The count of footer view will be add to visibleItemCount also are
             // added to totalItemCount
-            if (visibleItemCount == totalItemCount) {
-                // If all the item can not fill screen, we should make the
-                // footer view invisible.
-                hideFooterView();
-            } else if (!mIsLoading
-            		&& (firstVisibleItem + visibleItemCount >= totalItemCount)
-                    && mCurrentScrollState != SCROLL_STATE_IDLE
-                    && !touchUp) {
-                showFooterView();
-                mIsLoading = true;
-                if (mOnLoadMoreListener != null) {
-//                	Log.e("bmp test", "onScroll mOnLoadMoreListener=" + mOnLoadMoreListener);
-                    mOnLoadMoreListener.onLoadMore();
-                }
-            }
+//            if (visibleItemCount == totalItemCount) {
+//                // If all the item can not fill screen, we should make the
+//                // footer view invisible.
+//                hideFooterView();
+//            } else if (!mIsLoading
+//            		&& (firstVisibleItem + visibleItemCount >= totalItemCount)
+//                    && mCurrentScrollState != SCROLL_STATE_IDLE
+//                    && !touchUp) {
+//                showFooterView();
+//                mIsLoading = true;
+//                if (mOnLoadMoreListener != null) {
+////                	Log.e("bmp test", "onScroll mOnLoadMoreListener=" + mOnLoadMoreListener);
+//                    mOnLoadMoreListener.onLoadMore();
+//                }
+//            }
+//            if (firstVisibleItem + visibleItemCount >= totalItemCount - 1) {
+//            	mFooterView.setVisibility(View.VISIBLE);
+//            	mFooterView.setPadding(0, 0, 0, 0);
+//			}
+            if (null != mOnLoadMoreListener) {
+    			mLastItemVisible = (totalItemCount > 0)
+    					&& (firstVisibleItem + visibleItemCount >= totalItemCount);
+    		}
         }
     };
-    
-	private boolean touchUp = true;
-	private OnTouchListener touchListener = new OnTouchListener() {
-		
-		@Override
-		public boolean onTouch(View v, MotionEvent event) {
-	        int action = event.getAction();
-	        switch (action) {
-	            case MotionEvent.ACTION_DOWN:
-	            	touchUp = false;
-	                break;
-	            case MotionEvent.ACTION_MOVE:
-	            	break;
-	            case MotionEvent.ACTION_UP:
-	            	touchUp = true;
-	            	break;
-	        }
-			return false;
-		}
-	};
 
     /**
      * Interface for load more

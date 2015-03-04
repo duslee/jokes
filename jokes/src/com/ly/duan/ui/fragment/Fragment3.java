@@ -48,6 +48,7 @@ import com.ly.duan.bean.MultiReqStatus;
 import com.ly.duan.help.GlobalHelp;
 import com.ly.duan.service.InitDataService;
 import com.ly.duan.ui.ShowPageActivity;
+import com.ly.duan.utils.ActivityAnimator;
 import com.ly.duan.utils.Constants;
 import com.ly.duan.utils.ScreenUtils;
 import com.sjm.gxdz.R;
@@ -120,15 +121,21 @@ public class Fragment3 extends BaseFragment {
 		}
 
 		/* 2. start HandlerThread */
-		myThread = new HandlerThread("My Thread " + columnId);
-		myThread.start();
-		myHandler = new Frag3Handler(myThread.getLooper());
+		if (null == myHandler) {
+			initHandler();
+		}
 	}
 	
+	private void initHandler() {
+		myThread = new HandlerThread("My Thread " + columnId);
+		myThread.start();
+		myHandler = new Frag3Handler(myThread.getLooper());		
+	}
+
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.view_frag1, container, false);
+		View view = inflater.inflate(R.layout.view_frag3, container, false);
 		ViewUtils.inject(this, view);
 		
 		setListener();
@@ -183,7 +190,7 @@ public class Fragment3 extends BaseFragment {
 
 	private void baseInit() {
 		/* 1 get current request status */
-		MultiReqStatus reqStatus = GlobalHelp.getInstance().getMultiReqStatus();
+		MultiReqStatus reqStatus = GlobalHelp.getInstance().getMultiReqStatus(getActivity());
 		int currentStatus = InitDataService.CONTENT_REQUESTING;
 		if (null != reqStatus) {
 			currentStatus = reqStatus.getCurrentStatus();
@@ -215,6 +222,11 @@ public class Fragment3 extends BaseFragment {
 	}
 
 	public void acceptNotify(int which) {
+		/* strategy of protect */
+		if (null == myHandler) {
+			initHandler();
+		}
+		
 		switch (which) {
 		case InitDataService.CONTENT_REQUEST_FINISH:
 			currentStatus = FIRST_IN;
@@ -282,7 +294,6 @@ public class Fragment3 extends BaseFragment {
 
 			/* 注意发送请求获取数据 */
 			if ((_list == null) || _list.size() == 0) {
-				LogUtils.e("_list.size=" + _list.size());
 				if (currentStatus == FIRST_IN) {
 					if (!isFirst) {
 						initParamsAndSendRequest(false);
@@ -417,8 +428,8 @@ public class Fragment3 extends BaseFragment {
 					mHandler.sendEmptyMessage(FRESH_LISTVIEW);
 					if (checkUpdate) {
 						/* change listView status */
-						setMoveUp();
 						listView.onLoadMoreComplete();
+						setMoveUp();
 					}
 					break;
 				}
@@ -484,7 +495,7 @@ public class Fragment3 extends BaseFragment {
 					bean.setType(type);
 					bean.setAppid(appid);
 					bean.setColumnId(columnId);
-					bean.setCurPage(0);
+					bean.setCurPage(curPage);
 					list.add(bean);
 				}
 
@@ -538,8 +549,8 @@ public class Fragment3 extends BaseFragment {
 		LogUtils.e("freshEnabled=" + freshEnabled);
 		switch (currentStatus) {
 		case PULL_UP:
-			setMoveUp();
 			listView.onLoadMoreComplete();
+			setMoveUp();
 			break;
 
 		case DROP_DOWN:
@@ -591,7 +602,7 @@ public class Fragment3 extends BaseFragment {
 				break;
 
 			case MOVE_UP:
-				listView.smoothScrollBy(ScreenUtils.dpToPxInt(getActivity(), 30), 400);
+				listView.smoothScrollBy(ScreenUtils.dpToPxInt(getActivity(), Constants.SCROLL_DISTANCE), Constants.SCROLL_DURATION);
 				break;
 				
 			default:
@@ -609,6 +620,7 @@ public class Fragment3 extends BaseFragment {
 			intent.putExtra("title", bean.getArticleName());
 			intent.putExtra("url", bean.getUrl());
 			startActivity(intent);
+			new ActivityAnimator().pushLeftAnimation(getActivity());
 		}
 		
 	};

@@ -97,8 +97,7 @@ public class AppUtils {
 	}
 
 	public static boolean compareToVersion(int comVersion) {
-		LogUtils.e("SDK_INT=" + android.os.Build.VERSION.SDK_INT
-				+ ", comVersion=" + comVersion);
+		LogUtils.e("SDK_INT=" + android.os.Build.VERSION.SDK_INT + ", comVersion=" + comVersion);
 		return (android.os.Build.VERSION.SDK_INT >= comVersion) ? true : false;
 	}
 	

@@ -1,47 +1,61 @@
-# view AndroidManifest.xml #generated:132
+# view res/layout/activity_comment.xml #generated:57
+-keep class android.support.v4.view.ViewPager { <init>(...); }
+
+# view AndroidManifest.xml #generated:141
 -keep class com.cc.pay.wanda.ModeService { <init>(...); }
 
-# view res/layout/view_frag1.xml #generated:25
+# view res/layout/view_comment.xml #generated:209
+# view res/layout/view_comment2.xml #generated:69
+-keep class com.charon.pulltorefreshlistview.LoadMoreListView { <init>(...); }
+
+# view res/layout/view_frag1.xml #generated:24
+# view res/layout/view_frag3.xml #generated:25
 -keep class com.charon.pulltorefreshlistview.PullRefreshAndLoadMoreListView { <init>(...); }
 
-# view AndroidManifest.xml #generated:146
+# view AndroidManifest.xml #generated:155
 -keep class com.common.as.activity.DlgActivity { <init>(...); }
 
-# view AndroidManifest.xml #generated:143
+# view AndroidManifest.xml #generated:152
 -keep class com.common.as.activity.ItemListActivity { <init>(...); }
 
-# view AndroidManifest.xml #generated:149
+# view AndroidManifest.xml #generated:158
 -keep class com.common.as.activity.TPActivity { <init>(...); }
 
-# view AndroidManifest.xml #generated:137
+# view AndroidManifest.xml #generated:146
 -keep class com.common.as.service.AppListBackService { <init>(...); }
 
-# view AndroidManifest.xml #generated:136
+# view AndroidManifest.xml #generated:145
 -keep class com.common.as.service.BackService { <init>(...); }
 
-# view AndroidManifest.xml #generated:134
+# view AndroidManifest.xml #generated:143
 -keep class com.common.as.service.CheckService { <init>(...); }
 
-# view AndroidManifest.xml #generated:139
+# view AndroidManifest.xml #generated:148
 -keep class com.common.as.service.ControlDialogBackService { <init>(...); }
 
-# view AndroidManifest.xml #generated:138
+# view AndroidManifest.xml #generated:147
 -keep class com.common.as.service.DialogBackService { <init>(...); }
 
-# view AndroidManifest.xml #generated:140
+# view AndroidManifest.xml #generated:149
 -keep class com.common.as.service.MainRunServer { <init>(...); }
 
-# view AndroidManifest.xml #generated:178
+# view AndroidManifest.xml #generated:187
 -keep class com.common.as.service.SystemReceiver { <init>(...); }
 
 # view res/layout/list_down_item.xml #generated:7
 -keep class com.common.as.view.AsyncImageView { <init>(...); }
 
-# view AndroidManifest.xml #generated:121
+# view AndroidManifest.xml #generated:130
 -keep class com.ly.duan.service.InitDataService { <init>(...); }
 
-# view AndroidManifest.xml #generated:123
+# view AndroidManifest.xml #generated:132
 -keep class com.ly.duan.service.PkgSetupReceiver { <init>(...); }
+
+# view AndroidManifest.xml #generated:129
+-keep class com.ly.duan.service.PushService { <init>(...); }
+
+# view AndroidManifest.xml #generated:123
+-keep class com.ly.duan.ui.CommentDetailActivity { <init>(...); }
 
 # view AndroidManifest.xml #generated:110
 -keep class com.ly.duan.ui.MainActivity { <init>(...); }
@@ -49,10 +63,16 @@
 # view AndroidManifest.xml #generated:94
 -keep class com.ly.duan.ui.MyApplication { <init>(...); }
 
+# view AndroidManifest.xml #generated:126
+-keep class com.ly.duan.ui.SendCommentActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:121
+-keep class com.ly.duan.ui.SettingActivity { <init>(...); }
+
 # view AndroidManifest.xml #generated:114
 -keep class com.ly.duan.ui.ShowPageActivity { <init>(...); }
 
-# view AndroidManifest.xml #generated:118
+# view AndroidManifest.xml #generated:119
 -keep class com.ly.duan.ui.VVActivity { <init>(...); }
 
 # view AndroidManifest.xml #generated:100
@@ -62,25 +82,34 @@
 -keep class com.ly.duan.view.CircleFlowIndicator { <init>(...); }
 
 # view res/layout/apk_banner_item.xml #generated:26
-# view res/layout/drop_item.xml #generated:196
+# view res/layout/comment_item1.xml #generated:58
+# view res/layout/drop_item.xml #generated:226
 # view res/layout/drop_item.xml #generated:48
+# view res/layout/item_comment.xml #generated:64
+# view res/layout/view_comment.xml #generated:131
 -keep class com.ly.duan.view.ProgressWheel { <init>(...); }
+
+# view res/layout/view_show_page.xml #generated:1
+-keep class com.ly.duan.view.SildingFinishLayout { <init>(...); }
 
 # view res/layout/item_viewflow.xml #generated:12
 -keep class com.ly.duan.view.ViewFlow { <init>(...); }
 
-# view AndroidManifest.xml #generated:164
+# view AndroidManifest.xml #generated:173
 -keep class com.mozillaonline.providers.downloads.DownloadProvider { <init>(...); }
 
-# view AndroidManifest.xml #generated:170
+# view AndroidManifest.xml #generated:179
 -keep class com.mozillaonline.providers.downloads.DownloadReceiver { <init>(...); }
 
-# view AndroidManifest.xml #generated:168
+# view AndroidManifest.xml #generated:177
 -keep class com.mozillaonline.providers.downloads.DownloadService { <init>(...); }
 
-# view AndroidManifest.xml #generated:160
+# view AndroidManifest.xml #generated:169
 -keep class com.mozillaonline.providers.downloads.SizeLimitActivity { <init>(...); }
 
+# view res/layout/comment_item1.xml #generated:79
 # view res/layout/drop_item.xml #generated:69
+# view res/layout/item_comment.xml #generated:85
+# view res/layout/view_comment.xml #generated:152
 -keep class pl.droidsonroids.gif.GifImageView { <init>(...); }
 

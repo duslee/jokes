@@ -14,7 +14,6 @@ import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,9 +58,11 @@ import com.ly.duan.bean.DuanBean;
 import com.ly.duan.bean.MultiReqStatus;
 import com.ly.duan.help.GlobalHelp;
 import com.ly.duan.service.InitDataService;
+import com.ly.duan.ui.CommentDetailActivity;
 import com.ly.duan.ui.ShowPageActivity;
 import com.ly.duan.user_inter.DownloadUtils;
 import com.ly.duan.user_inter.IDownload;
+import com.ly.duan.utils.ActivityAnimator;
 import com.ly.duan.utils.Constants;
 import com.ly.duan.utils.DeviceUtils;
 import com.ly.duan.utils.PackageUtils;
@@ -127,8 +128,8 @@ public class Fragment1 extends BaseFragment {
 		fragment.setArguments(args);
 		return fragment;
 	}
-	
-	public static Fragment1 newInstance(boolean insertAds, boolean first, 
+
+	public static Fragment1 newInstance(boolean insertAds, boolean first,
 			ColumnBean bean) {
 		LogUtils.e("11111 newInstance");
 		Fragment1 fragment = new Fragment1();
@@ -160,23 +161,18 @@ public class Fragment1 extends BaseFragment {
 		/* 1. get data */
 		if (getArguments() != null) {
 			insertAds = getArguments().getBoolean("insertAds");
-//			if (insertAds) {
-//				// TODO: modify
-////				columnId = 83;
-//				columnId = 4;
-//			} else {
-//				// TODO: modify
-////				columnId = 84;
-//				columnId = 4;
-//			}
 			appid = getArguments().getLong("appid");
 			columnId = getArguments().getLong("columnId");
 			isFirst = getArguments().getBoolean("first");
 		}
-//		appid = Long.parseLong(ResourceUtils.getFileFromAssets(getActivity(),
-//				"appid.txt"));
 
 		/* 2. start HandlerThread */
+		if (null == myHandler) {
+			initHandler();
+		}
+	}
+
+	private void initHandler() {
 		myThread = new HandlerThread("My Thread " + columnId);
 		myThread.start();
 		myHandler = new FragHandler(myThread.getLooper());
@@ -200,7 +196,8 @@ public class Fragment1 extends BaseFragment {
 
 	private void baseInit() {
 		/* 1 get current request status */
-		MultiReqStatus reqStatus = GlobalHelp.getInstance().getMultiReqStatus();
+		MultiReqStatus reqStatus = GlobalHelp.getInstance().getMultiReqStatus(
+				getActivity());
 		int content1Status = InitDataService.CONTENT1_REQUESTING;
 		int content2Status = InitDataService.CONTENT2_REQUESTING;
 		int currentStatus = InitDataService.CONTENT_REQUESTING;
@@ -220,32 +217,32 @@ public class Fragment1 extends BaseFragment {
 					myHandler.post(contentRunnable);
 				}
 			}
-			
-			if (content1Status == InitDataService.CONTENT1_REQUEST_FINISH) {
-				LogUtils.e("(null == adapter)=" + (null == adapter));
-				if ((null == adapter) || (adapter.getCount() == 0)) {
-					myHandler.post(contentRunnable);
-				}
-			}
 
-			if (bannerStatus == InitDataService.BANNER_REQUEST_FINISH) {
+			// if (content1Status == InitDataService.CONTENT1_REQUEST_FINISH) {
+			// LogUtils.e("(null == adapter)=" + (null == adapter));
+			// if ((null == adapter) || (adapter.getCount() == 0)) {
+			// myHandler.post(contentRunnable);
+			// }
+			// }
+			
+			 if (bannerStatus == InitDataService.BANNER_REQUEST_FINISH) {
 				LogUtils.e("(null == bannerList)=" + (null == bannerList));
 				if ((null == bannerList) || (bannerList.size() == 0)) {
 					myHandler.post(bannerRunnable);
 				}
-			}
+			 }
 		} else { /* in tab2 */
 			if (currentStatus == InitDataService.CONTENT_REQUEST_FINISH) {
 				if ((null == adapter) || (adapter.getCount() == 0)) {
 					myHandler.post(contentRunnable);
 				}
 			}
-			
-			if (content2Status == InitDataService.CONTENT2_REQUEST_FINISH) {
-				if ((null == adapter) || (adapter.getCount() == 0)) {
-					myHandler.post(contentRunnable);
-				}
-			}
+
+			// if (content2Status == InitDataService.CONTENT2_REQUEST_FINISH) {
+			// if ((null == adapter) || (adapter.getCount() == 0)) {
+			// myHandler.post(contentRunnable);
+			// }
+			// }
 		}
 	}
 
@@ -286,7 +283,7 @@ public class Fragment1 extends BaseFragment {
 		if (insertAds) {
 			adapter.setDownloadListener(listener);
 		}
-		
+
 		/* set OnDropItemOperListerner */
 		adapter.setDropItemListener(itemListener);
 
@@ -323,160 +320,12 @@ public class Fragment1 extends BaseFragment {
 
 	}
 
-	public void parseResult(int status, String result) {
-		LogUtils.e(result);
-
-		/* 从服务器响应中获取相应数据，也可保存在本地数据库中 */
-		JSONObject jsonObject = null;
-		try {
-			jsonObject = JSON.parseObject(result);
-			int code = jsonObject.getIntValue("code");
-			if (code == 0) {/* 表示可以正常读取数据 */
-				/* 使用hasNew的标记来处理上拉加载和下拉刷新两种情况 */
-				boolean hasNew = jsonObject.getBooleanValue("hasNew");
-				if (!hasNew) {
-					switch (status) {
-					/* 处理下拉刷新情况（没有数据可以刷新） */
-					case DROP_DOWN: {
-						showToast(R.string.no_fresh);
-						changeDropDownFinishStatus();
-						return;
-					}
-
-					/* 第一次进来时的加载数据操作情况 */
-					case FIRST_IN:
-						/* 处理上拉加载情况 */
-					case PULL_UP:
-						/* 直接从数据库中获取数据 */
-						LogUtils.e("get data from DB");
-						getListFromDb();
-						break;
-					}
-				} else {
-					LogUtils.e("get data from Server");
-					switch (status) {
-					/* 处理下拉刷新情况 */
-					case DROP_DOWN:
-						/* 处理第一次进来时的加载数据操作情况 */
-					case FIRST_IN:
-						/* 有版本更新，列表清空，同时数据库也清空，解析数据并绑定到适配器中 */
-						/* 特别注意curPage要重置为0，以便下次可以保证上拉加载获取数据的准确性 */
-						clearListAndDb();
-						break;
-
-					/* 处理上拉加载情况 */
-					case PULL_UP: {
-						/*
-						 * 根据版本号来判断（注意这里的ver有0和非0（严格来说大于0）两种情况，0
-						 * 表示从数据库中未搜索到对应页的内容时返回的版本号
-						 * ，也可以理解为当前要加载的页还没有从服务器获取；非0表示本地数据库有备份）
-						 */
-						if (ver == 0) {/* 可以直接往list添加从服务器获取的列表内容 */
-							/* 解析数据的操作方法体在外面 */
-						} else {
-							/* 有版本更新，列表清空，同时数据库也清空，重新解析数据并绑定到适配器中 */
-							/* 特别注意curPage要重置为0，以便下次可以保证上拉加载获取数据的准确性 */
-							clearListAndDb();
-						}
-					}
-						break;
-					}
-
-					/* 开始解析数据 */
-					int _ver = jsonObject.getIntValue("ver");
-					JSONArray jsonArray = jsonObject.getJSONArray("jokes");
-					/* 处理上拉加载没有获取到内容时 */
-					if (jsonArray.size() == 0) {
-						if (status == PULL_UP) {
-							/* 当执行上拉操作时，自动将curPage--，设置成先前的状态，保证准确性 */
-							curPage--;
-							// stopLoad();
-							// dropDownListView.stopLoadMore();
-							dropDownListView.onLoadMoreComplete();
-							showToast(R.string.no_more);
-							return;
-						}
-					}
-					List<DuanBean> list = new ArrayList<DuanBean>();
-					for (int i = 0; i < jsonArray.size(); i++) {
-						DuanBean bean = new DuanBean();
-						JSONObject jsonObject2 = jsonArray.getJSONObject(i);
-						int id = jsonObject2.getIntValue("id");
-						bean.setId(id);
-						bean.setNick(jsonObject2.getString("userName"));
-						bean.setAvatarUrl(jsonObject2.getString("userVar"));
-						bean.setContent(jsonObject2.getString("jokeDesc"));
-						bean.setImgUrl(jsonObject2.getString("imgUrl"));
-						bean.setVip(jsonObject2.getBoolean("vip"));
-						bean.setVer(_ver);
-						bean.setAppid(appid);
-						bean.setColumnId(columnId);
-						bean.setCurPage(curPage);
-						list.add(bean);
-					}
-
-					// TODO: 将数据保存到数据库中
-					try {
-						getDb().saveAll(list);
-					} catch (DbException e) {
-						e.printStackTrace();
-						return;
-					}
-
-					/* 同步适配器 */
-					LogUtils.e("list.size=" + list.size());
-					adapter.addDuans(list);
-				}
-				// adapter.notifyDataSetChanged();
-				mHandler.sendEmptyMessage(FRESH_LISTVIEW);
-				// changeFinishState(status);
-			} else {/* 出现其它异常 */
-				showToast(jsonObject.getString("dsc") + "");
-			}
-			changeFinishState(status);
-		} catch (Exception e) {
-			e.printStackTrace();
-			changeFinishState(status);
-			return;
-		}
-	}
-
 	private void changeDropDownFinishStatus() {
 		if (freshEnabled) {
 			freshEnabled = false;
 			fresh.clearAnimation();
-		} else {
-			// setRefreshTime();
 		}
-		// dropDownListView.stopRefresh();
 		dropDownListView.onRefreshComplete();
-	}
-
-	// private void setRefreshTime() {
-	// SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-	// dropDownListView.setRefreshTime(dateFormat.format(new Date()));
-	// }
-
-	private void changeFinishState(int status) {
-		LogUtils.e("freshEnabled=" + freshEnabled);
-		switch (status) {
-		case PULL_UP:
-			// setMoveUp();
-			// dropDownListView.onBottomComplete();
-			// dropDownListView.stopLoadMore();
-			dropDownListView.onLoadMoreComplete();
-			break;
-
-		case DROP_DOWN:
-			changeDropDownFinishStatus();
-			break;
-
-		case FIRST_IN:
-			// dropDownListView.setDropDownStyle(true);
-			// dropDownListView.setOnBottomStyle(true);
-			// dropDownListView.setAutoLoadOnBottom(true);
-			break;
-		}
 	}
 
 	protected void setMoveUp() {
@@ -522,9 +371,11 @@ public class Fragment1 extends BaseFragment {
 					adapter.notifyDataSetChanged();
 				}
 				break;
-				
+
 			case MOVE_UP:
-				dropDownListView.smoothScrollBy(ScreenUtils.dpToPxInt(getActivity(), 30), 400);
+				dropDownListView.smoothScrollBy(ScreenUtils.dpToPxInt(
+						getActivity(), Constants.SCROLL_DISTANCE),
+						Constants.SCROLL_DURATION);
 				break;
 
 			case MODIFY_DUANS_LIST:
@@ -532,63 +383,69 @@ public class Fragment1 extends BaseFragment {
 					adapter.changeDuansList((DuanBean) msg.obj);
 				}
 				break;
-				
+
 			case UPDATE_DROP_ITEM:
 				final DropItemHolder holder = (DropItemHolder) msg.obj;
 				if (msg.arg1 == Constants.TYPE_APPROVE) {
 					/* change status */
-					holder.up_ll.setBackgroundResource(R.drawable.approve_press_bg);
+					holder.up_ll
+							.setBackgroundResource(R.drawable.approve_press_bg);
 					holder.up_iv.setImageResource(R.drawable.up_focus);
 					holder.up_tv.setTextColor(getActivity().getResources()
 							.getColor(R.color.up_down_focus_color));
-					
-					holder.down_ll.setBackgroundResource(R.drawable.disapprove_press_bg);
+
+					holder.down_ll
+							.setBackgroundResource(R.drawable.disapprove_press_bg);
 					holder.down_iv.setImageResource(R.drawable.down_focus);
 					holder.down_tv.setTextColor(getActivity().getResources()
 							.getColor(R.color.up_down_focus_color));
-					
+
 					/* change content */
 					holder.up_tv.setText(msg.arg2 + "");
 					/* animation */
 					holder.add_tv1.setVisibility(View.VISIBLE);
 					holder.add_tv1.clearAnimation();
-					Animation animation = AnimationUtils.
-							loadAnimation(getActivity(), R.anim.fade_in);
-					animation.setAnimationListener(new MyAnimationListener(getActivity(), holder.add_tv1, false));
+					Animation animation = AnimationUtils.loadAnimation(
+							getActivity(), R.anim.fade_in);
+					animation.setAnimationListener(new MyAnimationListener(
+							getActivity(), holder.add_tv1, false));
 					holder.add_tv1.startAnimation(animation);
 				} else if (msg.arg1 == Constants.TYPE_STAMP) {
 					/* change status */
-					holder.up_ll.setBackgroundResource(R.drawable.approve_press_bg);
+					holder.up_ll
+							.setBackgroundResource(R.drawable.approve_press_bg);
 					holder.up_iv.setImageResource(R.drawable.up_focus);
 					holder.up_tv.setTextColor(getActivity().getResources()
 							.getColor(R.color.up_down_focus_color));
-					
-					holder.down_ll.setBackgroundResource(R.drawable.disapprove_press_bg);
+
+					holder.down_ll
+							.setBackgroundResource(R.drawable.disapprove_press_bg);
 					holder.down_iv.setImageResource(R.drawable.down_focus);
 					holder.down_tv.setTextColor(getActivity().getResources()
 							.getColor(R.color.up_down_focus_color));
-					
+
 					/* change content */
 					holder.down_tv.setText(msg.arg2 + "");
 					/* animation */
 					holder.add_tv2.setVisibility(View.VISIBLE);
 					holder.add_tv2.clearAnimation();
-					Animation animation = AnimationUtils.
-							loadAnimation(getActivity(), R.anim.fade_in);
-					animation.setAnimationListener(new MyAnimationListener(getActivity(), holder.add_tv2, false));
+					Animation animation = AnimationUtils.loadAnimation(
+							getActivity(), R.anim.fade_in);
+					animation.setAnimationListener(new MyAnimationListener(
+							getActivity(), holder.add_tv2, false));
 					holder.add_tv2.startAnimation(animation);
 				}
 				break;
-				
+
 			default:
 				break;
 			}
 		}
 
 	};
-	
+
 	public static class MyAnimationListener implements AnimationListener {
-		
+
 		private Context mContext;
 		private TextView tv;
 		private boolean exit;
@@ -607,8 +464,10 @@ public class Fragment1 extends BaseFragment {
 		public void onAnimationEnd(Animation animation) {
 			tv.clearAnimation();
 			if (!exit) {
-				Animation animation2 = AnimationUtils.loadAnimation(mContext, R.anim.fade_out);
-				animation2.setAnimationListener(new MyAnimationListener(mContext, tv, true));
+				Animation animation2 = AnimationUtils.loadAnimation(mContext,
+						R.anim.fade_out);
+				animation2.setAnimationListener(new MyAnimationListener(
+						mContext, tv, true));
 				tv.startAnimation(animation2);
 			} else {
 				tv.setVisibility(View.GONE);
@@ -618,7 +477,7 @@ public class Fragment1 extends BaseFragment {
 		@Override
 		public void onAnimationRepeat(Animation animation) {
 		}
-		
+
 	}
 
 	private OnDownloadOrOpenListener listener = new OnDownloadOrOpenListener() {
@@ -697,12 +556,7 @@ public class Fragment1 extends BaseFragment {
 		}
 	};
 
-	protected void insertBanners() {
-		LogUtils.e("insert banners, size=" + bannerList.size());
-		adapter.addBanners(bannerList);
-	}
-
-	protected void sendIntent(BannerBean bean) {
+	private void sendIntent(BannerBean bean) {
 		Intent intent = new Intent(getActivity(), ShowPageActivity.class);
 		intent.putExtra("title", bean.getBannerTitle());
 		intent.putExtra("url", bean.getContentUrl());
@@ -710,22 +564,27 @@ public class Fragment1 extends BaseFragment {
 	}
 
 	public void acceptNotify(int which) {
+		/* strategy of protect */
+		if (null == myHandler) {
+			initHandler();
+		}
+		
 		switch (which) {
 		case InitDataService.CONTENT_REQUEST_FINISH:
 			currentStatus = FIRST_IN;
 			myHandler.post(contentRunnable);
 			break;
+
+		// case InitDataService.CONTENT1_REQUEST_FINISH:
+		// currentStatus = FIRST_IN;
+		// myHandler.post(contentRunnable);
+		// break;
+		//
+		// case InitDataService.CONTENT2_REQUEST_FINISH:
+		// currentStatus = FIRST_IN;
+		// myHandler.post(contentRunnable);
+		// break;
 		
-		case InitDataService.CONTENT1_REQUEST_FINISH:
-			currentStatus = FIRST_IN;
-			myHandler.post(contentRunnable);
-			break;
-
-		case InitDataService.CONTENT2_REQUEST_FINISH:
-			currentStatus = FIRST_IN;
-			myHandler.post(contentRunnable);
-			break;
-
 		case InitDataService.BANNER_REQUEST_FINISH:
 			myHandler.post(bannerRunnable);
 			break;
@@ -760,10 +619,9 @@ public class Fragment1 extends BaseFragment {
 		if ((null != _list) && (_list.size() > 0)) {
 			bannerList.addAll(_list);
 		} else {
+			setBannerData();
+			mHandler.sendEmptyMessage(ADD_BANNER_LIST);
 			/* 发送清除线程操作 */
-			// setBannerData();
-			// mHandler.sendEmptyMessage(ADD_BANNER_LIST);
-
 			myHandler.sendEmptyMessage(CLEAR_BANNER_REQUEST);
 			return;
 		}
@@ -794,7 +652,6 @@ public class Fragment1 extends BaseFragment {
 		if (bannerList.size() > 0 && (null != adapter)) {
 			if (adapter.getCount() > 0) {
 				adapter.addBanners(bannerList);
-				// adapter.notifyDataSetChanged();
 				mHandler.sendEmptyMessage(FRESH_LISTVIEW);
 			} else {
 				adapter.addBanners(bannerList);
@@ -838,7 +695,6 @@ public class Fragment1 extends BaseFragment {
 
 			/* 注意发送请求获取数据 */
 			if ((_list == null) || _list.size() == 0) {
-				LogUtils.e("_list.size=" + _list.size());
 				if (currentStatus == FIRST_IN) {
 					if (!isFirst) {
 						initParamsAndSendRequest(false);
@@ -884,8 +740,8 @@ public class Fragment1 extends BaseFragment {
 			} else if (currentStatus == FIRST_IN) {
 				_curPage = 0;
 			}
-			DuanBean bean = getDb().findFirst(Selector.from(DuanBean.class)
-							.where("appid", "=", appid)
+			DuanBean bean = getDb().findFirst(
+					Selector.from(DuanBean.class).where("appid", "=", appid)
 							.and("columnId", "=", columnId)
 							.and("curPage", "=", _curPage));
 			if (bean != null) {
@@ -908,7 +764,8 @@ public class Fragment1 extends BaseFragment {
 		/* 1. 初始化参数 */
 		/* 修改分页请求时传递参数的起始值，因请求分页时已经是最后一页，若该页总数小于pageSize时，并修改下一页请求的起始值 */
 		first = curPage * pageSize;
-		LogUtils.e("first=" + first + ", adapter.getDuansSize()=" + adapter.getDuansSize());
+		LogUtils.e("first=" + first + ", adapter.getDuansSize()="
+				+ adapter.getDuansSize());
 		if (adapter.getDuansSize() < first) {
 			first = adapter.getDuansSize();
 		}
@@ -952,7 +809,6 @@ public class Fragment1 extends BaseFragment {
 			if (currentStatus == DROP_DOWN) {
 				changeDropDownFinishStatus();
 			} else if (currentStatus == PULL_UP) {
-				// dropDownListView.stopLoadMore();
 				dropDownListView.onLoadMoreComplete();
 			}
 
@@ -988,25 +844,20 @@ public class Fragment1 extends BaseFragment {
 					break;
 
 				case DROP_DOWN:
-					// if (checkUpdate) {
 					/* change listView status */
 					LogUtils.e("thread.name="
 							+ Thread.currentThread().getName());
 					showToast(R.string.no_fresh);
 					changeDropDownFinishStatus();
-					// }
 					break;
 
 				case PULL_UP:
-					LogUtils.e("thread.name="
-							+ Thread.currentThread().getName());
-					// adapter.notifyDataSetChanged();
+					LogUtils.e("thread.name=" + Thread.currentThread().getName());
 					mHandler.sendEmptyMessage(FRESH_LISTVIEW);
 					if (checkUpdate) {
 						/* change listView status */
-						setMoveUp();
-						// dropDownListView.stopLoadMore();
 						dropDownListView.onLoadMoreComplete();
+						setMoveUp();
 					}
 					break;
 				}
@@ -1021,7 +872,6 @@ public class Fragment1 extends BaseFragment {
 					if (currentStatus == PULL_UP) {
 						/* 当执行上拉操作时，自动将curPage--，设置成先前的状态，保证准确性 */
 						curPage--;
-						// dropDownListView.stopLoadMore();
 						dropDownListView.onLoadMoreComplete();
 						showToast(R.string.no_more);
 
@@ -1057,7 +907,6 @@ public class Fragment1 extends BaseFragment {
 					DuanBean bean = new DuanBean();
 					JSONObject jsonObject2 = jsonArray.getJSONObject(i);
 					int id = jsonObject2.getIntValue("id");
-//					bean.setId(id);
 					bean.setDuanId(id);
 					bean.setNick(jsonObject2.getString("userName"));
 					bean.setAvatarUrl(jsonObject2.getString("userVar"));
@@ -1074,7 +923,7 @@ public class Fragment1 extends BaseFragment {
 					list.add(bean);
 				}
 
-				// TODO: 将数据保存到数据库中
+				// 将数据保存到数据库中
 				try {
 					getDb().saveAll(list);
 				} catch (DbException e) {
@@ -1086,7 +935,6 @@ public class Fragment1 extends BaseFragment {
 				LogUtils.e("parseResult list.size=" + list.size());
 				adapter.addDuans(list);
 
-				// adapter.notifyDataSetChanged();
 				mHandler.sendEmptyMessage(FRESH_LISTVIEW);
 				changeFinishState();
 			}
@@ -1097,9 +945,7 @@ public class Fragment1 extends BaseFragment {
 			if (currentStatus == DROP_DOWN) {
 				changeDropDownFinishStatus();
 			} else if (currentStatus == PULL_UP) {
-				// adapter.notifyDataSetChanged();
 				mHandler.sendEmptyMessage(FRESH_LISTVIEW);
-				// dropDownListView.stopLoadMore();
 				dropDownListView.onLoadMoreComplete();
 			}
 
@@ -1111,9 +957,8 @@ public class Fragment1 extends BaseFragment {
 		LogUtils.e("freshEnabled=" + freshEnabled);
 		switch (currentStatus) {
 		case PULL_UP:
-			// setMoveUp();
-			// dropDownListView.stopLoadMore();
 			dropDownListView.onLoadMoreComplete();
+			setMoveUp();
 			break;
 
 		case DROP_DOWN:
@@ -1122,22 +967,6 @@ public class Fragment1 extends BaseFragment {
 
 		case FIRST_IN:
 			break;
-		}
-	}
-
-	private void getListFromDb() {
-		try {
-			List<DuanBean> _list = getDb().findAll(
-					Selector.from(DuanBean.class).where("appid", "=", appid)
-							.and("columnId", "=", columnId)
-							.and("ver", "=", ver).and("curPage", "=", curPage));
-			LogUtils.e("_list.size=" + _list.size() + ", curPage=" + curPage);
-			if ((null != _list) && (_list.size() > 0)) {
-				adapter.addDuans(_list);
-			}
-		} catch (DbException e) {
-			e.printStackTrace();
-			return;
 		}
 	}
 
@@ -1169,11 +998,12 @@ public class Fragment1 extends BaseFragment {
 		}
 
 	}
-	
+
 	private OnDropItemOperListerner itemListener = new OnDropItemOperListerner() {
-		
+
 		@Override
-		public void dropItemOper(int operType, DuanBean bean, DropItemHolder holder) {
+		public void dropItemOper(int operType, DuanBean bean,
+				DropItemHolder holder) {
 			/* 1. init params */
 			String imei = DeviceUtils.getIMEI(getActivity());
 			List<NameValuePair> nvps = new ArrayList<NameValuePair>();
@@ -1184,15 +1014,62 @@ public class Fragment1 extends BaseFragment {
 			nvps.add(new BasicNameValuePair("userId", imei));
 			RequestParams params = new RequestParams();
 			params.addQueryStringParameter(nvps);
-			
+
 			/* 2. send request */
-			new HttpUtils().send(HttpMethod.POST, Constants.ACTION_APPROVE_STAMP, params, 
+			new HttpUtils().send(HttpMethod.POST,
+					Constants.ACTION_APPROVE_STAMP, params,
 					new DropItemCallBack(operType, bean, holder));
 		}
+
+		@Override
+		public void startComment(int contentType, boolean isAds, int pos) {
+			/* Go To Comment Activity */
+			LogUtils.e("contentType=" + contentType + ", isAds=" + isAds
+					+ ", pos=" + pos);
+			Intent intent = new Intent(getActivity(),
+					CommentDetailActivity.class);
+			intent.putExtra("contentType", contentType);
+			intent.putExtra("insertAds", insertAds);
+			if (!insertAds) {
+				intent.putExtra("pos", pos);
+				/* handle Duans */
+				int size = adapter.getDuansSize();
+				intent.putExtra("size", size);
+				if (size > 0) {
+					List<DuanBean> _list = adapter.getDuansList();
+					for (int i = 0; i < size; i++) {
+						intent.putExtra("" + i, _list.get(i));
+					}
+				}
+			} else {
+				intent.putExtra("isAds", isAds);
+				intent.putExtra("pos", pos);
+				/* handle Duans */
+				int duansSize = adapter.getDuansSize();
+				intent.putExtra("duansSize", duansSize);
+				if (duansSize > 0) {
+					List<DuanBean> _list = adapter.getDuansList();
+					for (int i = 0; i < duansSize; i++) {
+						intent.putExtra("" + i, _list.get(i));
+					}
+				}
+				/* handle Banners */
+				int bannerSize = adapter.getBannerSize();
+				intent.putExtra("bannerSize", bannerSize);
+				if (bannerSize > 0) {
+					List<BannerBean> _list = adapter.getBannerList();
+					for (int i = 0; i < bannerSize; i++) {
+						intent.putExtra("" + i + duansSize, _list.get(i));
+					}
+				}
+			}
+			startActivity(intent);
+			new ActivityAnimator().pushLeftAnimation(getActivity());
+		}
 	};
-	
+
 	private class DropItemCallBack extends RequestCallBack<String> {
-		
+
 		private int operType;
 		private DuanBean bean;
 		private DropItemHolder holder;
@@ -1237,13 +1114,13 @@ public class Fragment1 extends BaseFragment {
 					e.printStackTrace();
 					return;
 				}
-				
+
 				/* modify list in adapter */
 				Message msg1 = new Message();
 				msg1.what = MODIFY_DUANS_LIST;
 				msg1.obj = bean;
 				mHandler.sendMessage(msg1);
-				
+
 				/* update UI */
 				Message msg2 = new Message();
 				msg2.what = UPDATE_DROP_ITEM;
@@ -1266,7 +1143,7 @@ public class Fragment1 extends BaseFragment {
 		public void onFailure(HttpException error, String msg) {
 			showToast(R.string.no_service);
 		}
-		
+
 	}
 
 	private void setBannerData() {

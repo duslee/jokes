@@ -16,9 +16,12 @@ import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TabHost.OnTabChangeListener;
@@ -34,17 +37,18 @@ import com.ly.duan.bean.ColumnBean;
 import com.ly.duan.bean.MultiReqStatus;
 import com.ly.duan.help.DBHelp;
 import com.ly.duan.help.GlobalHelp;
+import com.ly.duan.help.SavedStatusHelp;
 import com.ly.duan.service.InitDataService;
 import com.ly.duan.ui.fragment.DummyTabContent;
 import com.ly.duan.ui.fragment.Fragment1;
 import com.ly.duan.ui.fragment.Fragment3;
 import com.ly.duan.ui.fragment.Fragment4;
-import com.ly.duan.utils.Constants;
+import com.ly.duan.utils.ActivityAnimator;
 import com.ly.duan.utils.DialogUtils;
-import com.ly.duan.utils.PreferencesUtils;
 import com.ly.duan.utils.ResourceUtils;
 import com.ly.duan.utils.StringUtils;
 import com.ly.duan.utils.ToastUtils;
+import com.ly.duan.view.TabMenu;
 import com.sjm.gxdz.R;
 
 @ContentView(R.layout.view_main)
@@ -57,6 +61,8 @@ public class MainActivity extends FragmentActivity {
 	private static final int GET_BANNER_SUCCESS = 34;
 	
 	private static final int BIND_CLMS = 205;
+	
+	private TabMenu tabMenu;
 
 	@ViewInject(android.R.id.tabhost)
 	private TabHost mTabHost;
@@ -68,6 +74,7 @@ public class MainActivity extends FragmentActivity {
 	private FragmentManager fm;
 	private String tabName;
 	private String savedTabName;
+	private SavedStatusHelp savedStatusHelp;
 
 	private int iconArray[] = { R.drawable.tab1_item_selector,
 			R.drawable.tab2_item_selector, R.drawable.tab3_item_selector,
@@ -82,7 +89,7 @@ public class MainActivity extends FragmentActivity {
 	private ProgressDialog freshDialog;
 
 	private MainHandler mHandler = new MainHandler();
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -94,10 +101,21 @@ public class MainActivity extends FragmentActivity {
 		registerReceiver(receiver, filter);
 		
 		/* 3. open setting */
-		
+		try {
+			getWindow().addFlags(WindowManager.LayoutParams.class.getField("FLAG_NEEDS_MENU_KEY").getInt(null));
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (NoSuchFieldException e) {
+			e.printStackTrace();
+		}
 
 		/* 4. init Operation */
 		initOperation();
+		
+		/* 5. init tabMenu */
+		initTabMenu();
 	}
 
 	@Override
@@ -106,15 +124,33 @@ public class MainActivity extends FragmentActivity {
 		super.onDestroy();
 	}
 
+	private void initTabMenu() {
+		LogUtils.e("initTabMenu ---------");
+		tabMenu = new TabMenu(this);
+		tabMenu.getSetButton().setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				if (tabMenu.isShowing()) {
+					/* go to set view */
+					tabMenu.dismiss();
+					startActivity(new Intent(MainActivity.this, SettingActivity.class));
+					new ActivityAnimator().pushLeftAnimation(MainActivity.this);
+				}
+			}
+		});
+	}
+
 	private void initOperation() {
 		/* 1. init Data */
+		savedStatusHelp = SavedStatusHelp.getInstance();
 		db = DBHelp.getInstance(getApplicationContext());
 		appid = Long.parseLong(ResourceUtils.getFileFromAssets(getBaseContext(),
 				"appid.txt"));
 		
 		/* 2. get data */
 		/* 2.1 get current status */
-		MultiReqStatus status = GlobalHelp.getInstance().getMultiReqStatus();
+		MultiReqStatus status = GlobalHelp.getInstance().getMultiReqStatus(MainActivity.this);
 		int currentStatus = InitDataService.COLUMN_REQUESTING;
 		int content1Status = InitDataService.CONTENT1_REQUESTING;
 		int content2Status = InitDataService.CONTENT2_REQUESTING;
@@ -129,11 +165,16 @@ public class MainActivity extends FragmentActivity {
 		/* 2.2 根据currentStatus判断是否弹出刷新框提示等待 */
 		switch (currentStatus) {
 		case InitDataService.CONTENT_REQUEST_FINISH:
-			mHandler.post(clmsRunnable);
+			/* strategy of protect */
+			if ((null == clms) || (clms.size() == 0)) {
+				mHandler.post(clmsRunnable);
+			}
 			break;
 
 		case InitDataService.CONTENT_REQUESTING:
 		case InitDataService.COLUMN_REQUEST_FINISH:
+		case InitDataService.COLUMN_REQUEST_FAILED:
+		case InitDataService.COLUMN_RESPONSE_ERROR:
 			openDialog();
 			mHandler.post(clmsRunnable);
 			break;
@@ -145,33 +186,6 @@ public class MainActivity extends FragmentActivity {
 		default:
 			break;
 		}
-
-//		/* 2.2 根据content1Status & content2Status & savedTabName判断是否弹出刷新框提示等待 */
-//		if (savedTabName.equalsIgnoreCase(tabArray[0])) {
-//			switch (content1Status) {
-//			case InitDataService.CONTENT1_REQUESTING:
-//				openDialog();
-//				break;
-//
-//			default:
-//				break;
-//			}
-//		} else if (savedTabName.equalsIgnoreCase(tabArray[1])) {
-//			switch (content2Status) {
-//			case InitDataService.CONTENT2_REQUESTING:
-//				openDialog();
-//				break;
-//
-//			default:
-//				break;
-//			}
-//		}
-//
-//		/* 3. get Fragment */
-//		getFragment();
-//
-//		/* 4. set up tab */
-//		setupTabView();
 	}
 
 	protected void openDialog() {
@@ -229,8 +243,11 @@ public class MainActivity extends FragmentActivity {
 		
 		/* 2. set default/saved tab name */
 		tabName = tabArray[0];
-		savedTabName = PreferencesUtils.getConfigSharedPreferences(
-				MainActivity.this).getString(Constants.TAB_NAME, tabName);
+		savedTabName = savedStatusHelp.getTabName(MainActivity.this);
+		/* strategy of protect */
+		if (StringUtils.isBlank(savedTabName)) {
+			savedTabName = tabArray[0];
+		}
 
 		/* 3. get Fragment */
 		getFragment();
@@ -309,7 +326,8 @@ public class MainActivity extends FragmentActivity {
 				tabName = tabArray[3];
 				LogUtils.e("(fragment4==null)=" + (fragment4 == null) + ", tabName=" + tabName);
 				if (null == fragment4) {
-					fragment4 = new Fragment4();
+//					fragment4 = new Fragment4();
+					fragment4 = Fragment4.newInstance(isSame(tabName, savedTabName), clms.get(3));
 					ft.add(R.id.content, fragment4, tabArray[3]);
 				} else {
 					ft.show(fragment4);
@@ -317,8 +335,8 @@ public class MainActivity extends FragmentActivity {
 				}
 			}
 			/* 使之生效 */
-			ft.commit();
-			// ft.commitAllowingStateLoss();
+//			ft.commit();
+			 ft.commitAllowingStateLoss();
 		}
 	};
 
@@ -327,6 +345,7 @@ public class MainActivity extends FragmentActivity {
 	public boolean onKeyDown(int keyCode, android.view.KeyEvent event) {
 		if (event.getAction() == KeyEvent.ACTION_DOWN) {
 			if (keyCode == KeyEvent.KEYCODE_BACK) {
+				LogUtils.e("onKeyDown KEYCODE_BACK ------------");
 				if ((System.currentTimeMillis() - mExitTime) > 2000) {
 					ToastUtils.show(MainActivity.this, "再按一次退出程序");
 					mExitTime = System.currentTimeMillis();
@@ -335,16 +354,25 @@ public class MainActivity extends FragmentActivity {
 					MainActivity.this.finish();
 					System.exit(0);
 				}
+				return true;
+			} else if (keyCode == KeyEvent.KEYCODE_MENU) {
+				LogUtils.e("onKeyDown KEYCODE_MENU ------------");
+				if (null != tabMenu) {
+					if (tabMenu.isShowing()) {
+						tabMenu.dismiss();
+					} else {
+						tabMenu.showAtLocation(findViewById(R.id.main_ll), Gravity.NO_GRAVITY, 0, 0);
+					}
+				}
+				return true;
 			}
-			return true;
 		}
 		return super.onKeyDown(keyCode, event);
 	};
 
 	private void saveTabInSP() {
 		LogUtils.e("save tabName=" + tabName);
-		PreferencesUtils.getConfigSharedPreferences(this).edit()
-				.putString(Constants.TAB_NAME, tabName).commit();
+		savedStatusHelp.saveTabName(MainActivity.this, tabName);
 	}
 
 	private BroadcastReceiver receiver = new BroadcastReceiver() {
@@ -442,10 +470,7 @@ public class MainActivity extends FragmentActivity {
 							break;
 
 						case InitDataService.BANNER_REQUEST_FINISH:
-							Message msg = new Message();
-							msg.what = GET_BANNER_SUCCESS;
-							msg.arg1 = bc_type;
-							msg.arg2 = bannerStatus;
+							Message msg = mHandler.obtainMessage(GET_BANNER_SUCCESS, bc_type, bannerStatus);
 							mHandler.sendMessage(msg);
 							break;
 
@@ -523,6 +548,7 @@ public class MainActivity extends FragmentActivity {
 				break;
 			
 			case RE_OPEN_APP:
+				closeDialog();
 				handleExitApp();
 				break;
 
@@ -551,16 +577,16 @@ public class MainActivity extends FragmentActivity {
 
 	private boolean hasNotifyClm1 = false;
 	private boolean hasNotifyClm2 = false;
+	private boolean hasNotifyClm3 = false;
+	private boolean hasNotifyClm4 = false;
 	private boolean hasNotifyBanner1 = false;
 	private boolean hasNotifyBanner2 = false;
 
 	/* TODO: Question */
 	private void notifyFragment(int which) {
-		LogUtils.e("which=" + which + ", savedTabName=" + savedTabName
-				+ ", tabArray[0]=" + tabArray[0] + ", hasNotifyClm1="
-				+ hasNotifyClm1 + ", hasNotifyClm2=" + hasNotifyClm2);
-		// if ((which == InitDataService.CONTENT1_REQUEST_FINISH)
-		// && savedTabName.equalsIgnoreCase(tabArray[0])) {
+//		LogUtils.e("which=" + which + ", savedTabName=" + savedTabName
+//				+ ", tabArray[0]=" + tabArray[0] + ", hasNotifyClm1="
+//				+ hasNotifyClm1 + ", hasNotifyClm2=" + hasNotifyClm2);
 		if ((which == InitDataService.CONTENT1_REQUEST_FINISH)
 				&& !hasNotifyClm1) {
 			LogUtils.e("(fragment1 != null)=" + (fragment1 != null));
@@ -575,23 +601,15 @@ public class MainActivity extends FragmentActivity {
 				hasNotifyClm2 = true;
 				fragment2.acceptNotify(which);
 			}
-			// } else if ((which == InitDataService.BANNER_REQUEST_FINISH)
-			// && savedTabName.equalsIgnoreCase(tabArray[2])) {
 		}
-//		else if ((which == InitDataService.CONTENT_REQUEST_FINISH)) {
-//			LogUtils.e("(fragment2 != null)=" + (fragment2 != null));
-//			if (savedTabName.equalsIgnoreCase(tabArray[0]) && !hasNotifyClm1 && (fragment1 != null)) {
-//				hasNotifyClm1 = true;
-//				fragment1.acceptNotify(which);
-//			} else if (savedTabName.equalsIgnoreCase(tabArray[1]) && !hasNotifyClm2 && (fragment2 != null)) {
-//				hasNotifyClm2 = true;
-//				fragment2.acceptNotify(which);
-//			}
-//		}
 		else if ((which == InitDataService.BANNER_REQUEST_FINISH)) {
 			LogUtils.e("(fragment3 != null)=" + (fragment3 != null)
 					+ ", hasNotifyBanner1=" + hasNotifyBanner1
 					+ ", hasNotifyBanner2=" + hasNotifyBanner2);
+			/* strategy of protect */
+			if (tabArray.length == 0) {
+				return;
+			}
 			if (savedTabName.equalsIgnoreCase(tabArray[2])
 					&& (fragment3 != null) && !hasNotifyBanner2) {
 				hasNotifyBanner2 = true;
@@ -611,6 +629,12 @@ public class MainActivity extends FragmentActivity {
 			} else if (savedTabName.equalsIgnoreCase(tabArray[1]) && !hasNotifyClm2 && (fragment2 != null)) {
 				hasNotifyClm2 = true;
 				fragment2.acceptNotify(which);
+			} else if (savedTabName.equalsIgnoreCase(tabArray[2]) && !hasNotifyClm3 && (fragment3 != null)) {
+				hasNotifyClm3 = true;
+				fragment3.acceptNotify(which);
+			} else if (savedTabName.equalsIgnoreCase(tabArray[3]) && !hasNotifyClm4 && (fragment4 != null)) {
+				hasNotifyClm4 = true;
+				fragment4.acceptNotify(which);
 			}
 		}
 	}
@@ -668,5 +692,43 @@ public class MainActivity extends FragmentActivity {
 			mHandler.removeCallbacks(clmsRunnable);
 		}
 	};
-
+	
+//	/** 创建MENU */
+//	public boolean onCreateOptionsMenu(android.view.Menu menu) {
+//		LogUtils.e("onCreateOptionsMenu ---------");
+////		menu.add("menu");
+////		return super.onCreateOptionsMenu(menu);
+//		return true;
+////		super.onCreateOptionsMenu(menu);
+////		getMenuInflater().inflate(R.menu.setting, menu);
+////		return true;
+//	};
+//	
+//	@Override
+//	public boolean onMenuItemSelected(int featureId, MenuItem item) {
+//		LogUtils.e("onMenuItemSelected -----------");
+//		if (null != tabMenu) {
+//			if (tabMenu.isShowing()) {
+//				tabMenu.dismiss();
+//			} else {
+//				tabMenu.showAtLocation(findViewById(android.R.id.tabs), Gravity.BOTTOM, 0, 0);
+//			}
+//		}
+//		return false;
+//	}
+//	
+//	/** 拦截MENU */
+//	@Override
+//	public boolean onMenuOpened(int featureId, Menu menu) {
+//		LogUtils.e("onMenuOpened -----------");
+//		if (null != tabMenu) {
+//			if (tabMenu.isShowing()) {
+//				tabMenu.dismiss();
+//			} else {
+//				tabMenu.showAtLocation(findViewById(android.R.id.tabs), Gravity.BOTTOM, 0, 0);
+//			}
+//		}
+//		return false;
+//	}
+	
 }

@@ -113,32 +113,32 @@
 
     <style name="NotiTitleStyle" parent="@style/CommonTextStyle">
         <item name="android:textColor">@android:color/white</item>
-        <item name="android:textSize">15sp</item>
+        <item name="android:textSize">18sp</item>
     </style>
 
     <style name="NotiTimeStyle" parent="@style/CommonTextStyle">
-        <item name="android:textColor">#eeeeee</item>
-        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">#9a9a9a</item>
+        <item name="android:textSize">14sp</item>
     </style>
 
     <style name="NotiSubTitleStyle" parent="@style/CommonTextStyle">
-        <item name="android:textColor">#eeeeee</item>
-        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">#9a9a9a</item>
+        <item name="android:textSize">14sp</item>
     </style>
 
     <style name="NotiTitleStyle2" parent="@style/CommonTextStyle">
         <item name="android:textColor">@android:color/black</item>
-        <item name="android:textSize">15sp</item>
+        <item name="android:textSize">18sp</item>
     </style>
 
     <style name="NotiTimeStyle2" parent="@style/CommonTextStyle">
         <item name="android:textColor">#888888</item>
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">14sp</item>
     </style>
 
     <style name="NotiSubTitleStyle2" parent="@style/CommonTextStyle">
         <item name="android:textColor">#888888</item>
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">14sp</item>
     </style>
     
     <style name="NumStyle" parent="@style/CommonTextStyle">
@@ -155,6 +155,61 @@
     <style name="Frag3TVStyle" parent="@style/CommonTextStyle">
         <item name="android:textColor">#333333</item>
         <item name="android:textSize">18sp</item>
+    </style>
+    
+    <!-- popup Animation -->
+    <style name="PopupAnimation" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/popup_enter</item>  
+        <item name="android:windowExitAnimation">@anim/popup_exit</item>   
+    </style>
+    
+    <!-- TV shadow style -->
+    <style name="TVShadowStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">#333333</item>
+        <item name="android:shadowColor">#ffffff</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">2</item>
+        <item name="android:shadowRadius">1</item>
+        <item name="android:background">@null</item>
+    </style>
+    
+    <!-- in Comment Frag -->
+    <style name="CommentTVStyle" parent="@style/CommonTextStyle">
+        <item name="android:textColor">#666666</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+    
+    <style name="CommentItemTitleStyle" parent="@style/CommonTextStyle">
+        <item name="android:textColor">#666666</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+    
+    <style name="CommentItemTimeStyle" parent="@style/CommonTextStyle">
+        <item name="android:textColor">#a1a1a1</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    
+    <style name="CommentItemContentStyle" parent="@style/CommonTextStyle">
+        <item name="android:textColor">#333333</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+    
+    <style name="CommentItemApproveNumStyle" parent="@style/CommonTextStyle">
+        <item name="android:textColor">#9a9a9a</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+    
+    <style name="SendCommentExtrsNumsStyle" parent="@style/CommonTextStyle">
+        <item name="android:textColor">#9a9a9a</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+    
+    <style name="PostNickStyle" parent="@style/CommonTextStyle">
+        <item name="android:textColor">#999999</item>
+        <item name="android:textSize">15sp</item>
     </style>
 
 </resources>

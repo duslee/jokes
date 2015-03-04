@@ -18,6 +18,7 @@ package com.charon.pulltorefreshlistview;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ListView;
@@ -40,7 +41,7 @@ public class LoadMoreListView extends ListView {
      */
     private boolean mIsLoading;
 
-    private int mCurrentScrollState;
+//    private int mCurrentScrollState;
 
     public LoadMoreListView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
@@ -71,6 +72,8 @@ public class LoadMoreListView extends ListView {
      * Hide the load more view(footer view)
      */
     private void hideFooterView() {
+    	scrollBy(0, -mFooterView.getHeight());
+//    	mFooterView.setPadding(0, -mFooterView.getHeight(), 0, 0);
         mFooterView.setVisibility(View.GONE);
     }
 
@@ -78,7 +81,9 @@ public class LoadMoreListView extends ListView {
      * Show load more view
      */
     private void showFooterView() {
+    	scrollBy(0, 0);
         mFooterView.setVisibility(View.VISIBLE);
+//        mFooterView.setPadding(0, 0, 0, 0);
     }
 
     @Override
@@ -105,11 +110,26 @@ public class LoadMoreListView extends ListView {
         hideFooterView();
     }
 
+	private boolean mLastItemVisible;
+
     private OnScrollListener superOnScrollListener = new OnScrollListener() {
 
         @Override
         public void onScrollStateChanged(AbsListView view, int scrollState) {
-            mCurrentScrollState = scrollState;
+        	Log.e("bmp test", "1111 scrollState=" + scrollState);
+        	if (scrollState == OnScrollListener.SCROLL_STATE_IDLE 
+        			&& null != mOnLoadMoreListener 
+        			&& mLastItemVisible) {
+        		Log.e("bmp test", "onScrollStateChanged mIsLoading=" + mIsLoading + 
+        				", mLastItemVisible=" + mLastItemVisible);
+        		if (!mIsLoading) {
+        			showFooterView();
+            		mIsLoading = true;
+            		mOnLoadMoreListener.onLoadMore();
+				}
+    		}
+        	
+//            mCurrentScrollState = scrollState;
             // Avoid override when use setOnScrollListener
             if (mOnScrollListener != null) {
                 mOnScrollListener.onScrollStateChanged(view, scrollState);
@@ -118,23 +138,36 @@ public class LoadMoreListView extends ListView {
 
         @Override
         public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+        	Log.e("bmp test", "onScroll firstVisibleItem=" + firstVisibleItem + ", visibleItemCount=" + visibleItemCount + ", totalItemCount=" + totalItemCount);
             if (mOnScrollListener != null) {
                 mOnScrollListener.onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);
             }
             // The count of footer view will be add to visibleItemCount also are
             // added to totalItemCount
-            if (visibleItemCount == totalItemCount) {
-                // If all the item can not fill screen, we should make the
-                // footer view invisible.
-                hideFooterView();
-            } else if (!mIsLoading && (firstVisibleItem + visibleItemCount >= totalItemCount)
-                    && mCurrentScrollState != SCROLL_STATE_IDLE) {
-                showFooterView();
-                mIsLoading = true;
-                if (mOnLoadMoreListener != null) {
-                    mOnLoadMoreListener.onLoadMore();
-                }
-            }
+//            if (visibleItemCount == totalItemCount) {
+//                // If all the item can not fill screen, we should make the
+//                // footer view invisible.
+//                hideFooterView();
+//            } else if (!mIsLoading
+//            		&& (firstVisibleItem + visibleItemCount >= totalItemCount)
+//                    && mCurrentScrollState != SCROLL_STATE_IDLE) {
+//                showFooterView();
+//                mIsLoading = true;
+//                if (mOnLoadMoreListener != null) {
+//                    mOnLoadMoreListener.onLoadMore();
+//                }
+//            }
+            
+//            if (firstVisibleItem + visibleItemCount == totalItemCount) {
+//            	mFooterView.setPadding(0, -mFooterView.getHeight(), 0, 0);
+//			} else {
+//				mFooterView.setPadding(0, 0, 0, 0);
+//			}
+            
+            if (null != mOnLoadMoreListener) {
+    			mLastItemVisible = (totalItemCount > 0)
+    					&& (firstVisibleItem + visibleItemCount >= totalItemCount);
+    		}
         }
     };
 
@@ -147,5 +180,14 @@ public class LoadMoreListView extends ListView {
          */
         void onLoadMore();
     }
+    
+//    /**
+//     * 重写该方法，达到使ListView适应ScrollView的效果
+//     */
+//    @Override
+//    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+//    	int expandSpec = MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE >> 2, MeasureSpec.AT_MOST);
+//    	super.onMeasure(widthMeasureSpec, expandSpec);
+//    }
 
 }

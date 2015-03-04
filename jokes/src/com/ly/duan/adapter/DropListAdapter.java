@@ -97,6 +97,10 @@ public class DropListAdapter extends BaseAdapter {
 	public int getDuansSize() {
 		return duanList.size();
 	}
+	
+	public List<DuanBean> getDuansList() {
+		return duanList;
+	}
 
 	public void addDuans(List<DuanBean> _duanList) {
 		duanList.addAll(_duanList);
@@ -104,6 +108,14 @@ public class DropListAdapter extends BaseAdapter {
 
 	public void addApks(List<BannerBean> _apkList) {
 		this.apkList.addAll(_apkList);
+	}
+	
+	public int getBannerSize() {
+		return bannerList.size();
+	}
+	
+	public List<BannerBean> getBannerList() {
+		return bannerList;
 	}
 
 	public void addBanners(List<BannerBean> bannerList) {
@@ -115,7 +127,6 @@ public class DropListAdapter extends BaseAdapter {
 		if (!insertAds) {
 			return duanList.size();
 		}
-//		return duanList.size() + bannerList.size();
 		return duanList.size() + currentIndex;
 	}
 
@@ -135,7 +146,7 @@ public class DropListAdapter extends BaseAdapter {
 //				+ ", (convertView == null)=" + (convertView == null));
 		if (!insertAds) {
 			DuanBean bean = duanList.get(position);
-			return getDuanView(bean, convertView, parent);
+			return getDuanView(bean, convertView, parent, false, position);
 		}
 
 		// LogUtils.e("22222 position=" + position + ", currentIndex="
@@ -144,12 +155,14 @@ public class DropListAdapter extends BaseAdapter {
 //		LogUtils.e("33333 isAds=" + isAds + ", currentIndex=" + currentIndex
 //				+ ", toIndex=" + toIndex);
 		if (!isAds) {
-			DuanBean bean = duanList.get(position - currentIndex);
-			return getDuanView(bean, convertView, parent, isAds);
+			int pos = position - currentIndex;
+			DuanBean bean = duanList.get(pos);
+			return getDuanView(bean, convertView, parent, isAds, position);
 		} else {
-			BannerBean bean = bannerList.get(toIndex - 1);
-			LogUtils.e(bean.toString());
-			return getBannerView(bean, convertView, parent, isAds);
+			int pos = toIndex - 1;
+			BannerBean bean = bannerList.get(pos);
+//			LogUtils.e(bean.toString());
+			return getBannerView(bean, convertView, parent, isAds, position);
 		}
 	}
 
@@ -193,9 +206,9 @@ public class DropListAdapter extends BaseAdapter {
 		}
 		return false;
 	}
-
+	
 	private View getBannerView(final BannerBean bean, View convertView,
-			ViewGroup parent, boolean isAds) {
+			ViewGroup parent, boolean isAds, int pos) {
 		/* get holder */
 		DropItemHolder holder = null;
 		if (convertView == null) {
@@ -212,19 +225,19 @@ public class DropListAdapter extends BaseAdapter {
 		holder.banner_ll.setVisibility(View.VISIBLE);
 
 		/* fill banner TextView */
-		if (!StringUtils.isBlank(bean.getBannerTitle().trim())
-				&& !StringUtils.isBlank(bean.getBannerDesc().trim())) {
+		if (!StringUtils.isBlank(bean.getBannerTitle())
+				&& !StringUtils.isBlank(bean.getBannerDesc())) {
 			holder.banner_content_ll.setVisibility(View.VISIBLE);
 			String str = String.format(
 					mContext.getResources().getString(R.string.banner_text),
-					bean.getBannerTitle().trim(), bean.getBannerDesc().trim());
+					bean.getBannerTitle(), bean.getBannerDesc());
 			holder.banner_tv.setText(str);
-		} else if (!StringUtils.isBlank(bean.getBannerTitle().trim())) {
+		} else if (!StringUtils.isBlank(bean.getBannerTitle())) {
 			holder.banner_content_ll.setVisibility(View.VISIBLE);
-			holder.banner_tv.setText(bean.getBannerTitle().trim());
-		} else if (!StringUtils.isBlank(bean.getBannerDesc().trim())) {
+			holder.banner_tv.setText(bean.getBannerTitle());
+		} else if (!StringUtils.isBlank(bean.getBannerDesc())) {
 			holder.banner_content_ll.setVisibility(View.VISIBLE);
-			holder.banner_tv.setText(bean.getBannerDesc().trim());
+			holder.banner_tv.setText(bean.getBannerDesc());
 		} else {
 			holder.banner_content_ll.setVisibility(View.GONE);
 		}
@@ -249,7 +262,7 @@ public class DropListAdapter extends BaseAdapter {
 //					+ ", holder.banner_iv.getHeight="
 //					+ holder.banner_iv.getHeight());
 
-			// TODO: (add) set tag in iv
+			// set tag in iv
 			String urlTag = (String) holder.banner_iv.getTag();
 			if (!StringUtils.isBlank(urlTag) && urlTag.equalsIgnoreCase(url)) {
 			} else {
@@ -282,12 +295,8 @@ public class DropListAdapter extends BaseAdapter {
 		return convertView;
 	}
 
-	private View getDuanView(DuanBean bean, View convertView, ViewGroup parent) {
-		return getDuanView(bean, convertView, parent, false);
-	}
-
 	private View getDuanView(final DuanBean bean, View convertView, ViewGroup parent,
-			boolean isAds) {
+			final boolean isAds, final int pos) {
 		/* get holder */
 		DropItemHolder holder = null;
 		if (convertView == null) {
@@ -315,8 +324,8 @@ public class DropListAdapter extends BaseAdapter {
 		}
 		
 		/* display nums of good & bad */
-//		LogUtils.e("good=" + bean.getGood() + ", bad=" + bean.getBad() + ", approve=" 
-//				+ bean.getApprove() + ", stamp=" + bean.getStamp());
+		LogUtils.e("good=" + bean.getGood() + ", bad=" + bean.getBad() + ", approve=" 
+				+ bean.getApprove() + ", stamp=" + bean.getStamp());
 		if (bean.getGood() > 0) {
 			holder.up_tv.setText("" + bean.getGood());
 		} else {
@@ -359,6 +368,18 @@ public class DropListAdapter extends BaseAdapter {
 		holder.down_ll.setOnClickListener(new DropItemClickListener(
 				Constants.TYPE_STAMP, bean, holder));
 
+		/* handle comment */
+		holder.comment_ll.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				if (itemListener != null) {
+					LogUtils.e("contentType=" + bean.getContentType() + ", isAds=" + isAds + ", pos=" + pos);
+					itemListener.startComment(bean.getContentType(), isAds, pos);
+				}
+			}
+		});
+		
 		String avatarUrl = bean.getAvatarUrl();
 		if (!StringUtils.isBlank(avatarUrl)) {
 			String urlTag = (String) holder.duan_avatar.getTag();
@@ -411,7 +432,6 @@ public class DropListAdapter extends BaseAdapter {
 //						+ ", holder.pictureIV.getHeight="
 //						+ holder.pictureIV.getHeight());
 
-				// TODO: add
 				String urlTag = (String) holder.pictureIV.getTag();
 				if (!StringUtils.isBlank(urlTag)
 						&& urlTag.equalsIgnoreCase(url)) {
@@ -480,7 +500,6 @@ public class DropListAdapter extends BaseAdapter {
 				holder.gifView.setImageDrawable(dr);
 			} else {
 //				LogUtils.e("222222 file.exists=" + file.exists());
-				// TODO: (add)
 				holder.gifView.setImageDrawable(null);
 				holder.duan_pw.setVisibility(View.VISIBLE);
 
@@ -597,6 +616,16 @@ public class DropListAdapter extends BaseAdapter {
 		
 		@ViewInject(R.id.add_tv2)
 		public TextView add_tv2;
+		
+		/* comment */
+		@ViewInject(R.id.comment_ll)
+		public LinearLayout comment_ll;
+		
+		@ViewInject(R.id.comment_iv)
+		public ImageView comment_iv;
+		
+		@ViewInject(R.id.comment_tv)
+		public TextView comment_tv;
 		
 		/* banner item */
 		@ViewInject(R.id.banner_ll)
@@ -723,7 +752,7 @@ public class DropListAdapter extends BaseAdapter {
 		public void startDownloadOrOpen(BannerBean bean);
 	}
 
-	public class CustomAvatarLoadCallback extends DefaultBitmapLoadCallBack<ImageView> {
+	private class CustomAvatarLoadCallback extends DefaultBitmapLoadCallBack<ImageView> {
 
 		@Override
 		public void onLoadCompleted(ImageView container, String uri,
@@ -737,6 +766,7 @@ public class DropListAdapter extends BaseAdapter {
 	private OnDropItemOperListerner itemListener;
 	public interface OnDropItemOperListerner {
 		public void dropItemOper(int operType, DuanBean bean, DropItemHolder holder);
+		public void startComment(int contentType, boolean isAds, int pos);
 	}
 	
 	public void setDropItemListener(OnDropItemOperListerner itemListener) {

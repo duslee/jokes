@@ -1,6 +1,10 @@
 package com.ly.duan.ui;
 
+import java.util.Calendar;
+
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -14,6 +18,7 @@ import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ContentView;
 import com.ly.duan.service.InitDataService;
+import com.ly.duan.service.PushService;
 import com.ly.duan.utils.ActivityAnimator;
 import com.ly.duan.utils.NetUtils;
 import com.ly.duan.utils.ResourceUtils;
@@ -30,6 +35,7 @@ public class WelcomeActivity extends BaseActivity {
 		public void handleMessage(android.os.Message msg) {
 			switch (msg.what) {
 			case EXIT_APP:
+				mHandler.removeMessages(GO_TO_MAIN);
 				handleExitApp();
 				break;
 
@@ -93,6 +99,10 @@ public class WelcomeActivity extends BaseActivity {
 
 		/* 3. active log */
 		ActiveLogUtil.sendActiveLog(0, WelcomeActivity.this, appid, channelId);
+		
+		/* 4. 设置定时闹钟：针对未注册用户 */
+//		setAlarm();
+		setAlarm2();
 	}
 
 	private void checkInternet() {
@@ -119,6 +129,33 @@ public class WelcomeActivity extends BaseActivity {
 		AlertDialog dialog = builder.create();
 		dialog.setCanceledOnTouchOutside(false);
 		dialog.show();
+	}
+	
+	private void setAlarm() {
+		Calendar c = Calendar.getInstance();
+
+		c.set(Calendar.HOUR_OF_DAY, 22);
+		c.set(Calendar.MINUTE, 0);
+		c.set(Calendar.SECOND, 0);
+		Intent intent = new Intent(this, PushService.class);
+		PendingIntent pi = PendingIntent.getService(this, 0, intent, 0);
+		AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+		if (c.getTimeInMillis() <= System.currentTimeMillis()) {
+			c.setTimeInMillis(c.getTimeInMillis() + 24 * 60 * 60 * 1000);
+		}
+		am.setRepeating(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(),
+				24 * 60 * 60 * 1000, pi);
+	}
+
+	private void setAlarm2() {
+		Calendar c = Calendar.getInstance();
+		Intent intent = new Intent(this, PushService.class);
+		PendingIntent pi = PendingIntent.getService(this, 0, intent, 0);
+		AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+		am.setRepeating(AlarmManager.RTC_WAKEUP,
+				System.currentTimeMillis() + 10 * 1000, 4 * 60 * 60 * 1000, pi);
+		LogUtils.d(c.getTime() + ", " + c.getTimeInMillis() + ", "
+				+ System.currentTimeMillis());
 	}
 
 	private BroadcastReceiver receiver = new BroadcastReceiver() {

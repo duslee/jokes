@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.sjm.gxdz"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <FrameLayout
+        android:id="@+id/comment_fl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dip"
+        android:background="#ffffff" >
+
+        <LinearLayout
+            android:id="@+id/duan_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:descendantFocusability="blocksDescendants"
+            android:orientation="vertical"
+            android:visibility="gone" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dip" >
+
+                <ImageView
+                    android:id="@+id/duan_avatar"
+                    android:layout_width="40dip"
+                    android:layout_height="40dip"
+                    android:layout_marginLeft="@dimen/drop_item_left_margin"
+                    android:contentDescription="@null"
+                    android:scaleType="centerCrop" />
+
+                <TextView
+                    android:id="@+id/duan_nick"
+                    style="@style/DropItemNickStyle"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="12dip"
+                    android:layout_toRightOf="@id/duan_avatar" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/duan_content"
+                style="@style/DropItemContentStyle"
+                android:layout_marginLeft="@dimen/drop_item_left_margin"
+                android:layout_marginRight="@dimen/drop_item_right_margin"
+                android:layout_marginTop="12dip" />
+
+            <RelativeLayout
+                android:id="@+id/duan_rl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dip"
+                android:layout_marginTop="10dip" >
+
+                <com.ly.duan.view.ProgressWheel
+                    android:id="@+id/duan_pw"
+                    android:layout_width="50dip"
+                    android:layout_height="50dip"
+                    android:layout_centerInParent="true"
+                    android:visibility="gone"
+                    app:barColor="#339BB9"
+                    app:barLength="20dp"
+                    app:barWidth="5dp"
+                    app:rimColor="#44000000"
+                    app:rimWidth="5dp"
+                    app:spinSpeed="2dip" />
+
+                <ImageView
+                    android:id="@+id/duan_picture"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@null"
+                    android:scaleType="centerCrop"
+                    android:visibility="gone" />
+
+                <pl.droidsonroids.gif.GifImageView
+                    android:id="@+id/duan_gif"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/frag4_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:descendantFocusability="blocksDescendants"
+            android:orientation="vertical"
+            android:visibility="gone" >
+
+            <TextView
+                android:id="@+id/frag4_content"
+                style="@style/DropItemContentStyle"
+                android:layout_marginLeft="@dimen/drop_item_left_margin"
+                android:layout_marginRight="@dimen/drop_item_right_margin"
+                android:layout_marginTop="16dip" />
+
+            <RelativeLayout
+                android:id="@+id/frag4_rl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dip"
+                android:layout_marginTop="10dip" >
+
+                <ImageView
+                    android:id="@+id/frag4_picture"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@null"
+                    android:scaleType="centerCrop" />
+
+                <ImageView
+                    android:id="@+id/frag4_play"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:contentDescription="@null"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/play_selector" />
+            </RelativeLayout>
+        </LinearLayout>
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/comment_ll"
+        android:layout_width="match_parent"
+        android:layout_height="68dip"
+        android:background="#eeeeee" >
+
+        <TextView
+            android:id="@+id/comment_tv"
+            style="@style/CommentTVStyle"
+            android:layout_marginLeft="10dip"
+            android:layout_marginTop="10dip"
+            android:layout_gravity="bottom"
+            android:text="@string/comment_list" />
+    </LinearLayout>
+
+</LinearLayout>

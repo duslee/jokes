@@ -1,5 +1,7 @@
 android.os.DeviceUtil:
     8:8:public DeviceUtil()
+    46:46:public static int getVersion()
+    50:50:public static java.lang.String getPhoneVersion()
 android.os.FileUtils:
     public static final int S_IRWXU
     public static final int S_IRUSR
@@ -90,7 +92,6 @@ android.support.v4.app.BackStackRecord:
     372:375:public java.lang.CharSequence getBreadCrumbTitle()
     379:382:public java.lang.CharSequence getBreadCrumbShortTitle()
     401:402:public android.support.v4.app.FragmentTransaction add(android.support.v4.app.Fragment,java.lang.String)
-    406:407:public android.support.v4.app.FragmentTransaction add(int,android.support.v4.app.Fragment)
     443:443:public android.support.v4.app.FragmentTransaction replace(int,android.support.v4.app.Fragment)
     447:452:public android.support.v4.app.FragmentTransaction replace(int,android.support.v4.app.Fragment,java.lang.String)
     501:501:public android.support.v4.app.FragmentTransaction setCustomAnimations(int,int)
@@ -140,7 +141,6 @@ android.support.v4.app.Fragment:
     static final int RESUMED
     529:529:public final int getId()
     536:536:public final java.lang.String getTag()
-    570:575:public void setInitialSavedState(android.support.v4.app.Fragment$SavedState)
     589:591:public void setTargetFragment(android.support.v4.app.Fragment,int)
     597:597:public final android.support.v4.app.Fragment getTargetFragment()
     604:604:public final int getTargetRequestCode()
@@ -157,8 +157,6 @@ android.support.v4.app.Fragment:
     799:804:public void setRetainInstance(boolean)
     807:807:public final boolean getRetainInstance()
     818:824:public void setHasOptionsMenu(boolean)
-    836:842:public void setMenuVisibility(boolean)
-    858:863:public void setUserVisibleHint(boolean)
     870:870:public boolean getUserVisibleHint()
     877:885:public android.support.v4.app.LoaderManager getLoaderManager()
     904:908:public void startActivityForResult(android.content.Intent,int)
@@ -173,8 +171,6 @@ android.support.v4.app.Fragment:
     1605:1606:public void setAllowEnterTransitionOverlap(boolean)
     1629:1630:public void setAllowReturnTransitionOverlap(boolean)
     1731:1737:android.support.v4.app.Fragment findFragmentByWho(java.lang.String)
-android.support.v4.app.Fragment$SavedState:
-    327:329:Fragment$SavedState(android.os.Bundle)
 android.support.v4.app.FragmentActivity:
     private static final java.lang.String TAG
     static final java.lang.String FRAGMENTS_TAG
@@ -200,10 +196,7 @@ android.support.v4.app.FragmentManager:
     public abstract android.support.v4.app.FragmentManager$BackStackEntry getBackStackEntryAt(int)
     public abstract void addOnBackStackChangedListener(android.support.v4.app.FragmentManager$OnBackStackChangedListener)
     public abstract void removeOnBackStackChangedListener(android.support.v4.app.FragmentManager$OnBackStackChangedListener)
-    public abstract void putFragment(android.os.Bundle,java.lang.String,android.support.v4.app.Fragment)
-    public abstract android.support.v4.app.Fragment getFragment(android.os.Bundle,java.lang.String)
     public abstract java.util.List getFragments()
-    public abstract android.support.v4.app.Fragment$SavedState saveFragmentInstanceState(android.support.v4.app.Fragment)
     public abstract boolean isDestroyed()
     public abstract void dump(java.lang.String,java.io.FileDescriptor,java.io.PrintWriter,java.lang.String[])
     358:359:public static void enableDebugLogging(boolean)
@@ -230,7 +223,6 @@ android.support.v4.app.FragmentManagerImpl:
     555:559:public void addOnBackStackChangedListener(android.support.v4.app.FragmentManager$OnBackStackChangedListener)
     563:566:public void removeOnBackStackChangedListener(android.support.v4.app.FragmentManager$OnBackStackChangedListener)
     597:597:public java.util.List getFragments()
-    602:610:public android.support.v4.app.Fragment$SavedState saveFragmentInstanceState(android.support.v4.app.Fragment)
     615:615:public boolean isDestroyed()
     1352:1360:public android.support.v4.app.Fragment findFragmentByWho(java.lang.String)
 android.support.v4.app.FragmentManagerImpl$2
@@ -241,7 +233,9 @@ android.support.v4.app.FragmentManagerImpl$FragmentTag:
     public static final int Fragment_tag
     2205:2205:FragmentManagerImpl$FragmentTag()
 android.support.v4.app.FragmentPagerAdapter
-android.support.v4.app.FragmentStatePagerAdapter
+android.support.v4.app.FragmentStatePagerAdapter:
+    private static final java.lang.String TAG
+    private static final boolean DEBUG
 android.support.v4.app.FragmentTabHost:
     private android.widget.FrameLayout mRealTabContent
     130:132:public FragmentTabHost(android.content.Context)
@@ -262,7 +256,6 @@ android.support.v4.app.FragmentTransaction:
     public static final int TRANSIT_FRAGMENT_CLOSE
     public static final int TRANSIT_FRAGMENT_FADE
     public abstract android.support.v4.app.FragmentTransaction add(android.support.v4.app.Fragment,java.lang.String)
-    public abstract android.support.v4.app.FragmentTransaction add(int,android.support.v4.app.Fragment)
     public abstract android.support.v4.app.FragmentTransaction replace(int,android.support.v4.app.Fragment)
     public abstract android.support.v4.app.FragmentTransaction replace(int,android.support.v4.app.Fragment,java.lang.String)
     public abstract boolean isEmpty()
@@ -1691,7 +1684,6 @@ android.support.v4.view.ViewPager:
     public static final int SCROLL_STATE_IDLE
     public static final int SCROLL_STATE_DRAGGING
     public static final int SCROLL_STATE_SETTLING
-    349:351:public ViewPager(android.content.Context)
     613:625:public void setPageTransformer(boolean,android.support.v4.view.ViewPager$PageTransformer)
     783:784:void smoothScrollTo(int,int)
     2278:2294:public boolean beginFakeDrag()
@@ -2453,7 +2445,6 @@ com.alibaba.fastjson.JSON:
     447:456:public static final varargs java.lang.String toJSONStringZ(java.lang.Object,com.alibaba.fastjson.serializer.SerializeConfig,com.alibaba.fastjson.serializer.SerializerFeature[])
     461:473:public static final varargs byte[] toJSONBytes(java.lang.Object,com.alibaba.fastjson.serializer.SerializeConfig,com.alibaba.fastjson.serializer.SerializerFeature[])
     478:482:public static final java.lang.String toJSONString(java.lang.Object,boolean)
-    601:601:public static final java.lang.Object toJavaObject(com.alibaba.fastjson.JSON,java.lang.Class)
 com.alibaba.fastjson.JSONArray:
     private static final long serialVersionUID
     190:196:public com.alibaba.fastjson.JSONArray getJSONArray(int)
@@ -2698,8 +2689,6 @@ com.charon.pulltorefreshlistview.LoadMoreGridView:
     66:67:public void onLoadMoreComplete()
 com.charon.pulltorefreshlistview.LoadMoreListView:
     protected static final java.lang.String TAG
-    56:58:public LoadMoreListView(android.content.Context)
-    104:106:public void onLoadMoreComplete()
 com.charon.pulltorefreshlistview.PullRefreshAndLoadMoreListView:
     protected static final java.lang.String TAG
 com.charon.pulltorefreshlistview.PullToRefreshListView:
@@ -2786,7 +2775,6 @@ com.common.activelog.util.StartTimesInfo:
 com.common.as.activity.TPActivity:
     public static final int TYPE_NOTIFY_SHORT_CUT
     public static final int TYPE_NOTIFY_START_APP
-    public static final java.lang.String TAG_URL_TYPE
     public static final java.lang.String TAG_PACKAGE_NAME
     public static final java.lang.String TAG_TYPE
 com.common.as.base.log.BaseLog:
@@ -2857,20 +2845,19 @@ com.common.as.image.Miniature
 com.common.as.image.QueueImageDecorator
 com.common.as.image.ScaleImageDecorator
 com.common.as.main.Main:
-    27:27:public Main()
-    46:49:public static void initCtxAndCI(android.content.Context,com.common.as.network.utils.ApplicationNetworkUtils$ClientInfo)
-    52:58:public static void startMainRun(android.content.Context)
-    66:68:public static void init(android.content.Context,com.common.as.network.utils.ApplicationNetworkUtils$ClientInfo,int)
-    77:80:public static void initCtxAndCI(android.content.Context,com.common.as.network.utils.ApplicationNetworkUtils$ClientInfo,int,boolean)
-    86:88:public static void stopTopAppStoreBtn(android.content.Context)
+    35:35:public Main()
+    53:56:public static void initCtxAndCI(android.content.Context,com.common.as.network.utils.ApplicationNetworkUtils$ClientInfo)
+    59:65:public static void startMainRun(android.content.Context)
+    73:75:public static void init(android.content.Context,com.common.as.network.utils.ApplicationNetworkUtils$ClientInfo,int)
+    84:87:public static void initCtxAndCI(android.content.Context,com.common.as.network.utils.ApplicationNetworkUtils$ClientInfo,int,boolean)
+    93:95:public static void stopTopAppStoreBtn(android.content.Context)
 com.common.as.main.MainRun:
     private static final java.lang.String TAG
 com.common.as.network.AskSwitchAndAppList:
-    13:13:public AskSwitchAndAppList()
+    12:12:public AskSwitchAndAppList()
 com.common.as.network.HttpPayUtil
 com.common.as.network.HttpPayUtil$RequestData
 com.common.as.network.HttpUtil:
-    public static final int KEY_APP_SWITCH
     public static final int KEY_PUSH_SWITCH
     public static final int KEY_BG_LIST
     public static final int KEY_STORE_LIST
@@ -2880,7 +2867,7 @@ com.common.as.network.HttpUtil:
     public static final int KEY_POST_DATA
     public static final int KEY_POST_NET_DATA
 com.common.as.network.HttpUtil$RequestData:
-    47:47:public java.lang.Object getInput()
+    43:43:public java.lang.Object getInput()
 com.common.as.network.httpclient.ExecuterServerManager:
     private static final java.lang.String TAG
     private static final int CORE_LOW_POOL_SIZE
@@ -2930,7 +2917,7 @@ com.common.as.network.httpclient.MPHttpClientInterface:
     21:21:public MPHttpClientInterface()
 com.common.as.network.httpclient.MPHttpClientInterface$MPHttpClientRequest:
     69:70:public void setPostUrl(java.lang.String)
-    77:76:java.lang.String getFormatUrl(android.content.Context)
+    75:74:java.lang.String getFormatUrl(android.content.Context)
 com.common.as.network.httpclient.MPHttpClientManager:
     public static final int HIGH_ID
     45:50:public void removeListener(com.common.as.network.httpclient.MPHttpClientInterface$MPHttpClientRespListener,int)
@@ -2941,14 +2928,11 @@ com.common.as.network.httpclient.MPHttpClientRequestGet:
 com.common.as.network.httpclient.MPHttpClientRequestPost
 com.common.as.network.httpclient.MPHttpClientUtils:
     public static final java.lang.String ROOM_SERVER_URL_RELEASE
-    public static final java.lang.String ROOM_SERVER_URL_TEST1
-    public static final java.lang.String ROOM_SERVER_URL_TEST2
-    public static final java.lang.String ROOM_SERVER_URL_TEST3
-    24:24:public MPHttpClientUtils()
-    54:54:public static boolean isSuccResponseCode(java.lang.String)
-    58:60:public static void cancel(int,com.common.as.network.httpclient.MPHttpClientInterface$MPHttpClientRespListener)
-    63:65:public static void cancel(com.common.as.network.httpclient.MPHttpClientInterface$MPHttpClientRespListener)
-    84:88:public static void getPaySwitch(int,com.common.as.network.httpclient.MPHttpClientInterface$MPHttpClientRespListener,android.content.Context)
+    22:22:public MPHttpClientUtils()
+    34:34:public static boolean isSuccResponseCode(java.lang.String)
+    38:40:public static void cancel(int,com.common.as.network.httpclient.MPHttpClientInterface$MPHttpClientRespListener)
+    43:45:public static void cancel(com.common.as.network.httpclient.MPHttpClientInterface$MPHttpClientRespListener)
+    64:68:public static void getPaySwitch(int,com.common.as.network.httpclient.MPHttpClientInterface$MPHttpClientRespListener,android.content.Context)
 com.common.as.network.httpclient.MPHttpRequestParser
 com.common.as.network.httpclient.app.MpHttpReqAppList$ListReq:
     public static final int TYPE_LIST_BTN
@@ -2958,20 +2942,16 @@ com.common.as.network.httpclient.app.MpHttpReqAppList$ListReq:
     public static final int TYPE_LIST_BG
 com.common.as.network.httpclient.app.MpHttpReqPostData$LogData:
     int startType
-    25:25:public int getStartType()
-    29:30:public void setStartType(int)
-    33:33:public int getLogsubcode()
-    50:56:public MpHttpReqPostData$LogData(int,java.lang.String,int,int,int)
+    22:22:public int getStartType()
+    26:27:public void setStartType(int)
+    31:31:public int getLogsubcode()
+    49:55:public MpHttpReqPostData$LogData(int,java.lang.String,int,int,int)
 com.common.as.network.httpclient.app.MphttpReqPaySwitch
 com.common.as.network.httpclient.app.MphttpRespPaySwitch
 com.common.as.network.utils.ApplicationNetworkUtils:
     94:94:public com.common.as.network.utils.ApplicationNetworkUtils$ClientInfo getmClientInfo()
 com.common.as.network.utils.ApplicationNetworkUtils$ClientInfo:
     25:31:public ApplicationNetworkUtils$ClientInfo(java.lang.String,java.lang.String,int,int,int)
-com.common.as.pushtype.AppDownAction:
-    private static final java.lang.String TAG
-    28:28:public AppDownAction()
-    76:89:public static long isInDownDatabase(com.mozillaonline.providers.DownloadManager,java.lang.String)
 com.common.as.pushtype.AppListFactory
 com.common.as.pushtype.AppListFactory$1
 com.common.as.pushtype.AppStoreList
@@ -2997,8 +2977,8 @@ com.common.as.pushtype.PushInfo:
     public static final int STATUS_DOWN_FINISH
     public static final int STATUS_SETUPED
     public static final int STATUS_PUSHED
-    68:68:public java.lang.String getInstanlAskT()
-    113:113:public java.lang.String getVer()
+    53:53:public java.lang.String getInstanlAskT()
+    98:98:public java.lang.String getVer()
 com.common.as.pushtype.PushInfoActionPaser:
     private static final java.lang.String TAG
     26:26:public PushInfoActionPaser()
@@ -3009,27 +2989,6 @@ com.common.as.pushtype.PushUtil:
     public static final java.lang.String INTENT_PACKAGE_NAME
     public static final java.lang.String INTENT_ICON_BMP
     public abstract boolean isCanPush(com.common.as.pushtype.PushInfo)
-com.common.as.service.AppFileUtils:
-    21:24:public AppFileUtils()
-    27:29:public java.io.File createFileInSDCard(java.lang.String,java.lang.String)
-    32:33:public java.io.File getFileInSDCard(java.lang.String,java.lang.String)
-    38:40:public java.io.File creatSDDir(java.lang.String)
-    54:55:public java.io.File getDir(java.lang.String)
-    60:61:public boolean isFileExist(java.lang.String,java.lang.String)
-    66:67:public boolean removeFile(java.lang.String,java.lang.String)
-    71:71:public java.lang.String getFileFullName(java.lang.String,java.lang.String)
-    76:104:public java.io.File write2SDFromInput(java.lang.String,java.lang.String,java.io.InputStream)
-    157:163:public static java.io.File getExternalStorageDirectory()
-    168:168:public static boolean checkPhoneHavEnghStorage(long)
-    173:173:public static boolean checkSdcardHavEnghStorage(long)
-    178:193:static boolean checkStorageRom(java.io.File,long)
-com.common.as.service.AppInfoUtil:
-    public static final java.lang.String down_dir
-    public static final java.lang.String plug_package
-    public static final java.lang.String plug_appid
-    public static final java.lang.String plug_appver
-    12:12:public AppInfoUtil()
-    20:30:public static boolean isAvilible(android.content.Context,java.lang.String)
 com.common.as.service.AppListBackService:
     private static final java.lang.String TAG
     public static final java.lang.String TAG_TOP_WND_TYPE
@@ -3047,11 +3006,6 @@ com.common.as.service.BackService:
     public static final int TYPE_BG_PUSH
     public static final int TYPE_BG_STORELIST
     private static final int HANDLE_CHECK_ACTIVITY
-com.common.as.service.CheckService:
-    static android.content.Context mContext
-    113:114:public static void setInstanlTime(int)
-    116:117:public static void setAutoSwitch(boolean)
-    120:121:public static void setAutoShowPop(boolean)
 com.common.as.service.ControlDialogBackService:
     private static final java.lang.String TAG
     private static final int HANDLE_CHECK_ACTIVITY
@@ -3064,14 +3018,9 @@ com.common.as.service.DialogBackService:
     187:200:public boolean isOpen(java.lang.String)
 com.common.as.service.MainRunServer:
     private static final java.lang.String TAG
-    86:107:private void startRunPush(int)
-    85:85:static synthetic void access$3(com.common.as.service.MainRunServer,int)
-com.common.as.service.MainRunServer$3
-com.common.as.service.MainRunServer$4
 com.common.as.service.SystemReceiver:
     private static final java.lang.String TAG
     static final java.lang.String PACKAGE_ADDED
-    static final java.lang.String PACKAGE_REMOVED
     public static final java.lang.String TAG_PACKAGE
     private static final java.lang.String ACTION_INTENT_DEFAULT
 com.common.as.store.AppData
@@ -3085,53 +3034,29 @@ com.common.as.store.AppListManager:
     public static final int FLAG_APP_BANNER
     public static final int FLAG_APP_LIST
     public static final long OUT_T
-    17:17:public AppListManager()
-    297:297:public static com.common.as.struct.PaySwitchInfo getmPaySwitchInfo()
-    300:301:public static void setmPaySwitchInfo(com.common.as.struct.PaySwitchInfo)
+    16:16:public AppListManager()
+    122:128:public static synchronized void setmAppBannerlists(android.content.Context,java.util.ArrayList)
+    275:275:public static com.common.as.struct.PaySwitchInfo getmPaySwitchInfo()
+    278:279:public static void setmPaySwitchInfo(com.common.as.struct.PaySwitchInfo)
 com.common.as.store.FileUtils:
-    33:34:public java.io.File getFileInSDCard(java.lang.String,java.lang.String)
-    59:60:public boolean isFileExist(java.lang.String,java.lang.String)
-    70:70:public java.lang.String getFileFullName(java.lang.String,java.lang.String)
-    75:103:public java.io.File write2SDFromInput(java.lang.String,java.lang.String,java.io.InputStream)
-    167:167:public static boolean checkPhoneHavEnghStorage(long)
-    172:172:public static boolean checkSdcardHavEnghStorage(long)
-    177:192:static boolean checkStorageRom(java.io.File,long)
+    31:32:public java.io.File getFileInSDCard(java.lang.String,java.lang.String)
+    57:58:public boolean isFileExist(java.lang.String,java.lang.String)
+    68:68:public java.lang.String getFileFullName(java.lang.String,java.lang.String)
+    73:101:public java.io.File write2SDFromInput(java.lang.String,java.lang.String,java.io.InputStream)
+    154:160:public static java.io.File getExternalStorageDirectory()
+    165:165:public static boolean checkPhoneHavEnghStorage(long)
+    170:170:public static boolean checkSdcardHavEnghStorage(long)
+    175:190:static boolean checkStorageRom(java.io.File,long)
 com.common.as.store.MaxDownInfo:
     private static final long serialVersionUID
     private static final java.lang.String CACHE_DIR
 com.common.as.store.PhoneData
-com.common.as.store.PlugDownInfo:
-    private static final long serialVersionUID
-    private static final java.lang.String CACHE_DIR
-    37:37:public int getInstallTimes()
-    42:43:public void setInstallTimes(int)
 com.common.as.store.PushInfos:
     private static final java.lang.String CACHE_DIR
 com.common.as.store.StartTimesInfo:
     private static final long serialVersionUID
     private static final java.lang.String CACHE_DIR
-    private int mStartTimes
-    26:32:public StartTimesInfo(java.lang.String)
-    35:35:public int getmStartTimes()
-    39:40:public void setmStartTimes(int)
-    43:44:public void addCount()
-    48:76:public synchronized void save(java.lang.String)
-    80:109:public static com.common.as.store.StartTimesInfo get(java.lang.String)
-    114:119:public boolean isFirstStart()
-com.common.as.store.YMInfoStore:
-    private static final long serialVersionUID
-    private static final java.lang.String CACHE_DIR
-    private java.lang.String mYmStr
-    private java.util.ArrayList unUsered_ym
-    30:36:public YMInfoStore(java.lang.String)
-    45:45:public java.util.ArrayList getUnUsered_ym()
-    55:56:public void setUnUsered_ym(java.util.ArrayList)
-    65:65:public java.lang.String getmYmStr()
-    72:73:public void setmYmStr(java.lang.String)
-    79:80:public void addYM(java.lang.String)
-    84:112:public synchronized void save(java.lang.String)
-    116:145:public static com.common.as.store.YMInfoStore get(java.lang.String)
-    150:155:public boolean isExistYM()
+    38:39:public void setmStartTimes(int)
 com.common.as.struct.PaySwitchInfo:
     10:10:public int getmPaySwitch()
     16:17:public void setmPaySwitch(int)
@@ -3169,12 +3094,7 @@ com.common.as.utils.AppPrefs:
     public static final java.lang.String DISTANCE
     5:5:public AppPrefs()
 com.common.as.utils.AppUtil:
-    30:30:public AppUtil()
-    37:52:public static boolean hasShortcut(android.app.Activity,java.lang.String)
-    233:260:public static java.lang.String getYMRadom(android.content.Context)
-    263:269:public static void saveYMRadom(android.content.Context,java.lang.String)
-    272:280:public static void saveUnUserYM(android.content.Context,java.lang.String)
-    282:288:public static java.lang.String getResultYM(android.content.Context)
+    22:22:public AppUtil()
 com.common.as.utils.BitmapLoder$1:
     37:37:public void onImageRequestStart(com.common.as.image.ImageRequest,android.graphics.Bitmap)
 com.common.as.utils.CommonUtils:
@@ -3219,16 +3139,13 @@ com.common.as.utils.PointUtil:
     public static final int POINT_ID_SETUP_SUCCESS
     public static final int POINT_ID_START_UP
     public static final int POINT_ID_SETUP
-    public static final int POINT_ID_UNISTANTAR
-    24:24:public PointUtil()
-    130:152:public static int getPaySwitch(android.content.Context)
-    155:194:public static void SendPoint1(android.content.Context,int)
-com.common.as.utils.PointUtil$3
-com.common.as.utils.PointUtil$3$1
-com.common.as.utils.PointUtil$4
+    23:23:public PointUtil()
+    95:117:public static int getPaySwitch(android.content.Context)
+com.common.as.utils.PointUtil$2
+com.common.as.utils.PointUtil$2$1
 com.common.as.utils.PointUtil$PointInfo:
-    39:39:public int getSubPoint()
-    43:44:public void setSubPoint(int)
+    37:37:public int getSubPoint()
+    41:42:public void setSubPoint(int)
 com.common.as.utils.PopupUtils:
     private android.app.ProgressDialog waitingDialog
     private android.app.ProgressDialog waitingDialogCanCancel
@@ -3269,28 +3186,28 @@ com.common.as.utils.Preferences:
     40:44:public static void setInt(android.content.Context,java.lang.String,int)
 com.common.as.utils.ThreeDes:
     private static final java.lang.String Algorithm
-    14:14:public ThreeDes()
-    47:59:public static byte[] decryptMode(byte[],byte[])
-    69:77:public static byte[] hexStr2Byte(java.lang.String)
-    99:123:public static void main(java.lang.String[])
+    12:12:public ThreeDes()
+    45:57:public static byte[] decryptMode(byte[],byte[])
+    67:75:public static byte[] hexStr2Byte(java.lang.String)
+    97:121:public static void main(java.lang.String[])
 com.common.as.utils.Utils:
     public static final int NETWORKTYPE_2G
     public static final int NETWORKTYPE_3G
     public static final int NETWORKTYPE_WIFI
-    34:34:public Utils()
-    57:77:private static int getCpuVersionFirst(java.lang.String)
-    88:122:private static int getCputVersionSecond(java.lang.String)
-    126:171:public static int getCpuVersion()
-    176:189:public static boolean isWifiActive(android.content.Context)
-    197:204:public static int getAndroidOSVersion()
-    291:296:public static int getScreenWidth(android.view.WindowManager)
-    300:305:public static int getScreenHeight(android.view.WindowManager)
-    309:325:public static com.common.as.utils.Utils$SIM_TYPE getSimType(android.content.Context)
-    464:480:public static java.lang.String readTaiKuChannelId(android.content.Context)
-    485:515:public static java.lang.String readChannelId(android.content.Context)
-    520:524:private static java.lang.String getSkyMobiA()
-    530:534:private static java.lang.String getSkyMobiProject()
-    680:688:public static java.lang.String getPackageName(android.content.Context)
+    33:33:public Utils()
+    56:76:private static int getCpuVersionFirst(java.lang.String)
+    87:121:private static int getCputVersionSecond(java.lang.String)
+    125:170:public static int getCpuVersion()
+    175:188:public static boolean isWifiActive(android.content.Context)
+    196:203:public static int getAndroidOSVersion()
+    290:295:public static int getScreenWidth(android.view.WindowManager)
+    299:304:public static int getScreenHeight(android.view.WindowManager)
+    308:324:public static com.common.as.utils.Utils$SIM_TYPE getSimType(android.content.Context)
+    463:479:public static java.lang.String readTaiKuChannelId(android.content.Context)
+    484:514:public static java.lang.String readChannelId(android.content.Context)
+    536:540:private static java.lang.String getSkyMobiA()
+    546:550:private static java.lang.String getSkyMobiProject()
+    679:687:public static java.lang.String getPackageName(android.content.Context)
 com.common.as.utils.http.HttpRespCodePaser
 com.common.as.utils.http.HttpRespErrCodePaser
 com.common.as.utils.http.HttpRespPaser:
@@ -3308,12 +3225,6 @@ com.common.as.view.AsyncImageView:
     269:271:public void setAsyncImage(java.lang.String,com.common.as.image.ImageDecorator)
     274:276:public void setAsyncImage(java.lang.String,com.common.as.image.ImageDecorator,boolean)
     469:471:public void onImageRequestStart(com.common.as.image.ImageRequest,android.graphics.Bitmap)
-com.common.as.view.BannerDailogView:
-    private android.view.View mShowView
-    android.widget.ImageView dg_title_iv
-    114:115:public void setmShowView(android.view.View)
-    125:125:private void disPopu()
-com.common.as.view.BannerDailogView$ServiceListener
 com.common.as.view.DailogView:
     private android.view.View mShowView
     115:116:public void setmShowView(android.view.View)
@@ -3330,20 +3241,6 @@ com.common.as.view.DownDailogView:
 com.common.as.view.DownDailogView$OnCancelBtnClick
 com.common.as.view.DownDailogView$OnDownLoadBtnClick
 com.common.as.view.DownDailogView$ServiceListener
-com.common.as.view.PlugDailogView:
-    private com.common.as.view.PlugDailogView$OnDownLoadBtnClick mOnTopViewClick
-    private com.common.as.view.PlugDailogView$OnCancelBtnClick mCancelBtnClick
-    private android.view.View mShowView
-    private android.graphics.Bitmap icBmp
-    57:58:public void setIcBmp(android.graphics.Bitmap)
-    111:112:public void setmShowView(android.view.View)
-    122:122:private void disPopu()
-com.common.as.view.PlugDailogView$OnCancelBtnClick
-com.common.as.view.PlugDailogView$OnDownLoadBtnClick
-com.common.as.view.PlugDailogView$ServiceListener
-com.common.as.view.ProgressDailogView
-com.common.as.view.ProgressDailogView$1
-com.common.as.view.ProgressUtils
 com.common.as.view.TableView$ServiceListener
 com.example.pushplug.Manifest
 com.example.pushplug.Manifest$permission
@@ -3458,7 +3355,6 @@ com.lidroid.xutils.BitmapUtils:
     145:146:public com.lidroid.xutils.BitmapUtils configDefaultImageLoadAnimation(android.view.animation.Animation)
     150:151:public com.lidroid.xutils.BitmapUtils configDefaultAutoRotation(boolean)
     155:156:public com.lidroid.xutils.BitmapUtils configDefaultShowOriginal(boolean)
-    160:161:public com.lidroid.xutils.BitmapUtils configDefaultBitmapConfig(android.graphics.Bitmap$Config)
     165:166:public com.lidroid.xutils.BitmapUtils configDefaultDisplayConfig(com.lidroid.xutils.bitmap.BitmapDisplayConfig)
     170:171:public com.lidroid.xutils.BitmapUtils configDownloader(com.lidroid.xutils.bitmap.download.Downloader)
     175:176:public com.lidroid.xutils.BitmapUtils configDefaultCacheExpiry(long)
@@ -3469,22 +3365,22 @@ com.lidroid.xutils.BitmapUtils:
     200:201:public com.lidroid.xutils.BitmapUtils configDiskCacheEnabled(boolean)
     206:207:public com.lidroid.xutils.BitmapUtils configDiskCacheFileNameGenerator(com.lidroid.xutils.cache.FileNameGenerator)
     211:212:public com.lidroid.xutils.BitmapUtils configBitmapCacheListener(com.lidroid.xutils.bitmap.BitmapCacheListener)
-    218:219:public void display(android.view.View,java.lang.String)
-    309:310:public void clearCache(java.lang.String)
-    313:314:public void clearMemoryCache(java.lang.String)
-    317:318:public void clearDiskCache(java.lang.String)
-    321:322:public void flushCache()
-    325:326:public void closeCache()
-    333:336:public android.graphics.Bitmap getBitmapFromMemCache(java.lang.String,com.lidroid.xutils.bitmap.BitmapDisplayConfig)
-    340:340:public com.lidroid.xutils.bitmap.BitmapGlobalConfig getGlobalConfig()
-    347:347:public boolean supportPause()
-    352:352:public boolean supportResume()
-    357:357:public boolean supportCancel()
-    362:364:public void pause()
-    368:372:public void resume()
-    376:381:public void cancel()
-    385:385:public boolean isPaused()
-    390:390:public boolean isCancelled()
+    223:224:public void display(android.view.View,java.lang.String,com.lidroid.xutils.bitmap.BitmapDisplayConfig)
+    310:311:public void clearCache(java.lang.String)
+    314:315:public void clearMemoryCache(java.lang.String)
+    318:319:public void clearDiskCache(java.lang.String)
+    322:323:public void flushCache()
+    326:327:public void closeCache()
+    334:337:public android.graphics.Bitmap getBitmapFromMemCache(java.lang.String,com.lidroid.xutils.bitmap.BitmapDisplayConfig)
+    341:341:public com.lidroid.xutils.bitmap.BitmapGlobalConfig getGlobalConfig()
+    348:348:public boolean supportPause()
+    353:353:public boolean supportResume()
+    358:358:public boolean supportCancel()
+    363:365:public void pause()
+    369:373:public void resume()
+    377:382:public void cancel()
+    386:386:public boolean isPaused()
+    391:391:public boolean isCancelled()
 com.lidroid.xutils.BitmapUtils$BitmapLoadTask:
     private static final int PROGRESS_LOAD_STARTED
     private static final int PROGRESS_LOADING
@@ -3509,7 +3405,6 @@ com.lidroid.xutils.DbUtils:
     364:376:public varargs void updateAll(java.util.List,java.lang.String[])
     379:391:public varargs void updateAll(java.util.List,com.lidroid.xutils.db.sqlite.WhereBuilder,java.lang.String[])
     395:422:public java.lang.Object findById(java.lang.Class,java.lang.Object)
-    456:456:public java.lang.Object findFirst(java.lang.Class)
     495:507:public com.lidroid.xutils.db.table.DbModel findDbModelFirst(com.lidroid.xutils.db.sqlite.SqlInfo)
     511:525:public com.lidroid.xutils.db.table.DbModel findDbModelFirst(com.lidroid.xutils.db.sqlite.DbModelSelector)
     529:543:public java.util.List findDbModelAll(com.lidroid.xutils.db.sqlite.SqlInfo)
@@ -3571,7 +3466,6 @@ com.lidroid.xutils.bitmap.BitmapDisplayConfig:
     78:79:public void setAutoRotation(boolean)
     86:87:public void setShowOriginal(boolean)
     90:90:public android.graphics.Bitmap$Config getBitmapConfig()
-    94:95:public void setBitmapConfig(android.graphics.Bitmap$Config)
     102:103:public void setBitmapFactory(com.lidroid.xutils.bitmap.factory.BitmapFactory)
     110:111:public void setPriority(com.lidroid.xutils.task.Priority)
 com.lidroid.xutils.bitmap.BitmapGlobalConfig:
@@ -3694,7 +3588,6 @@ com.lidroid.xutils.db.sqlite.ForeignLazyLoader:
     59:60:public void setColumnValue(java.lang.Object)
 com.lidroid.xutils.db.sqlite.Selector:
     48:49:public com.lidroid.xutils.db.sqlite.Selector where(com.lidroid.xutils.db.sqlite.WhereBuilder)
-    63:64:public com.lidroid.xutils.db.sqlite.Selector and(com.lidroid.xutils.db.sqlite.WhereBuilder)
     68:69:public com.lidroid.xutils.db.sqlite.Selector or(java.lang.String,java.lang.String,java.lang.Object)
     73:74:public com.lidroid.xutils.db.sqlite.Selector or(com.lidroid.xutils.db.sqlite.WhereBuilder)
     78:82:public com.lidroid.xutils.db.sqlite.Selector expr(java.lang.String)
@@ -3721,7 +3614,6 @@ com.lidroid.xutils.db.sqlite.SqlInfoBuilder:
 com.lidroid.xutils.db.sqlite.WhereBuilder:
     46:46:public static com.lidroid.xutils.db.sqlite.WhereBuilder b()
     85:86:public com.lidroid.xutils.db.sqlite.WhereBuilder or(java.lang.String,java.lang.String,java.lang.Object)
-    90:91:public com.lidroid.xutils.db.sqlite.WhereBuilder expr(java.lang.String)
     95:96:public com.lidroid.xutils.db.sqlite.WhereBuilder expr(java.lang.String,java.lang.String,java.lang.Object)
 com.lidroid.xutils.db.table.ColumnUtils:
     38:39:private ColumnUtils()
@@ -3778,7 +3670,6 @@ com.lidroid.xutils.http.RequestParams:
     170:174:public void addQueryStringParameter(org.apache.http.NameValuePair)
     188:192:public void addBodyParameter(java.lang.String,java.lang.String)
     195:199:public void addBodyParameter(org.apache.http.NameValuePair)
-    202:210:public void addBodyParameter(java.util.List)
     213:217:public void addBodyParameter(java.lang.String,java.io.File)
     220:224:public void addBodyParameter(java.lang.String,java.io.File,java.lang.String)
     227:231:public void addBodyParameter(java.lang.String,java.io.File,java.lang.String,java.lang.String)
@@ -3991,14 +3882,34 @@ com.lidroid.xutils.view.ResLoader:
 com.lidroid.xutils.view.ViewFinder:
     30:32:public ViewFinder(android.preference.PreferenceGroup)
     34:37:public ViewFinder(android.preference.PreferenceActivity)
+com.ly.duan.adapter.ArticleAdapter:
+    private static final int IV_HEIGHT
+    private static final int IV_WIDTH
+com.ly.duan.adapter.CommentAdapter:
+    51:51:public java.util.List getCommentList()
+com.ly.duan.adapter.CommentAdapter$CommentViewHolder:
+    private android.widget.RelativeLayout approve_rl
+    public android.widget.ImageView up_iv
+    public android.widget.TextView approve_nums
+    public android.widget.TextView add_tv
 com.ly.duan.adapter.DropListAdapter:
     private static final int IV_HEIGHT
     private static final int GIF_HEIGHT
-    101:102:public void addApks(java.util.List)
+    110:111:public void addApks(java.util.List)
 com.ly.duan.adapter.DropListAdapter$CustomBitmapLoadCallBack:
-    553:555:public DropListAdapter$CustomBitmapLoadCallBack(com.ly.duan.adapter.DropListAdapter,com.ly.duan.adapter.DropListAdapter$DropItemHolder)
-com.ly.duan.adapter.ViewFlowAdapter:
-    38:41:public ViewFlowAdapter(android.content.Context,java.util.List)
+    659:661:public DropListAdapter$CustomBitmapLoadCallBack(com.ly.duan.adapter.DropListAdapter,com.ly.duan.adapter.DropListAdapter$DropItemHolder)
+com.ly.duan.adapter.DropListAdapter$DropItemHolder:
+    public android.widget.ImageView comment_iv
+    public android.widget.TextView comment_tv
+com.ly.duan.adapter.Frag4Adapter:
+    private static final int IV_HEIGHT
+com.ly.duan.adapter.Frag4Adapter$Frag4ViewHolder:
+    private android.widget.LinearLayout frag4_ll
+    private android.widget.ImageView frag4_play
+    public android.widget.ImageView comment_iv
+    public android.widget.TextView comment_tv
+com.ly.duan.adapter.ViewFlowAdapter
+com.ly.duan.adapter.ViewFlowAdapter$ViewHolder
 com.ly.duan.help.BitmapHelp:
     private static final java.lang.String CACHE_DIR
     7:7:public BitmapHelp()
@@ -4013,11 +3924,24 @@ com.ly.duan.service.InitDataService:
     public static final int SEND_BC_CONTENT1
     public static final int SEND_BC_CONTENT2
     public static final int SEND_BC_BANNER
+    public static final int SEND_BC_CLM
+    public static final int SEND_BC_EXIT
+    public static final int SEND_BC_CONTENT
+    public static final int COLUMN_REQUESTING
+    public static final int COLUMN_REQUEST_FINISH
+    public static final int COLUMN_REQUEST_FAILED
+    public static final int COLUMN_RESPONSE_ERROR
+    private static final int RE_REQUEST_COLUMN
     public static final int CONTENT1_REQUESTING
     public static final int CONTENT1_REQUEST_FINISH
     public static final int CONTENT1_REQUEST_FAILED
     public static final int CONTENT1_RESPONSE_ERROR
     private static final int RE_REQUEST_CONTENT1
+    public static final int CONTENT_REQUESTING
+    public static final int CONTENT_REQUEST_FINISH
+    public static final int CONTENT_REQUEST_FAILED
+    public static final int CONTENT_RESPONSE_ERROR
+    private static final int RE_REQUEST_CONTENT
     public static final int CONTENT2_REQUESTING
     public static final int CONTENT2_REQUEST_FINISH
     public static final int CONTENT2_REQUEST_FAILED
@@ -4030,23 +3954,61 @@ com.ly.duan.service.InitDataService:
     private static final int RE_REQUEST_BANNER
 com.ly.duan.service.PkgSetupReceiver:
     public static final java.lang.String PACKAGE_START_SETUP
+com.ly.duan.service.PushService:
+    private static final int CLEAR_PUSH_REQUEST
+    private static final int POST_PUSH_NOTIFICATION
+com.ly.duan.service.PushService$2:
+    406:406:public void onImageRequestStart(com.common.as.image.ImageRequest,android.graphics.Bitmap)
 com.ly.duan.ui.BaseActivity:
     21:24:public com.lidroid.xutils.DbUtils getDb()
-    28:32:public com.lidroid.xutils.BitmapUtils getBitmapUtils()
     45:52:public boolean checkNetWorkOrSdcard()
     57:64:public boolean checkSdcard()
+com.ly.duan.ui.CommentDetailActivity:
+    private static final int GO_TO_SEND_COMMENT_VIEW
 com.ly.duan.ui.MainActivity:
     private static final int RE_OPEN_APP
     private static final int GET_CONTENT1_SUCCESS
     private static final int GET_CONTENT2_SUCCESS
+    private static final int GET_CONTENT_SUCCESS
     private static final int GET_BANNER_SUCCESS
+    private static final int BIND_CLMS
+com.ly.duan.ui.SendCommentActivity:
+    private static final int SEND_COMMENT_FAILED
+    private static final int SEND_COMMENT_SUCCESS
+    private static final int BACK_FRONT_VIEW
+    private static final int MAX_COMMENT_NUMS
+    private android.widget.ImageView back
+com.ly.duan.ui.SettingActivity:
+    private android.widget.ImageView back
 com.ly.duan.ui.ShowPageActivity:
     private android.widget.ImageView back
+com.ly.duan.ui.ShowPageActivity$MyWebChromeClient:
+    275:275:public ShowPageActivity$MyWebChromeClient(com.ly.duan.ui.ShowPageActivity)
+com.ly.duan.ui.WelcomeActivity:
+    private static final int EXIT_APP
+    private static final int GO_TO_MAIN
+    135:148:private void setAlarm()
 com.ly.duan.ui.fragment.BaseFragment:
     26:28:public android.view.animation.Animation getRotateAnimation()
-    39:43:public com.lidroid.xutils.BitmapUtils getBitmapUtils()
     47:51:public boolean checkNetWork()
     56:63:public boolean checkNetWorkOrSdcard()
+com.ly.duan.ui.fragment.CommentFragment:
+    private static final int FIRST_IN
+    private static final int PULL_UP
+    private static final int MANUAL_FRESH
+    private static final int FRAG4_IV_HEIGHT
+    private static final int DUAN_IV_HEIGHT
+    private static final int BANNER_IV_HEIGHT
+    private static final int GIF_HEIGHT
+    private static final int FRESH_LISTVIEW
+    private static final int CLEAR_COMMENT_REQUEST
+    private static final int MODIFY_COMMENT_LIST
+    private static final int UPDATE_COMMENT_ITEM
+    private static final int MOVE_UP
+    private android.widget.TextView comment_tv
+    753:785:private void getCommentFromDb()
+    788:789:private void checkUpdate(boolean)
+    1006:1007:public void setIBottomVisibility(com.ly.duan.ui.fragment.CommentFragment$IBottomVisibility)
 com.ly.duan.ui.fragment.Fragment1:
     private static final int FIRST_IN
     private static final int DROP_DOWN
@@ -4055,20 +4017,28 @@ com.ly.duan.ui.fragment.Fragment1:
     private static final int CLEAR_BANNER_REQUEST
     private static final int CLEAR_DUANS_REQUEST
     private static final int ADD_BANNER_LIST
-    102:106:public static com.ly.duan.ui.fragment.Fragment1 newInstance(boolean)
-    283:398:public void parseResult(int,java.lang.String)
-    417:436:private void changeFinishState(int)
-    573:575:protected void insertBanners()
-    985:997:private void getListFromDb()
-    1029:1060:private void setBannerData()
+    private static final int MODIFY_DUANS_LIST
+    private static final int UPDATE_DROP_ITEM
+    private static final int MOVE_UP
+    115:119:public static com.ly.duan.ui.fragment.Fragment1 newInstance(boolean)
+    123:129:public static com.ly.duan.ui.fragment.Fragment1 newInstance(boolean,boolean)
 com.ly.duan.ui.fragment.Fragment3:
-    private static final int CLEAR_BANNER_REQUEST
-    private static final int CLEAR_APPLIST_REQUEST
-    private static final int INIT_VIEWFLOW
-    121:133:private void getBannerList()
-    710:741:private void setBannerData()
+    private static final int FIRST_IN
+    private static final int DROP_DOWN
+    private static final int PULL_UP
+    private static final int FRESH_LISTVIEW
+    private static final int MOVE_UP
+    private static final int CLEAR_CONTENT_REQUEST
 com.ly.duan.ui.fragment.Fragment4:
-    127:132:private void deleteAllFile(android.content.Context)
+    private static final int FIRST_IN
+    private static final int DROP_DOWN
+    private static final int PULL_UP
+    private static final int FRESH_LISTVIEW
+    private static final int MOVE_UP
+    private static final int CLEAR_CONTENT_REQUEST
+    private static final int MODIFY_VIDEOS_LIST
+    private static final int UPDATE_FRAG4_ITEM
+    private static final int ADD_LIST
 com.ly.duan.user_inter.DownloadUtils:
     public static final int DOWNLOAD_START
     public static final int DOWNLOAD_END
@@ -4078,12 +4048,17 @@ com.ly.duan.user_inter.DownloadUtils:
     private static final int TIMEOUT
 com.ly.duan.utils.ActivityAnimator:
     14:15:public void pushRightAnimation(android.app.Activity)
+    22:23:public void unzoomAnimation(android.app.Activity)
 com.ly.duan.utils.AppUtils:
     26:27:private AppUtils()
     46:67:public static boolean isNamedProcess(android.content.Context,java.lang.String)
     81:92:public static boolean isApplicationInBackground(android.content.Context)
     96:96:public static int getSystemVersion()
 com.ly.duan.utils.ArrayUtils
+com.ly.duan.utils.BasicUiUtils
+com.ly.duan.utils.BasicUiUtils$1
+com.ly.duan.utils.BasicUiUtils$2
+com.ly.duan.utils.BasicUiUtils$DropDownAnim
 com.ly.duan.utils.BasicUtils:
     50:50:public BasicUtils()
     58:71:public static void iterateHashMap(java.util.HashMap,java.lang.String)
@@ -4114,9 +4089,6 @@ com.ly.duan.utils.Constants
 com.ly.duan.utils.DeviceUtils:
     17:17:public DeviceUtils()
     21:21:public static java.lang.String getFactory()
-    26:26:public static java.lang.String getType()
-    50:54:public static java.lang.String getName()
-    60:79:public static java.lang.String getRandonName()
     87:95:public static java.lang.String getSms(android.content.Context)
     100:118:public static java.lang.String getSmsCenter(android.content.Context)
     122:139:private static java.lang.String doCursor(android.database.Cursor)
@@ -4345,6 +4317,8 @@ com.ly.duan.utils.ToastUtils:
 com.ly.duan.view.CircleFlowIndicator:
     private static final int STYLE_STROKE
     private static final int STYLE_FILL
+com.ly.duan.view.LayersLayout:
+    20:21:public LayersLayout(android.content.Context)
 com.ly.duan.view.ProgressWheel:
     322:325:public boolean isSpinning()
     342:345:public void stopSpinning()
@@ -4393,24 +4367,25 @@ com.mozillaonline.providers.DownloadManager:
     public static final java.lang.String ACTION_VIEW_DOWNLOADS
     public static final java.lang.String EXTRA_DOWNLOAD_ID
     public static final java.lang.String DEFAULT_DIR
-    854:859:public void setAccessAllDownloads(boolean)
-    889:896:public varargs int markRowDeleted(long[])
-    960:982:public varargs void pauseDownload(long[])
+    853:858:public void setAccessAllDownloads(boolean)
+    888:895:public varargs int markRowDeleted(long[])
+    959:981:public varargs void pauseDownload(long[])
 com.mozillaonline.providers.DownloadManager$Query:
     public static final int ORDER_ASCENDING
     public static final int ORDER_DESCENDING
-    679:680:public com.mozillaonline.providers.DownloadManager$Query setFilterByMime(java.lang.String)
-    692:693:public com.mozillaonline.providers.DownloadManager$Query setFilterByStatus(int)
-    727:740:public com.mozillaonline.providers.DownloadManager$Query orderBy(java.lang.String,int)
+    678:679:public com.mozillaonline.providers.DownloadManager$Query setFilterByMime(java.lang.String)
+    691:692:public com.mozillaonline.providers.DownloadManager$Query setFilterByStatus(int)
+    726:739:public com.mozillaonline.providers.DownloadManager$Query orderBy(java.lang.String,int)
 com.mozillaonline.providers.DownloadManager$Request:
     public static final int NETWORK_MOBILE
     public static final int NETWORK_WIFI
-    375:376:public com.mozillaonline.providers.DownloadManager$Request setDestinationUri(android.net.Uri)
-    409:411:public com.mozillaonline.providers.DownloadManager$Request setDestinationInExternalFilesDir(android.content.Context,java.lang.String,java.lang.String)
-    461:471:public com.mozillaonline.providers.DownloadManager$Request addRequestHeader(java.lang.String,java.lang.String)
-    540:541:public com.mozillaonline.providers.DownloadManager$Request setAllowedNetworkTypes(int)
-    553:554:public com.mozillaonline.providers.DownloadManager$Request setAllowedOverRoaming(boolean)
-    567:568:public com.mozillaonline.providers.DownloadManager$Request setVisibleInDownloadsUi(boolean)
+    374:375:public com.mozillaonline.providers.DownloadManager$Request setDestinationUri(android.net.Uri)
+    408:410:public com.mozillaonline.providers.DownloadManager$Request setDestinationInExternalFilesDir(android.content.Context,java.lang.String,java.lang.String)
+    460:470:public com.mozillaonline.providers.DownloadManager$Request addRequestHeader(java.lang.String,java.lang.String)
+    526:527:public com.mozillaonline.providers.DownloadManager$Request setShowRunningNotification(boolean)
+    539:540:public com.mozillaonline.providers.DownloadManager$Request setAllowedNetworkTypes(int)
+    552:553:public com.mozillaonline.providers.DownloadManager$Request setAllowedOverRoaming(boolean)
+    566:567:public com.mozillaonline.providers.DownloadManager$Request setVisibleInDownloadsUi(boolean)
 com.mozillaonline.providers.downloads.Constants:
     public static final java.lang.String TAG
     public static final java.lang.String RETRY_AFTER_X_REDIRECT_COUNT
@@ -4584,7 +4559,8 @@ com.sjm.gxdz.R$dimen
 com.sjm.gxdz.R$drawable
 com.sjm.gxdz.R$id
 com.sjm.gxdz.R$layout
+com.sjm.gxdz.R$menu
 com.sjm.gxdz.R$string
 com.sjm.gxdz.R$style
 com.sjm.gxdz.R$styleable:
-    579:579:public R$styleable()
+    706:706:public R$styleable()

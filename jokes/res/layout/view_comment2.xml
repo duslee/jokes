@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#eeeeee" >
+
+    <LinearLayout
+        android:id="@+id/banner_ll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone" >
+
+        <LinearLayout
+            android:id="@+id/banner_content_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone" >
+
+            <TextView
+                android:id="@+id/banner_tv"
+                style="@style/BannerTVStyle"
+                android:layout_margin="12dip"
+                android:singleLine="false" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/banner_rl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <ImageView
+                android:id="@+id/banner_iv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:contentDescription="@null"
+                android:scaleType="centerCrop" />
+
+            <RelativeLayout
+                android:layout_width="52dip"
+                android:layout_height="34dip"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:background="#8f82bc" >
+
+                <TextView
+                    style="@style/BannerTV2Style"
+                    android:layout_centerInParent="true"
+                    android:text="@string/popular" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/down_btn"
+            style="@style/BannerBtnStyle"
+            android:layout_gravity="center"
+            android:layout_marginBottom="18dip"
+            android:layout_marginTop="15dip"
+            android:text="@string/download_now" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/no_banner_rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone" >
+
+        <com.charon.pulltorefreshlistview.LoadMoreListView
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:layout_marginTop="10dip"
+            android:background="#ffffff"
+            android:divider="@null"
+            android:listSelector="@android:color/transparent"
+            android:scrollingCache="false" />
+    </RelativeLayout>
+
+</FrameLayout>

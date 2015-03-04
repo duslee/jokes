@@ -94,6 +94,7 @@ android.support.v4.view.ViewCompat$LayoutDirectionMode
 android.support.v4.view.ViewCompat$OverScroll
 android.support.v4.view.ViewCompat$ResolvedLayoutDirectionMode
 android.support.v4.view.ViewPager
+android.support.v4.view.ViewPager: ViewPager(android.content.Context)
 android.support.v4.view.ViewPager: ViewPager(android.content.Context,android.util.AttributeSet)
 android.support.v4.view.ViewPager: void setScrollState(int)
 android.support.v4.view.ViewPager: void setAdapter(android.support.v4.view.PagerAdapter)
@@ -199,6 +200,7 @@ com.charon.pulltorefreshlistview.LoadMoreGridView: void setOnLoadMoreListener(co
 com.charon.pulltorefreshlistview.LoadMoreListView
 com.charon.pulltorefreshlistview.LoadMoreListView: LoadMoreListView(android.content.Context,android.util.AttributeSet,int)
 com.charon.pulltorefreshlistview.LoadMoreListView: LoadMoreListView(android.content.Context,android.util.AttributeSet)
+com.charon.pulltorefreshlistview.LoadMoreListView: LoadMoreListView(android.content.Context)
 com.charon.pulltorefreshlistview.LoadMoreListView: void setOnScrollListener(android.widget.AbsListView$OnScrollListener)
 com.charon.pulltorefreshlistview.LoadMoreListView: void setOnLoadMoreListener(com.charon.pulltorefreshlistview.LoadMoreListView$OnLoadMoreListener)
 com.charon.pulltorefreshlistview.PullRefreshAndLoadMoreListView
@@ -238,8 +240,6 @@ com.common.as.service.AppListBackService
 com.common.as.service.AppListBackService: AppListBackService()
 com.common.as.service.BackService
 com.common.as.service.BackService: BackService()
-com.common.as.service.CheckService
-com.common.as.service.CheckService: CheckService()
 com.common.as.service.ControlDialogBackService
 com.common.as.service.ControlDialogBackService: ControlDialogBackService()
 com.common.as.service.DialogBackService
@@ -249,9 +249,7 @@ com.common.as.service.MainRunServer: MainRunServer()
 com.common.as.service.SystemReceiver
 com.common.as.service.SystemReceiver: SystemReceiver()
 com.common.as.store.MaxDownInfo
-com.common.as.store.PlugDownInfo
 com.common.as.store.StartTimesInfo
-com.common.as.store.YMInfoStore
 com.common.as.utils.Utils$SIM_TYPE
 com.common.as.utils.Utils$SIM_TYPE: com.common.as.utils.Utils$SIM_TYPE[] values()
 com.common.as.utils.Utils$SIM_TYPE: com.common.as.utils.Utils$SIM_TYPE valueOf(java.lang.String)
@@ -480,7 +478,70 @@ com.lidroid.xutils.view.annotation.event.OnTabChange: int[] parentId()
 com.lidroid.xutils.view.annotation.event.OnTouch
 com.lidroid.xutils.view.annotation.event.OnTouch: int[] value()
 com.lidroid.xutils.view.annotation.event.OnTouch: int[] parentId()
+com.ly.duan.bean.ArticleBean
+com.ly.duan.bean.ArticleBean: long serialVersionUID
+com.ly.duan.bean.ArticleBean: long articleId
+com.ly.duan.bean.ArticleBean: long appid
+com.ly.duan.bean.ArticleBean: long columnId
+com.ly.duan.bean.ArticleBean: int ver
+com.ly.duan.bean.ArticleBean: java.lang.String articleName
+com.ly.duan.bean.ArticleBean: java.lang.String articleDesc
+com.ly.duan.bean.ArticleBean: boolean hasAudio
+com.ly.duan.bean.ArticleBean: boolean hasVideo
+com.ly.duan.bean.ArticleBean: java.lang.String imgUrl
+com.ly.duan.bean.ArticleBean: boolean hasPush
+com.ly.duan.bean.ArticleBean: java.lang.String url
+com.ly.duan.bean.ArticleBean: boolean hasVip
+com.ly.duan.bean.ArticleBean: int curPage
+com.ly.duan.bean.ArticleBean: int urlType
+com.ly.duan.bean.ArticleBean: int type
+com.ly.duan.bean.ArticleBean: int good
+com.ly.duan.bean.ArticleBean: int bad
+com.ly.duan.bean.ArticleBean: int approve
+com.ly.duan.bean.ArticleBean: int stamp
+com.ly.duan.bean.ArticleBean: ArticleBean()
+com.ly.duan.bean.ArticleBean: long getArticleId()
+com.ly.duan.bean.ArticleBean: void setArticleId(long)
+com.ly.duan.bean.ArticleBean: java.lang.String getArticleName()
+com.ly.duan.bean.ArticleBean: void setArticleName(java.lang.String)
+com.ly.duan.bean.ArticleBean: java.lang.String getImgUrl()
+com.ly.duan.bean.ArticleBean: void setImgUrl(java.lang.String)
+com.ly.duan.bean.ArticleBean: java.lang.String getUrl()
+com.ly.duan.bean.ArticleBean: void setUrl(java.lang.String)
+com.ly.duan.bean.ArticleBean: java.lang.String getArticleDesc()
+com.ly.duan.bean.ArticleBean: void setArticleDesc(java.lang.String)
+com.ly.duan.bean.ArticleBean: long getColumnId()
+com.ly.duan.bean.ArticleBean: void setColumnId(long)
+com.ly.duan.bean.ArticleBean: long getAppid()
+com.ly.duan.bean.ArticleBean: void setAppid(long)
+com.ly.duan.bean.ArticleBean: int getVer()
+com.ly.duan.bean.ArticleBean: void setVer(int)
+com.ly.duan.bean.ArticleBean: boolean isHasPush()
+com.ly.duan.bean.ArticleBean: void setHasPush(boolean)
+com.ly.duan.bean.ArticleBean: boolean isHasAudio()
+com.ly.duan.bean.ArticleBean: void setHasAudio(boolean)
+com.ly.duan.bean.ArticleBean: boolean isHasVideo()
+com.ly.duan.bean.ArticleBean: void setHasVideo(boolean)
+com.ly.duan.bean.ArticleBean: boolean isHasVip()
+com.ly.duan.bean.ArticleBean: void setHasVip(boolean)
+com.ly.duan.bean.ArticleBean: int getCurPage()
+com.ly.duan.bean.ArticleBean: void setCurPage(int)
+com.ly.duan.bean.ArticleBean: int getUrlType()
+com.ly.duan.bean.ArticleBean: void setUrlType(int)
+com.ly.duan.bean.ArticleBean: int getType()
+com.ly.duan.bean.ArticleBean: void setType(int)
+com.ly.duan.bean.ArticleBean: int getGood()
+com.ly.duan.bean.ArticleBean: void setGood(int)
+com.ly.duan.bean.ArticleBean: int getBad()
+com.ly.duan.bean.ArticleBean: void setBad(int)
+com.ly.duan.bean.ArticleBean: int getApprove()
+com.ly.duan.bean.ArticleBean: void setApprove(int)
+com.ly.duan.bean.ArticleBean: int getStamp()
+com.ly.duan.bean.ArticleBean: void setStamp(int)
+com.ly.duan.bean.ArticleBean: boolean equals(java.lang.Object)
+com.ly.duan.bean.ArticleBean: java.lang.String toString()
 com.ly.duan.bean.BannerBean
+com.ly.duan.bean.BannerBean: long serialVersionUID
 com.ly.duan.bean.BannerBean: long bannerId
 com.ly.duan.bean.BannerBean: long appid
 com.ly.duan.bean.BannerBean: int ver
@@ -491,6 +552,8 @@ com.ly.duan.bean.BannerBean: java.lang.String bannerImgUrl
 com.ly.duan.bean.BannerBean: long contentId
 com.ly.duan.bean.BannerBean: java.lang.String contentUrl
 com.ly.duan.bean.BannerBean: java.lang.String contentPackage
+com.ly.duan.bean.BannerBean: java.lang.String userNick
+com.ly.duan.bean.BannerBean: java.lang.String userVarUrl
 com.ly.duan.bean.BannerBean: BannerBean()
 com.ly.duan.bean.BannerBean: long getBannerId()
 com.ly.duan.bean.BannerBean: void setBannerId(long)
@@ -512,8 +575,86 @@ com.ly.duan.bean.BannerBean: java.lang.String getContentUrl()
 com.ly.duan.bean.BannerBean: void setContentUrl(java.lang.String)
 com.ly.duan.bean.BannerBean: java.lang.String getContentPackage()
 com.ly.duan.bean.BannerBean: void setContentPackage(java.lang.String)
+com.ly.duan.bean.BannerBean: java.lang.String getUserNick()
+com.ly.duan.bean.BannerBean: void setUserNick(java.lang.String)
+com.ly.duan.bean.BannerBean: java.lang.String getUserVarUrl()
+com.ly.duan.bean.BannerBean: void setUserVarUrl(java.lang.String)
+com.ly.duan.bean.BannerBean: boolean equals(java.lang.Object)
 com.ly.duan.bean.BannerBean: java.lang.String toString()
+com.ly.duan.bean.ColumnBean
+com.ly.duan.bean.ColumnBean: long appid
+com.ly.duan.bean.ColumnBean: long columnId
+com.ly.duan.bean.ColumnBean: java.lang.String columnName
+com.ly.duan.bean.ColumnBean: java.lang.String columnDesc
+com.ly.duan.bean.ColumnBean: java.lang.String imgUrl
+com.ly.duan.bean.ColumnBean: int type
+com.ly.duan.bean.ColumnBean: boolean hasVip
+com.ly.duan.bean.ColumnBean: int ver
+com.ly.duan.bean.ColumnBean: ColumnBean()
+com.ly.duan.bean.ColumnBean: long getColumnId()
+com.ly.duan.bean.ColumnBean: void setColumnId(long)
+com.ly.duan.bean.ColumnBean: java.lang.String getColumnName()
+com.ly.duan.bean.ColumnBean: void setColumnName(java.lang.String)
+com.ly.duan.bean.ColumnBean: java.lang.String getColumnDesc()
+com.ly.duan.bean.ColumnBean: void setColumnDesc(java.lang.String)
+com.ly.duan.bean.ColumnBean: java.lang.String getImgUrl()
+com.ly.duan.bean.ColumnBean: void setImgUrl(java.lang.String)
+com.ly.duan.bean.ColumnBean: int getType()
+com.ly.duan.bean.ColumnBean: void setType(int)
+com.ly.duan.bean.ColumnBean: boolean isHasVip()
+com.ly.duan.bean.ColumnBean: void setHasVip(boolean)
+com.ly.duan.bean.ColumnBean: int getVer()
+com.ly.duan.bean.ColumnBean: void setVer(int)
+com.ly.duan.bean.ColumnBean: long getAppid()
+com.ly.duan.bean.ColumnBean: void setAppid(long)
+com.ly.duan.bean.ColumnBean: boolean equals(java.lang.Object)
+com.ly.duan.bean.ColumnBean: java.lang.String toString()
+com.ly.duan.bean.CommentBean
+com.ly.duan.bean.CommentBean: long appid
+com.ly.duan.bean.CommentBean: int contentType
+com.ly.duan.bean.CommentBean: long contentId
+com.ly.duan.bean.CommentBean: int page
+com.ly.duan.bean.CommentBean: java.lang.String commentId
+com.ly.duan.bean.CommentBean: java.lang.String comment
+com.ly.duan.bean.CommentBean: java.lang.String createTime
+com.ly.duan.bean.CommentBean: java.lang.String userNick
+com.ly.duan.bean.CommentBean: java.lang.String userVar
+com.ly.duan.bean.CommentBean: int userType
+com.ly.duan.bean.CommentBean: java.lang.String ip
+com.ly.duan.bean.CommentBean: int goodCount
+com.ly.duan.bean.CommentBean: int badCount
+com.ly.duan.bean.CommentBean: CommentBean()
+com.ly.duan.bean.CommentBean: long getAppid()
+com.ly.duan.bean.CommentBean: void setAppid(long)
+com.ly.duan.bean.CommentBean: int getContentType()
+com.ly.duan.bean.CommentBean: void setContentType(int)
+com.ly.duan.bean.CommentBean: long getContentId()
+com.ly.duan.bean.CommentBean: void setContentId(long)
+com.ly.duan.bean.CommentBean: int getPage()
+com.ly.duan.bean.CommentBean: void setPage(int)
+com.ly.duan.bean.CommentBean: java.lang.String getCommentId()
+com.ly.duan.bean.CommentBean: void setCommentId(java.lang.String)
+com.ly.duan.bean.CommentBean: java.lang.String getComment()
+com.ly.duan.bean.CommentBean: void setComment(java.lang.String)
+com.ly.duan.bean.CommentBean: java.lang.String getCreateTime()
+com.ly.duan.bean.CommentBean: void setCreateTime(java.lang.String)
+com.ly.duan.bean.CommentBean: java.lang.String getUserNick()
+com.ly.duan.bean.CommentBean: void setUserNick(java.lang.String)
+com.ly.duan.bean.CommentBean: java.lang.String getUserVar()
+com.ly.duan.bean.CommentBean: void setUserVar(java.lang.String)
+com.ly.duan.bean.CommentBean: int getUserType()
+com.ly.duan.bean.CommentBean: void setUserType(int)
+com.ly.duan.bean.CommentBean: java.lang.String getIp()
+com.ly.duan.bean.CommentBean: void setIp(java.lang.String)
+com.ly.duan.bean.CommentBean: int getGoodCount()
+com.ly.duan.bean.CommentBean: void setGoodCount(int)
+com.ly.duan.bean.CommentBean: int getBadCount()
+com.ly.duan.bean.CommentBean: void setBadCount(int)
+com.ly.duan.bean.CommentBean: boolean equals(java.lang.Object)
+com.ly.duan.bean.CommentBean: java.lang.String toString()
 com.ly.duan.bean.DuanBean
+com.ly.duan.bean.DuanBean: long serialVersionUID
+com.ly.duan.bean.DuanBean: long duanId
 com.ly.duan.bean.DuanBean: long appid
 com.ly.duan.bean.DuanBean: long columnId
 com.ly.duan.bean.DuanBean: int ver
@@ -524,7 +665,14 @@ com.ly.duan.bean.DuanBean: java.lang.String content
 com.ly.duan.bean.DuanBean: java.lang.String imgUrl
 com.ly.duan.bean.DuanBean: int imgType
 com.ly.duan.bean.DuanBean: boolean vip
+com.ly.duan.bean.DuanBean: int good
+com.ly.duan.bean.DuanBean: int bad
+com.ly.duan.bean.DuanBean: int approve
+com.ly.duan.bean.DuanBean: int stamp
+com.ly.duan.bean.DuanBean: int contentType
 com.ly.duan.bean.DuanBean: DuanBean()
+com.ly.duan.bean.DuanBean: long getDuanId()
+com.ly.duan.bean.DuanBean: void setDuanId(long)
 com.ly.duan.bean.DuanBean: long getAppid()
 com.ly.duan.bean.DuanBean: void setAppid(long)
 com.ly.duan.bean.DuanBean: long getColumnId()
@@ -545,6 +693,16 @@ com.ly.duan.bean.DuanBean: int getImgType()
 com.ly.duan.bean.DuanBean: void setImgType(int)
 com.ly.duan.bean.DuanBean: boolean getVip()
 com.ly.duan.bean.DuanBean: void setVip(boolean)
+com.ly.duan.bean.DuanBean: int getGood()
+com.ly.duan.bean.DuanBean: void setGood(int)
+com.ly.duan.bean.DuanBean: int getBad()
+com.ly.duan.bean.DuanBean: void setBad(int)
+com.ly.duan.bean.DuanBean: int getApprove()
+com.ly.duan.bean.DuanBean: void setApprove(int)
+com.ly.duan.bean.DuanBean: int getStamp()
+com.ly.duan.bean.DuanBean: void setStamp(int)
+com.ly.duan.bean.DuanBean: int getContentType()
+com.ly.duan.bean.DuanBean: void setContentType(int)
 com.ly.duan.bean.DuanBean: java.lang.String toString()
 com.ly.duan.bean.EntityBase
 com.ly.duan.bean.EntityBase: int id
@@ -555,6 +713,7 @@ com.ly.duan.bean.MultiReqStatus
 com.ly.duan.bean.MultiReqStatus: int content1Status
 com.ly.duan.bean.MultiReqStatus: int content2Status
 com.ly.duan.bean.MultiReqStatus: int bannerStatus
+com.ly.duan.bean.MultiReqStatus: int currentStatus
 com.ly.duan.bean.MultiReqStatus: MultiReqStatus()
 com.ly.duan.bean.MultiReqStatus: MultiReqStatus(int,int,int)
 com.ly.duan.bean.MultiReqStatus: int getContent1Status()
@@ -563,24 +722,83 @@ com.ly.duan.bean.MultiReqStatus: int getContent2Status()
 com.ly.duan.bean.MultiReqStatus: void setContent2Status(int)
 com.ly.duan.bean.MultiReqStatus: int getBannerStatus()
 com.ly.duan.bean.MultiReqStatus: void setBannerStatus(int)
+com.ly.duan.bean.MultiReqStatus: int getCurrentStatus()
+com.ly.duan.bean.MultiReqStatus: void setCurrentStatus(int)
 com.ly.duan.bean.MultiReqStatus: java.lang.String toString()
+com.ly.duan.bean.PushBean
+com.ly.duan.bean.PushBean: long appid
+com.ly.duan.bean.PushBean: long pushId
+com.ly.duan.bean.PushBean: int ver
+com.ly.duan.bean.PushBean: java.lang.String pushTitle
+com.ly.duan.bean.PushBean: java.lang.String pushDesc
+com.ly.duan.bean.PushBean: java.lang.String pushImgUrl
+com.ly.duan.bean.PushBean: int sourceType
+com.ly.duan.bean.PushBean: long sourceId
+com.ly.duan.bean.PushBean: java.lang.String contentUrl
+com.ly.duan.bean.PushBean: java.lang.String userNick
+com.ly.duan.bean.PushBean: java.lang.String userVarUrl
+com.ly.duan.bean.PushBean: PushBean()
+com.ly.duan.bean.PushBean: long getAppid()
+com.ly.duan.bean.PushBean: void setAppid(long)
+com.ly.duan.bean.PushBean: long getPushId()
+com.ly.duan.bean.PushBean: void setPushId(long)
+com.ly.duan.bean.PushBean: int getVer()
+com.ly.duan.bean.PushBean: void setVer(int)
+com.ly.duan.bean.PushBean: java.lang.String getPushTitle()
+com.ly.duan.bean.PushBean: void setPushTitle(java.lang.String)
+com.ly.duan.bean.PushBean: java.lang.String getPushDesc()
+com.ly.duan.bean.PushBean: void setPushDesc(java.lang.String)
+com.ly.duan.bean.PushBean: java.lang.String getPushImgUrl()
+com.ly.duan.bean.PushBean: void setPushImgUrl(java.lang.String)
+com.ly.duan.bean.PushBean: int getSourceType()
+com.ly.duan.bean.PushBean: void setSourceType(int)
+com.ly.duan.bean.PushBean: long getSourceId()
+com.ly.duan.bean.PushBean: void setSourceId(long)
+com.ly.duan.bean.PushBean: java.lang.String getContentUrl()
+com.ly.duan.bean.PushBean: void setContentUrl(java.lang.String)
+com.ly.duan.bean.PushBean: java.lang.String getUserNick()
+com.ly.duan.bean.PushBean: void setUserNick(java.lang.String)
+com.ly.duan.bean.PushBean: java.lang.String getUserVarUrl()
+com.ly.duan.bean.PushBean: void setUserVarUrl(java.lang.String)
+com.ly.duan.bean.PushBean: boolean equals(java.lang.Object)
+com.ly.duan.bean.PushBean: java.lang.String toString()
+com.ly.duan.bean.SavedStatus
+com.ly.duan.bean.SavedStatus: java.lang.String tabName
+com.ly.duan.bean.SavedStatus: SavedStatus()
+com.ly.duan.bean.SavedStatus: java.lang.String getTabName()
+com.ly.duan.bean.SavedStatus: void setTabName(java.lang.String)
+com.ly.duan.bean.SavedStatus: boolean equals(java.lang.Object)
+com.ly.duan.bean.SavedStatus: java.lang.String toString()
 com.ly.duan.service.InitDataService
 com.ly.duan.service.InitDataService: InitDataService()
 com.ly.duan.service.PkgSetupReceiver
 com.ly.duan.service.PkgSetupReceiver: PkgSetupReceiver()
+com.ly.duan.service.PushService
+com.ly.duan.service.PushService: PushService()
 com.ly.duan.ui.BaseActivity
 com.ly.duan.ui.BaseActivity: BaseActivity()
+com.ly.duan.ui.CommentDetailActivity
+com.ly.duan.ui.CommentDetailActivity: CommentDetailActivity()
 com.ly.duan.ui.MainActivity
 com.ly.duan.ui.MainActivity: MainActivity()
 com.ly.duan.ui.MyApplication
 com.ly.duan.ui.MyApplication: MyApplication()
+com.ly.duan.ui.SendCommentActivity
+com.ly.duan.ui.SendCommentActivity: SendCommentActivity()
+com.ly.duan.ui.SendCommentActivity: void backClicked(android.view.View)
+com.ly.duan.ui.SettingActivity
+com.ly.duan.ui.SettingActivity: SettingActivity()
+com.ly.duan.ui.SettingActivity: void backClicked(android.view.View)
 com.ly.duan.ui.ShowPageActivity
 com.ly.duan.ui.ShowPageActivity: ShowPageActivity()
 com.ly.duan.ui.ShowPageActivity: void backClicked(android.view.View)
+com.ly.duan.ui.VVActivity
+com.ly.duan.ui.VVActivity: VVActivity()
 com.ly.duan.ui.WelcomeActivity
 com.ly.duan.ui.WelcomeActivity: WelcomeActivity()
 com.ly.duan.ui.fragment.Fragment1: void freshClicked(android.view.View)
 com.ly.duan.ui.fragment.Fragment3: void freshClicked(android.view.View)
+com.ly.duan.ui.fragment.Fragment4: void freshClicked(android.view.View)
 com.ly.duan.view.CircleFlowIndicator
 com.ly.duan.view.CircleFlowIndicator: CircleFlowIndicator(android.content.Context)
 com.ly.duan.view.CircleFlowIndicator: CircleFlowIndicator(android.content.Context,android.util.AttributeSet)
@@ -588,7 +806,6 @@ com.ly.duan.view.CircleFlowIndicator: void setViewFlow(com.ly.duan.view.ViewFlow
 com.ly.duan.view.CircleFlowIndicator: void setFillColor(int)
 com.ly.duan.view.CircleFlowIndicator: void setStrokeColor(int)
 com.ly.duan.view.LayersLayout
-com.ly.duan.view.LayersLayout: LayersLayout(android.content.Context)
 com.ly.duan.view.LayersLayout: LayersLayout(android.content.Context,android.util.AttributeSet)
 com.ly.duan.view.LayersLayout: void setView(com.ly.duan.view.ViewFlow)
 com.ly.duan.view.ProgressWheel
@@ -631,6 +848,9 @@ com.ly.duan.view.ProgressWheel: int getContourColor()
 com.ly.duan.view.ProgressWheel: void setContourColor(int)
 com.ly.duan.view.ProgressWheel: float getContourSize()
 com.ly.duan.view.ProgressWheel: void setContourSize(float)
+com.ly.duan.view.TabMenu
+com.ly.duan.view.TabMenu: TabMenu(android.content.Context,android.util.AttributeSet,int)
+com.ly.duan.view.TabMenu: TabMenu(android.content.Context,android.util.AttributeSet)
 com.ly.duan.view.ViewFlow
 com.ly.duan.view.ViewFlow: ViewFlow(android.content.Context)
 com.ly.duan.view.ViewFlow: ViewFlow(android.content.Context,int)
@@ -654,11 +874,17 @@ com.mozillaonline.providers.downloads.DownloadService: DownloadService()
 com.mozillaonline.providers.downloads.DownloadThread$RetryDownload
 com.mozillaonline.providers.downloads.DownloadThread$StopRequest
 com.mozillaonline.providers.downloads.Helpers$GenerateSaveFileError
+com.sjm.gxdz.R$anim: int fade_in
+com.sjm.gxdz.R$anim: int fade_out
+com.sjm.gxdz.R$anim: int popup_enter
+com.sjm.gxdz.R$anim: int popup_exit
 com.sjm.gxdz.R$anim: int push_left_in
 com.sjm.gxdz.R$anim: int push_left_out
 com.sjm.gxdz.R$anim: int push_right_in
 com.sjm.gxdz.R$anim: int push_right_out
 com.sjm.gxdz.R$anim: int rotate_clockwise
+com.sjm.gxdz.R$anim: int unzoom_in
+com.sjm.gxdz.R$anim: int unzoom_out
 com.sjm.gxdz.R$attr: int activeColor
 com.sjm.gxdz.R$attr: int activeRadius
 com.sjm.gxdz.R$attr: int activeType
@@ -693,8 +919,14 @@ com.sjm.gxdz.R$color: int drop_down_list_header_second_font_color
 com.sjm.gxdz.R$color: int drop_item_content_color
 com.sjm.gxdz.R$color: int drop_item_nick_color
 com.sjm.gxdz.R$color: int frag_bg_color
+com.sjm.gxdz.R$color: int line_bg_color
 com.sjm.gxdz.R$color: int nav_bg_color
 com.sjm.gxdz.R$color: int nav_center_color
+com.sjm.gxdz.R$color: int num_tv_selector
+com.sjm.gxdz.R$color: int send_focus_color
+com.sjm.gxdz.R$color: int send_unfocus_color
+com.sjm.gxdz.R$color: int up_down_focus_color
+com.sjm.gxdz.R$color: int up_down_unfocus_color
 com.sjm.gxdz.R$color: int white
 com.sjm.gxdz.R$dimen: int drop_down_list_footer_button_height
 com.sjm.gxdz.R$dimen: int drop_down_list_footer_button_margin_left
@@ -707,10 +939,19 @@ com.sjm.gxdz.R$dimen: int drop_item_content_size
 com.sjm.gxdz.R$dimen: int drop_item_left_margin
 com.sjm.gxdz.R$dimen: int drop_item_nick_size
 com.sjm.gxdz.R$dimen: int drop_item_right_margin
+com.sjm.gxdz.R$dimen: int frag3_tb_margin
+com.sjm.gxdz.R$dimen: int frag3_tv_margin
+com.sjm.gxdz.R$dimen: int iv_height
+com.sjm.gxdz.R$dimen: int iv_width
+com.sjm.gxdz.R$dimen: int line_width
 com.sjm.gxdz.R$dimen: int nav_center_size
 com.sjm.gxdz.R$dimen: int nav_height
+com.sjm.gxdz.R$drawable: int approve_bg
+com.sjm.gxdz.R$drawable: int approve_bg_selector
+com.sjm.gxdz.R$drawable: int approve_press_bg
 com.sjm.gxdz.R$drawable: int back
 com.sjm.gxdz.R$drawable: int back_p
+com.sjm.gxdz.R$drawable: int back_selector
 com.sjm.gxdz.R$drawable: int btn_bg
 com.sjm.gxdz.R$drawable: int btn_bg_selector
 com.sjm.gxdz.R$drawable: int btn_press_bg
@@ -718,28 +959,47 @@ com.sjm.gxdz.R$drawable: int confirm
 com.sjm.gxdz.R$drawable: int confirm_bg
 com.sjm.gxdz.R$drawable: int default_icon
 com.sjm.gxdz.R$drawable: int dialog_bg
+com.sjm.gxdz.R$drawable: int disapprove_bg
+com.sjm.gxdz.R$drawable: int disapprove_bg_selector
+com.sjm.gxdz.R$drawable: int disapprove_press_bg
 com.sjm.gxdz.R$drawable: int divider_bg
+com.sjm.gxdz.R$drawable: int down
 com.sjm.gxdz.R$drawable: int down_button_short_1
 com.sjm.gxdz.R$drawable: int down_button_short_2
 com.sjm.gxdz.R$drawable: int down_dialog_cancel
 com.sjm.gxdz.R$drawable: int down_dialog_confirm
 com.sjm.gxdz.R$drawable: int down_dialog_x
+com.sjm.gxdz.R$drawable: int down_focus
+com.sjm.gxdz.R$drawable: int down_selector
 com.sjm.gxdz.R$drawable: int drop_down_list_arrow
 com.sjm.gxdz.R$drawable: int forward
 com.sjm.gxdz.R$drawable: int fresh
+com.sjm.gxdz.R$drawable: int fresh_selector
 com.sjm.gxdz.R$drawable: int icon
 com.sjm.gxdz.R$drawable: int icon_small
 com.sjm.gxdz.R$drawable: int indicator_arrow
+com.sjm.gxdz.R$drawable: int listview_bg_selector
+com.sjm.gxdz.R$drawable: int listview_focus_bg
 com.sjm.gxdz.R$drawable: int loading_logo
 com.sjm.gxdz.R$drawable: int nav_bg
 com.sjm.gxdz.R$drawable: int pay_bg_022
 com.sjm.gxdz.R$drawable: int pay_bg_111
 com.sjm.gxdz.R$drawable: int pay_bg_1_1
+com.sjm.gxdz.R$drawable: int play
+com.sjm.gxdz.R$drawable: int play_selector
 com.sjm.gxdz.R$drawable: int push_back_btn
 com.sjm.gxdz.R$drawable: int push_list_down_btn_selector
 com.sjm.gxdz.R$drawable: int push_list_icon
 com.sjm.gxdz.R$drawable: int quit
+com.sjm.gxdz.R$drawable: int rl_bg
+com.sjm.gxdz.R$drawable: int send_btn_bg_selector
+com.sjm.gxdz.R$drawable: int send_btn_text_selector
+com.sjm.gxdz.R$drawable: int send_focus_color
+com.sjm.gxdz.R$drawable: int send_unfocus_color
 com.sjm.gxdz.R$drawable: int setting
+com.sjm.gxdz.R$drawable: int setting_btn_bg
+com.sjm.gxdz.R$drawable: int setting_btn_bg_selector
+com.sjm.gxdz.R$drawable: int setting_btn_press_bg
 com.sjm.gxdz.R$drawable: int tab1
 com.sjm.gxdz.R$drawable: int tab1_focus
 com.sjm.gxdz.R$drawable: int tab1_item_selector
@@ -753,9 +1013,16 @@ com.sjm.gxdz.R$drawable: int tab4
 com.sjm.gxdz.R$drawable: int tab4_focus
 com.sjm.gxdz.R$drawable: int tab4_item_selector
 com.sjm.gxdz.R$drawable: int translate_bg
-com.sjm.gxdz.R$drawable: int translate_bg_selector
+com.sjm.gxdz.R$drawable: int up
+com.sjm.gxdz.R$drawable: int up_focus
+com.sjm.gxdz.R$drawable: int up_selector
 com.sjm.gxdz.R$drawable: int welcome
+com.sjm.gxdz.R$id: int add_tv
+com.sjm.gxdz.R$id: int add_tv1
+com.sjm.gxdz.R$id: int add_tv2
 com.sjm.gxdz.R$id: int appIcon
+com.sjm.gxdz.R$id: int approve_nums
+com.sjm.gxdz.R$id: int approve_rl
 com.sjm.gxdz.R$id: int back
 com.sjm.gxdz.R$id: int banner_content_ll
 com.sjm.gxdz.R$id: int banner_item_pw
@@ -764,12 +1031,23 @@ com.sjm.gxdz.R$id: int banner_ll
 com.sjm.gxdz.R$id: int banner_rl
 com.sjm.gxdz.R$id: int banner_tv
 com.sjm.gxdz.R$id: int bg_ll
+com.sjm.gxdz.R$id: int bottom_rl
 com.sjm.gxdz.R$id: int brief
 com.sjm.gxdz.R$id: int btn
 com.sjm.gxdz.R$id: int btnNo
 com.sjm.gxdz.R$id: int btnYes
+com.sjm.gxdz.R$id: int btn_ll
 com.sjm.gxdz.R$id: int cache_rl
 com.sjm.gxdz.R$id: int cache_tv
+com.sjm.gxdz.R$id: int comment_content
+com.sjm.gxdz.R$id: int comment_et
+com.sjm.gxdz.R$id: int comment_extra_nums
+com.sjm.gxdz.R$id: int comment_fl
+com.sjm.gxdz.R$id: int comment_iv
+com.sjm.gxdz.R$id: int comment_ll
+com.sjm.gxdz.R$id: int comment_time
+com.sjm.gxdz.R$id: int comment_title
+com.sjm.gxdz.R$id: int comment_tv
 com.sjm.gxdz.R$id: int content
 com.sjm.gxdz.R$id: int description
 com.sjm.gxdz.R$id: int dg_ll
@@ -778,6 +1056,10 @@ com.sjm.gxdz.R$id: int dg_title_ll
 com.sjm.gxdz.R$id: int down_btn
 com.sjm.gxdz.R$id: int down_dialog_bg_ll
 com.sjm.gxdz.R$id: int down_dialog_girl
+com.sjm.gxdz.R$id: int down_iv
+com.sjm.gxdz.R$id: int down_ll
+com.sjm.gxdz.R$id: int down_rl
+com.sjm.gxdz.R$id: int down_tv
 com.sjm.gxdz.R$id: int dropDownListView
 com.sjm.gxdz.R$id: int drop_down_list_footer_button
 com.sjm.gxdz.R$id: int drop_down_list_footer_progress_bar
@@ -795,38 +1077,58 @@ com.sjm.gxdz.R$id: int duan_picture
 com.sjm.gxdz.R$id: int duan_pw
 com.sjm.gxdz.R$id: int duan_rl
 com.sjm.gxdz.R$id: int fill
+com.sjm.gxdz.R$id: int frag3_iv
+com.sjm.gxdz.R$id: int frag3_rl
+com.sjm.gxdz.R$id: int frag3_tv
+com.sjm.gxdz.R$id: int frag4_content
+com.sjm.gxdz.R$id: int frag4_ll
+com.sjm.gxdz.R$id: int frag4_picture
+com.sjm.gxdz.R$id: int frag4_play
+com.sjm.gxdz.R$id: int frag4_rl
 com.sjm.gxdz.R$id: int fresh
 com.sjm.gxdz.R$id: int girldlg
 com.sjm.gxdz.R$id: int icon
 com.sjm.gxdz.R$id: int indicator
 com.sjm.gxdz.R$id: int item_iv
+com.sjm.gxdz.R$id: int iv
 com.sjm.gxdz.R$id: int iv_arrow
 com.sjm.gxdz.R$id: int iv_icon
-com.sjm.gxdz.R$id: int layerslayout
 com.sjm.gxdz.R$id: int leftBtn
 com.sjm.gxdz.R$id: int left_iv
 com.sjm.gxdz.R$id: int listView
 com.sjm.gxdz.R$id: int listView1
 com.sjm.gxdz.R$id: int list_top_title
+com.sjm.gxdz.R$id: int ll
+com.sjm.gxdz.R$id: int ll_head
 com.sjm.gxdz.R$id: int load_more_pb
 com.sjm.gxdz.R$id: int load_more_tv
+com.sjm.gxdz.R$id: int main_ll
+com.sjm.gxdz.R$id: int no_banner_rl
 com.sjm.gxdz.R$id: int noti_iv
 com.sjm.gxdz.R$id: int noti_pb
 com.sjm.gxdz.R$id: int noti_subTitle
 com.sjm.gxdz.R$id: int noti_title
 com.sjm.gxdz.R$id: int paused_text
+com.sjm.gxdz.R$id: int pb
 com.sjm.gxdz.R$id: int pb_refresh
+com.sjm.gxdz.R$id: int pop_layout
 com.sjm.gxdz.R$id: int progress_text
 com.sjm.gxdz.R$id: int right_iv
+com.sjm.gxdz.R$id: int rl
 com.sjm.gxdz.R$id: int rl_description
+com.sjm.gxdz.R$id: int scrollView
+com.sjm.gxdz.R$id: int send
+com.sjm.gxdz.R$id: int setButton
+com.sjm.gxdz.R$id: int setting
 com.sjm.gxdz.R$id: int stroke
 com.sjm.gxdz.R$id: int tab_rl
 com.sjm.gxdz.R$id: int textBrief
 com.sjm.gxdz.R$id: int textTitle
 com.sjm.gxdz.R$id: int title
-com.sjm.gxdz.R$id: int title_rl
 com.sjm.gxdz.R$id: int topIcon
+com.sjm.gxdz.R$id: int top_rl
 com.sjm.gxdz.R$id: int tp_webView
+com.sjm.gxdz.R$id: int tv
 com.sjm.gxdz.R$id: int tv_time
 com.sjm.gxdz.R$id: int tv_title
 com.sjm.gxdz.R$id: int txtBrief
@@ -834,19 +1136,18 @@ com.sjm.gxdz.R$id: int txtContent
 com.sjm.gxdz.R$id: int txtContent_tt
 com.sjm.gxdz.R$id: int txtTitle
 com.sjm.gxdz.R$id: int txt_content
+com.sjm.gxdz.R$id: int up_iv
+com.sjm.gxdz.R$id: int up_ll
+com.sjm.gxdz.R$id: int up_rl
+com.sjm.gxdz.R$id: int up_tv
 com.sjm.gxdz.R$id: int video_ll
+com.sjm.gxdz.R$id: int viewPager
 com.sjm.gxdz.R$id: int viewflow
+com.sjm.gxdz.R$id: int vv
 com.sjm.gxdz.R$id: int webView
-com.sjm.gxdz.R$id: int xlistview_footer_content
-com.sjm.gxdz.R$id: int xlistview_footer_hint_textview
-com.sjm.gxdz.R$id: int xlistview_footer_progressbar
-com.sjm.gxdz.R$id: int xlistview_header_arrow
-com.sjm.gxdz.R$id: int xlistview_header_content
-com.sjm.gxdz.R$id: int xlistview_header_hint_textview
-com.sjm.gxdz.R$id: int xlistview_header_progressbar
-com.sjm.gxdz.R$id: int xlistview_header_text
-com.sjm.gxdz.R$id: int xlistview_header_time
+com.sjm.gxdz.R$layout: int activity_comment
 com.sjm.gxdz.R$layout: int activity_itemlist
+com.sjm.gxdz.R$layout: int activity_send_comment
 com.sjm.gxdz.R$layout: int apk_banner_item
 com.sjm.gxdz.R$layout: int banner_dlg
 com.sjm.gxdz.R$layout: int common_dlg
@@ -857,10 +1158,14 @@ com.sjm.gxdz.R$layout: int down_common_dlg_other
 com.sjm.gxdz.R$layout: int drop_down_list_footer
 com.sjm.gxdz.R$layout: int drop_down_list_header
 com.sjm.gxdz.R$layout: int drop_item
+com.sjm.gxdz.R$layout: int item_comment
+com.sjm.gxdz.R$layout: int item_frag3
+com.sjm.gxdz.R$layout: int item_frag4
 com.sjm.gxdz.R$layout: int item_vf
 com.sjm.gxdz.R$layout: int item_viewflow
 com.sjm.gxdz.R$layout: int list_down_item
 com.sjm.gxdz.R$layout: int load_more_footer
+com.sjm.gxdz.R$layout: int menu_setting
 com.sjm.gxdz.R$layout: int progress_dlg
 com.sjm.gxdz.R$layout: int pull_to_refresh_header
 com.sjm.gxdz.R$layout: int status_bar_ongoing_event_progress_bar
@@ -868,22 +1173,26 @@ com.sjm.gxdz.R$layout: int status_bar_startup
 com.sjm.gxdz.R$layout: int tab_bottom_nav
 com.sjm.gxdz.R$layout: int top_bar
 com.sjm.gxdz.R$layout: int tp_view
+com.sjm.gxdz.R$layout: int view_comment
 com.sjm.gxdz.R$layout: int view_frag1
 com.sjm.gxdz.R$layout: int view_frag3
-com.sjm.gxdz.R$layout: int view_frag4
 com.sjm.gxdz.R$layout: int view_main
 com.sjm.gxdz.R$layout: int view_noti
 com.sjm.gxdz.R$layout: int view_noti2
+com.sjm.gxdz.R$layout: int view_settings
 com.sjm.gxdz.R$layout: int view_show_page
+com.sjm.gxdz.R$layout: int view_vv
 com.sjm.gxdz.R$layout: int view_welcome
-com.sjm.gxdz.R$layout: int xlistview_footer
-com.sjm.gxdz.R$layout: int xlistview_header
+com.sjm.gxdz.R$menu: int setting
 com.sjm.gxdz.R$string: int app_install_end
 com.sjm.gxdz.R$string: int app_name
 com.sjm.gxdz.R$string: int banner_text
 com.sjm.gxdz.R$string: int clean_cache_content
 com.sjm.gxdz.R$string: int clean_cache_text
 com.sjm.gxdz.R$string: int clean_cache_title
+com.sjm.gxdz.R$string: int comment_hint
+com.sjm.gxdz.R$string: int comment_list
+com.sjm.gxdz.R$string: int detail
 com.sjm.gxdz.R$string: int dl_end
 com.sjm.gxdz.R$string: int dl_error
 com.sjm.gxdz.R$string: int dl_failed
@@ -904,16 +1213,24 @@ com.sjm.gxdz.R$string: int exit_app
 com.sjm.gxdz.R$string: int fresh
 com.sjm.gxdz.R$string: int fresh2
 com.sjm.gxdz.R$string: int image_content
+com.sjm.gxdz.R$string: int max_comment_nums
 com.sjm.gxdz.R$string: int no_btn
+com.sjm.gxdz.R$string: int no_comment
 com.sjm.gxdz.R$string: int no_fresh
 com.sjm.gxdz.R$string: int no_more
 com.sjm.gxdz.R$string: int no_service
+com.sjm.gxdz.R$string: int no_url_addr
 com.sjm.gxdz.R$string: int open_now
+com.sjm.gxdz.R$string: int play_video_failed
 com.sjm.gxdz.R$string: int popular
 com.sjm.gxdz.R$string: int pull_refresh
 com.sjm.gxdz.R$string: int refreshing
 com.sjm.gxdz.R$string: int release_to_refresh
 com.sjm.gxdz.R$string: int restart
+com.sjm.gxdz.R$string: int send
+com.sjm.gxdz.R$string: int send_comment
+com.sjm.gxdz.R$string: int send_comment_success
+com.sjm.gxdz.R$string: int setting
 com.sjm.gxdz.R$string: int toast_network
 com.sjm.gxdz.R$string: int toast_sdcard_available
 com.sjm.gxdz.R$string: int toast_sdcard_mounted
@@ -926,16 +1243,23 @@ com.sjm.gxdz.R$string: int xlistview_header_hint_normal
 com.sjm.gxdz.R$string: int xlistview_header_hint_ready
 com.sjm.gxdz.R$string: int xlistview_header_last_time
 com.sjm.gxdz.R$string: int yes_btn
+com.sjm.gxdz.R$style: int AddNumStyle
 com.sjm.gxdz.R$style: int AppTheme
 com.sjm.gxdz.R$style: int BannerBtnStyle
 com.sjm.gxdz.R$style: int BannerTV2Style
 com.sjm.gxdz.R$style: int BannerTVStyle
+com.sjm.gxdz.R$style: int CommentItemApproveNumStyle
+com.sjm.gxdz.R$style: int CommentItemContentStyle
+com.sjm.gxdz.R$style: int CommentItemTimeStyle
+com.sjm.gxdz.R$style: int CommentItemTitleStyle
+com.sjm.gxdz.R$style: int CommentTVStyle
 com.sjm.gxdz.R$style: int CommonBtnStyle
 com.sjm.gxdz.R$style: int CommonTextStyle
 com.sjm.gxdz.R$style: int Dialog
 com.sjm.gxdz.R$style: int DialogPrompt
 com.sjm.gxdz.R$style: int DropItemContentStyle
 com.sjm.gxdz.R$style: int DropItemNickStyle
+com.sjm.gxdz.R$style: int Frag3TVStyle
 com.sjm.gxdz.R$style: int MyDialogStyle
 com.sjm.gxdz.R$style: int NavCenterTVStyle
 com.sjm.gxdz.R$style: int NavStyle
@@ -945,7 +1269,12 @@ com.sjm.gxdz.R$style: int NotiTimeStyle
 com.sjm.gxdz.R$style: int NotiTimeStyle2
 com.sjm.gxdz.R$style: int NotiTitleStyle
 com.sjm.gxdz.R$style: int NotiTitleStyle2
+com.sjm.gxdz.R$style: int NumStyle
+com.sjm.gxdz.R$style: int PopupAnimation
+com.sjm.gxdz.R$style: int PostNickStyle
+com.sjm.gxdz.R$style: int SendCommentExtrsNumsStyle
 com.sjm.gxdz.R$style: int SettingCacheTVStyle
+com.sjm.gxdz.R$style: int TVShadowStyle
 com.sjm.gxdz.R$style: int WelcomeTheme
 com.sjm.gxdz.R$style: int drop_down_list_footer_font_style
 com.sjm.gxdz.R$style: int drop_down_list_footer_progress_bar_style

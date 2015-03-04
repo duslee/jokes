@@ -13,5 +13,13 @@ public class ActivityAnimator {
 	public void pushRightAnimation(Activity a) {
 		a.overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
 	}
+	
+	public void fadeAnimation(Activity a) {
+		a.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+	}
+	
+	public void unzoomAnimation(Activity a) {
+		a.overridePendingTransition(R.anim.unzoom_in, R.anim.unzoom_out);
+	}
 
 }

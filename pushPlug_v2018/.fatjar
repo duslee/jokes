@@ -1,0 +1,14 @@
+#Fat Jar Configuration File
+#Mon Mar 10 01:58:37 CST 2014
+onejar.license.required=true
+manifest.classpath=
+manifest.removesigners=true
+onejar.checkbox=false
+jarname=pushPlug_fat.jar
+manifest.mergeall=true
+manifest.mainclass=
+manifest.file=<createnew>
+jarname.isextern=false
+onejar.expand=
+excludes=<po|pushPlug>~com/~example/;<jar|android-support-v4.jar>;<jar|annotations.jar>
+includes=

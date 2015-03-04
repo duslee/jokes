@@ -48,9 +48,11 @@ import com.ly.duan.adapter.Frag4Adapter.OnFrag4ItemOperListerner;
 import com.ly.duan.adapter.Frag4Adapter.OnVideoPlayListener;
 import com.ly.duan.bean.ArticleBean;
 import com.ly.duan.bean.ColumnBean;
+import com.ly.duan.bean.DuanBean;
 import com.ly.duan.bean.MultiReqStatus;
 import com.ly.duan.help.GlobalHelp;
 import com.ly.duan.service.InitDataService;
+import com.ly.duan.ui.CommentDetailActivity;
 import com.ly.duan.ui.VVActivity;
 import com.ly.duan.ui.fragment.Fragment1.MyAnimationListener;
 import com.ly.duan.utils.ActivityAnimator;
@@ -70,6 +72,7 @@ public class Fragment4 extends BaseFragment {
 	private static final int CLEAR_CONTENT_REQUEST = 30;
 	private static final int MODIFY_VIDEOS_LIST = 31;
 	private static final int UPDATE_FRAG4_ITEM = 32;
+	private static final int ADD_LIST = 33;
 	
 	@ViewInject(R.id.dropDownListView)
 	private PullRefreshAndLoadMoreListView listView;
@@ -127,11 +130,18 @@ public class Fragment4 extends BaseFragment {
 			columnId = getArguments().getLong("columnId");
 			isFirst = getArguments().getBoolean("first");
 		}
+		LogUtils.e("initData columnId=" + columnId);
 
 		/* 2. start HandlerThread */
+		if (null == myHandler) {
+			initHandler();
+		}
+	}
+
+	private void initHandler() {
 		myThread = new HandlerThread("My Thread " + columnId);
 		myThread.start();
-		myHandler = new Frag4Handler(myThread.getLooper());
+		myHandler = new Frag4Handler(myThread.getLooper());		
 	}
 
 	@Override
@@ -195,7 +205,7 @@ public class Fragment4 extends BaseFragment {
 
 	private void baseInit() {
 		/* 1 get current request status */
-		MultiReqStatus reqStatus = GlobalHelp.getInstance().getMultiReqStatus();
+		MultiReqStatus reqStatus = GlobalHelp.getInstance().getMultiReqStatus(getActivity());
 		int currentStatus = InitDataService.CONTENT_REQUESTING;
 		if (null != reqStatus) {
 			currentStatus = reqStatus.getCurrentStatus();
@@ -227,6 +237,11 @@ public class Fragment4 extends BaseFragment {
 	}
 
 	public void acceptNotify(int which) {
+		/* strategy of protect */
+		if (null == myHandler) {
+			initHandler();
+		}
+		
 		switch (which) {
 		case InitDataService.CONTENT_REQUEST_FINISH:
 			currentStatus = FIRST_IN;
@@ -294,11 +309,12 @@ public class Fragment4 extends BaseFragment {
 
 			/* 注意发送请求获取数据 */
 			if ((_list == null) || _list.size() == 0) {
-				LogUtils.e("_list.size=" + _list.size());
 				if (currentStatus == FIRST_IN) {
 					if (!isFirst) {
 						initParamsAndSendRequest(false);
 					}
+//					LogUtils.e("thread.name=" + Thread.currentThread().getName());
+//					mHandler.sendEmptyMessage(ADD_LIST);
 				} else {
 					initParamsAndSendRequest(false);
 				}
@@ -429,8 +445,8 @@ public class Fragment4 extends BaseFragment {
 					mHandler.sendEmptyMessage(FRESH_LISTVIEW);
 					if (checkUpdate) {
 						/* change listView status */
-						setMoveUp();
 						listView.onLoadMoreComplete();
+						setMoveUp();
 					}
 					break;
 				}
@@ -496,7 +512,7 @@ public class Fragment4 extends BaseFragment {
 					bean.setType(type);
 					bean.setAppid(appid);
 					bean.setColumnId(columnId);
-					bean.setCurPage(0);
+					bean.setCurPage(curPage);
 					list.add(bean);
 				}
 
@@ -534,7 +550,8 @@ public class Fragment4 extends BaseFragment {
 		curPage = 0;
 		adapter.clear();
 		try {
-			getDb().delete(ArticleBean.class, WhereBuilder.b("appid", "=", appid)
+			getDb().delete(ArticleBean.class, WhereBuilder
+					.b("appid", "=", appid)
 					.and("columnId", "=", columnId));
 		} catch (DbException e) {
 			e.printStackTrace();
@@ -550,8 +567,8 @@ public class Fragment4 extends BaseFragment {
 		LogUtils.e("freshEnabled=" + freshEnabled);
 		switch (currentStatus) {
 		case PULL_UP:
-			setMoveUp();
 			listView.onLoadMoreComplete();
+			setMoveUp();
 			break;
 
 		case DROP_DOWN:
@@ -598,12 +615,17 @@ public class Fragment4 extends BaseFragment {
 		public void handleMessage(Message msg) {
 			super.handleMessage(msg);
 			switch (msg.what) {
+			case ADD_LIST:
+				setData();
+				adapter.notifyDataSetChanged();
+				break;
+			
 			case FRESH_LISTVIEW:
 				adapter.notifyDataSetChanged();
 				break;
 
 			case MOVE_UP:
-				listView.smoothScrollBy(ScreenUtils.dpToPxInt(getActivity(), 30), 400);
+				listView.smoothScrollBy(ScreenUtils.dpToPxInt(getActivity(), Constants.SCROLL_DISTANCE), Constants.SCROLL_DURATION);
 				break;
 				
 			case MODIFY_VIDEOS_LIST:
@@ -697,6 +719,26 @@ public class Fragment4 extends BaseFragment {
 			new HttpUtils().send(HttpMethod.POST, Constants.ACTION_APPROVE_STAMP, params, 
 					new Frag4ItemCallBack(operType, bean, holder));
 		}
+
+		@Override
+		public void startComment(int contentType, boolean isAds, int pos) {
+			/* Go To Comment Activity */
+			LogUtils.e("contentType=" + contentType + ", isAds=" + isAds + ", pos=" + pos);
+			Intent intent = new Intent(getActivity(), CommentDetailActivity.class);
+			intent.putExtra("contentType", contentType);
+			intent.putExtra("articlePos", pos);
+			/* handle Articles */
+			int size = adapter.getCount();
+			intent.putExtra("size", size);
+			if (size > 0) {
+				List<ArticleBean> _list = adapter.getArticleList();
+				for (int i = 0; i < size; i++) {
+					intent.putExtra("" + i, _list.get(i));
+				}
+			}
+			startActivity(intent);
+			new ActivityAnimator().pushLeftAnimation(getActivity());
+		}
 	};
 	
 	private class Frag4ItemCallBack extends RequestCallBack<String> {
@@ -770,6 +812,36 @@ public class Fragment4 extends BaseFragment {
 			showToast(R.string.no_service);
 		}
 		
+	}
+	
+	private void setData() {
+		List<ArticleBean> list = new ArrayList<ArticleBean>();
+		
+		ArticleBean bean1 = new ArticleBean();
+		bean1.setArticleName("美女妞妞");
+		bean1.setUrlType(1);
+		bean1.setArticleId(6783);
+		bean1.setImgUrl("http://7q5dcu.com2.z0.glb.qiniucdn.com/article_6783.jpg");
+		bean1.setUrl("http://uvideo.qiniudn.com/zp0238.MP4");
+		list.add(bean1);
+		
+		ArticleBean bean2 = new ArticleBean();
+		bean2.setArticleName("黑丝靓妹");
+		bean2.setUrlType(1);
+		bean2.setArticleId(6784);
+		bean2.setImgUrl("http://7q5dcu.com2.z0.glb.qiniucdn.com/article_6784.jpg");
+		bean2.setUrl("http://uvideo.qiniudn.com/zp0239.MP4");
+		list.add(bean2);
+		
+		ArticleBean bean3 = new ArticleBean();
+		bean3.setArticleName("紧身黑衣");
+		bean3.setUrlType(1);
+		bean3.setArticleId(6783);
+		bean3.setImgUrl("http://7q5dcu.com2.z0.glb.qiniucdn.com/article_6785.jpg");
+		bean3.setUrl("http://uvideo.qiniudn.com/zp0240.MP4");
+		list.add(bean3);
+		
+		adapter.addArticles(list);
 	}
 
 }

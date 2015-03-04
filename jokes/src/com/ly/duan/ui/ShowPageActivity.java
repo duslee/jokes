@@ -5,13 +5,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -31,6 +27,9 @@ import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ContentView;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
+import com.ly.duan.utils.StringUtils;
+import com.ly.duan.view.SildingFinishLayout;
+import com.ly.duan.view.SildingFinishLayout.OnSildingFinishListener;
 import com.sjm.gxdz.R;
 
 @ContentView(R.layout.view_show_page)
@@ -45,29 +44,28 @@ public class ShowPageActivity extends BaseActivity {
 	@ViewInject(R.id.title)
 	private TextView title;
 
-	@ViewInject(R.id.video_ll)
-	private LinearLayout video_ll;
+//	@ViewInject(R.id.ll)
+//	private LinearLayout ll;
+	@ViewInject(R.id.sfl)
+	private SildingFinishLayout sfl;
 
-	@ViewInject(R.id.title_rl)
-	private RelativeLayout title_rl;
+	@ViewInject(R.id.rl)
+	private RelativeLayout rl;
+	
+	@ViewInject(R.id.ll_head)
+	private LinearLayout ll_head;
+	
+	@ViewInject(R.id.iv)
+	private ImageView iv;
+	
+	@ViewInject(R.id.tv)
+	private TextView tv;
 
 	private View mView;
 
 	private CustomViewCallback mCallback;
+	private MyWebChromeClient client = null;
 
-	private Handler mHandler = new Handler() {
-		public void handleMessage(android.os.Message msg) {
-			switch (msg.what) {
-			case 31:
-				Log.d("Test", "oncreate: OK");
-				break;
-
-			case 32:
-				Log.d("Test", "oncreate: Fail");
-				break;
-			}
-		};
-	};
 	String url = "";
 
 	@Override
@@ -76,8 +74,6 @@ public class ShowPageActivity extends BaseActivity {
 		ViewUtils.inject(this);
 
 		initData();
-
-		title.setText(getIntent().getStringExtra("title"));
 
 		if (checkNetWork()) {
 			setWebViewData();
@@ -88,11 +84,30 @@ public class ShowPageActivity extends BaseActivity {
 		if (savedInstanceState != null) {
 			mWebView.restoreState(savedInstanceState);
 		}
+		
+		initUI();
+	}
+
+	private void initUI() {
+		sfl.setOnSildingFinishListener(new OnSildingFinishListener() {
+			
+			@Override
+			public void onSildingFinish() {
+				ShowPageActivity.this.finish();
+			}
+		});
+//		sfl.setTouchView(sfl);
+		sfl.setTouchView(mWebView);
 	}
 
 	@OnClick(R.id.back)
 	public void backClicked(View view) {
-		ShowPageActivity.this.finish();
+		LogUtils.d("backClicked >>>>>>>>>>>");
+		if (mWebView.canGoBack()) {
+			mWebView.goBack();
+		} else {
+			ShowPageActivity.this.finish();
+		}
 	}
 
 	private void initData() {
@@ -102,6 +117,21 @@ public class ShowPageActivity extends BaseActivity {
 			showToast("抱歉，该内容地址不存在！");
 			ShowPageActivity.this.finish();
 			return;
+		}
+
+		String titleString = getIntent().getStringExtra("title");
+		if (!StringUtils.isBlank(titleString)) {
+			title.setText(titleString);
+		}
+		
+		if (getIntent().getBooleanExtra("isPostBar", false)) {
+			tv.setText(getIntent().getStringExtra("userNick"));
+			String imgUrl = getIntent().getStringExtra("imgUrl");
+			if (!StringUtils.isBlank(imgUrl)) {
+				getBitmapUtils().display(iv, imgUrl);
+			} else {
+				iv.setImageResource(R.drawable.icon);
+			}
 		}
 	}
 
@@ -154,79 +184,8 @@ public class ShowPageActivity extends BaseActivity {
 		// 设置WebView 可以加载更多格式页面
 		settings.setLoadWithOverviewMode(true);
 		settings.setSupportZoom(true);
-		mWebView.setWebViewClient(new WebViewClient() {
-			@Override
-			public boolean shouldOverrideUrlLoading(WebView view, String url) {
-				view.loadUrl(url);
-				return true;
-			}
-
-			@Override
-			public void onPageFinished(WebView view, String url) {
-				super.onPageFinished(view, url);
-			}
-
-			@Override
-			public boolean shouldOverrideKeyEvent(WebView view, KeyEvent event) {
-				/*
-				 * 如果要下载页面中的游戏或者继续点击网页中的链接进入下一个网页的话，重写此方法下，不然就会跳到手机自带的浏览器了，
-				 * 而不继续在你这个webview里面展现了
-				 */
-				return super.shouldOverrideKeyEvent(view, event);
-			}
-
-			@Override
-			public void onReceivedError(WebView view, int errorCode,
-					String description, String failingUrl) {
-				super.onReceivedError(view, errorCode, description, failingUrl);
-				/* 想在收到错误信息的时候，执行一些操作，走此方法 */
-			}
-
-			@Override
-			public void onPageStarted(WebView view, String url, Bitmap favicon) {
-				super.onPageStarted(view, url, favicon);
-				/* 想在页面开始加载的时候，执行一些操作，走此方法 */
-			}
-
-		});
-		mWebView.setWebChromeClient(new WebChromeClient() {
-			@Override
-			public void onProgressChanged(WebView view, int newProgress) {
-				super.onProgressChanged(view, newProgress);
-			}
-
-			/** 播放网络视频时全屏会被调用的方法 */
-			@Override
-			public void onShowCustomView(View view, CustomViewCallback callback) {
-				if (null != mView) {
-					callback.onCustomViewHidden();
-					return;
-				}
-				/* 处理屏幕播放视频的方式:横屏显示 */
-				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-				video_ll.removeView(title_rl);
-				video_ll.removeView(mWebView);
-				video_ll.setBackgroundColor(Color.BLACK);
-				video_ll.addView(view);
-				mView = view;
-				mCallback = callback;
-				// 进入全屏参数设置
-				setFullScreen();
-			}
-
-			/** 视频播放退出全屏会被调用的 */
-			@Override
-			public void onHideCustomView() {
-				hideView();
-			}
-
-			@Override
-			@Deprecated
-			public void onReachedMaxAppCacheSize(long requiredStorage,
-					long quota, QuotaUpdater quotaUpdater) {
-				quotaUpdater.updateQuota(requiredStorage * 2);
-			}
-		});
+		mWebView.setWebViewClient(new WebViewClient());
+		mWebView.setWebChromeClient(client);
 	}
 
 	/** 退出全屏 */
@@ -250,47 +209,63 @@ public class ShowPageActivity extends BaseActivity {
 	protected void onSaveInstanceState(Bundle outState) {
 		mWebView.saveState(outState);
 	}
-
-	private void hideView() {
-		if (null == mView) {
-			return;
-		}
-		/* 处理屏幕播放视频的方式:竖屏显示 */
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-		if (null != mCallback) {
-			mCallback.onCustomViewHidden();
-			mCallback = null;
-		}
-		video_ll.removeView(mView);
-		mView = null;
-		video_ll.setBackgroundColor(Color.WHITE);
-		video_ll.addView(title_rl);
-		video_ll.addView(mWebView);
-		// 退出全屏参数设置
-		quitFullScreen();
-	}
-
+	
 	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (event.getAction() == KeyEvent.ACTION_DOWN) {
-			if (keyCode == KeyEvent.KEYCODE_BACK) {
-				LogUtils.e("mWebView.canGoBack: " + mWebView.canGoBack());
-				if (mWebView.canGoBack()) {
-					mWebView.goBack();
-					return false;
-				}
-				if (mView != null) {
-					LogUtils.e("mView != null");
-					hideView();
-					return false;
-				} else {
-					LogUtils.e("finish");
-					finish();
-				}
+	public void onBackPressed() {
+		LogUtils.d("onBackPressed >>>>>>>>>>>");
+		if (null != mView) {
+			client.onHideCustomView();
+		} else {
+			if (mWebView.canGoBack()) {
+				mWebView.goBack();
+			} else {
+				ShowPageActivity.this.finish();
+				super.onBackPressed();
 			}
 		}
-		return super.onKeyDown(keyCode, event);
+		
 	}
+
+//	private void hideView() {
+//		if (null == mView) {
+//			return;
+//		}
+//		/* 处理屏幕播放视频的方式:竖屏显示 */
+//		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+//		if (null != mCallback) {
+//			mCallback.onCustomViewHidden();
+//			mCallback = null;
+//		}
+//		video_ll.removeView(mView);
+//		mView = null;
+//		video_ll.setBackgroundColor(Color.WHITE);
+//		video_ll.addView(title_rl);
+//		video_ll.addView(mWebView);
+//		// 退出全屏参数设置
+//		quitFullScreen();
+//	}
+
+//	@Override
+//	public boolean onKeyDown(int keyCode, KeyEvent event) {
+//		if (event.getAction() == KeyEvent.ACTION_DOWN) {
+//			if (keyCode == KeyEvent.KEYCODE_BACK) {
+//				LogUtils.e("mWebView.canGoBack: " + mWebView.canGoBack());
+//				if (mWebView.canGoBack()) {
+//					mWebView.goBack();
+//					return false;
+//				}
+//				if (mView != null) {
+//					LogUtils.e("mView != null");
+//					hideView();
+//					return false;
+//				} else {
+//					LogUtils.e("finish");
+//					finish();
+//				}
+//			}
+//		}
+//		return super.onKeyDown(keyCode, event);
+//	}
 
 	@Override
 	protected void onDestroy() {
@@ -314,4 +289,84 @@ public class ShowPageActivity extends BaseActivity {
 		super.onPause();
 		mWebView.onPause();
 	}
+	
+	public class MyWebChromeClient extends WebChromeClient {
+
+		/** 播放网络视频时全屏会被调用的方法 */
+		@Override
+		public void onShowCustomView(View view, CustomViewCallback callback) {
+			if (null != mView) {
+				callback.onCustomViewHidden();
+				return;
+			}
+			/* 处理屏幕播放视频的方式:横屏显示 */
+			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+//			ll.removeView(rl);
+//			if (null != ll_head) {
+//				ll.removeView(ll_head);
+//			}
+//			ll.removeView(mWebView);
+//			ll.setBackgroundColor(Color.BLACK);
+//			ll.addView(view);
+			sfl.removeView(rl);
+			if (null != ll_head) {
+				sfl.removeView(ll_head);
+			}
+			sfl.removeView(mWebView);
+			sfl.setBackgroundColor(Color.BLACK);
+			sfl.addView(view);
+			
+			mView = view;
+			mCallback = callback;
+			// 进入全屏参数设置
+			setFullScreen();
+		}
+
+		/** 视频播放退出全屏会被调用的 */
+		@Override
+		public void onHideCustomView() {
+			if (null == mView) {
+				return;
+			}
+			/* 处理屏幕播放视频的方式:竖屏显示 */
+			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+			if (null != mCallback) {
+				mCallback.onCustomViewHidden();
+				mCallback = null;
+			}
+//			ll.removeView(mView);
+//			mView = null;
+//			ll.setBackgroundColor(Color.WHITE);
+//			ll.addView(rl);
+//			if (null != ll_head) {
+//				ll.addView(ll_head);
+//			}
+//			ll.addView(mWebView);
+			sfl.removeView(mView);
+			mView = null;
+			sfl.setBackgroundColor(Color.WHITE);
+			sfl.addView(rl);
+			if (null != ll_head) {
+				sfl.addView(ll_head);
+			}
+			sfl.addView(mWebView);
+			
+			// 退出全屏参数设置
+			quitFullScreen();
+		}
+
+		@Override
+		public void onProgressChanged(WebView view, int newProgress) {
+			super.onProgressChanged(view, newProgress);
+		}
+
+		@Override
+		@Deprecated
+		public void onReachedMaxAppCacheSize(long requiredStorage, long quota,
+				QuotaUpdater quotaUpdater) {
+			quotaUpdater.updateQuota(requiredStorage * 2);
+		}
+
+	}
+	
 }

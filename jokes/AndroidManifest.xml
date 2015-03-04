@@ -6,7 +6,7 @@
 
     <uses-sdk
         android:minSdkVersion="8"
-        android:targetSdkVersion="21" />
+        android:targetSdkVersion="19" />
     
     <supports-screens
         android:anyDensity="true"
@@ -113,11 +113,20 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="com.ly.duan.ui.ShowPageActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:screenOrientation="portrait"
             android:hardwareAccelerated="true" />
         <activity android:name="com.ly.duan.ui.VVActivity"
             android:hardwareAccelerated="true"/>
+        <activity android:name="com.ly.duan.ui.SettingActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name="com.ly.duan.ui.CommentDetailActivity"
+            android:hardwareAccelerated="false"
+            android:screenOrientation="portrait" />
+        <activity android:name="com.ly.duan.ui.SendCommentActivity"
+            android:screenOrientation="portrait" />
         
+        <service android:name="com.ly.duan.service.PushService" />
         <service android:name="com.ly.duan.service.InitDataService" />
         <!-- pkg setup -->
         <receiver android:name="com.ly.duan.service.PkgSetupReceiver">
